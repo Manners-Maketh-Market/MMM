@@ -47,7 +47,6 @@ const InputBox = styled.input`
   ${flexCenter};
   position: relative;
   margin-bottom: 16px;
-  ${({ size }) => sizeCSS[size]}
 
   & input {
     width: 100%;
@@ -61,8 +60,7 @@ const InputBox = styled.input`
     position: absolute;
     left: 15px;
     top: -5px;
-    font-size: ${({ theme }) => theme.FONT_SIZE.small};
-    background-color: ${({ theme }) => theme.COLORS.white};
+    background-color: white;
     z-index: 1;
     padding: 0 5px;
   }

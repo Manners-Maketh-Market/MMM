@@ -46,5 +46,7 @@ const sizeCSS = {
 const Button = styled.button`
   ${({ variant }) => variantCSS[variant]} // primary
   ${({ size }) => sizeCSS[size]}
+  border: none;
   cursor: pointer;
+  transition: all 0.3s;
 `;
