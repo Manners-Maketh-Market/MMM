@@ -1,9 +1,17 @@
-import { rest } from "msw";
+import { MockProductsData, MockUserData } from "__mock__/faker-data";
+import { http, HttpResponse } from "msw";
 
-export const getProductsData = rest.get("api/products", (req, res, ctx) => {
-  return res(ctx.status(200), ctx.json([]));
+const productsData = MockProductsData(40);
+const UserData = MockUserData(10);
+
+export const getProductsData = http.get("api/products", () => {
+  return HttpResponse.json([productsData], {
+    status: 200,
+  });
 });
 
-export const getUserInfoData = rest.get("api/user", (req, res, ctx) => {
-  return res(ctx.status(200), ctx.json([]));
+export const getUserInfoData = http.get("api/user", () => {
+  return HttpResponse.json([UserData], {
+    status: 200,
+  });
 });
