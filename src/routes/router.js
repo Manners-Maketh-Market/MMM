@@ -3,14 +3,15 @@ import { HomePage } from "pages/home-page";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <Layout />,
-  //   children: [],
-  // },
   {
     path: "/",
-    element: <HomePage />,
+    element: <Layout />,
+    children: [
+      {
+        path: "/login",
+        element: <HomePage />,
+      },
+    ],
   },
 ]);
 

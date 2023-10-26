@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import shortId from "shortid";
 
+const saleStatusArr = ["중고", "나눔"];
+
 export const MockProductsData = (count) =>
   Array(count)
     .fill()
@@ -10,7 +12,7 @@ export const MockProductsData = (count) =>
       content: faker.lorem.paragraph(),
       price: Math.floor(Math.random() * 100000),
       location: faker.location.state(),
-      category: Math.floor(Math.random() * 10),
+      saleStatus: saleStatusArr[Math.floor(Math.random() * 2)],
       User: {
         id: shortId.generate(),
         phoneNumber: faker.phone.number(),
@@ -21,10 +23,7 @@ export const MockProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between(
-        "2023-01-01T00:00:00.000Z",
-        "2023-01-31T00:00:00.000Z"
-      ),
+      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
