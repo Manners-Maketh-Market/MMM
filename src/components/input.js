@@ -3,11 +3,11 @@ import { flexCenter } from "../styles/common.style";
 
 const MMMInput = ({ label, error, size, ...inputProps }) => {
   return (
-    <>
+    <InputBox>
       <label>{label}</label>
-      <InputBox {...inputProps} size={size} />
-      {error && <p>{error}</p>}
-    </>
+      <Input {...inputProps} size={size} />
+      <ErrorMessage>{error && <p>{error}</p>}</ErrorMessage>
+    </InputBox>
   );
 };
 export default MMMInput;
@@ -41,27 +41,31 @@ const sizeCSS = {
   `,
 };
 
-const InputBox = styled.input`
-  width: 80%;
-  height: 48px;
-  ${flexCenter};
+const InputBox = styled.div`
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 
-  & input {
-    width: 100%;
-    border: 1px solid #999;
-    border-radius: 5px;
-    height: 100%;
-    text-align: center;
+  & > label {
+    position: relative;
+    top: -4px;
+    font-size: 16px;
   }
+`;
 
-  & label {
-    position: absolute;
-    left: 15px;
-    top: -5px;
-    background-color: white;
-    z-index: 1;
-    padding: 0 5px;
-  }
+const Input = styled.input`
+  position: relative;
+  padding-left: 16px;
+  ${flexCenter};
+  ${({ size }) => sizeCSS[size]}
+  border: 1px solid #757575;
+`;
+
+const ErrorMessage = styled.p`
+  position: absolute;
+  top: 64%;
+  left: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  color: #ec0707;
 `;

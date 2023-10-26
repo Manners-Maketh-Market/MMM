@@ -1,5 +1,5 @@
 import Layout from "components/layout/layout";
-import { HomePage } from "pages/home-page";
+import { LoginPage } from "pages/login-page";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
   // },
   {
     path: "/",
-    element: <HomePage />,
+    element: <LoginPage />,
   },
 ]);
 
