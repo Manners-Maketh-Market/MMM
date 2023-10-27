@@ -9,10 +9,14 @@ import image4 from "./../images/image4.png";
 import image5 from "./../images/image5.png";
 import image6 from "./../images/image6.png";
 import image7 from "./../images/image7.png";
+import leftArrow from "./../images/left-arrow.png";
 
 import { styled } from "styled-components";
 
-const Banner = ({ product, Related }) => {
+const ImgSlider = ({ product, related }) => {
+  // product : detailPage에서 사용할 상품의 data
+  // Related : detailPage에서 사용할 관련상품의 data(Array)
+
   const ImageArr = [
     image0,
     image1,
@@ -23,9 +27,10 @@ const Banner = ({ product, Related }) => {
     image6,
     image7,
   ];
+  // Banner Img를 담아 배열로 만듦.
 
   const SliderSettings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 2500,
     slidesToShow: 1,
@@ -33,7 +38,18 @@ const Banner = ({ product, Related }) => {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: true,
+    nextArrow: (
+      <NextTo>
+        <img src={leftArrow} alt="leftArrow" />
+      </NextTo>
+    ),
+    prevArrow: (
+      <Pre>
+        <img src={leftArrow} alt="rightArrow" />
+      </Pre>
+    ),
   };
+  // Banner slider의 세팅 옵션.
 
   const ProductSetting = {
     dots: true,
@@ -45,6 +61,7 @@ const Banner = ({ product, Related }) => {
     autoplaySpeed: 3000,
     arrows: true,
   };
+  // 상품(product) slider의 셋팅 옵션.
 
   const RelatedProductSetting = {
     dots: true,
@@ -56,9 +73,14 @@ const Banner = ({ product, Related }) => {
     autoplaySpeed: 3000,
     arrows: true,
   };
+  // 관련 상품(Related) slider의 세팅 옵션.
 
   return (
     <>
+      {/*product(상품) 값이 있을 시 product 슬라이더
+      product값이 없고 related(관련 상품) 값이 있을 시 related 슬라이더
+      둘 다 없을 시 banner 슬라이더 출력
+    */}
       {product ? (
         <ProductWrap>
           <StyledSlider {...ProductSetting}>
@@ -69,10 +91,10 @@ const Banner = ({ product, Related }) => {
             ))}
           </StyledSlider>
         </ProductWrap>
-      ) : Related ? (
+      ) : related ? (
         <RelatedProductWrap>
           <StyledSlider {...RelatedProductSetting}>
-            {Related.map((img, idx) => (
+            {related.map((img, idx) => (
               <div key={idx}>
                 <RelatedProductImg src={img.Product_img[0]}></RelatedProductImg>
               </div>
@@ -80,21 +102,19 @@ const Banner = ({ product, Related }) => {
           </StyledSlider>
         </RelatedProductWrap>
       ) : (
-        <div>
-          <Slider {...SliderSettings}>
-            {ImageArr.map((img) => (
-              <div>
-                <Img src={img}></Img>
-              </div>
-            ))}
-          </Slider>{" "}
-        </div>
+        <StyledSlider {...SliderSettings}>
+          {ImageArr.map((img) => (
+            <div>
+              <Img src={img}></Img>
+            </div>
+          ))}
+        </StyledSlider>
       )}
     </>
   );
 };
 
-export default Banner;
+export default ImgSlider;
 
 const Img = styled.img`
   width: 100%;
@@ -123,37 +143,58 @@ const RelatedProductWrap = styled.div`
   height: 220px;
 `;
 
+//StyledSlider :Slider Arrow css
 const StyledSlider = styled(Slider)`
-  margin-left: 19%;
-  width: 60%;
-  text-align: center;
-
-  .slick-list {
-    overflow: hidden;
-    height: 15.5vw;
-    text-align: center;
-  }
-
-  .slick-arrow {
-    display: flex;
-    z-index: 10;
-    width: 1vw;
-    height: 1vw;
-  }
-
   .slick-prev {
-    left: -1.2vw;
-    cursor: pointer;
-    &::before {
-      content: "";
-    }
+    z-index: 1;
+    left: 30px;
   }
 
   .slick-next {
-    right: -1.1vw;
-    cursor: pointer;
-    &::before {
-      content: "";
+    right: 40px;
+  }
+
+  .slick-prev::before,
+  .slick-next::before {
+    content: none;
+  }
+
+  .slick-dots {
+    display: flex;
+    justify-content: center;
+    bottom: 30px;
+    color: white;
+
+    li button:before {
+      color: white;
     }
+
+    li.slick-active button:before {
+      color: white;
+    }
+  }
+`;
+
+const Pre = styled.div`
+  position: absolute;
+  left: 3%;
+  z-index: 3;
+
+  & > img {
+    width: 30px;
+    height: 30px;
+    transform: scaleX(0.4) scaleY(0.8);
+  }
+`;
+
+const NextTo = styled.div`
+  position: absolute;
+  right: 3%;
+  z-index: 3;
+
+  & > img {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg) scaleX(0.4) scaleY(0.8);
   }
 `;
