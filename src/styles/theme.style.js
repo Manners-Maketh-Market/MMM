@@ -1,3 +1,11 @@
+const deviceSizes = {
+  mobile: 500,
+};
+
+const DEVICE = {
+  mobile: `screen and (max-width: ${deviceSizes.mobile}px)`,
+};
+
 const COLORS = {
   primary: {
     blue: "#282190",
@@ -35,5 +43,6 @@ const theme = {
   COLORS,
   FONT_SIZE,
   FONT_WEIGHT,
+  DEVICE,
 };
 export default theme;

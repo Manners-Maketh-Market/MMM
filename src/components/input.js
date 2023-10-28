@@ -14,9 +14,10 @@ export default MMMInput;
 
 const sizeCSS = {
   search: css`
-    width: 28px;
+    width: 280px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 62px;
+    background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
   searchPrice: css`
     width: 764px;
@@ -41,14 +42,22 @@ const sizeCSS = {
   `,
 };
 
-const InputBox = styled.div`
+const InputBox = styled.input`
+  ${({ size }) => sizeCSS[size]}
+  ${flexCenter};
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+  border: none;
+  margin: 0px;
+  outline: none;
+  padding: 0 50px 0 20px;
+  color: #757575;
+  & input {
+    width: 100%;
+    border-radius: 5px;
+    height: 100%;
+    text-align: center;
 
-  & > label {
-    position: relative;
-    top: -4px;
-    font-size: 16px;
   }
 `;
 
