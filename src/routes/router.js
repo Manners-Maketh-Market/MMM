@@ -1,6 +1,9 @@
 import Layout from "components/layout/layout";
+
 import { HomePage } from "pages/home-page";
+
 import ProductListPage from "pages/product-list-page";
+
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([

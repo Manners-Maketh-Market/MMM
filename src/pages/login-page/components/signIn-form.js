@@ -3,6 +3,7 @@ import useInputs from "hooks/use-inputs";
 import { formValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
+import styled from "styled-components";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmitSignIn}>
+    <Form onSubmit={onSubmitSignIn}>
       <MMMInput
         label="이메일"
         type="text"
@@ -30,6 +31,7 @@ const SignInForm = () => {
         onChange={onChangeInputs}
         placeholder="이메일을 입력해주세요"
         error={errors.email}
+        size={"full"}
       />
       <MMMInput
         label="비밀번호"
@@ -38,9 +40,14 @@ const SignInForm = () => {
         onChange={onChangeInputs}
         placeholder="비밀번호를 입력해주세요"
         error={errors.password}
+        size={"full"}
       />
-      <MMMButton disabled={disabled}>로그인</MMMButton>
-    </form>
+    </Form>
   );
 };
 export default SignInForm;
+
+const Form = styled.form`
+  position: absolute;
+  top: 40%;
+`;
