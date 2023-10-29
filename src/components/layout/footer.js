@@ -37,6 +37,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 328px;
   font-size: ${({ theme }) => theme.FONT_SIZE.extraSmall};
+  
   & > * {
     margin: 15px;
   }
