@@ -28,8 +28,14 @@ const sizeCSS = {
   `,
   medium: css`
     width: 220px;
-    height: 60px;
+    height: px;
     border-radius: 4px;
+  `,
+  confirm: css`
+    width: 313px;
+    height: 48px;
+    border-radius: 4px;
+    margin-left: 20px;
   `,
   large: css`
     width: 330px;
@@ -37,8 +43,8 @@ const sizeCSS = {
     border-radius: 6px;
   `,
   full: css`
-    width: 860px;
-    height: 100px;
+    width: 918px;
+    height: 48px;
     border-radius: 10px;
   `,
 };
@@ -46,5 +52,12 @@ const sizeCSS = {
 const Button = styled.button`
   ${({ variant }) => variantCSS[variant]} // primary
   ${({ size }) => sizeCSS[size]}
+  border: none;
   cursor: pointer;
+  transition: all 0.6s;
+
+  &:hover {
+    background-color: #282190;
+    color: #fff;
+  }
 `;
