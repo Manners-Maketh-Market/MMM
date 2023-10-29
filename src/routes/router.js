@@ -1,6 +1,6 @@
 import Layout from "components/layout/layout";
-
-import { HomePage } from "pages/home-page";
+import HomePage from "pages/home-page";
+import { LoginPage } from "pages/login-page";
 
 import ProductListPage from "pages/product-list-page";
 
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "/login",
+        path: "/",
         element: <HomePage />,
       },
       // useParams로 받을시 /: key가 되어서 페이지를 보여줌
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
         element: <ProductListPage />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
