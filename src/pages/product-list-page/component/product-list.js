@@ -15,14 +15,14 @@ const ProductList = () => {
     const params = useParams();
     const saleStatus = params.saleStatus;
 
+    // 첫 번째 인자: QueryKey / 두 번째 인자: 비동기함수(api호출함수)
     const { data: productList } = useQuery([PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus], () =>
-        Api.getSaleStatusProduct(saleStatus)
+        Api.getUsedOrFreeProduct(saleStatus)
     );
-
 
     return (
         productList && (
-            <S.Wrapper  >
+            <S.Wrapper>
                 <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15}>
                     {productList[0].map((product) => (
                         <GridItem w="280" h="">
@@ -51,4 +51,3 @@ const Wrapper = styled.div`
 const S = {
     Wrapper,
 };
-
