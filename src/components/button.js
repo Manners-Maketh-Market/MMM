@@ -16,6 +16,11 @@ const variantCSS = {
   `,
   // disabled button color
   secondary: css`
+    border: 1px solid ${({ theme }) => theme.COLORS.primary["navy"]};
+    background-color: ${({ theme }) => theme.COLORS["white"]};
+    color: ${({ theme }) => theme.COLORS.primary["navy"]};
+  `,
+  disabled: css`
     background-color: ${({ theme }) => theme.COLORS.gray[400]};
   `,
 };
@@ -28,7 +33,7 @@ const sizeCSS = {
   `,
   medium: css`
     width: 220px;
-    height: px;
+    height: 48px;
     border-radius: 4px;
   `,
   confirm: css`
@@ -52,7 +57,6 @@ const sizeCSS = {
 const Button = styled.button`
   ${({ variant }) => variantCSS[variant]} // primary
   ${({ size }) => sizeCSS[size]}
-  border: none;
   cursor: pointer;
   transition: all 0.6s;
 

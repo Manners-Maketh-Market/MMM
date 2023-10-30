@@ -42,38 +42,33 @@ const sizeCSS = {
   `,
 };
 
-const InputBox = styled.input`
-  ${({ size }) => sizeCSS[size]}
-  ${flexCenter};
-  position: relative;
-  margin-bottom: 16px;
+const InputBox = styled.div`
   border: none;
   margin: 0px;
   outline: none;
-  padding: 0 50px 0 20px;
-  color: #757575;
-  & input {
-    width: 100%;
-    border-radius: 5px;
-    height: 100%;
-    text-align: center;
+
+  color: ${({ theme }) => theme.COLORS.gray[400]};
+  padding-bottom: 30px;
+
+  & > label {
+    padding-left: 12px;
+    color: ${({ theme }) => theme.COLORS["black"]};
+    font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+
   }
 `;
 
 const Input = styled.input`
-  position: relative;
   padding-left: 16px;
+  margin: 4px 0 4px;
   ${flexCenter};
   ${({ size }) => sizeCSS[size]}
-  border: 1px solid #757575;
+  border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;
 
 const ErrorMessage = styled.p`
-  position: absolute;
-  top: 64%;
-  left: 16px;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 0;
-  color: #ec0707;
+  margin-left: 16px;
+  font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
+  color: ${({ theme }) => theme.COLORS["error"]};
 `;

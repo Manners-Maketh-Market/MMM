@@ -8,10 +8,20 @@ const getUsedOrFreeProduct = async (param) => {
 
 const getSearchProduct = async (param) => {
   const res = await axiosInstance.get(`/products/search/${param}`);
+
+const getUsedProduct = async () => {
+  const res = await axiosInstance.get("/products/sell");
+  return res.data;
+};
+
+const getFreeProduct = async () => {
+  const res = await axiosInstance.get("/products/free");
   return res.data;
 };
 
 export const Api = {
   getUsedOrFreeProduct,
   getSearchProduct,
+  getUsedProduct,
+  getFreeProduct,
 };

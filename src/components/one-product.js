@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
@@ -34,6 +35,7 @@ const OneProduct = ({ title, content, img, price }) => {
       </S.Wrapper>
     </>
   );
+
 };
 
 export default OneProduct;

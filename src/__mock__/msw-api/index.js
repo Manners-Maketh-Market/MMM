@@ -32,6 +32,7 @@ export const getSellProductsData = http.get("api/products/sell", () => {
   });
 });
 
+
 // 검색 결과 상품 데이터
 export const getSearchProductsData = http.get(
   "api/products/search/:title",

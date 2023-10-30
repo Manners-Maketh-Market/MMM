@@ -9,6 +9,7 @@ import ProductPageTitle from "./product-page-title";
 import OneProduct from "components/one-product";
 import { worker } from "__mock__/browser";
 
+
 const ProductList = () => {
   if (process.env.NODE_ENV === "development") {
     worker.start();
