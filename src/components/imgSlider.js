@@ -36,7 +36,7 @@ const ImgSlider = ({ product, related }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
     arrows: true,
     nextArrow: (
       <NextTo>
@@ -58,7 +58,7 @@ const ImgSlider = ({ product, related }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
     arrows: true,
   };
   // 상품(product) slider의 셋팅 옵션.
@@ -70,7 +70,7 @@ const ImgSlider = ({ product, related }) => {
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
     arrows: true,
   };
   // 관련 상품(Related) slider의 세팅 옵션.

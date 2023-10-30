@@ -5,11 +5,15 @@ import { useQuery } from "react-query";
 import { worker } from "__mock__/browser";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import { flexCenter } from "styles/common.style";
+import { useNavigate } from "react-router";
 
 const ProductList = () => {
   if (process.env.NODE_ENV === "development") {
     worker.start();
   }
+
+  const navigate = useNavigate();
 
   const { data: UsedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.USED_PRODUCT_LIST],
@@ -20,6 +24,10 @@ const ProductList = () => {
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
     () => Api.getFreeProduct()
   );
+
+  const onClickMoreBtn = (saleStatus) => {
+    navigate(`/products/${saleStatus}`);
+  };
 
   return (
     UsedProductList && (
@@ -44,6 +52,7 @@ const ProductList = () => {
               </GridItem>
             ))}
           </Grid>
+          <More onClick={() => onClickMoreBtn("sell")}>MORE</More>
         </UsedTrade>
         <Share>
           <Title>무료나눔</Title>
@@ -65,6 +74,7 @@ const ProductList = () => {
               </GridItem>
             ))}
           </Grid>
+          <More onClick={() => onClickMoreBtn("free")}>MORE</More>
         </Share>
       </Wrapper>
     )
@@ -74,10 +84,8 @@ const ProductList = () => {
 export default ProductList;
 
 const Wrapper = styled.div`
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flexCenter}
   width: 1280px;
   margin: 70px auto;
 `;
@@ -90,6 +98,19 @@ const Title = styled.h1`
   font-size: 26px;
   font-weight: bold;
   padding: 30px 0;
+  left: 0;
 `;
 
 const Share = styled.div``;
+
+const More = styled.div`
+  ${flexCenter}
+  width:97px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #100d45;
+  margin: 60px auto 0;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #fff;
+`;
