@@ -1,15 +1,12 @@
-import ProductList from './component/product-list';
-import ProductPageTitle from './component/product-page-title';
-
-
+import ProductList from "./component/product-list";
 
 const ProductListPage = () => {
-    return (
-        <>
-            <ProductPageTitle />
-            <ProductList />
-        </>
-    );
+  return (
+    <>
+      {/* <ProductPageTitle /> */}
+      <ProductList />
+    </>
+  );
 };
 
 export default ProductListPage;

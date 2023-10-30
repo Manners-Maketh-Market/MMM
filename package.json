@@ -21,6 +21,7 @@
     "shortid": "^2.2.16",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.0",
+    "styled-reset": "^4.5.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

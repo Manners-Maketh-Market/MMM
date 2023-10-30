@@ -3,11 +3,11 @@ import { flexCenter } from "../styles/common.style";
 
 const MMMInput = ({ label, error, size, ...inputProps }) => {
   return (
-    <InputBox>
+    <>
       <label>{label}</label>
-      <Input {...inputProps} size={size} />
+      <InputBox {...inputProps} size={size} />
       <ErrorMessage>{error && <p>{error}</p>}</ErrorMessage>
-    </InputBox>
+    </>
   );
 };
 export default MMMInput;
@@ -57,7 +57,6 @@ const InputBox = styled.input`
     border-radius: 5px;
     height: 100%;
     text-align: center;
-
   }
 `;
 
