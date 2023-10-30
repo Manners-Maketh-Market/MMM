@@ -4,6 +4,7 @@ import { LoginPage } from "pages/login-page";
 import MyPage from "pages/my-page";
 
 import ProductListPage from "pages/product-list-page";
+import RegisterPage from "pages/register-page";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/mypage",
         element: <MyPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
     ],
   },
