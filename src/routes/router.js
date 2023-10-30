@@ -1,6 +1,7 @@
 import Layout from "components/layout/layout";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
+import MyPage from "pages/my-page";
 
 import ProductListPage from "pages/product-list-page";
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:saleStatus",
         element: <ProductListPage />,
+      },
+      {
+        path: "/mypage",
+        element: <MyPage />,
       },
     ],
   },
