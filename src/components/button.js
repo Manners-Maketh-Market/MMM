@@ -18,6 +18,20 @@ const variantCSS = {
   secondary: css`
     background-color: ${({ theme }) => theme.COLORS.gray[400]};
   `,
+
+  detailG: css`
+    background-color: #d4d3e1;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+  `,
+
+  detailB: css`
+    background-color: #282190;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+  `,
 };
 
 const sizeCSS = {
@@ -27,9 +41,9 @@ const sizeCSS = {
     border-radius: 8px;
   `,
   medium: css`
-    width: 220px;
-    height: px;
-    border-radius: 4px;
+    width: 264px;
+    height: 56px;
+    border-radius: 8px;
   `,
   confirm: css`
     width: 313px;

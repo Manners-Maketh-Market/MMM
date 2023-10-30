@@ -48,6 +48,7 @@ const ProductList = () => {
                   img={item.Product_img}
                   price={item.price}
                   isLiked={item.isLiked}
+                  id={item.id}
                 />
               </GridItem>
             ))}

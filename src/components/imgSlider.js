@@ -32,7 +32,7 @@ const ImgSlider = ({ product, related }) => {
   const SliderSettings = {
     dots: true,
     infinite: true,
-    speed: 2500,
+    speed: 1300,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -54,7 +54,7 @@ const ImgSlider = ({ product, related }) => {
   const ProductSetting = {
     dots: true,
     infinite: true,
-    speed: 2500,
+    speed: 1300,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -66,7 +66,7 @@ const ImgSlider = ({ product, related }) => {
   const RelatedProductSetting = {
     dots: true,
     infinite: true,
-    speed: 2500,
+    speed: 1300,
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
@@ -122,14 +122,14 @@ const Img = styled.img`
 `;
 
 const ProductImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 580px;
+  height: 580px;
   border-radius: 15px;
 `;
 
 const ProductWrap = styled.div`
-  width: 428px;
-  height: 428px;
+  width: 580px;
+  height: 580px;
 `;
 
 const RelatedProductImg = styled.img`

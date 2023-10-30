@@ -1,4 +1,5 @@
 import Layout from "components/layout/layout";
+import DetailPage from "pages/detail-page";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:saleStatus",
         element: <ProductListPage />,
+      },
+      {
+        path: "/products/detail/:id",
+        element: <DetailPage />,
       },
     ],
   },
