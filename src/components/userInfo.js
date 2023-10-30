@@ -1,25 +1,24 @@
+import { getUserInfoData } from "__mock__/msw-api";
+import { useQuery } from "react-query";
 import styled from "styled-components";
-import { MockUserData } from "__mock__/faker-data";
 import { flexCenter } from "styles/common.style";
 
 const UserInfo = () => {
   // userInfo data
-  const UserData = MockUserData(1);
-  console.log(UserData);
 
   return (
     <Wrapper>
       <User>
-        <Profile src={UserData[0].profileImg} />
+        <Profile />
         <Text>
-          <NickName>{UserData[0].nickName}</NickName>
-          <Location>{UserData[0].location}</Location>
+          <NickName>user_id_012</NickName>
+          <Location>서울시 강남구 역삼동</Location>
         </Text>
       </User>
       <Manner>
         <Rate>
           <Celsius>
-            <p>{UserData[0].manner}</p>
+            <p>50.0</p>
             <img src="../../assets/icon/celsius.png" />
           </Celsius>
           <Indicator>
@@ -69,6 +68,7 @@ const Location = styled.h3`
 const Manner = styled.div`
   ${flexCenter}
   flex-direction: row;
+  color: ${({ theme }) => theme.COLORS.primary["navy"]};
 
   & > img {
     margin-left: 12px;
