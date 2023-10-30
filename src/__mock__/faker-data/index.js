@@ -89,6 +89,18 @@ export const MockSellProductsData = (count) =>
       likedCount: Math.floor(Math.random() * 100),
     }));
 
+
+// 검색 결과 상품 목록
+export const MockSearchProductsData = (searchValue) => {
+  const totalData = MockProductsData(100);
+  const searchProducts = totalData.filter((el) => {
+    return el.title.toLowerCase().includes(searchValue.toLowerCase());
+  });
+
+  return searchProducts;
+};
+
+
 export const MockUserData = (count) =>
   Array(count)
     .fill()
