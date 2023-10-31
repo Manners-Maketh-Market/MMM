@@ -1,4 +1,5 @@
 import { css, styled } from "styled-components";
+import { flexCenter } from "styles/common.style";
 
 const MMMButton = ({ variant, size, children, ...rest }) => {
   return (
@@ -24,6 +25,17 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
+  `,
+  // MoreButton CSS
+  More: css`
+    ${flexCenter}
+    width:97px;
+    height: 38px;
+    border-radius: 8px;
+    margin: 60px auto 0;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #fff;
   `,
 
   detailB: css`

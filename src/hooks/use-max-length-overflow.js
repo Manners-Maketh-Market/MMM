@@ -1,5 +1,5 @@
 const useMaxLength = () => {
-  const MAX_TITLE_LENGTH = 20;
+  const MAX_TITLE_LENGTH = 10;
   const MAX_OVERVIEW_LENGTH = 80;
 
   const skipTitleView = (title) => {

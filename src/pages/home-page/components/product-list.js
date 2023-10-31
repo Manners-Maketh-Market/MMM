@@ -7,6 +7,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
+import MMMButton from "components/button";
 
 const ProductList = () => {
   if (process.env.NODE_ENV === "development") {
@@ -53,7 +54,13 @@ const ProductList = () => {
               </GridItem>
             ))}
           </Grid>
-          <More onClick={() => onClickMoreBtn("sell")}>MORE</More>
+          <MMMButton
+            onClick={() => onClickMoreBtn("sell")}
+            variant={"More"}
+            style={{ border: "1px solid #9F9EB3" }}
+          >
+            MORE
+          </MMMButton>
         </UsedTrade>
         <Share>
           <Title>무료나눔</Title>
@@ -75,7 +82,13 @@ const ProductList = () => {
               </GridItem>
             ))}
           </Grid>
-          <More onClick={() => onClickMoreBtn("free")}>MORE</More>
+          <MMMButton
+            onClick={() => onClickMoreBtn("free")}
+            variant={"More"}
+            style={{ border: "1px solid #9F9EB3" }}
+          >
+            MORE
+          </MMMButton>
         </Share>
       </Wrapper>
     )
@@ -103,15 +116,3 @@ const Title = styled.h1`
 `;
 
 const Share = styled.div``;
-
-const More = styled.div`
-  ${flexCenter}
-  width:97px;
-  height: 38px;
-  border-radius: 8px;
-  border: 1px solid #100d45;
-  margin: 60px auto 0;
-  cursor: pointer;
-  font-size: 14px;
-  background-color: #fff;
-`;

@@ -8,10 +8,12 @@ import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const OneProductDetail = () => {
   const mock = MockProductsData(10);
+  // 임시로 사용할 데이터
 
   return (
     <Wrapper>
       <ProductDetail>
+        {/*상품 프로덕트 사진, 제목, 가격, 유저 정보, 찜, 채팅 */}
         <ImgAndInform>
           <ImgSlider product={mock[0]} />
           <Inform>
@@ -56,13 +58,24 @@ const OneProductDetail = () => {
             </ButtonBox>
           </Inform>
         </ImgAndInform>
-        <div>
-          <p>상품정보</p>
-        </div>
+        <Content>
+          <span>상품정보</span>
+          <p>{mock[0].content}</p>
+        </Content>
+        <MMMButton variant={"More"} style={{ border: "1px solid #9F9EB3" }}>
+          More
+        </MMMButton>
+
+        {/*관련 상품 목록 */}
+        <RelatedProduct>
+          <span>연관상품</span>
+          <ImgSlider related={mock} />
+        </RelatedProduct>
       </ProductDetail>
     </Wrapper>
   );
 };
+
 export default OneProductDetail;
 
 const Wrapper = styled.div`
@@ -80,7 +93,6 @@ const ImgAndInform = styled.div`
 const Inform = styled.div`
   width: 100%;
   margin-left: 52px;
-
   & > ul {
     padding-left: 28px;
   }
@@ -135,7 +147,6 @@ const UserIdLoc = styled.div`
   & > p {
     padding: 5px 20px;
   }
-
   & > :nth-child(2) {
     color: #757575;
   }
@@ -145,4 +156,32 @@ const ButtonBox = styled.div`
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
+`;
+
+const Content = styled.div`
+  min-height: 484px;
+  margin-top: 100px;
+
+  & > span {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  & > p {
+    padding-top: 30px;
+    width: 200px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+  }
+`;
+
+const RelatedProduct = styled.div`
+  width: 100%;
+  margin-top: 100px;
+
+  & > span {
+    font-size: 32px;
+    font-weight: 600;
+  }
 `;
