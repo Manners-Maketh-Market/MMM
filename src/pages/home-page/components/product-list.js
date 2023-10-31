@@ -11,57 +11,30 @@ const ProductList = () => {
     worker.start();
   }
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.USED_PRODUCT_LIST],
-    () => Api.getUsedProduct()
-  );
+  const { data: UsedProductList } = useQuery([PRODUCT_QUERY_KEY.USED_PRODUCT_LIST], () => Api.getUsedProduct());
 
-  const { data: FreeProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getFreeProduct()
-  );
+  const { data: FreeProductList } = useQuery([PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST], () => Api.getFreeProduct());
 
   return (
-    UsedProductList && (
+    UsedProductList &&
+    FreeProductList && (
       <Wrapper>
         <UsedTrade>
           <Title>중고거래</Title>
-          <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap={50}
-            gridColumnGap={15}
-            cursor={"pointer"}
-          >
+          <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15} cursor={"pointer"}>
             {UsedProductList[0].slice(0, 8).map((item, idx) => (
               <GridItem w="280px" h="" key={idx}>
-                <OneProduct
-                  title={item.title}
-                  content={item.content}
-                  img={item.Product_img}
-                  price={item.price}
-                  isLiked={item.isLiked}
-                />
+                <OneProduct title={item.title} content={item.content} img={item.Product_img} price={item.price} isLiked={item.isLiked} />
               </GridItem>
             ))}
           </Grid>
         </UsedTrade>
         <Share>
           <Title>무료나눔</Title>
-          <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap={50}
-            gridColumnGap={15}
-            cursor={"pointer"}
-          >
+          <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15} cursor={"pointer"}>
             {FreeProductList[0].slice(0, 8).map((item, idx) => (
               <GridItem w="280px" h="" key={idx}>
-                <OneProduct
-                  title={item.title}
-                  content={item.content}
-                  img={item.Product_img}
-                  price={item.price}
-                  isLiked={item.isLiked}
-                />
+                <OneProduct title={item.title} content={item.content} img={item.Product_img} price={item.price} isLiked={item.isLiked} />
               </GridItem>
             ))}
           </Grid>

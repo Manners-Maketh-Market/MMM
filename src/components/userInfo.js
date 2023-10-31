@@ -2,6 +2,8 @@ import { getUserInfoData } from "__mock__/msw-api";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import celsius from "../images/icon/celsius.png";
+import smile from "../images/icon/smile.png";
 
 const UserInfo = () => {
   // userInfo data
@@ -19,13 +21,13 @@ const UserInfo = () => {
         <Rate>
           <Celsius>
             <p>50.0</p>
-            <img src="../../assets/icon/celsius.png" />
+            <img src={celsius} />
           </Celsius>
           <Indicator>
             <Ratio></Ratio>
           </Indicator>
         </Rate>
-        <img src="../../assets/icon/smile.png" />
+        <img src={smile} />
       </Manner>
     </Wrapper>
   );

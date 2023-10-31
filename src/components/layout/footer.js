@@ -1,18 +1,14 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import Mlogo from "../../images/logo/BlackLogo.png";
 
 const Footer = () => {
   const FooterNavbar = ["회사소개", "인재채용", "채용제안", "이용약관"];
-  const CompanyInfo = [
-    "co.KoreaIT",
-    "ceo.zi존성용123",
-    "주소: 서울시 강남구 역삼동 센터필드 3번출구",
-    "사업자등록번호: 2023-00-00",
-  ];
+  const CompanyInfo = ["co.KoreaIT", "ceo.zi존성용123", "주소: 서울시 강남구 역삼동 센터필드 3번출구", "사업자등록번호: 2023-00-00"];
 
   return (
     <S.Wrapper>
-      <S.FooterIcon src="assets/logo/BlackLogo.png" alt="Logo" />
+      <S.FooterIcon src={Mlogo} alt="Logo" />
       <S.Ul>
         {FooterNavbar.map((item) => (
           <li>{item} &nbsp;&nbsp; |</li>

@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchInput from "./components/search";
 import { useNavigate } from "react-router-dom";
+import BlackLogo from "../../images/logo/BlackLogo.png";
+import my_store from "../../images/icon/my_store.png";
+import user from "../../images/icon/user.png";
+import menubar from "../../images/icon/menubar.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,11 +19,7 @@ const Header = () => {
   return (
     <S.Wrapper>
       <S.LeftContainer>
-        <S.HeaderIcon
-          src="assets/logo/BlackLogo.png"
-          alt="Logo"
-          onClick={onGoMainPage}
-        />
+        <S.HeaderIcon src={BlackLogo} alt="Logo" onClick={onGoMainPage} />
         <S.Ul>
           <li onClick={() => onGoProductsListPage("sell")}>중고거래</li>
           <li onClick={() => onGoProductsListPage("free")}>무료나눔</li>
@@ -28,10 +28,10 @@ const Header = () => {
       </S.LeftContainer>
       <S.RightIconContainer>
         <SearchInput />
-        <S.HeaderIcon src="assets/icon/user.png" alt="User" />
-        <S.HeaderIcon src="assets/icon/my_store.png" alt="myStore" />
+        <S.HeaderIcon src={user} alt="User" />
+        <S.HeaderIcon src={my_store} alt="myStore" />
       </S.RightIconContainer>
-      <S.MobileMenuBar src="assets/icon/menubar.png" alt="menubar" />
+      <S.MobileMenuBar src={menubar} alt="menubar" />
     </S.Wrapper>
   );
 };

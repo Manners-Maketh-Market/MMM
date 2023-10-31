@@ -1,7 +1,8 @@
-
 import { useState } from "react";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import HeartIcon from "../images/icon/heart.png";
+import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
 const OneProduct = ({ title, content, img, price }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -16,26 +17,13 @@ const OneProduct = ({ title, content, img, price }) => {
         <S.ProductImg src={img[0]} alt="product img" />
         <S.TitleAndLikeBox>
           <S.Title>{title}</S.Title>
-          {isLiked ? (
-            <S.HeartImg
-              src="/assets/icon/heart.png "
-              alt="heart"
-              onClick={onToggleIsLiked}
-            />
-          ) : (
-            <S.HeartImg
-              src="/assets/icon/emptyHeart.png "
-              alt="emptyHeart"
-              onClick={onToggleIsLiked}
-            />
-          )}
+          {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
         </S.TitleAndLikeBox>
         <S.Content>{content}</S.Content>
         <S.Price>{price}원</S.Price>
       </S.Wrapper>
     </>
   );
-
 };
 
 export default OneProduct;

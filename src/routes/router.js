@@ -5,6 +5,7 @@ import { LoginPage } from "pages/login-page";
 import MyPage from "pages/my-page";
 import ProductListPage from "pages/product-list-page";
 import SearchPage from "pages/search-page";
+import ChattingPage from "pages/chatting-page";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/mypage",
         element: <MyPage />,
+      },
+      {
+        path: "/MMM/chat",
+        element: <ChattingPage />,
       },
     ],
   },

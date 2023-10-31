@@ -8,6 +8,8 @@ const getUsedOrFreeProduct = async (param) => {
 
 const getSearchProduct = async (param) => {
   const res = await axiosInstance.get(`/products/search/${param}`);
+  return res.data;
+};
 
 const getUsedProduct = async () => {
   const res = await axiosInstance.get("/products/sell");
