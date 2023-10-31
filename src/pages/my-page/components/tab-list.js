@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useState } from "react";
+import RegisteredProducts from "./register-product/my-products";
 
 const TabList = () => {
   // product filter tabs
   const [currentTab, setCurrentTab] = useState(0);
 
   const tabs = [
-    { name: "등록물품", content: "등록물품 관련 내용" },
+    { name: "등록물품", content: <RegisteredProducts /> },
     { name: "구매물품", content: "구매물품 관련 내용" },
     { name: "관심상품", content: "관심상품 관련 내용" },
     { name: "가계부", content: "가계부 관련 내용" },

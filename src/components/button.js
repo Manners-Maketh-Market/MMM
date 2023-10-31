@@ -12,9 +12,8 @@ export default MMMButton;
 const variantCSS = {
   primary: css`
     background-color: ${({ theme }) => theme.COLORS.primary["navy"]};
-    color: ${({ theme }) => theme.COLORS.font};
+    color: ${({ theme }) => theme.COLORS["white"]};
   `,
-  // disabled button color
   secondary: css`
     border: 1px solid ${({ theme }) => theme.COLORS.primary["navy"]};
     background-color: ${({ theme }) => theme.COLORS["white"]};
@@ -30,6 +29,12 @@ const sizeCSS = {
     width: 97px;
     height: 38px;
     border-radius: 8px;
+  `,
+  small: css`
+    width: 200px;
+    height: 48px;
+    border-radius: 4px;
+    margin-left: 12px;
   `,
   medium: css`
     width: 220px;

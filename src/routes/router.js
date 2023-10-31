@@ -1,16 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
 import Layout from "components/layout/layout";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
 import MyPage from "pages/my-page";
+import RegisterPage from "pages/my-page/components/register-product/registered-product";
 import ProductListPage from "pages/product-list-page";
-
-import SearchPage from "pages/search-page";
-
-import RegisterPage from "pages/register-page";
-
 import { createBrowserRouter } from "react-router-dom";
-
 
 const router = createBrowserRouter([
   {
@@ -27,15 +21,11 @@ const router = createBrowserRouter([
         element: <ProductListPage />,
       },
       {
-        path: "/products/search/:searchValue",
-        element: <SearchPage />,
-      },
-      {
-        path: "/mypage",
+        path: "/my-page",
         element: <MyPage />,
       },
       {
-        path: "/register",
+        path: "/my-page/registerProductForm",
         element: <RegisterPage />,
       },
     ],
