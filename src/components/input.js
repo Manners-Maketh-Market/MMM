@@ -3,11 +3,11 @@ import { flexCenter } from "../styles/common.style";
 
 const MMMInput = ({ label, error, size, ...inputProps }) => {
   return (
-    <>
+    <InputBox>
       <label>{label}</label>
-      <InputBox {...inputProps} size={size} />
+      <Input {...inputProps} size={size} />
       <ErrorMessage>{error && <p>{error}</p>}</ErrorMessage>
-    </>
+    </InputBox>
   );
 };
 export default MMMInput;
@@ -19,16 +19,20 @@ const sizeCSS = {
     border-radius: 62px;
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
-  searchPrice: css`
-    width: 764px;
-    height: 56px;
-    border-radius: 50%;
-  `,
-  // signIn & signUp : large, full
   large: css`
     width: 585px;
     height: 48px;
     border-radius: 6px;
+  `,
+  larger: css`
+    width: 740px;
+    height: 48px;
+    border-radius: 6px;
+  `,
+  searchPrice: css`
+    width: 764px;
+    height: 56px;
+    border-radius: 50%;
   `,
   full: css`
     width: 918px;
@@ -46,7 +50,6 @@ const InputBox = styled.div`
   border: none;
   margin: 0px;
   outline: none;
-
   color: ${({ theme }) => theme.COLORS.gray[400]};
   padding-bottom: 30px;
 
@@ -54,7 +57,6 @@ const InputBox = styled.div`
     padding-left: 12px;
     color: ${({ theme }) => theme.COLORS["black"]};
     font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
-
   }
 `;
 

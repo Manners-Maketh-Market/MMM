@@ -6,9 +6,6 @@ const getUsedOrFreeProduct = async (param) => {
   return res.data;
 };
 
-const getSearchProduct = async (param) => {
-  const res = await axiosInstance.get(`/products/search/${param}`);
-
 const getUsedProduct = async () => {
   const res = await axiosInstance.get("/products/sell");
   return res.data;
@@ -19,9 +16,9 @@ const getFreeProduct = async () => {
   return res.data;
 };
 
+// styled-component의 const S같은 기능 (번들링 사이즈가 줄어든다!)
 export const Api = {
   getUsedOrFreeProduct,
-  getSearchProduct,
   getUsedProduct,
   getFreeProduct,
 };
