@@ -2,6 +2,7 @@ import Layout from "components/layout/layout";
 import DetailPage from "pages/detail-page";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
+import PriceCheckPage from "pages/price-check-page";
 
 import ProductListPage from "pages/product-list-page";
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/products/detail/:id",
         element: <DetailPage />,
+      },
+      {
+        path: "/pricecheckpage",
+        element: <PriceCheckPage />,
       },
     ],
   },

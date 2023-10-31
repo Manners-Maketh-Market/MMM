@@ -22,7 +22,7 @@ const sizeCSS = {
   searchPrice: css`
     width: 764px;
     height: 56px;
-    border-radius: 50%;
+    border-radius: 50px;
   `,
   // signIn & signUp : large, full
   large: css`
