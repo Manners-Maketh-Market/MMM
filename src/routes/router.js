@@ -2,9 +2,9 @@ import Layout from "components/layout/layout";
 import DetailPage from "pages/detail-page";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
-
+import MyPage from "pages/my-page";
+import RegisterPage from "pages/my-page/components/register-product/registered-product";
 import ProductListPage from "pages/product-list-page";
-
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -24,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "/products/detail/:id",
         element: <DetailPage />,
+      },
+      {  
+        path: "/my-page",
+        element: <MyPage />,
+      },
+      {
+        path: "/my-page/registerProductForm",
+        element: <RegisterPage />,
       },
     ],
   },
