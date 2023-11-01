@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import UserInfo from "components/userInfo";
-import ChangeInfoButtons from "./components/button-wrapper";
 import TabList from "./components/tab-list";
 
 const MyPage = () => {
@@ -9,7 +8,6 @@ const MyPage = () => {
     <Wrapper>
       <UserContainer>
         <UserInfo />
-        <ChangeInfoButtons />
       </UserContainer>
       <TabList />
     </Wrapper>
@@ -26,7 +24,7 @@ const Wrapper = styled.div`
 
 const UserContainer = styled.div`
   width: 100%;
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

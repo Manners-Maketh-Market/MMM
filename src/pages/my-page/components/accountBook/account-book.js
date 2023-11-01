@@ -1,30 +1,22 @@
-import MMMButton from "components/button";
-import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexAlignCenter } from "styles/common.style";
+import Sold from "./sold";
+import Shared from "./shared";
+import Purchased from "./purchased";
 
-const ChangePassword = () => {
+const AccountBook = () => {
   return (
     <Wrapper>
-      <Title>비밀번호 변경</Title>
+      <Title>user_id_012 님의 10월 가계부 입니다.</Title>
       <Contents>
-        <MMMInput label={"비밀번호"} size={"editInfo"} placeholder="password" />
-        <MMMInput
-          label={"새 비밀번호"}
-          size={"editInfo"}
-          placeholder="new password"
-        />
-        <MMMInput
-          label={"새 비밀번호 확인"}
-          size={"editInfo"}
-          placeholder="confirm new pasword"
-        />
-        <MMMButton size={"small"}>변경사항 저장</MMMButton>
+        <Sold />
+        <Purchased />
+        <Shared />
       </Contents>
     </Wrapper>
   );
 };
-export default ChangePassword;
+export default AccountBook;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,6 +24,7 @@ const Wrapper = styled.div`
   margin-left: 80px;
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
 `;
 const Title = styled.h1`
   padding: 80px 0;
@@ -42,7 +35,6 @@ const Title = styled.h1`
 const Contents = styled.form`
   ${flexAlignCenter}
   flex-direction: column;
-  margin-top: 200px;
   margin-left: 40px;
 
   & > input {
