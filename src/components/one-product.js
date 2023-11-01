@@ -5,16 +5,21 @@ import { flexCenter } from "styles/common.style";
 import HeartIcon from "../images/icon/heart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
-const OneProduct = ({ title, content, img, price, isLiked, id }) => {
+const OneProduct = ({ title, content, img, price, id }) => {
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
 
   const onClickToDetailPage = (id) => {
     navigate(`/products/detail/${id}`);
   };
 
+  const onToggleIsLiked = () => {
+    setIsLiked((prev) => !prev);
+  };
+
   return (
-    <S.Wrapper onClick={() => onClickToDetailPage(id)}>
-      <S.ProductImg src={img[0]} alt="product img" />
+    <S.Wrapper>
+      <S.ProductImg src={img[0]} alt="product img" onClick={() => onClickToDetailPage(id)} />
       <S.TitleAndLikeBox>
         <S.Title>{title}</S.Title>
         {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
@@ -58,6 +63,10 @@ const Title = styled.div`
   padding-bottom: px;
 `;
 
+const HeartImg = styled.img`
+  width: 20px;
+`;
+
 const Content = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.extraSmall};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
@@ -92,4 +101,5 @@ const S = {
   Content,
   Price,
   Title,
+  HeartImg,
 };

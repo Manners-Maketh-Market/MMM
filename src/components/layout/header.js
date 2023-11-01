@@ -1,7 +1,7 @@
 import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import SearchInput from "./components/search";
+import Search from "./components/search";
 import { useNavigate } from "react-router-dom";
 import BlackLogo from "../../images/logo/BlackLogo.png";
 import my_store from "../../images/icon/my_store.png";
@@ -28,7 +28,7 @@ const Header = () => {
         </S.Ul>
       </S.LeftContainer>
       <S.RightIconContainer>
-        <SearchInput />
+        <Search />
         <S.HeaderIcon src={user} alt="User" />
         <S.HeaderIcon src={my_store} alt="myStore" />
       </S.RightIconContainer>

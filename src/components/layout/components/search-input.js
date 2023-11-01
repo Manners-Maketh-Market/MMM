@@ -2,14 +2,14 @@ import styled from "styled-components";
 import css from "styled-components";
 import { flexCenter } from "styles/common.style";
 
-const Search = ({ ...inputProps }) => {
+const SearchInput = ({ ...inputProps }) => {
   return (
     <>
       <Input {...inputProps} />
     </>
   );
 };
-export default Search;
+export default SearchInput;
 
 const Input = styled.input`
   position: relative;

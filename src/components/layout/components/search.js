@@ -2,6 +2,7 @@ import MMMInput from "components/input";
 import styled from "styled-components";
 import SearchInput from "./search-input";
 import SearchIconImage from "../../../images/icon/search.png";
+import { useNavigate } from "react-router";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -31,6 +32,16 @@ const Wrapper = styled.form`
   margin-top: 12px;
 `;
 
+const SearchBtn = styled.button`
+  background: 0px;
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  z-index: 99999;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const SearchIcon = styled.img`
   position: absolute;
   top: 7px;
@@ -58,5 +69,6 @@ const SearchIcon = styled.img`
 // ;
 const S = {
   SearchIcon,
+  SearchBtn,
   Wrapper,
 };

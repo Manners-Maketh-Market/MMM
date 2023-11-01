@@ -33,6 +33,10 @@ const router = createBrowserRouter([
         element: <PriceCheckPage />,
       },
       {
+        path: "/products/search/:searchValue",
+        element: <SearchPage />,
+      },
+      {
         path: "/my-page",
         element: <MyPage />,
       },

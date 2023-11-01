@@ -1,9 +1,4 @@
-import {
-  MockProductsData,
-  MockUserData,
-  MockFreeProductsData,
-  MockSellProductsData,
-} from "__mock__/faker-data";
+import { MockProductsData, MockUserData, MockFreeProductsData, MockSellProductsData, MockSearchProductsData } from "__mock__/faker-data";
 import { http, HttpResponse } from "msw";
 
 const productsData = MockProductsData(40);
@@ -33,6 +28,13 @@ export const getSellProductsData = http.get("api/products/sell", () => {
 
 export const getUserInfoData = http.get("api/user", () => {
   return HttpResponse.json([UserData], {
+    status: 200,
+  });
+});
+
+// 검색 결과 상품 데이터
+export const getSearchProductsData = http.get("api/products/search/:title", ({ params }) => {
+  return HttpResponse.json([MockSearchProductsData(params.title)], {
     status: 200,
   });
 });
