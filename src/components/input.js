@@ -19,6 +19,13 @@ const sizeCSS = {
     border-radius: 62px;
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
+  searchPrice: css`
+    width: 764px;
+    height: 56px;
+    border-radius: 50px;
+  `,
+  // signIn & signUp : large, full
+
   large: css`
     width: 585px;
     height: 48px;

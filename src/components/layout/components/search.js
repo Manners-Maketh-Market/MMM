@@ -1,5 +1,4 @@
 import MMMInput from "components/input";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SearchInput from "./search-input";
 import SearchIconImage from "../../../images/icon/search.png";
@@ -33,18 +32,9 @@ const Wrapper = styled.form`
 `;
 
 const SearchIcon = styled.img`
-  width: 24px;
-`;
-
-const SearchBtn = styled.button`
-  background: 0px;
   position: absolute;
   top: 7px;
-  right: 10px;
-  z-index: 99999;
-  &:hover {
-    cursor: pointer;
-  }
+  right: 12px;
 `;
 
 // 원래 inputBox 코드.. (input을 또 만들어야할 거 같음..)
@@ -69,5 +59,4 @@ const SearchBtn = styled.button`
 const S = {
   SearchIcon,
   Wrapper,
-  SearchBtn,
 };

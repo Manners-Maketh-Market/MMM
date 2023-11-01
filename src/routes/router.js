@@ -1,11 +1,14 @@
-import { createBrowserRouter } from "react-router-dom";
 import Layout from "components/layout/layout";
+import DetailPage from "pages/detail-page";
 import HomePage from "pages/home-page";
 import { LoginPage } from "pages/login-page";
+import PriceCheckPage from "pages/price-check-page";
 import MyPage from "pages/my-page";
+import RegisterPage from "pages/my-page/components/register-product/registered-product";
 import ProductListPage from "pages/product-list-page";
 import SearchPage from "pages/search-page";
 import ChattingPage from "pages/chatting-page";
+import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -22,16 +25,24 @@ const router = createBrowserRouter([
         element: <ProductListPage />,
       },
       {
-        path: "/products/search/:searchValue",
-        element: <SearchPage />,
+        path: "/products/detail/:id",
+        element: <DetailPage />,
       },
       {
-        path: "/mypage",
+        path: "/pricecheckpage",
+        element: <PriceCheckPage />,
+      },
+      {
+        path: "/my-page",
         element: <MyPage />,
       },
       {
         path: "/MMM/chat",
         element: <ChattingPage />,
+      },
+      {
+        path: "/my-page/registerProductForm",
+        element: <RegisterPage />,
       },
     ],
   },

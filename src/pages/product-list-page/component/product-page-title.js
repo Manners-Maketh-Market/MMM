@@ -1,45 +1,27 @@
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-const ProductPageTitle = ({ totalProductsCount }) => {
-  const params = useParams();
-  const productPageTitle = params.saleStatus;
+const ProductPageTitle = () => {
+    const params = useParams();
+    const productPageTitle = params.saleStatus;
 
-  return (
-    // saleStatus에 따라서 중고거래와 무료나눔으로 바꿈
-    <S.TitleContainer>
-      {productPageTitle === "sell" ? (
-        <S.Title>중고거래</S.Title>
-      ) : (
-        <S.Title>무료나눔</S.Title>
-      )}
-      <S.CountDiv>총 {totalProductsCount}건</S.CountDiv>
-    </S.TitleContainer>
-  );
+    return (
+        // saleStatus에 따라서 중고거래와 무료나눔으로 바꿈
+        <>{productPageTitle === 'sell' ? <S.Title>중고거래</S.Title> : <S.Title>무료나눔</S.Title>}</>
+    );
 };
 
 export default ProductPageTitle;
 
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
 const Title = styled.div`
-  font-size: ${({ theme }) => theme.FONT_SIZE.extraLarge};
-  font-weight: 600;
-  color: ${({ theme }) => theme.COLORS.font};
-`;
-
-const CountDiv = styled.div`
-  line-height: 50px;
-  font-size: ${({ theme }) => theme.FONT_SIZE.extraSmall};
-  color: ${({ theme }) => theme.COLORS.gray[500]};
+    border-bottom: 0.5px solid #5b5b5b;
+    padding-left: 350px;
+    font-size: ${({ theme }) => theme.FONT_SIZE.extraLarge};
+    font-weight: 800;
+    color: ${({ theme }) => theme.COLORS.primary.blue};
+    padding-bottom: 15px;
 `;
 
 const S = {
-  Title,
-  TitleContainer,
-  CountDiv,
+    Title,
 };

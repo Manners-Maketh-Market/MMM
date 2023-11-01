@@ -32,13 +32,13 @@ const Footer = () => {
 export default Footer;
 
 const Wrapper = styled.div`
-  border-top: 1px solid rgba(16, 13, 69, 0.2);
+  border-top: 0.5px solid;
   ${flexCenter};
   flex-direction: column;
   width: 100%;
   height: 328px;
   font-size: ${({ theme }) => theme.FONT_SIZE.extraSmall};
-
+  
   & > * {
     margin: 15px;
   }

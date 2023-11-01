@@ -1,28 +1,27 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import HeartIcon from "../images/icon/heart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
-const OneProduct = ({ title, content, img, price }) => {
-  const [isLiked, setIsLiked] = useState(false);
+const OneProduct = ({ title, content, img, price, isLiked, id }) => {
+  const navigate = useNavigate();
 
-  const onToggleIsLiked = () => {
-    setIsLiked((prev) => !prev);
+  const onClickToDetailPage = (id) => {
+    navigate(`/products/detail/${id}`);
   };
 
   return (
-    <>
-      <S.Wrapper>
-        <S.ProductImg src={img[0]} alt="product img" />
-        <S.TitleAndLikeBox>
-          <S.Title>{title}</S.Title>
-          {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
-        </S.TitleAndLikeBox>
-        <S.Content>{content}</S.Content>
-        <S.Price>{price}원</S.Price>
-      </S.Wrapper>
-    </>
+    <S.Wrapper onClick={() => onClickToDetailPage(id)}>
+      <S.ProductImg src={img[0]} alt="product img" />
+      <S.TitleAndLikeBox>
+        <S.Title>{title}</S.Title>
+        {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
+      </S.TitleAndLikeBox>
+      <S.Content>{content}</S.Content>
+      <S.Price>{price}원</S.Price>
+    </S.Wrapper>
   );
 };
 
@@ -40,7 +39,7 @@ const ProductImg = styled.img`
 `;
 
 const TitleAndLikeBox = styled.div`
-  padding: 10px 0px;
+  padding: 10px 0 10px 0;
   width: 280px;
   display: flex;
   justify-content: space-between;
@@ -56,6 +55,7 @@ const Title = styled.div`
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   overflow: hidden;
+  padding-bottom: px;
 `;
 
 const Content = styled.div`
@@ -85,10 +85,6 @@ const Price = styled.div`
   padding-top: 30px;
 `;
 
-const HeartImg = styled.img`
-  width: 20px;
-`;
-
 const S = {
   Wrapper,
   ProductImg,
@@ -96,5 +92,4 @@ const S = {
   Content,
   Price,
   Title,
-  HeartImg,
 };

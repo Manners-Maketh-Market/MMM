@@ -1,3 +1,4 @@
+import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchInput from "./components/search";
