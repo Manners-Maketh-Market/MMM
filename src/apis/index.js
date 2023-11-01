@@ -6,6 +6,11 @@ const getUsedOrFreeProduct = async (param) => {
   return res.data;
 };
 
+const getSearchProduct = async (param) => {
+  const res = await axiosInstance.get(`/products/search/${param}`);
+  return res.data;
+};
+
 const getUsedProduct = async () => {
   const res = await axiosInstance.get("/products/sell");
   return res.data;
@@ -20,5 +25,6 @@ const getFreeProduct = async () => {
 export const Api = {
   getUsedOrFreeProduct,
   getUsedProduct,
+  getSearchProduct,
   getFreeProduct,
 };

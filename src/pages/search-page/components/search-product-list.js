@@ -18,12 +18,7 @@ const SearchProductList = () => {
   const params = useParams();
   const searchValue = params.searchValue;
 
-  const { data: searchProducts } = useQuery(
-    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST, searchValue],
-    () => Api.getSearchProduct(searchValue)
-  );
-
-  searchProducts && console.log(searchProducts);
+  const { data: searchProducts } = useQuery([PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST, searchValue], () => Api.getSearchProduct(searchValue));
 
   return (
     searchProducts && (
@@ -33,10 +28,7 @@ const SearchProductList = () => {
         ) : (
           <>
             <S.TitleWrapper>
-              <SearchPageTitle
-                totalProductsCount={searchProducts[0].length}
-                searchValue={searchValue}
-              />
+              <SearchPageTitle totalProductsCount={searchProducts[0].length} searchValue={searchValue} />
             </S.TitleWrapper>
             <hr />
           </>
@@ -46,13 +38,7 @@ const SearchProductList = () => {
           <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15}>
             {searchProducts[0].map((product) => (
               <GridItem w="280" h="">
-                <OneProduct
-                  title={product.title}
-                  content={product.content}
-                  img={product.Product_img}
-                  price={product.price}
-                  isLiked={product.isLiked}
-                />
+                <OneProduct title={product.title} content={product.content} img={product.Product_img} price={product.price} isLiked={product.isLiked} />
               </GridItem>
             ))}
           </Grid>

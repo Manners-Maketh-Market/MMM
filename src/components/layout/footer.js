@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import Mlogo from "../../images/logo/BlackLogo.png";
 
 const Footer = () => {
   const FooterNavbar = ["회사소개", "인재채용", "채용제안", "이용약관"];
@@ -7,7 +8,7 @@ const Footer = () => {
 
   return (
     <S.Wrapper>
-      <S.FooterIcon src="assets/logo/BlackLogo.png" alt="Logo" />
+      <S.FooterIcon src={Mlogo} alt="Logo" />
       <S.Ul>
         {FooterNavbar.map((item) => (
           <li>{item} &nbsp;&nbsp; |</li>
