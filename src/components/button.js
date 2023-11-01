@@ -13,10 +13,14 @@ export default MMMButton;
 const variantCSS = {
   primary: css`
     background-color: ${({ theme }) => theme.COLORS.primary["navy"]};
-    color: ${({ theme }) => theme.COLORS.font};
+    color: ${({ theme }) => theme.COLORS["white"]};
   `,
-  // disabled button color
   secondary: css`
+    border: 1px solid ${({ theme }) => theme.COLORS.primary["navy"]};
+    background-color: ${({ theme }) => theme.COLORS["white"]};
+    color: ${({ theme }) => theme.COLORS.primary["navy"]};
+  `,
+  disabled: css`
     background-color: ${({ theme }) => theme.COLORS.gray[400]};
   `,
 
@@ -52,6 +56,12 @@ const sizeCSS = {
     height: 38px;
     border-radius: 8px;
   `,
+  small: css`
+    width: 200px;
+    height: 48px;
+    border-radius: 4px;
+    margin-left: 12px;
+  `,
   medium: css`
     width: 264px;
     height: 56px;
@@ -78,7 +88,6 @@ const sizeCSS = {
 const Button = styled.button`
   ${({ variant }) => variantCSS[variant]} // primary
   ${({ size }) => sizeCSS[size]}
-  border: none;
   cursor: pointer;
   transition: all 0.6s;
 
