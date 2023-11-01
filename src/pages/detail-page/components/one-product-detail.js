@@ -5,11 +5,17 @@ import styled from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const OneProductDetail = () => {
   const mock = MockProductsData(10);
   // 임시로 사용할 데이터
 
+  const navigate = useNavigate();
+
+  const marketPricePage = () => {
+    navigate("/pricecheckpage");
+  };
   return (
     <Wrapper>
       <ProductDetail>
@@ -20,7 +26,9 @@ const OneProductDetail = () => {
             <Title>상품제목 | {mock[0].title}</Title>
             <FlexBox>
               <Price>{mock[0].price}원</Price>
-              <p>이 상품 시세 조회하러 가기</p>
+              <p onClick={() => marketPricePage()}>
+                이 상품 시세 조회하러 가기
+              </p>
             </FlexBox>
             <hr />
             <UserProf>
