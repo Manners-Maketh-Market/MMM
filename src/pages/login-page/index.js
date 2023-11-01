@@ -5,6 +5,7 @@ import SignInForm from "./components/signIn-form";
 import SignUpForm from "./components/signUp-form";
 import MMMButton from "components/button";
 
+
 export const LoginPage = () => {
   const [isFormLogin, setIsFormLogin] = useState(true);
 
@@ -92,3 +93,8 @@ const ButtonBox = styled.div`
     color: #fff;
   }
 `;
+
+
+// 조건에 따라 폼태그 보여주는 것
+// https://velog.io/@sseung95/React-%EC%A1%B0%EA%B1%B4%EC%97%90-%EB%94%B0%EB%9D%BC-%ED%8F%BC%ED%83%9C%EA%B7%B8-%EB%B3%B4%EC%97%AC%EC%A3%BC%EA%B3%A0-%EC%88%A8%EA%B8%B0%EA%B8%B0-feat.-%ED%81%B4%EB%A6%AD-%EC%9D%B4%EB%B2%A4%ED%8A%B8
+// 좀만 더 적용해보면 될듯한데...
