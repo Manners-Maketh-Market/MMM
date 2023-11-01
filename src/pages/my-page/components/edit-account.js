@@ -1,36 +1,37 @@
+import { MockUserData } from "__mock__/faker-data";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexAlignCenter } from "styles/common.style";
 
-const EditAccountInfo = () => {
+const EditAccountInfo = ({ user }) => {
   return (
     <Wrapper>
       <Title>개인정보 수정</Title>
       <Contents>
         <Profile>
-          <Image />
+          <Image src={user[0].profileImg} />
           <EditButton />
         </Profile>
         <MMMInput
           label={"닉네임"}
           size={"editInfo"}
-          placeholder="user_id_012"
+          placeholder={user[0].nickName}
         />
         <MMMInput
           label={"이메일 주소"}
           size={"editInfo"}
-          placeholder="test@test.com"
+          placeholder={user[0].email}
         />
         <MMMInput
           label={"핸드폰 번호"}
           size={"editInfo"}
-          placeholder="010-1234-1234"
+          placeholder={user[0].phoneNumber}
         />
         <MMMInput
           label={"우리 동네"}
           size={"editInfo"}
-          placeholder="서울시 강남구 역삼동"
+          placeholder={user[0].location}
         />
         <MMMButton size={"small"}>변경사항 저장</MMMButton>
       </Contents>

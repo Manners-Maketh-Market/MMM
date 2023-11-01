@@ -2,14 +2,19 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import UserInfo from "components/userInfo";
 import TabList from "./components/tab-list";
+import { MockUserData } from "__mock__/faker-data";
 
 const MyPage = () => {
+  // getUserInfo. (temporary)
+  const user = MockUserData(1);
+  console.log("The user >>", user);
+
   return (
     <Wrapper>
       <UserContainer>
-        <UserInfo />
+        <UserInfo user={user} />
       </UserContainer>
-      <TabList />
+      <TabList user={user} />
     </Wrapper>
   );
 };

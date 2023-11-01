@@ -8,19 +8,19 @@ import AccountBook from "./accountBook/account-book";
 import PurchasedProducts from "./purchased-product";
 import InterestedProducts from "./interested-product";
 
-const TabList = () => {
+const TabList = ({ user }) => {
   // product filter tabs
   const [currentTab, setCurrentTab] = useState(3);
 
   // mediaQuery : 2114px 이상부터는 tab 배열이 어그러짐
   const tabs = [
-    { name: "개인정보 수정", content: <EditAccountInfo /> },
-    { name: "비밀번호 변경", content: <ChangePassword /> },
+    { name: "개인정보 수정", content: <EditAccountInfo user={user} /> },
+    { name: "비밀번호 변경", content: <ChangePassword user={user} /> },
     { name: "채팅 목록", content: "채팅 목록 띄우기" },
-    { name: "등록물품", content: <RegisteredProducts /> },
-    { name: "구매물품", content: <PurchasedProducts /> },
-    { name: "관심상품", content: <InterestedProducts /> },
-    { name: "가계부", content: <AccountBook /> },
+    { name: "등록물품", content: <RegisteredProducts user={user} /> },
+    { name: "구매물품", content: <PurchasedProducts user={user} /> },
+    { name: "관심상품", content: <InterestedProducts user={user} /> },
+    { name: "가계부", content: <AccountBook user={user} /> },
   ];
 
   const selectedTab = (index) => {
