@@ -17,34 +17,50 @@ const sizeCSS = {
     width: 280px;
     height: 40px;
     border-radius: 62px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
+
   // signIn & signUp : large, full
+
+
 
   large: css`
     width: 585px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   larger: css`
     width: 740px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   searchPrice: css`
     width: 764px;
     height: 56px;
     border-radius: 50px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+  `,
+  editInfo: css`
+    width: 780px;
+    height: 48px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
   `,
   full: css`
     width: 918px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   registerProduct: css`
     width: 954px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
 };
 
@@ -67,7 +83,6 @@ const Input = styled.input`
   margin: 4px 0 4px;
   ${flexCenter};
   ${({ size }) => sizeCSS[size]}
-  border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;
 
 const ErrorMessage = styled.p`

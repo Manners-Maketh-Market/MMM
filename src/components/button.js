@@ -33,18 +33,15 @@ const variantCSS = {
       font-size: 16px;
     }
   `,
-  // MoreButton CSS
   More: css`
     ${flexCenter}
     width:97px;
     height: 38px;
     border-radius: 8px;
     margin: 60px auto 0;
-    cursor: pointer;
     font-size: 14px;
     background-color: #fff;
   `,
-
   detailB: css`
     background-color: #282190;
     color: #fff;
@@ -59,12 +56,12 @@ const variantCSS = {
 const sizeCSS = {
   more: css`
     width: 97px;
-    height: 38px;
+    height: 36px;
     border-radius: 8px;
   `,
   small: css`
     width: 200px;
-    height: 48px;
+    height: 46px;
     border-radius: 4px;
     margin-left: 12px;
   `,
@@ -80,18 +77,18 @@ const sizeCSS = {
   `,
   confirm: css`
     width: 313px;
-    height: 48px;
+    height: 46px;
     border-radius: 4px;
     margin-left: 20px;
   `,
   large: css`
     width: 330px;
-    height: 48px;
+    height: 46px;
     border-radius: 6px;
   `,
   full: css`
     width: 918px;
-    height: 48px;
+    height: 46px;
     border-radius: 10px;
   `,
 };
