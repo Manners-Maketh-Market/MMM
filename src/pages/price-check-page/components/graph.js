@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import PriceBox from "./price-box";
 
 const PriceGraph = () => {
   const data = [
@@ -39,12 +40,24 @@ const PriceGraph = () => {
       pv: 3908,
       amt: 2000,
     },
-    {},
   ];
 
   return (
     <Wrapper>
-      <p>최근 3 달간 안주현의 시세입니다. </p>
+      <PriceBoxWrapper>
+        <PriceBox
+          title={"최고"}
+          price={data[3].Price}
+          style={{ color: "#DF0000" }}
+        />
+        <PriceBox title={"시세"} price={4455} style={{ color: "#2EB200" }} />
+        <PriceBox
+          title={"최저"}
+          price={data[4].Price}
+          style={{ border: "none", color: "#062BED" }}
+        />
+      </PriceBoxWrapper>
+      {/* <p>최근 3 달간 안주현의 시세입니다. </p> */}
       <ResponsiveContainer width={666} height={436}>
         <LineChart data={data}>
           <XAxis
@@ -76,4 +89,8 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   margin: 100px;
+`;
+const PriceBoxWrapper = styled.div`
+  display: flex;
+  margin-bottom: 80px;
 `;
