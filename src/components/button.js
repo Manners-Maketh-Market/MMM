@@ -29,6 +29,9 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      font-size: 16px;
+    }
   `,
   // MoreButton CSS
   More: css`
@@ -47,6 +50,9 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      font-size: 16px;
+    }
   `,
 };
 
@@ -66,6 +72,11 @@ const sizeCSS = {
     width: 264px;
     height: 56px;
     border-radius: 8px;
+
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      width: 175px;
+      height: 44px;
+    }
   `,
   confirm: css`
     width: 313px;

@@ -26,18 +26,20 @@ const ProductList = () => {
   };
 
   return (
-    UsedProductList && (
+    UsedProductList &&
+    FreeProductList && (
       <Wrapper>
         <UsedTrade>
           <Title>중고거래</Title>
           <Grid
+            className="Grid"
             templateColumns="repeat(4, 1fr)"
             gap={50}
             gridColumnGap={15}
             cursor={"pointer"}
           >
             {UsedProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem w="280px" h="" key={idx}>
+              <GridItem className="GridItem" w="280px" h="" key={idx}>
                 <OneProduct
                   title={item.title}
                   content={item.content}
@@ -60,13 +62,14 @@ const ProductList = () => {
         <Share>
           <Title>무료나눔</Title>
           <Grid
+            className="Grid"
             templateColumns="repeat(4, 1fr)"
             gap={50}
             gridColumnGap={15}
             cursor={"pointer"}
           >
             {FreeProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem w="280px" h="" key={idx}>
+              <GridItem className="GridItem" w="280px" h="" key={idx}>
                 <OneProduct
                   title={item.title}
                   content={item.content}
@@ -97,17 +100,53 @@ const Wrapper = styled.div`
   ${flexCenter}
   width: 1280px;
   margin: 70px auto;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+    margin: 0 auto 40px;
+  }
 `;
 
 const UsedTrade = styled.div`
   margin-bottom: 50px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    & > .Grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 0;
+    }
+
+    * .GridItem {
+      width: 200px;
+    }
+  }
 `;
 
 const Title = styled.h1`
   font-size: 26px;
   font-weight: bold;
-  padding: 30px 0;
+  padding: 30px 20px;
   left: 0;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    font-size: 20px;
+  }
 `;
 
-const Share = styled.div``;
+const Share = styled.div`
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    & > .Grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 0;
+    }
+
+    * .GridItem {
+      width: 200px;
+    }
+  }
+`;
+
+/*
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    & > img {
+      display: none;
+    }
+  }
+*/

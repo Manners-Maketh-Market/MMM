@@ -46,6 +46,10 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 0px 32px;
   margin-bottom: 80px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-bottom: 0;
+  }
 `;
 
 const Ul = styled.ul`
