@@ -24,9 +24,9 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  width: 1180px;
-  height: 150px;
-  text-align: left;
+  height: 50px;
+  padding: 50px 0;
+  text-align: center;
   font-size: 32px;
   font-weight: 600;
 

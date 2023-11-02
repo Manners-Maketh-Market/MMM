@@ -86,11 +86,13 @@ const PriceBoxWrapper = styled.div`
 `;
 
 const MainGraph = styled.div`
+  padding-right: 50px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: none;
   }
 `;
 const MediaGraph = styled.div`
+  padding-right: 30px;
   display: none;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {

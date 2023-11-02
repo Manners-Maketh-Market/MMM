@@ -105,6 +105,11 @@ const Wrapper = styled.div`
     width: 100%;
     margin: 0 auto 40px;
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 100%;
+    margin: 0 auto 40px;
+    padding: 10px;
+  }
 `;
 
 const UsedTrade = styled.div`
@@ -117,6 +122,19 @@ const UsedTrade = styled.div`
 
     * .GridItem {
       width: 200px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    & > .Grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 15;
+    }
+
+    * .GridItem {
+      width: 100%;
+    }
+    .GridItem:nth-of-type(1n + 7) {
+      display: none;
     }
   }
 `;
@@ -140,6 +158,20 @@ const Share = styled.div`
 
     * .GridItem {
       width: 200px;
+    }
+  }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    & > .Grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 15;
+    }
+
+    * .GridItem {
+      width: 100%;
+    }
+    .GridItem:nth-of-type(1n + 7) {
+      display: none;
     }
   }
 `;

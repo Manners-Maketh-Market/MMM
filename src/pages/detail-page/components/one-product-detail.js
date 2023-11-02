@@ -96,12 +96,19 @@ const ProductDetail = styled.div`
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
 `;
 
 const ImgAndInform = styled.div`
   ${flexCenter}
-  padding-bottom: 50px;
+  padding-bottom: 30px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     display: flex;
     flex-direction: column;
   }
@@ -114,6 +121,10 @@ const Inform = styled.div`
     padding-left: 28px;
   }
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 100px;
+    margin-right: 52px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     padding-top: 100px;
     margin-right: 52px;
   }
@@ -213,6 +224,8 @@ const Content = styled.div`
   }
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-top: 0;
+    padding-top: 30px;
     min-height: 124px;
     & > span {
       font-size: 1.2rem;

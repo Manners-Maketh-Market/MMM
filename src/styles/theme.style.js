@@ -1,9 +1,13 @@
 const deviceSizes = {
-  mobile: 500,
+  tablet: 1023,
+  mobile: 767,
 };
 
 const DEVICE = {
   mobile: `screen and (max-width: ${deviceSizes.mobile}px)`,
+  tablet: `screen and (min-width: ${
+    deviceSizes.mobile + 1
+  }px) and (max-width: ${deviceSizes.tablet}px)`,
 };
 
 const COLORS = {
