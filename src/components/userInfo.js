@@ -1,6 +1,8 @@
 import { MockUserData } from "__mock__/faker-data";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import celsius from "../images/icon/celsius.png";
+import smile from "../images/icon/smile.png";
 
 const UserInfo = ({ user }) => {
   return (
@@ -22,7 +24,7 @@ const UserInfo = ({ user }) => {
             <Ratio></Ratio>
           </Indicator>
         </Rate>
-        <img src="../../assets/icon/smile.png" />
+        <img src={smile} />
       </Manner>
     </Wrapper>
   );

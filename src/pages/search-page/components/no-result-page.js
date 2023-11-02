@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import MMMlogo from "../../../images/logo/MMMlogo.png";
 
 const NoResultPage = () => {
   return (
     <S.Wrapper>
-      <S.MMMLogo src="assets/logo/MMMlogo.png" alt="logo" />
+      <S.MMMLogo src={MMMlogo} alt="logo" />
       <S.NoResultText>검색하신 결과가 없습니다.</S.NoResultText>
     </S.Wrapper>
   );
@@ -24,6 +25,7 @@ const MMMLogo = styled.img`
 
 const NoResultText = styled.p`
   font-size: ${({ theme }) => theme.FONT_SIZE.large};
+  margin: 40px;
 `;
 
 const S = {
