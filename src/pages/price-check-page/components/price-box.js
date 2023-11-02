@@ -27,4 +27,15 @@ const Wrapper = styled.div`
   & > :last-child {
     border: none;
   }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100px;
+    & > span {
+      font-size: 18px;
+      color: #000;
+    }
+    & > p {
+      font-size: 24px;
+      padding-top: 10px;
+    }
+  }
 `;
