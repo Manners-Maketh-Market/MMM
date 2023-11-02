@@ -119,13 +119,13 @@ const OneRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
   & > button {
     border: 1px solid #282190;
     background-color: #fff;
     color: #282190;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-top: 20px;
   }
 `;

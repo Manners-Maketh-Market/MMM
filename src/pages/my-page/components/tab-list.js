@@ -2,16 +2,25 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useState } from "react";
 import RegisteredProducts from "./register-product/my-products";
+import EditAccountInfo from "./edit-account";
+import ChangePassword from "./password-change";
+import AccountBook from "./accountBook/account-book";
+import PurchasedProducts from "./purchased-product";
+import InterestedProducts from "./interested-product";
 
-const TabList = () => {
+const TabList = ({ user }) => {
   // product filter tabs
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(3);
 
+  // mediaQuery : 2114px 이상부터는 tab 배열이 어그러짐
   const tabs = [
-    { name: "등록물품", content: <RegisteredProducts /> },
-    { name: "구매물품", content: "구매물품 관련 내용" },
-    { name: "관심상품", content: "관심상품 관련 내용" },
-    { name: "가계부", content: "가계부 관련 내용" },
+    { name: "개인정보 수정", content: <EditAccountInfo user={user} /> },
+    { name: "비밀번호 변경", content: <ChangePassword user={user} /> },
+    { name: "채팅 목록", content: "채팅 목록 띄우기" },
+    { name: "등록물품", content: <RegisteredProducts user={user} /> },
+    { name: "구매물품", content: <PurchasedProducts user={user} /> },
+    { name: "관심상품", content: <InterestedProducts user={user} /> },
+    { name: "가계부", content: <AccountBook user={user} /> },
   ];
 
   const selectedTab = (index) => {
@@ -41,21 +50,33 @@ const Wrapper = styled.div``;
 const Tabs = styled.ul`
   color: navy;
   font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 7rem;
-  margin-top: 10px;
+  ${flexCenter}
+  flex-wrap: wrap;
   cursor: pointer;
 
   .tab {
-    width: calc(100% / 4);
-    min-width: 298px;
-    height: 80px;
-    margin: 0 2px;
     ${flexCenter}
+    flex-wrap: nowrap;
     border: 1px solid navy;
     transition: 0.5s;
+
+    &:nth-of-type(1),
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+      min-width: 285px;
+      height: 60px;
+      margin: 30px 20px 0;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    &:nth-of-type(4),
+    &:nth-of-type(5),
+    &:nth-of-type(6),
+    &:nth-of-type(7) {
+      min-width: 290px;
+      height: 80px;
+      margin: 0 2px;
+    }
   }
 
   .focused {
@@ -63,8 +84,10 @@ const Tabs = styled.ul`
     color: white;
   }
 `;
+
 const Contents = styled.li`
   width: 100%;
-  min-height: 900px;
+  height: fit-content;
+  min-height: 600px;
   ${flexCenter}
 `;
