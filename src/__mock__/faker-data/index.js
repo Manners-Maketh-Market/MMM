@@ -23,10 +23,7 @@ export const MockProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between(
-        "2023-01-01T00:00:00.000Z",
-        "2023-01-31T00:00:00.000Z"
-      ),
+      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
@@ -52,10 +49,7 @@ export const MockFreeProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between(
-        "2023-01-01T00:00:00.000Z",
-        "2023-01-31T00:00:00.000Z"
-      ),
+      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
@@ -81,13 +75,19 @@ export const MockSellProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between(
-        "2023-01-01T00:00:00.000Z",
-        "2023-01-31T00:00:00.000Z"
-      ),
+      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
+
+export const MockSearchProductsData = (searchValue) => {
+  const totalData = MockProductsData(100);
+  const searchProducts = totalData.filter((el) => {
+    return el.title.toLowerCase().includes(searchValue.toLowerCase());
+  });
+
+  return searchProducts;
+};
 
 export const MockUserData = (count) =>
   Array(count)
