@@ -1,74 +1,61 @@
-import MMMInput from "components/input";
-import styled from "styled-components";
-import SearchInput from "./search-input";
-import SearchIconImage from "../../../images/icon/search.png";
-import { useNavigate } from "react-router";
+import MMMInput from 'components/input';
+import styled from 'styled-components';
+import SearchInput from './search-input';
+import SearchIconImage from '../../../images/icon/search.png';
+import { useNavigate } from 'react-router';
 
 const Search = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  // searchPage 이동 함수
-  const onSearchSubmit = (e) => {
-    e.preventDefault();
-    const inputValue = e.target.product.value;
-    navigate(`products/search/${inputValue}`);
-  };
+    // searchPage 이동 함수
+    const onSearchSubmit = (e) => {
+        e.preventDefault();
+        const inputValue = e.target.product.value;
 
-  return (
-    <S.Wrapper onSubmit={onSearchSubmit}>
-      <SearchInput size={"search"} placeholder="Search" name="product" />
-      <S.SearchBtn type="submit">
-        <S.SearchIcon src={SearchIconImage} />
-      </S.SearchBtn>
-    </S.Wrapper>
-  );
+        if (e.target.product.value === '') {
+            const errorValue = 194191464161616511;
+            return navigate(`products/search/${errorValue}`);
+        }
+
+        navigate(`products/search/${inputValue}`);
+    };
+
+    return (
+        <S.Wrapper onSubmit={onSearchSubmit}>
+            <SearchInput size={'search'} placeholder="Search" name="product" />
+            <S.SearchBtn type="submit">
+                <S.SearchIcon src={SearchIconImage} />
+            </S.SearchBtn>
+        </S.Wrapper>
+    );
 };
 
 export default Search;
 
 const Wrapper = styled.form`
-  position: relative;
-  display: flex;
-  margin-top: 12px;
+    position: relative;
+    display: flex;
+    margin-top: 12px;
 `;
 
 const SearchBtn = styled.button`
-  background: 0px;
-  position: absolute;
-  top: 7px;
-  right: 10px;
-  z-index: 99999;
-  &:hover {
-    cursor: pointer;
-  }
+    background: 0px;
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    z-index: 99999;
+    &:hover {
+        cursor: pointer;
+    }
 `;
 const SearchIcon = styled.img`
-  position: absolute;
-  top: 7px;
-  right: 12px;
+    position: absolute;
+    top: 4px;
+    right: 6px;
 `;
 
-// 원래 inputBox 코드.. (input을 또 만들어야할 거 같음..)
-// const InputBox = styled.div
-//   ${({ size }) => sizeCSS[size]}
-//   ${flexCenter};
-//   position: relative;
-//   margin-bottom: 16px;
-//   border: none;
-//   margin: 0px;
-//   outline: none;
-//   padding: 0 50px 0 20px;
-//   color: #757575;
-//   & input {
-//     width: 100%;
-//     border-radius: 5px;
-//     height: 100%;
-//     text-align: center;
-
-//   }
-// ;
 const S = {
-  SearchIcon,
-  SearchBtn,
-  Wrapper,
+    SearchIcon,
+    SearchBtn,
+    Wrapper,
 };
