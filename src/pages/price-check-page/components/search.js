@@ -25,14 +25,15 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   height: 50px;
-  padding: 50px 0;
+  padding-bottom: 100px;
   text-align: center;
   font-size: 32px;
   font-weight: 600;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 100%;
-    height: 35px;
+    padding-bottom: 0px;
+    /* height: 40px; */
     font-size: 24px;
     ${flexCenter}
   }
