@@ -1,17 +1,7 @@
-import React, { PureComponent } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import PriceBox from "./price-box";
+import GraphItem from "./graphItem";
 
 const PriceGraph = () => {
   const data = [
@@ -58,28 +48,18 @@ const PriceGraph = () => {
         />
       </PriceBoxWrapper>
       {/* <p>최근 3 달간 안주현의 시세입니다. </p> */}
-      <ResponsiveContainer width={666} height={436}>
-        <LineChart data={data}>
-          <XAxis
-            dataKey={"name"}
-            stroke="#5550bd"
-            strokeWidth={1}
-            tickLine={false}
-            dy={10}
-          />
-          <YAxis stroke="#5550bd" strokeWidth={1} tickLine={false} />
-          <Line
-            type="bump"
-            dataKey={"Price"}
-            activeDot={{ r: 8 }}
-            stroke="#282190"
-            strokeWidth={3}
-          />
-          {/*11월 14일 주현 생일 */}
-          <Tooltip />
-          <CartesianGrid stroke="#e0dfdf" opacity={0.8} vertical={false} />
-        </LineChart>
-      </ResponsiveContainer>
+      {/* 그래프 미디어 쿼리 : display로 특정 사이즈마다 사라졌다가 보이게 하는 기능 */}
+      <MainGraph>
+        <GraphItem data={data} width={666} height={436} />
+      </MainGraph>
+      <MediaGraph>
+        <GraphItem
+          data={data}
+          width={333}
+          height={218}
+          fontsize={12}
+        ></GraphItem>
+      </MediaGraph>
     </Wrapper>
   );
 };
@@ -89,8 +69,33 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   margin: 100px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin: 0 auto 30px;
+  }
 `;
+
 const PriceBoxWrapper = styled.div`
   display: flex;
   margin-bottom: 80px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+`;
+
+const MainGraph = styled.div`
+  padding-right: 50px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: none;
+  }
+`;
+const MediaGraph = styled.div`
+  padding-right: 30px;
+  display: none;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: block;
+  }
 `;

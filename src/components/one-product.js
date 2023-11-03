@@ -19,11 +19,23 @@ const OneProduct = ({ title, content, img, price, id }) => {
 
   return (
     <S.Wrapper>
-      <S.ProductImg src={img[0]} alt="product img" onClick={() => onClickToDetailPage(id)} />
+      <S.ProductImg
+        src={img[0]}
+        alt="product img"
+        onClick={() => onClickToDetailPage(id)}
+      />
       <S.TitleAndLikeBox>
         <S.Title className="Title">{title}</S.Title>
-        
-        {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
+
+        {isLiked ? (
+          <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} />
+        ) : (
+          <S.HeartImg
+            src={emptyHeartIcon}
+            alt="emptyHeart"
+            onClick={onToggleIsLiked}
+          />
+        )}
       </S.TitleAndLikeBox>
       <S.Content className="Content">{content}</S.Content>
       <S.Price className="Price">{price}원</S.Price>
@@ -41,6 +53,9 @@ const Wrapper = styled.div`
     @media ${({ theme }) => theme.DEVICE.mobile} {
       width: 50%;
     }
+    @media ${({ theme }) => theme.DEVICE.tablet} {
+      width: 50%;
+    }
   }
 `;
 
@@ -49,6 +64,10 @@ const ProductImg = styled.img`
   height: 280px;
   border-radius: 16px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+    height: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
     height: 90%;
   }
@@ -61,6 +80,10 @@ const TitleAndLikeBox = styled.div`
   justify-content: space-between;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
 `;
@@ -101,6 +124,9 @@ const Content = styled.div`
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
 `;
 
 const Price = styled.div`
@@ -111,6 +137,9 @@ const Price = styled.div`
   justify-content: flex-start;
   padding-top: 30px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
 `;
