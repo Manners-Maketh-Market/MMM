@@ -1,42 +1,24 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useState } from "react";
 import SignInForm from "./components/signIn-form";
-import SignUpForm from "./components/signUp-form";
 import MMMButton from "components/button";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
-  const [isFormLogin, setIsFormLogin] = useState(true);
-
-  const onChangeForm = (e) => {
-    const { innerText } = e.target;
-    if (innerText === "로그인") return setIsFormLogin(true);
-    return setIsFormLogin(false);
+  const navigate = useNavigate();
+  const onClickSignUp = () => {
+    navigate("/sign-up");
   };
 
   return (
     <Wrapper>
       <Logo />
       <Form>
-        {isFormLogin ? (
-          <SignInForm />
-        ) : (
-          <SignUpForm setIsFormLogin={setIsFormLogin} />
-        )}
+        <SignInForm />
       </Form>
       <ButtonBox>
-        <MMMButton
-          isFormLogin={isFormLogin}
-          onClick={onChangeForm}
-          size={"full"}
-        >
-          로그인
-        </MMMButton>
-        <MMMButton
-          isFormLogin={isFormLogin}
-          onClick={onChangeForm}
-          size={"full"}
-        >
+        <MMMButton size={"full"}>로그인</MMMButton>
+        <MMMButton size={"full"} onClick={onClickSignUp}>
           회원가입
         </MMMButton>
       </ButtonBox>
@@ -60,8 +42,8 @@ const Wrapper = styled.div`
 const Logo = styled.div`
   position: absolute;
   top: 180px;
-  width: 258px;
-  height: 102px;
+  width: 230px;
+  height: 90px;
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url("../../MMMlogo.png");
