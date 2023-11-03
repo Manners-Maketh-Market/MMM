@@ -10,21 +10,22 @@ import Script from "react-load-script";
 const Location = () => {
   const { kakao } = window;
 
-  // react-load-script 사용
+  // TypeError: Cannot read properties of undefined (reading 'maps')
   const handleScriptLoad = () => {
-    kakao.maps.load(() => {
+    window.kakao.maps.load(() => {
       const container = document.getElementById("myMap");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
       };
+      const map = new window.kakao.maps.Map(container, options);
     });
   };
 
   // 초기 지도 설정
   const [currentAddress, setCurrentAddress] = useState({
     center: { lat: 33.450701, lng: 126.570667 },
-    isPanto: true, // 지도 위치 변경시 부드러운 이동
+    isPanto: true,
   });
 
   const [searchAddress, SetSearchAddress] = useState();
@@ -65,7 +66,6 @@ const Location = () => {
       </OneRow>
       <Map
         id="myMap"
-        className="map"
         center={currentAddress.center}
         isPanto={currentAddress.isPanto}
         style={{ width: "920px", height: "400px", border: "1px solid gray" }}
@@ -76,13 +76,12 @@ const Location = () => {
         </MapMarker>
       </Map>
       <Script
-        url="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6b6beb973270d87c1d12fe2bd9162e58&libraries=services,drawing&autoload=false"
+        url="//dapi.kakao.com/v2/maps/sdk.js?6b6beb973270d87c1d12fe2bd9162e58&libraries=services&autoload=false"
         onLoad={handleScriptLoad}
       />
     </Wrapper>
   );
 };
-
 export default Location;
 
 const Wrapper = styled.div``;
