@@ -8,26 +8,7 @@ import Script from "react-load-script";
 /* global kakao */
 
 const Location = () => {
-  // 스크립트로 kakao maps api를 심어서 가져오면 window 전역 객체에 들어가게 됩
   const { kakao } = window;
-
-  // TypeError: properties of undefined (reading 'maps')
-  useEffect(() => {
-    const kakaoMapScript = document.createElement("script");
-    kakaoMapScript.async = false;
-
-    const onLoadKakaoAPI = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementsByClassName("map");
-        const options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3,
-        };
-        const map = new kakao.maps.Map(container, options);
-      });
-    };
-    kakaoMapScript.addEventListener("load", onLoadKakaoAPI);
-  });
 
   // react-load-script 사용
   const handleScriptLoad = () => {

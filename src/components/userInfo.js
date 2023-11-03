@@ -1,31 +1,30 @@
-import { getUserInfoData } from "__mock__/msw-api";
-import { useQuery } from "react-query";
+import { MockUserData } from "__mock__/faker-data";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import celsius from "../images/icon/celsius.png";
+import smile from "../images/icon/smile.png";
 
-const UserInfo = () => {
-  // userInfo data
-
+const UserInfo = ({ user }) => {
   return (
     <Wrapper>
       <User>
-        <Profile />
+        <Profile src={user[0].profileImg} />
         <Text>
-          <NickName>user_id_012</NickName>
-          <Location>서울시 강남구 역삼동</Location>
+          <NickName>{user[0].nickName}</NickName>
+          <Location>{user[0].location}</Location>
         </Text>
       </User>
       <Manner>
         <Rate>
           <Celsius>
-            <p>50.0</p>
+            <p>{user[0].manner}</p>
             <img src="../../assets/icon/celsius.png" />
           </Celsius>
           <Indicator>
             <Ratio></Ratio>
           </Indicator>
         </Rate>
-        <img src="../../assets/icon/smile.png" />
+        <img src={smile} />
       </Manner>
     </Wrapper>
   );

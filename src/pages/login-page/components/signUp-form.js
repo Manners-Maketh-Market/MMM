@@ -8,18 +8,12 @@ import Location from "./location";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 const SignUpForm = () => {
   // goBack to LoginPage, onClick Logo image
   const navigate = useNavigate();
   const onClickSignIn = () => {
-    navigate("/sign-in");
-  };
-
-  // onSuccess
-  const onSubmitSignUp = (e) => {
-    // e.preventDefault();
-    alert("회원가입이 되었습니다. 축하합니다.");
     navigate("/sign-in");
   };
 
@@ -31,21 +25,38 @@ const SignUpForm = () => {
       passwordConfirm: "",
       nickName: "",
     });
+
   // form validate check
-  const { disabled, errors } = formValidate({
+  const { disabled, errors, access } = formValidate({
     email,
     password,
     passwordConfirm,
     nickName,
   });
 
-  // react-hook-form library
-  const { register, required, handleSubmit, trigger } = useForm();
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [tempUser, setTempUser] = useState([]);
+
+  // onSuccess
+  const onSubmitSignUp = () => {
+    // userData 배열에 방금 회원가입한 tempUser를 배열에 추가
+    const newUser = { ...userData };
+    setTempUser([...tempUser, newUser]);
+
+    alert("회원가입이 되었습니다. 축하합니다.");
+    console.log("user:", userData);
+    navigate("/sign-in");
+  };
 
   return (
     <Wrapper>
       <Logo onClick={onClickSignIn} />
-      <Form onSubmit={handleSubmit(onSubmitSignUp)}>
+      <Form>
         <OneRow>
           <MMMInput
             label="이메일"
@@ -54,9 +65,10 @@ const SignUpForm = () => {
             placeholder="이메일을 입력해주세요"
             onChange={onChangeInputs}
             error={errors.email}
-            size={"large"}
+            access={access.email}
+            size={"full"}
           />
-          <MMMButton size={"confirm"}>중복확인</MMMButton>
+          {/* <MMMButton size={"confirm"}>중복확인</MMMButton> */}
         </OneRow>
         <OneRow>
           <MMMInput
@@ -65,7 +77,7 @@ const SignUpForm = () => {
             placeholder="비밀번호를 입력해주세요"
             onChange={onChangeInputs}
             error={errors.password}
-            maxLength={20}
+            access={access.password}
             size={"full"}
           />
         </OneRow>
@@ -88,9 +100,10 @@ const SignUpForm = () => {
             placeholder="닉네임을 입력해주세요."
             onChange={onChangeInputs}
             error={errors.nickName}
-            size={"large"}
+            access={access.nickName}
+            size={"full"}
           />
-          <MMMButton size={"confirm"}>중복확인</MMMButton>
+          {/* <MMMButton size={"confirm"}>중복확인</MMMButton> */}
         </OneRow>
         <OneRow>
           <Phone />

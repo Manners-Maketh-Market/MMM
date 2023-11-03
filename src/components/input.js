@@ -1,12 +1,13 @@
 import { styled, css } from "styled-components";
 import { flexCenter } from "../styles/common.style";
 
-const MMMInput = ({ label, error, size, ...inputProps }) => {
+const MMMInput = ({ label, error, access, size, ...inputProps }) => {
   return (
     <InputBox>
       <label>{label}</label>
       <Input {...inputProps} size={size} />
-      <ErrorMessage>{error && <p>{error}</p>}</ErrorMessage>
+      <Message>{error && <p>{error}</p>}</Message>
+      <Message>{access && <p>{access}</p>}</Message>
     </InputBox>
   );
 };
@@ -17,32 +18,45 @@ const sizeCSS = {
     width: 280px;
     height: 40px;
     border-radius: 62px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
   large: css`
     width: 585px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   larger: css`
     width: 740px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   searchPrice: css`
     width: 764px;
     height: 56px;
     border-radius: 50%;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+  `,
+  editInfo: css`
+    width: 780px;
+    height: 48px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
   `,
   full: css`
     width: 918px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   registerProduct: css`
     width: 954px;
     height: 48px;
     border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
 };
 
@@ -65,12 +79,16 @@ const Input = styled.input`
   margin: 4px 0 4px;
   ${flexCenter};
   ${({ size }) => sizeCSS[size]}
-  border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;
 
-const ErrorMessage = styled.p`
+const Message = styled.p`
   margin-left: 16px;
   font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
-  color: ${({ theme }) => theme.COLORS["error"]};
+  &:nth-of-type(1) {
+    color: ${({ theme }) => theme.COLORS["error"]};
+  }
+  &:nth-of-type(2) {
+    color: ${({ theme }) => theme.COLORS["access"]};
+  }
 `;
