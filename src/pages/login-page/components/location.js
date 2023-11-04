@@ -1,6 +1,6 @@
 import MMMButton from "components/button";
 import MMMInput from "components/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import Script from "react-load-script";

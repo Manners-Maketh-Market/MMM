@@ -7,7 +7,6 @@ import Phone from "./phone";
 import Location from "./location";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 const SignUpForm = () => {
@@ -73,12 +72,14 @@ const SignUpForm = () => {
         <OneRow>
           <MMMInput
             label="비밀번호"
+            name="password"
             type="password"
             placeholder="비밀번호를 입력해주세요"
             onChange={onChangeInputs}
             error={errors.password}
             access={access.password}
             size={"full"}
+            maxLength={12}
           />
         </OneRow>
         <OneRow>
@@ -102,6 +103,7 @@ const SignUpForm = () => {
             error={errors.nickName}
             access={access.nickName}
             size={"full"}
+            maxLength={10}
           />
           {/* <MMMButton size={"confirm"}>중복확인</MMMButton> */}
         </OneRow>
