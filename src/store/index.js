@@ -1,11 +1,6 @@
 import { atom } from "recoil";
 
-export const mswDataState = atom({
-  key: "mswDataState",
-  default: [],
-});
-
-export const mswDataTest = atom({
-  key: "mswDataTest",
-  default: [],
+export const isMenuBarState = atom({
+  key: "isMenuBarState",
+  default: false,
 });
