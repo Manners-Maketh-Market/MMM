@@ -71,7 +71,11 @@ const Wrapper = styled.div`
   margin: 100px;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
-    margin: 0 auto 30px;
+    margin: 0 auto 50px;
+  }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    margin: 30px auto 80px;
   }
 `;
 

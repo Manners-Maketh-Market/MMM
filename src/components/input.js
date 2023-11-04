@@ -45,6 +45,10 @@ const sizeCSS = {
       width: 300px;
       height: 40px;
     }
+    @media ${({ theme }) => theme.DEVICE.tablet} {
+      width: 500px;
+      height: 56px;
+    }
   `,
   editInfo: css`
     width: 780px;
