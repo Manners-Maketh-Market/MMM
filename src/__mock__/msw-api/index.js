@@ -4,6 +4,8 @@ import {
   MockFreeProductsData,
   MockSellProductsData,
   MockSearchProductsData,
+  MockBuyerData,
+  MockMarketerData,
 } from "__mock__/faker-data";
 
 import { http, HttpResponse } from "msw";
@@ -12,6 +14,8 @@ const productsData = MockProductsData(40);
 const UserData = MockUserData(10);
 const freeProductsData = MockFreeProductsData(20);
 const sellProductsData = MockSellProductsData(20);
+const buyerData = MockBuyerData(10);
+const marketerData = MockMarketerData(1);
 
 export const getProductsData = http.get("api/products", () => {
   return HttpResponse.json([productsData], {
@@ -49,7 +53,6 @@ export const getUserInfoData = http.get("api/user", () => {
   });
 });
 
-
 export const postUserInfoData = http.post("api/user", async () => {
   const user = await requestAnimationFrame.json();
   const { email, password, nickname } = user;
@@ -58,4 +61,25 @@ export const postUserInfoData = http.post("api/user", async () => {
     { email, password, nickname, token },
     { status: 200 }
   );
+
+// 검색 결과 상품 데이터
+export const getSearchProductsData = http.get(
+  "api/products/search/:title",
+  ({ params }) => {
+    return HttpResponse.json([MockSearchProductsData(params.title)], {
+      status: 200,
+    });
+  }
+);
+
+// 채팅 구현 데이터
+export const getBuyerData = http.get("api/chat/buyer", () => {
+  return HttpResponse.json([buyerData], {
+    status: 200,
+  });
+});
+export const getMarketerData = http.get("api/chat/marketer", () => {
+  return HttpResponse.json([marketerData], {
+    status: 200,
+  });
 });
