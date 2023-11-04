@@ -19,13 +19,26 @@ const OneProduct = ({ title, content, img, price, id }) => {
 
   return (
     <S.Wrapper>
-      <S.ProductImg src={img[0]} alt="product img" onClick={() => onClickToDetailPage(id)} />
+      <S.ProductImg
+        src={img[0]}
+        alt="product img"
+        onClick={() => onClickToDetailPage(id)}
+      />
       <S.TitleAndLikeBox>
-        <S.Title>{title}</S.Title>
-        {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
+        <S.Title className="Title">{title}</S.Title>
+
+        {isLiked ? (
+          <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} />
+        ) : (
+          <S.HeartImg
+            src={emptyHeartIcon}
+            alt="emptyHeart"
+            onClick={onToggleIsLiked}
+          />
+        )}
       </S.TitleAndLikeBox>
-      <S.Content>{content}</S.Content>
-      <S.Price>{price}원</S.Price>
+      <S.Content className="Content">{content}</S.Content>
+      <S.Price className="Price">{price}원</S.Price>
     </S.Wrapper>
   );
 };
@@ -35,12 +48,32 @@ export default OneProduct;
 const Wrapper = styled.div`
   ${flexCenter};
   flex-direction: column;
+
+  .content {
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      width: 50%;
+    }
+    @media ${({ theme }) => theme.DEVICE.tablet} {
+      width: 50%;
+    }
+  }
+
 `;
 
 const ProductImg = styled.img`
   width: 280px;
   height: 280px;
   border-radius: 16px;
+  
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+    height: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+    height: 90%;
+  }
+
 `;
 
 const TitleAndLikeBox = styled.div`
@@ -48,6 +81,14 @@ const TitleAndLikeBox = styled.div`
   width: 280px;
   display: flex;
   justify-content: space-between;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
+
 `;
 
 const Title = styled.div`
@@ -83,6 +124,14 @@ const Content = styled.div`
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   overflow: hidden;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
+
 `;
 
 const Price = styled.div`
@@ -92,6 +141,14 @@ const Price = styled.div`
   display: flex;
   justify-content: flex-start;
   padding-top: 30px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
+
 `;
 
 const S = {

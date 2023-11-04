@@ -9,7 +9,7 @@ const PriceSearch = () => {
       <Text>원하시는 상품이 얼마에 거래되고 있는지 확인해보세요</Text>
       <MMMInput
         size={"searchPrice"}
-        placeholder="상품명"
+        placeholder="어떤 시세 정보가 궁금하세요?"
         style={{ border: "2px solid #282190" }}
       />
     </Wrapper>
@@ -24,15 +24,29 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  width: 1180px;
-  height: 150px;
-  text-align: left;
+
+  height: 50px;
+  padding: 50px 0;
+  text-align: center;
   font-size: 32px;
   font-weight: 600;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+    height: 35px;
+    font-size: 24px;
+    ${flexCenter}
+  }
+
 `;
 
 const Text = styled.p`
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 30px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: none;
+  }
+
 `;

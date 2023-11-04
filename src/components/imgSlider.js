@@ -3,9 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import image0 from "./../images/image0.png";
 import image1 from "./../images/image1.png";
-import image2 from "./../images/image2.png";
 import image3 from "./../images/image3.png";
-import image4 from "./../images/image4.png";
 import image5 from "./../images/image5.png";
 import image6 from "./../images/image6.png";
 import image7 from "./../images/image7.png";
@@ -21,16 +19,7 @@ const ImgSlider = ({ product, related }) => {
   // Related : detailPage에서 사용할 관련상품의 data(Array)
   const { skipTitleView } = useMaxLength();
 
-  const ImageArr = [
-    image0,
-    image1,
-    image2,
-    image3,
-    image4,
-    image5,
-    image6,
-    image7,
-  ];
+  const ImageArr = [image0, image1, image3, image5, image6, image7];
   // Banner Img를 담아 배열로 만듦.
 
   const SliderSettings = {
@@ -129,9 +118,9 @@ const ImgSlider = ({ product, related }) => {
       ) : (
         <StyledBanner {...SliderSettings}>
           {ImageArr.map((img) => (
-            <div>
+            <BannerImgWrap>
               <Img src={img}></Img>
-            </div>
+            </BannerImgWrap>
           ))}
         </StyledBanner>
       )}
@@ -151,20 +140,57 @@ const RelatedOption = styled.div`
   }
 `;
 
+
+const BannerImgWrap = styled.div`
+  width: 100%;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    min-height: 200px;
+  }
+`;
+
+
 const Img = styled.img`
   width: 100%;
-  height: 420px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    /* position: absolute; */
+    /* top: 0;
+    left: -50%;
+    height: 250px; */
+    /* width: 1000px; */
+    width: 150%;
+    position: absolute;
+    top: 0;
+    left: -25%;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
 `;
 
 const ProductImg = styled.img`
   width: 580px;
   height: 580px;
   border-radius: 15px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ProductWrap = styled.div`
   width: 580px;
   height: 580px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+    height: 100%;
+  }
+
 `;
 
 const RelatedProductImg = styled.img`

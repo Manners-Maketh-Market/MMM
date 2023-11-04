@@ -5,6 +5,7 @@ import {
   MockSellProductsData,
   MockSearchProductsData,
 } from "__mock__/faker-data";
+
 import { http, HttpResponse } from "msw";
 
 const productsData = MockProductsData(40);
@@ -47,6 +48,7 @@ export const getUserInfoData = http.get("api/user", () => {
     status: 200,
   });
 });
+
 
 export const postUserInfoData = http.post("api/user", async () => {
   const user = await requestAnimationFrame.json();

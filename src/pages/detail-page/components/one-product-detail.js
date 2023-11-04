@@ -5,10 +5,19 @@ import styled from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { UsePriceComma } from "hooks/use-price-comma";
+
 
 const OneProductDetail = () => {
   const mock = MockProductsData(10);
   // 임시로 사용할 데이터
+
+  const navigate = useNavigate();
+
+  const marketPricePage = () => {
+    navigate("/pricecheckpage");
+  };
 
   return (
     <Wrapper>
@@ -19,10 +28,12 @@ const OneProductDetail = () => {
           <Inform>
             <Title>상품제목 | {mock[0].title}</Title>
             <FlexBox>
-              <Price>{mock[0].price}원</Price>
-              <p>이 상품 시세 조회하러 가기</p>
+              <Price>{UsePriceComma(mock[0].price)}원</Price>
+              <p onClick={() => marketPricePage()}>
+                이 상품 시세 조회하러 가기
+              </p>
             </FlexBox>
-            <hr />
+            {/* <hr /> */}
             <UserProf>
               <UserImgIdLoc>
                 <ProfileImg>
@@ -84,10 +95,28 @@ const Wrapper = styled.div`
 
 const ProductDetail = styled.div`
   width: 1180px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+  }
 `;
 
 const ImgAndInform = styled.div`
   ${flexCenter}
+
+  padding-bottom: 30px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    display: flex;
+    flex-direction: column;
+  }
+
 `;
 
 const Inform = styled.div`
@@ -96,11 +125,25 @@ const Inform = styled.div`
   & > ul {
     padding-left: 28px;
   }
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 100px;
+    margin-right: 52px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    padding-top: 100px;
+    margin-right: 52px;
+  }
 `;
 
 const Title = styled.p`
   font-size: 24px;
   margin-bottom: 30px;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    font-size: 20px;
+  }
+
 `;
 const FlexBox = styled.p`
   ${flexAlignCenter}
@@ -113,6 +156,17 @@ const FlexBox = styled.p`
     border-bottom: 1px solid #757575;
     padding-bottom: 1px;
   }
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    & > p:last-child {
+      padding-top: 20px;
+    }
+  }
+
 `;
 
 const Price = styled.p`
@@ -130,6 +184,10 @@ const ProfileImg = styled.div`
 const UserProf = styled.div`
   display: flex;
   justify-content: space-between;
+
+  border-top: 1px solid #e1e1e1;
+  padding-top: 20px;
+
 `;
 
 const UserImgIdLoc = styled.div`
@@ -160,7 +218,11 @@ const ButtonBox = styled.div`
 
 const Content = styled.div`
   min-height: 484px;
-  margin-top: 100px;
+
+  margin-top: 50px;
+  border-top: 1px solid #e1e1e1;
+  padding-top: 70px;
+
 
   & > span {
     font-size: 32px;
@@ -174,14 +236,41 @@ const Content = styled.div`
     font-size: 16px;
     line-height: 20px;
   }
+
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-top: 0;
+    padding-top: 30px;
+    min-height: 124px;
+    & > span {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+  }
+
 `;
 
 const RelatedProduct = styled.div`
   width: 100%;
   margin-top: 100px;
 
+  overflow: hidden;
+  border-top: 1px solid #e1e1e1;
+  padding-top: 40px;
+
+
   & > span {
     font-size: 32px;
     font-weight: 600;
   }
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-top: 40px;
+
+    & > span {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+  }
+
 `;
