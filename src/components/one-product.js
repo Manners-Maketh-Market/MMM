@@ -11,6 +11,7 @@ const OneProduct = ({ title, content, img, price, id }) => {
 
   const onClickToDetailPage = (id) => {
     navigate(`/products/detail/${id}`);
+    window.scrollTo({ top: 0 });
   };
 
   const onToggleIsLiked = () => {

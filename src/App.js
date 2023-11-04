@@ -6,6 +6,7 @@ import { ThemeProvider } from "styled-components";
 import theme from "styles/theme.style";
 import GlobalStyles from "styles/global.style";
 import { worker } from "__mock__/browser";
+import React from "react";
 
 const queryClient = new QueryClient();
 if (process.env.NODE_ENV === "development") {
@@ -18,7 +19,9 @@ function App() {
       <GlobalStyles />
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <RouterProvider router={router} />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <RouterProvider router={router} />
+          </React.Suspense>
         </RecoilRoot>
       </QueryClientProvider>
     </ThemeProvider>

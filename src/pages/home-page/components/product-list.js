@@ -8,7 +8,7 @@ import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
 import MMMButton from "components/button";
 import { useSetRecoilState } from "recoil";
-import { mswDataTest } from "store";
+import { mswDataSell, mswDataFree } from "store";
 import { useEffect } from "react";
 
 const ProductList = () => {
@@ -20,11 +20,13 @@ const ProductList = () => {
   );
 
   // 중고 목록 데이터를 리코일에 저장
-  const setUsed = useSetRecoilState(mswDataTest);
+  const setUsed = useSetRecoilState(mswDataSell);
+  const setFree = useSetRecoilState(mswDataFree);
 
   useEffect(() => {
     setUsed(UsedProductList);
-  }, [UsedProductList]);
+    setFree(FreeProductList);
+  }, []);
 
   const { data: FreeProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
@@ -87,6 +89,7 @@ const ProductList = () => {
                   img={item.Product_img}
                   price={item.price}
                   isLiked={item.isLiked}
+                  id={item.id}
                 />
               </GridItem>
             ))}

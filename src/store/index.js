@@ -1,14 +1,25 @@
-import { atom } from "recoil";
-import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import { atom, selector } from "recoil";
 
 export const mswDataState = atom({
   key: "mswDataState",
   default: [],
 });
 
-export const mswDataTest = atom({
-  key: "mswDataTest",
+export const mswDataSell = atom({
+  key: "mswDataSell",
   default: "",
+});
+
+export const mswDataFree = atom({
+  key: "mswDataFree",
+  default: "",
+});
+
+export const mswDataStateSelector = selector({
+  key: "mswDataStateSelector",
+  get: ({ get }) => {
+    const response = get(mswDataState);
+    return response;
+  },
 });
