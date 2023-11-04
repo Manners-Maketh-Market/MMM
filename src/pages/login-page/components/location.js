@@ -1,66 +1,33 @@
 import MMMButton from "components/button";
 import MMMInput from "components/input";
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import styled from "styled-components";
-import Script from "react-load-script";
-
-/* global kakao */
 
 const Location = () => {
-  // 스크립트로 kakao maps api를 심어서 가져오면 window 전역 객체에 들어가게 됩
   const { kakao } = window;
 
-  // TypeError: properties of undefined (reading 'maps')
-  useEffect(() => {
-    const kakaoMapScript = document.createElement("script");
-    kakaoMapScript.async = false;
-
-    const onLoadKakaoAPI = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementsByClassName("map");
-        const options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3,
-        };
-        const map = new kakao.maps.Map(container, options);
-      });
-    };
-    kakaoMapScript.addEventListener("load", onLoadKakaoAPI);
+  const [state, setState] = useState({
+    // 지도의 초기 위치
+    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
+    isPanto: true,
   });
-
-  // react-load-script 사용
-  const handleScriptLoad = () => {
-    kakao.maps.load(() => {
-      const container = document.getElementById("myMap");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
-    });
-  };
-
-  // 초기 지도 설정
-  const [currentAddress, setCurrentAddress] = useState({
-    center: { lat: 33.450701, lng: 126.570667 },
-    isPanto: true, // 지도 위치 변경시 부드러운 이동
-  });
-
   const [searchAddress, SetSearchAddress] = useState();
 
-  // 주소 입력후 검색 클릭 시 원하는 주소로 이동
-  const searchMap = () => {
-    const geocoder = new kakao.maps.services.Geocoder();
-
-    let callback = function (result, status) {
+  // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
+  const SearchMap = (e) => {
+    e.preventDefault();
+    const ps = new kakao.maps.services.Places();
+    const placesSearchCB = function (data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
-        const newSearch = result[0];
-        setCurrentAddress({
+        const newSearch = data[0];
+        setState({
           center: { lat: newSearch.y, lng: newSearch.x },
         });
       }
     };
-    geocoder.addressSearch(`${searchAddress}`, callback);
+    ps.keywordSearch(`${searchAddress}`, placesSearchCB);
   };
 
   const handleSearchAddress = (e) => {
@@ -78,26 +45,19 @@ const Location = () => {
           size={"large"}
           onChange={handleSearchAddress}
         />
-        <MMMButton size={"confirm"} onClick={searchMap}>
+        <MMMButton size={"confirm"} onClick={SearchMap}>
           검색
         </MMMButton>
       </OneRow>
       <Map
-        id="myMap"
-        className="map"
-        center={currentAddress.center}
-        isPanto={currentAddress.isPanto}
-        style={{ width: "920px", height: "400px", border: "1px solid gray" }}
+        center={state.center}
+        isPanto={state.isPanto}
+        style={{
+          width: "100%",
+          height: "350px",
+        }}
         level={3}
-      >
-        <MapMarker position={{ lat: 127.0354, lng: 37.4999782 }}>
-          코리아IT 아카데미
-        </MapMarker>
-      </Map>
-      <Script
-        url="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6b6beb973270d87c1d12fe2bd9162e58&libraries=services,drawing&autoload=false"
-        onLoad={handleScriptLoad}
-      />
+      ></Map>
     </Wrapper>
   );
 };
