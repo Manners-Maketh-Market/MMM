@@ -180,6 +180,10 @@ const ProductImg = styled.img`
     width: 100%;
     height: 100%;
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ProductWrap = styled.div`
@@ -187,6 +191,11 @@ const ProductWrap = styled.div`
   height: 580px;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 100%;
     height: 100%;
   }
