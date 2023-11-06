@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 
+
 export const mswDataState = atom({
   key: "mswDataState",
   default: [],
@@ -11,4 +12,9 @@ export const mswDataState = atom({
 export const mswDataTest = atom({
   key: "mswDataTest",
   default: "",
+
+export const isMenuBarState = atom({
+  key: "isMenuBarState",
+  default: false,
+
 });

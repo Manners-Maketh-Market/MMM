@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import HeartIcon from "../images/icon/heart.png";
+import HeartIcon from "../images/icon/fullheart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
 const OneProduct = ({ title, content, img, price, id }) => {
