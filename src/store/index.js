@@ -11,6 +11,11 @@ export const mswDataSell = atom({
   default: "",
 });
 
+export const isMenuBarState = atom({
+  key: "isMenuBarState",
+  default: false,
+});
+
 export const mswDataFree = atom({
   key: "mswDataFree",
   default: "",

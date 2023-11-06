@@ -10,7 +10,6 @@ const ChattingPage = () => {
       <S.ImgWrapper>
         <S.LogoImg src={MMMLogo} alt="User" />
       </S.ImgWrapper>
-
       <S.ChattingWrapper>
         <BuyerChattingList />
         <ChattingRoom />

@@ -1,7 +1,9 @@
+
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import PriceBox from "./price-box";
 import GraphItem from "./graphItem";
+
 
 const PriceGraph = () => {
   const data = [
@@ -30,6 +32,7 @@ const PriceGraph = () => {
       pv: 3908,
       amt: 2000,
     },
+
   ];
 
   return (

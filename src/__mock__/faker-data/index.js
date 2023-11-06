@@ -23,7 +23,10 @@ export const MockProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
+      createdAt: faker.date.between(
+        "2023-01-01T00:00:00.000Z",
+        "2023-01-31T00:00:00.000Z"
+      ),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
@@ -49,7 +52,10 @@ export const MockFreeProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
+      createdAt: faker.date.between(
+        "2023-01-01T00:00:00.000Z",
+        "2023-01-31T00:00:00.000Z"
+      ),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
@@ -75,7 +81,10 @@ export const MockSellProductsData = (count) =>
       Product_img: Array(Math.floor(Math.random() * 3) + 1)
         .fill()
         .map(() => faker.image.url()),
-      createdAt: faker.date.between("2023-01-01T00:00:00.000Z", "2023-01-31T00:00:00.000Z"),
+      createdAt: faker.date.between(
+        "2023-01-01T00:00:00.000Z",
+        "2023-01-31T00:00:00.000Z"
+      ),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
     }));
@@ -184,4 +193,36 @@ export const MockUserData = (count) =>
       ),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),
+    }));
+
+// 채팅 구현에 사용 할 데이터 입니다  MockBuyerData, MockMarketerData
+export const MockBuyerData = (count) =>
+  Array(count)
+    .fill()
+    .map(() => ({
+      id: shortId.generate(),
+      Product_img: Array(Math.floor(Math.random() * 3) + 1),
+      price: Math.floor(Math.random() * 100000),
+      User: {
+        id: shortId.generate(),
+        nickName: faker.person.firstName(),
+        profileImg: faker.image.url(),
+        manner: Math.floor(Math.random() * 100),
+        chatData: {},
+      },
+    }));
+export const MockMarketerData = (count) =>
+  Array(count)
+    .fill()
+    .map(() => ({
+      id: "me",
+      Product_img: Array(Math.floor(Math.random() * 3) + 1),
+      price: Math.floor(Math.random() * 100000),
+      User: {
+        id: shortId.generate(),
+        nickName: faker.person.firstName(),
+        profileImg: faker.image.url(),
+        manner: Math.floor(Math.random() * 100),
+        chatData: {},
+      },
     }));

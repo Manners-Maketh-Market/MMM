@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { UsePriceComma } from "hooks/use-price-comma";
 import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
+import { MockProductsData } from "__mock__/faker-data";
+import { mswDataTest } from "store";
 import { mswDataSell } from "store";
 import { mswDataFree } from "store";
 
@@ -26,8 +28,7 @@ const OneProductDetail = () => {
 
   const marketPricePage = () => {
     const titleValue = detailItem[0].title;
-    //
-    //navigate("/pricecheckpage");
+
     navigate(`/pricecheckpage/${titleValue}`);
   };
 
@@ -111,6 +112,7 @@ const Wrapper = styled.div`
 
 const ProductDetail = styled.div`
   width: 1180px;
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
@@ -121,6 +123,7 @@ const ProductDetail = styled.div`
 
 const ImgAndInform = styled.div`
   ${flexCenter}
+
   padding-bottom: 30px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: flex;
@@ -138,6 +141,7 @@ const Inform = styled.div`
   & > ul {
     padding-left: 28px;
   }
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     padding-top: 100px;
     margin-right: 52px;
@@ -151,6 +155,7 @@ const Inform = styled.div`
 const Title = styled.p`
   font-size: 24px;
   margin-bottom: 30px;
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     font-size: 20px;
   }
@@ -166,6 +171,7 @@ const FlexBox = styled.p`
     border-bottom: 1px solid #757575;
     padding-bottom: 1px;
   }
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: flex;
     flex-direction: column;
@@ -192,6 +198,7 @@ const ProfileImg = styled.div`
 const UserProf = styled.div`
   display: flex;
   justify-content: space-between;
+
   border-top: 1px solid #e1e1e1;
   padding-top: 20px;
 `;
@@ -224,6 +231,7 @@ const ButtonBox = styled.div`
 
 const Content = styled.div`
   min-height: 484px;
+
   margin-top: 50px;
   border-top: 1px solid #e1e1e1;
   padding-top: 70px;
@@ -255,6 +263,7 @@ const Content = styled.div`
 const RelatedProduct = styled.div`
   width: 100%;
   margin-top: 100px;
+
   overflow: hidden;
   border-top: 1px solid #e1e1e1;
   padding-top: 40px;
@@ -263,6 +272,7 @@ const RelatedProduct = styled.div`
     font-size: 32px;
     font-weight: 600;
   }
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     margin-top: 40px;
 

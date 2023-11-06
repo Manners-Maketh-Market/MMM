@@ -1,23 +1,23 @@
 import styled from "styled-components";
-import { Grid, GridItem } from "@chakra-ui/react";
 import OneProduct from "components/one-product";
 import { useQuery } from "react-query";
+import { worker } from "__mock__/browser";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
+import { Container, Grid } from "@mui/material";
 import MMMButton from "components/button";
 import { useSetRecoilState } from "recoil";
 import { mswDataSell, mswDataFree } from "store";
 import { useEffect } from "react";
 
 const ProductList = () => {
-  const navigate = useNavigate();
+  if (process.env.NODE_ENV === "development") {
+    worker.start();
+  }
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.USED_PRODUCT_LIST],
-    () => Api.getUsedProduct()
-  );
+  const navigate = useNavigate();
 
   // 중고 목록 데이터를 리코일에 저장
   const setUsed = useSetRecoilState(mswDataSell);
@@ -27,6 +27,11 @@ const ProductList = () => {
     setUsed(UsedProductList);
     setFree(FreeProductList);
   }, []);
+
+  const { data: UsedProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
+    () => Api.getUsedProduct()
+  );
 
   const { data: FreeProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
@@ -40,19 +45,23 @@ const ProductList = () => {
   return (
     UsedProductList &&
     FreeProductList && (
-      <Wrapper>
-        <UsedTrade>
-          <Title>중고거래</Title>
-
+      <Container>
+        <S.UsedTrade>
+          <S.Title>중고거래</S.Title>
           <Grid
-            className="Grid"
-            templateColumns="repeat(4, 1fr)"
-            gap={50}
-            gridColumnGap={15}
-            cursor={"pointer"}
+            container
+            spacing={{ xs: 1, md: 2, lg: 3 }}
+            style={{ paddingBottom: 20 }}
           >
-            {UsedProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem className="GridItem" w="280px" h="" key={idx}>
+            {UsedProductList[0].slice(0, 8).map((item, index) => (
+              <Grid
+                key={index}
+                item
+                xs={12}
+                md={4}
+                lg={3}
+                style={{ paddingBottom: 40 }}
+              >
                 <OneProduct
                   title={item.title}
                   content={item.content}
@@ -61,7 +70,7 @@ const ProductList = () => {
                   isLiked={item.isLiked}
                   id={item.id}
                 />
-              </GridItem>
+              </Grid>
             ))}
           </Grid>
           <MMMButton
@@ -71,18 +80,24 @@ const ProductList = () => {
           >
             MORE
           </MMMButton>
-        </UsedTrade>
-        <Share>
+        </S.UsedTrade>
+        <S.Share>
           <Title>무료나눔</Title>
+
           <Grid
-            className="Grid"
-            templateColumns="repeat(4, 1fr)"
-            gap={50}
-            gridColumnGap={15}
-            cursor={"pointer"}
+            container
+            spacing={{ xs: 1, md: 2, lg: 3 }}
+            style={{ paddingBottom: 20 }}
           >
-            {FreeProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem className="GridItem" w="280px" h="" key={idx}>
+            {FreeProductList[0].slice(0, 8).map((item, index) => (
+              <Grid
+                key={index}
+                item
+                xs={12}
+                md={4}
+                lg={3}
+                style={{ paddingBottom: 40 }}
+              >
                 <OneProduct
                   title={item.title}
                   content={item.content}
@@ -91,7 +106,7 @@ const ProductList = () => {
                   isLiked={item.isLiked}
                   id={item.id}
                 />
-              </GridItem>
+              </Grid>
             ))}
           </Grid>
           <MMMButton
@@ -101,98 +116,29 @@ const ProductList = () => {
           >
             MORE
           </MMMButton>
-        </Share>
-      </Wrapper>
+        </S.Share>
+      </Container>
     )
   );
 };
 
 export default ProductList;
 
-const Wrapper = styled.div`
-  flex-direction: column;
-  ${flexCenter}
-  width: 1280px;
-  margin: 70px auto;
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    width: 100%;
-    margin: 0 auto 40px;
-  }
-  @media ${({ theme }) => theme.DEVICE.tablet} {
-    width: 100%;
-    margin: 0 auto 40px;
-    padding: 10px;
-  }
-`;
-
 const UsedTrade = styled.div`
   margin-bottom: 50px;
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    & > .Grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 0;
-    }
-
-    * .GridItem {
-      width: 200px;
-    }
-  }
-  @media ${({ theme }) => theme.DEVICE.tablet} {
-    & > .Grid {
-      grid-template-columns: repeat(3, 1fr);
-      grid-column-gap: 15;
-    }
-
-    * .GridItem {
-      width: 100%;
-    }
-    .GridItem:nth-of-type(1n + 7) {
-      display: none;
-    }
-  }
 `;
 
 const Title = styled.h1`
   font-size: 26px;
   font-weight: bold;
-  padding: 30px 20px;
+  padding: 30px 0;
   left: 0;
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    font-size: 20px;
-  }
 `;
 
-const Share = styled.div`
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    & > .Grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 0;
-    }
+const Share = styled.div``;
 
-    * .GridItem {
-      width: 200px;
-    }
-  }
-
-  @media ${({ theme }) => theme.DEVICE.tablet} {
-    & > .Grid {
-      grid-template-columns: repeat(3, 1fr);
-      grid-column-gap: 15;
-    }
-
-    * .GridItem {
-      width: 100%;
-    }
-    .GridItem:nth-of-type(1n + 7) {
-      display: none;
-    }
-  }
-`;
-
-/*
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    & > img {
-      display: none;
-    }
-  }
-*/
+const S = {
+  UsedTrade,
+  Title,
+  Share,
+};

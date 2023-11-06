@@ -9,6 +9,7 @@ import ProductListPage from "pages/product-list-page";
 import SearchPage from "pages/search-page";
 import ChattingPage from "pages/chatting-page";
 import { createBrowserRouter } from "react-router-dom";
+import SignUpForm from "pages/login-page/components/signUp-form";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
         element: <PriceCheckPage />,
       },
       {
+        path: "/pricecheckpage",
+        element: <PriceCheckPage />,
+      },
+      {
         path: "/products/search/:searchValue",
         element: <SearchPage />,
       },
@@ -51,8 +56,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
+    path: "/sign-in",
     element: <LoginPage />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUpForm />,
   },
 ]);
 
