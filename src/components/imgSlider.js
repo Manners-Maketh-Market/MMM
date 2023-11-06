@@ -142,7 +142,7 @@ const RelatedOption = styled.div`
 
 const BannerImgWrap = styled.div`
   width: 100%;
-
+  cursor: pointer;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     position: relative;
     overflow: hidden;
@@ -208,6 +208,7 @@ const RelatedProductWrap = styled.div`
   width: 976px;
   height: 220px;
   margin: 60px auto;
+  cursor: pointer;
 `;
 
 //StyledSlider :Slider Arrow css

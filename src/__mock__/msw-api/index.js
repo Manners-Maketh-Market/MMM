@@ -52,6 +52,15 @@ export const getSearchProductsData = http.get(
   }
 );
 
+
+// 상세페이지 데이터
+export const getDetailProductData = http.get(
+  "api/products/detail/:id",
+  ({ params }) => {
+    return HttpResponse.json([]);
+  }
+);
+
 // 채팅 구현 데이터
 export const getBuyerData = http.get("api/chat/buyer", () => {
   return HttpResponse.json([buyerData], {
@@ -63,3 +72,4 @@ export const getMarketerData = http.get("api/chat/marketer", () => {
     status: 200,
   });
 });
+
