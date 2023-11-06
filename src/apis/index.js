@@ -21,10 +21,16 @@ const getFreeProduct = async () => {
   return res.data;
 };
 
+const getUserData = async () => {
+  const res = await axiosInstance.get("/user");
+  return res.data;
+};
+
 // styled-component의 const S같은 기능 (번들링 사이즈가 줄어든다!)
 export const Api = {
   getUsedOrFreeProduct,
   getUsedProduct,
   getSearchProduct,
   getFreeProduct,
+  getUserData,
 };

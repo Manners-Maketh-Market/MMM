@@ -36,6 +36,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
+
   height: 50px;
   padding-bottom: 100px;
   text-align: center;
@@ -49,13 +50,16 @@ const Title = styled.div`
     font-size: 24px;
     ${flexCenter}
   }
+
 `;
 
 const Text = styled.p`
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 30px;
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: none;
   }
+
 `;

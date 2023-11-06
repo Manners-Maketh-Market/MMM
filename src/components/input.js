@@ -1,12 +1,13 @@
 import { styled, css } from "styled-components";
 import { flexCenter } from "../styles/common.style";
 
-const MMMInput = ({ label, error, size, ...inputProps }) => {
+const MMMInput = ({ label, error, access, size, ...inputProps }) => {
   return (
     <InputBox>
       <label>{label}</label>
       <Input {...inputProps} size={size} />
-      <ErrorMessage>{error && <p>{error}</p>}</ErrorMessage>
+      <Message>{error && <p>{error}</p>}</Message>
+      <Message>{access && <p>{access}</p>}</Message>
     </InputBox>
   );
 };
@@ -45,10 +46,12 @@ const sizeCSS = {
       width: 300px;
       height: 40px;
     }
+
     @media ${({ theme }) => theme.DEVICE.tablet} {
       width: 500px;
       height: 56px;
     }
+
   `,
   editInfo: css`
     width: 780px;
@@ -92,9 +95,14 @@ const Input = styled.input`
   ${({ size }) => sizeCSS[size]}
 `;
 
-const ErrorMessage = styled.p`
+const Message = styled.p`
   margin-left: 16px;
   font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
-  color: ${({ theme }) => theme.COLORS["error"]};
+  &:nth-of-type(1) {
+    color: ${({ theme }) => theme.COLORS["error"]};
+  }
+  &:nth-of-type(2) {
+    color: ${({ theme }) => theme.COLORS["access"]};
+  }
 `;

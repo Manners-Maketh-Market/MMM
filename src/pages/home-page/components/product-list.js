@@ -19,10 +19,8 @@ const ProductList = () => {
 
   const navigate = useNavigate();
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.USED_PRODUCT_LIST],
-    () => Api.getUsedProduct()
-  );
+  const navigate = useNavigate();
+
 
   // 중고 목록 데이터를 리코일에 저장
   const setUsed = useSetRecoilState(mswDataTest);
@@ -35,6 +33,7 @@ const ProductList = () => {
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
     () => Api.getFreeProduct()
   );
+
 
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
@@ -81,6 +80,7 @@ const ProductList = () => {
         </S.UsedTrade>
         <S.Share>
           <Title>무료나눔</Title>
+
           <Grid
             container
             spacing={{ xs: 1, md: 2, lg: 3 }}
@@ -111,6 +111,7 @@ const ProductList = () => {
             variant={"More"}
             style={{ border: "1px solid #9F9EB3" }}
           >
+
             MORE
           </MMMButton>
         </S.Share>
@@ -139,3 +140,4 @@ const S = {
   Title,
   Share,
 };
+

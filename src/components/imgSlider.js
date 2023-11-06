@@ -140,6 +140,7 @@ const RelatedOption = styled.div`
   }
 `;
 
+
 const BannerImgWrap = styled.div`
   width: 100%;
   cursor: pointer;
@@ -150,6 +151,7 @@ const BannerImgWrap = styled.div`
     min-height: 200px;
   }
 `;
+
 
 const Img = styled.img`
   width: 100%;
@@ -192,10 +194,12 @@ const ProductWrap = styled.div`
     width: 100%;
     height: 100%;
   }
+
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 100%;
     height: 100%;
   }
+
 `;
 
 const RelatedProductImg = styled.img`
