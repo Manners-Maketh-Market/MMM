@@ -53,7 +53,7 @@ const Wrapper = styled.div`
     @media ${({ theme }) => theme.DEVICE.mobile} {
       width: 50%;
     }
-    @media ${({ theme }) => theme.DEVICE.tablet} {
+    @ ${({ theme }) => theme.DEVICE.tablet} {
       width: 50%;
     }
   }

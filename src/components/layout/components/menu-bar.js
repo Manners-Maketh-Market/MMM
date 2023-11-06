@@ -43,23 +43,31 @@ const MenuBar = () => {
 };
 export default MenuBar;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  position: fixed;
+  top: 80px;
+  width: 100%;
+  background-color: white;
+  display: none;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: block;
+  }
+`;
 
 const Ul = styled.ul`
   ${flexCenter}
   flex-direction:column;
   & > li {
-    padding: 6px;
+    width: 100%;
+    /* text-align: center; */
+    padding: 15px;
     &:hover {
       cursor: pointer;
       color: ${({ theme }) => theme.COLORS.primary.yellow};
+      background-color: ${({ theme }) => theme.COLORS.gray[100]};
     }
   }
 `;
-// const Ul = styled.ul`
-//   display: flex;
-//   justify-content: space-evenly;
-// `;
 
 const S = {
   Wrapper,

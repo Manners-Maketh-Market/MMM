@@ -1,20 +1,38 @@
-import { MockProductsData } from "__mock__/faker-data";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isMobileChattingRoom } from "store";
+import { buyerChatDataIndex } from "store";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
-const OneChat = () => {
-  const MockUserData = MockProductsData(1);
+const OneChat = ({ profileImg, nickName, buyerChat, productImg, index }) => {
+  const setBuyerChatDataIndex = useSetRecoilState(buyerChatDataIndex);
+  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
+  const setIsMobileChattingRoom = useSetRecoilState(isMobileChattingRoom);
+
+  const onBuyerBarChange = (index) => {
+    setBuyerChatDataIndex(index);
+  };
+
+  const onOpenMobileChattingRoom = () => {
+    setIsMobileChattingRoom((prev) => !prev);
+  };
 
   return (
-    <S.Wrapper>
+    <S.Wrapper
+      onClick={() => {
+        onBuyerBarChange(index);
+        onOpenMobileChattingRoom();
+      }}
+      className={index === readBuyerChatListIndex ? "FocusWrapper" : ""}
+    >
       <S.BuyerInfo>
-        <S.BuyerProfileImg src={MockUserData[0].User.profileImg} />
+        <S.BuyerProfileImg src={profileImg} />
         <S.IdAndChat>
-          <S.BuyerId>유저 아이디</S.BuyerId>
-          <S.ChatContent>채팅내용 입니다.</S.ChatContent>
+          <S.BuyerId>{nickName}</S.BuyerId>
+          <S.ChatContent>{buyerChat}</S.ChatContent>
         </S.IdAndChat>
       </S.BuyerInfo>
-      <S.ProductImg src={MockUserData[0].Product_img[0]} />
+      <S.ProductImg src={productImg} />
     </S.Wrapper>
   );
 };
@@ -24,9 +42,18 @@ export default OneChat;
 const Wrapper = styled.div`
   width: 448px;
   height: 72px;
+  cursor: pointer;
   border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
   display: flex;
   justify-content: space-between;
+  &.FocusWrapper {
+    background-color: rgba(40, 33, 144, 0.1);
+  }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    &.FocusWrapper {
+      background-color: white;
+    }
+  }
 `;
 
 const BuyerInfo = styled.div`

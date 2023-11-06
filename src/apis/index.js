@@ -21,10 +21,21 @@ const getFreeProduct = async () => {
   return res.data;
 };
 
-// styled-component의 const S같은 기능 (번들링 사이즈가 줄어든다!)
+const getBuyerChatData = async () => {
+  const res = await axiosInstance.get("/chat/buyer");
+  return res.data;
+};
+
+const postMyChatData = async (bodyData) => {
+  const res = await axiosInstance.post("/chat/buyer", bodyData);
+  return res.data;
+};
+
 export const Api = {
   getUsedOrFreeProduct,
   getUsedProduct,
   getSearchProduct,
   getFreeProduct,
+  getBuyerChatData,
+  postMyChatData,
 };

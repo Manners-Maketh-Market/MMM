@@ -47,7 +47,7 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
-    @media ${({ theme }) => theme.DEVICE.mobile} {
+    @ ${({ theme }) => theme.DEVICE.mobile} {
       font-size: 16px;
     }
   `,

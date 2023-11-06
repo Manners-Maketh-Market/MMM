@@ -89,7 +89,7 @@ const ImgSlider = ({ product, related }) => {
   // 관련 상품(Related) slider의 세팅 옵션.
 
   return (
-    <>
+    <Wrapper>
       {/*product(상품) 값이 있을 시 product 슬라이더
       product값이 없고 related(관련 상품) 값이 있을 시 related 슬라이더
       둘 다 없을 시 banner 슬라이더 출력
@@ -124,11 +124,17 @@ const ImgSlider = ({ product, related }) => {
           ))}
         </StyledBanner>
       )}
-    </>
+    </Wrapper>
   );
 };
 
 export default ImgSlider;
+
+const Wrapper = styled.div`
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
+`;
 
 const RelatedOption = styled.div`
   text-align: center;

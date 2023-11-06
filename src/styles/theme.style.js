@@ -15,6 +15,7 @@ const COLORS = {
     blue: "#282190",
     navy: "#100D45",
     yellow: "#FFD02C",
+    logo: "#232054",
   },
   font: "#0F0F0F",
   error: "#EC0707",

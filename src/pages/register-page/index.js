@@ -20,7 +20,7 @@ const RegisterPage = ({ setIsFormRegister }) => {
       explain: "",
       place: "",
     });
-return (
+  return (
     <Form onSubmit={onSubmitRegister}>
       <Box>
         <label>물품 이미지</label>
@@ -89,7 +89,6 @@ return (
 };
 
 export default RegisterPage;
-
 
 const Form = styled.form`
   height: 1000px;
