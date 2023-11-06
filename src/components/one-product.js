@@ -57,12 +57,14 @@ const Wrapper = styled.div`
       width: 50%;
     }
   }
+
 `;
 
 const ProductImg = styled.img`
   width: 280px;
   height: 280px;
   border-radius: 16px;
+  
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
     height: 90%;
@@ -71,6 +73,7 @@ const ProductImg = styled.img`
     width: 90%;
     height: 90%;
   }
+
 `;
 
 const TitleAndLikeBox = styled.div`
@@ -82,10 +85,10 @@ const TitleAndLikeBox = styled.div`
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
-
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
+
 `;
 
 const Title = styled.div`
@@ -121,12 +124,14 @@ const Content = styled.div`
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   overflow: hidden;
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
+
 `;
 
 const Price = styled.div`
@@ -136,12 +141,14 @@ const Price = styled.div`
   display: flex;
   justify-content: flex-start;
   padding-top: 30px;
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
   }
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
+
 `;
 
 const S = {

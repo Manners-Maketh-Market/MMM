@@ -29,6 +29,7 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
+
     @media ${({ theme }) => theme.DEVICE.mobile} {
       font-size: 16px;
     }
@@ -47,7 +48,8 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
-    @ ${({ theme }) => theme.DEVICE.mobile} {
+
+    @media ${({ theme }) => theme.DEVICE.mobile} {
       font-size: 16px;
     }
   `,

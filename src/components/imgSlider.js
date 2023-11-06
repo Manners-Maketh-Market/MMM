@@ -146,9 +146,10 @@ const RelatedOption = styled.div`
   }
 `;
 
+
 const BannerImgWrap = styled.div`
   width: 100%;
-
+  cursor: pointer;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     position: relative;
     overflow: hidden;
@@ -156,6 +157,7 @@ const BannerImgWrap = styled.div`
     min-height: 200px;
   }
 `;
+
 
 const Img = styled.img`
   width: 100%;
@@ -184,6 +186,10 @@ const ProductImg = styled.img`
     width: 100%;
     height: 100%;
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ProductWrap = styled.div`
@@ -194,6 +200,12 @@ const ProductWrap = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 100%;
+    height: 100%;
+  }
+
 `;
 
 const RelatedProductImg = styled.img`
@@ -206,6 +218,7 @@ const RelatedProductWrap = styled.div`
   width: 976px;
   height: 220px;
   margin: 60px auto;
+  cursor: pointer;
 `;
 
 //StyledSlider :Slider Arrow css

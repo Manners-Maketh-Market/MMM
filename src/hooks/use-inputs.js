@@ -12,4 +12,5 @@ const useInputs = (initialValue) => {
 
   return [value, onChange, setValue];
 };
+
 export default useInputs;

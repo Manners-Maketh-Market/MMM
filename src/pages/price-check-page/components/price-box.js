@@ -38,4 +38,14 @@ const Wrapper = styled.div`
       padding-top: 10px;
     }
   }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 220px;
+    & > span {
+      font-size: 20px;
+      color: #000;
+    }
+    & > p {
+      font-size: 32px;
+    }
+  }
 `;

@@ -31,6 +31,11 @@ const postMyChatData = async (bodyData) => {
   return res.data;
 };
 
+const getUserData = async () => {
+  const res = await axiosInstance.get("/user");
+  return res.data;
+};
+
 export const Api = {
   getUsedOrFreeProduct,
   getUsedProduct,
@@ -38,4 +43,5 @@ export const Api = {
   getFreeProduct,
   getBuyerChatData,
   postMyChatData,
+  getUserData,
 };

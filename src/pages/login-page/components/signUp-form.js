@@ -3,117 +3,150 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import styled from "styled-components";
+import Phone from "./phone";
+import Location from "./location";
+import { flexCenter } from "styles/common.style";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const SignUpForm = ({ setIsFormLogin }) => {
-  const onSubmitSignUp = (e) => {
-    e.preventDefault();
-    alert("회원가입이 되었습니다. 축하합니다");
-    setIsFormLogin(true);
+const SignUpForm = () => {
+  // goBack to LoginPage, onClick Logo image
+  const navigate = useNavigate();
+  const onClickSignIn = () => {
+    navigate("/sign-in");
   };
 
-  const [
-    { email, password, passwordConfirm, nickName, phoneNumber, location },
-    onChangeInputs,
-  ] = useInputs({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    nickName: "",
-    phoneNumber: "",
-    location: "",
-  });
+  // custom-hook
+  const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
+    useInputs({
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      nickName: "",
+    });
 
-  const { disabled, errors } = formValidate({
+  // form validate check
+  const { disabled, errors, access } = formValidate({
     email,
     password,
     passwordConfirm,
     nickName,
-    phoneNumber,
-    location,
   });
 
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const [tempUser, setTempUser] = useState([]);
+
+  // onSuccess
+  const onSubmitSignUp = () => {
+    // userData 배열에 방금 회원가입한 tempUser를 배열에 추가
+    const newUser = { ...userData };
+    setTempUser([...tempUser, newUser]);
+
+    alert("회원가입이 되었습니다. 축하합니다.");
+    console.log("user:", userData);
+    navigate("/sign-in");
+  };
+
   return (
-    <Form onSubmit={onSubmitSignUp}>
-      <OneRow>
-        <MMMInput
-          label="이메일"
-          name="email"
-          type="text"
-          onChange={onChangeInputs}
-          placeholder="이메일을 입력해주세요"
-          error={errors.email}
-          size={"large"}
-        />
-        <MMMButton size={"confirm"}>중복확인</MMMButton>
-      </OneRow>
-      <OneRow>
-        <MMMInput
-          label="비밀번호"
-          name="password"
-          type="password"
-          onChange={onChangeInputs}
-          placeholder="비밀번호를 입력해주세요"
-          error={errors.password}
-          size={"full"}
-        />
-      </OneRow>
-      <OneRow>
-        <MMMInput
-          label="비밀번호 확인"
-          name="passwordConfirm"
-          type="password"
-          onChange={onChangeInputs}
-          placeholder="비밀번호 확인"
-          error={errors.passwordConfirm}
-          size={"full"}
-        />
-      </OneRow>
-      <OneRow>
-        <MMMInput
-          label="닉네임"
-          name="nickName"
-          type="text"
-          onChange={onChangeInputs}
-          placeholder="닉네임을 입력해주세요."
-          error={errors.nickName}
-          size={"large"}
-        />
-        <MMMButton size={"confirm"}>중복확인</MMMButton>
-      </OneRow>
-      <OneRow>
-        <MMMInput
-          label="휴대폰번호"
-          name="phoneNumber"
-          type="text"
-          onChange={onChangeInputs}
-          placeholder="휴대폰 번호를 입력해주세요."
-          error={errors.phoneNumber}
-          size={"full"}
-        />
-      </OneRow>
-      <OneRow>
-        <MMMInput
-          label="지역선택"
-          name="location"
-          type="text"
-          onChange={onChangeInputs}
-          placeholder="검색 버튼을 눌러주세요."
-          size={"large"}
-        />
-        <MMMButton size={"confirm"}>중복확인</MMMButton>
-      </OneRow>
-    </Form>
+    <Wrapper>
+      <Logo onClick={onClickSignIn} />
+      <Form>
+        <OneRow>
+          <MMMInput
+            label="이메일"
+            name="email"
+            type="text"
+            placeholder="이메일을 입력해주세요"
+            onChange={onChangeInputs}
+            error={errors.email}
+            access={access.email}
+            size={"full"}
+          />
+          {/* <MMMButton size={"confirm"}>중복확인</MMMButton> */}
+        </OneRow>
+        <OneRow>
+          <MMMInput
+            label="비밀번호"
+            name="password"
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            onChange={onChangeInputs}
+            error={errors.password}
+            access={access.password}
+            size={"full"}
+            maxLength={12}
+          />
+        </OneRow>
+        <OneRow>
+          <MMMInput
+            label="비밀번호 확인"
+            name="passwordConfirm"
+            type="password"
+            placeholder="비밀번호 확인"
+            error={errors.passwordConfirm}
+            onChange={onChangeInputs}
+            size={"full"}
+          />
+        </OneRow>
+        <OneRow>
+          <MMMInput
+            label="닉네임"
+            name="nickName"
+            type="text"
+            placeholder="닉네임을 입력해주세요."
+            onChange={onChangeInputs}
+            error={errors.nickName}
+            access={access.nickName}
+            size={"full"}
+            maxLength={10}
+          />
+          {/* <MMMButton size={"confirm"}>중복확인</MMMButton> */}
+        </OneRow>
+        <OneRow>
+          <Phone />
+        </OneRow>
+        <Location />
+        <MMMButton size={"full"} disabled={disabled} onClick={onSubmitSignUp}>
+          회원가입
+        </MMMButton>
+      </Form>
+    </Wrapper>
   );
 };
 export default SignUpForm;
 
+const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 80px);
+  ${flexCenter}
+  flex-direction: column;
+  overflow-y: scroll;
+`;
+const Logo = styled.div`
+  position: absolute;
+  top: 180px;
+  width: 230px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("../../MMMlogo.png");
+`;
 const Form = styled.form`
-  height: 730px;
-  margin-top: 120px;
+  margin-top: 45%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+
+  & > button {
+    margin: 100px 0;
+  }
 `;
 const OneRow = styled.div`
   display: flex;

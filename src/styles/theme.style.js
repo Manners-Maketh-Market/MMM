@@ -19,6 +19,7 @@ const COLORS = {
   },
   font: "#0F0F0F",
   error: "#EC0707",
+  access: "#28D464",
   white: "#FFFFFF",
   black: "#0F0F0F",
   gray: {

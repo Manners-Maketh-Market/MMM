@@ -1,7 +1,9 @@
+
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import PriceBox from "./price-box";
 import GraphItem from "./graphItem";
+
 
 const PriceGraph = () => {
   const data = [
@@ -30,6 +32,7 @@ const PriceGraph = () => {
       pv: 3908,
       amt: 2000,
     },
+
   ];
 
   return (
@@ -71,7 +74,11 @@ const Wrapper = styled.div`
   margin: 100px;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
-    margin: 0 auto 30px;
+    margin: 0 auto 50px;
+  }
+
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    margin: 30px auto 80px;
   }
 `;
 
