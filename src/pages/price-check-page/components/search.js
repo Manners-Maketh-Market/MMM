@@ -1,16 +1,28 @@
 import MMMInput from "components/input";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
 const PriceSearch = () => {
+  //
+  const { title } = useParams();
+  const [titles, setTitles] = useState(title);
+
+  const onTitleChange = (e) => {
+    setTitles(e.target.value);
+  };
+  //
   return (
     <Wrapper>
       <Title>시세조회</Title>
       <Text>원하시는 상품이 얼마에 거래되고 있는지 확인해보세요</Text>
       <MMMInput
+        onChange={onTitleChange}
         size={"searchPrice"}
         placeholder="어떤 시세 정보가 궁금하세요?"
         style={{ border: "2px solid #282190" }}
+        value={titles}
       />
     </Wrapper>
   );

@@ -8,6 +8,9 @@ import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
 import { Container, Grid } from "@mui/material";
 import MMMButton from "components/button";
+import { useSetRecoilState } from "recoil";
+import { mswDataTest } from "store";
+import { useEffect } from "react";
 
 const ProductList = () => {
   if (process.env.NODE_ENV === "development") {
@@ -18,13 +21,19 @@ const ProductList = () => {
 
   const navigate = useNavigate();
 
-  const { data: UsedProductList } = useQuery([PRODUCT_QUERY_KEY.USED_PRODUCT_LIST], () => Api.getUsedProduct());
 
-  const { data: FreeProductList } = useQuery([PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST], () => Api.getFreeProduct());
+  // 중고 목록 데이터를 리코일에 저장
+  const setUsed = useSetRecoilState(mswDataTest);
 
-  const onClickMoreBtn = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
-  };
+  useEffect(() => {
+    setUsed(UsedProductList);
+  }, [UsedProductList]);
+
+  const { data: FreeProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
+    () => Api.getFreeProduct()
+  );
+
 
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
