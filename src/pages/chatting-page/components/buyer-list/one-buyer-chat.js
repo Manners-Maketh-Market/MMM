@@ -80,6 +80,11 @@ const ChatContent = styled.span`
   font-size: ${({ theme }) => theme.FONT_SIZE.extraSmall};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.thin};
   color: ${({ theme }) => theme.COLORS.gray[500]};
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
 `;
 
 const ProductImg = styled.img`

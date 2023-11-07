@@ -4,16 +4,69 @@ import {
   MockFreeProductsData,
   MockSellProductsData,
   MockSearchProductsData,
-  MockBuyerData,
 } from "__mock__/faker-data";
-
 import { http, HttpResponse } from "msw";
+import { faker } from "@faker-js/faker";
+import shortId from "shortid";
 
 const productsData = MockProductsData(40);
 const UserData = MockUserData(10);
 const freeProductsData = MockFreeProductsData(20);
 const sellProductsData = MockSellProductsData(20);
-const buyerData = MockBuyerData(15);
+
+const buyerData = [
+  {
+    id: shortId.generate(),
+    Product_img: faker.image.url(),
+    title: faker.lorem.sentence(),
+    price: Math.floor(Math.random() * 100000),
+    User: {
+      id: shortId.generate(),
+      nickName: faker.person.firstName(),
+      profileImg: faker.image.url(),
+      manner: Math.floor(Math.random() * 100),
+      chatData: {
+        buyer: ["구매 희망한다.", "나한테 팔아."],
+        marketer: [],
+      },
+    },
+  },
+  {
+    id: shortId.generate(),
+    Product_img: faker.image.url(),
+    title: faker.lorem.sentence(),
+    price: Math.floor(Math.random() * 100000),
+    User: {
+      id: shortId.generate(),
+      nickName: faker.person.firstName(),
+      profileImg: faker.image.url(),
+      manner: Math.floor(Math.random() * 100),
+      chatData: {
+        buyer: ["1000원만 깎아주세요", "ㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎ"],
+        marketer: ["ㅋㅋ 돌아가"],
+      },
+    },
+  },
+  {
+    id: shortId.generate(),
+    Product_img: faker.image.url(),
+    title: faker.lorem.sentence(),
+    price: Math.floor(Math.random() * 100000),
+    User: {
+      id: shortId.generate(),
+      nickName: faker.person.firstName(),
+      profileImg: faker.image.url(),
+      manner: Math.floor(Math.random() * 100),
+      chatData: {
+        buyer: [
+          "아직 파시나요??",
+          "ㅠㅜㅜㅜㅜㅜㅠㅠㅠㅠㅠㅠㅠㅠㅜㅠㅜㅠㅜㅜㅜㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅜㅠㅜㅠㅜㅠㅜㅠㅜㅜ🥹",
+        ],
+        marketer: [],
+      },
+    },
+  },
+];
 
 export const getProductsData = http.get("api/products", () => {
   return HttpResponse.json([productsData], {
@@ -79,13 +132,14 @@ export const getBuyerData = http.get("api/chat/buyer", () => {
 export const postBuyerData = http.post(
   "api/chat/buyer",
   async ({ request }) => {
-    // Read the intercepted request body as JSON.
     const newChat = await request.json();
-    // Push the new post to the map of all posts. (key, value)
-    buyerData.set(newChat.nickName, newChat);
 
-    return HttpResponse.json([newChat], {
-      status: 200,
+    const { message, buyerUserIndex } = newChat;
+
+    buyerData[buyerUserIndex].User.chatData.marketer.push(message);
+
+    return HttpResponse.json(buyerData, {
+      status: 201,
     });
   }
 );

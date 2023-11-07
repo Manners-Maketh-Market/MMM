@@ -28,7 +28,7 @@ const getBuyerChatData = async () => {
 
 const postMyChatData = async (bodyData) => {
   const res = await axiosInstance.post("/chat/buyer", bodyData);
-  return res.data;
+  return res;
 };
 
 const getUserData = async () => {

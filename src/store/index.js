@@ -24,3 +24,8 @@ export const isMobileChattingRoom = atom({
   key: "isMobileChattingRoom",
   default: false,
 });
+
+export const isCreateChat = atom({
+  key: "isCreateChat",
+  default: false,
+});
