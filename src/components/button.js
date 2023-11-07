@@ -33,7 +33,6 @@ const variantCSS = {
     @media ${({ theme }) => theme.DEVICE.mobile} {
       font-size: 16px;
     }
-
   `,
   More: css`
     ${flexCenter}
@@ -49,11 +48,10 @@ const variantCSS = {
     color: #fff;
     font-size: 18px;
     font-weight: 500;
-    
+
     @media ${({ theme }) => theme.DEVICE.mobile} {
       font-size: 16px;
     }
-
   `,
 };
 
@@ -78,7 +76,6 @@ const sizeCSS = {
       width: 175px;
       height: 44px;
     }
-
   `,
   confirm: css`
     width: 313px;

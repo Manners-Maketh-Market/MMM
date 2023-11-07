@@ -109,6 +109,9 @@ export default OneProductDetail;
 
 const Wrapper = styled.div`
   ${flexCenter}
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const ProductDetail = styled.div`

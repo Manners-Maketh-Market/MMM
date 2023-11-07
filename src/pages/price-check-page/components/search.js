@@ -33,6 +33,9 @@ export default PriceSearch;
 const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const Title = styled.div`

@@ -201,28 +201,20 @@ export const MockBuyerData = (count) =>
     .fill()
     .map(() => ({
       id: shortId.generate(),
-      Product_img: Array(Math.floor(Math.random() * 3) + 1),
+      Product_img: faker.image.url(),
+      title: faker.lorem.sentence(),
       price: Math.floor(Math.random() * 100000),
       User: {
         id: shortId.generate(),
         nickName: faker.person.firstName(),
         profileImg: faker.image.url(),
         manner: Math.floor(Math.random() * 100),
-        chatData: {},
-      },
-    }));
-export const MockMarketerData = (count) =>
-  Array(count)
-    .fill()
-    .map(() => ({
-      id: "me",
-      Product_img: Array(Math.floor(Math.random() * 3) + 1),
-      price: Math.floor(Math.random() * 100000),
-      User: {
-        id: shortId.generate(),
-        nickName: faker.person.firstName(),
-        profileImg: faker.image.url(),
-        manner: Math.floor(Math.random() * 100),
-        chatData: {},
+        chatData: {
+          buyer: [
+            "안녕하세요",
+            "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+          ],
+          marketer: [],
+        },
       },
     }));

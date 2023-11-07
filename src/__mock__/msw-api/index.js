@@ -1,21 +1,18 @@
 import {
-    MockProductsData,
-    MockUserData,
-    MockFreeProductsData,
-    MockSellProductsData,
-    MockSearchProductsData,
-    MockBuyerData,
-    MockMarketerData,
-} from '__mock__/faker-data';
-
+  MockProductsData,
+  MockUserData,
+  MockFreeProductsData,
+  MockSellProductsData,
+  MockSearchProductsData,
+  MockBuyerData,
+} from "__mock__/faker-data";
 import { http, HttpResponse } from 'msw';
 
 const productsData = MockProductsData(40);
 const UserData = MockUserData(10);
 const freeProductsData = MockFreeProductsData(20);
 const sellProductsData = MockSellProductsData(20);
-const buyerData = MockBuyerData(10);
-const marketerData = MockMarketerData(1);
+const buyerData = MockBuyerData(15);
 
 export const getProductsData = http.get('api/products', () => {
     return HttpResponse.json([productsData], {
@@ -43,6 +40,7 @@ export const getUserInfoData = http.get('api/user', () => {
     });
 });
 
+
 export const postUserInfoData = http.post('api/user', async () => {
     const user = await requestAnimationFrame.json();
     const { email, password, nickname } = user;
@@ -68,8 +66,18 @@ export const getBuyerData = http.get('api/chat/buyer', () => {
         status: 200,
     });
 });
-export const getMarketerData = http.get('api/chat/marketer', () => {
-    return HttpResponse.json([marketerData], {
-        status: 200,
+
+export const postBuyerData = http.post(
+  "api/chat/buyer",
+  async ({ request }) => {
+    // Read the intercepted request body as JSON.
+    const newChat = await request.json();
+    // Push the new post to the map of all posts. (key, value)
+    buyerData.set(newChat.nickName, newChat);
+
+    return HttpResponse.json([newChat], {
+      status: 200,
     });
-});
+  }
+);
+

@@ -24,7 +24,7 @@ const ProductList = () => {
 
   return (
     productList && (
-      <>
+      <S.Wrapper>
         <S.TitleWrapper>
           <ProductPageTitle
             totalProductsCount={productList.pages[0][0].length}
@@ -58,18 +58,25 @@ const ProductList = () => {
           </Grid>
         </Container>
         <S.MoreBtn>More</S.MoreBtn>
-      </>
+      </S.Wrapper>
     )
   );
 };
 
 export default ProductList;
 
+const Wrapper = styled.div`
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 1165px;
+  max-width: 1165px;
   margin: 0 auto;
+  padding-top: 36px;
 `;
 
 const MoreBtn = styled.button`
@@ -88,4 +95,5 @@ const MoreBtn = styled.button`
 const S = {
   TitleWrapper,
   MoreBtn,
+  Wrapper,
 };

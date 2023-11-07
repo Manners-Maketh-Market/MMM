@@ -16,6 +16,10 @@ export default NoResultPage;
 const Wrapper = styled.div`
   ${flexCenter};
   flex-direction: column;
+  padding-top: 36px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    margin-top: 40px;
+  }
 `;
 
 const MMMLogo = styled.img`

@@ -25,6 +25,9 @@ const Wrapper = styled.div`
   margin: 0 20%;
   ${flexCenter}
   flex-direction: column;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const UserContainer = styled.div`

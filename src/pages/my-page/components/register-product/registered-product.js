@@ -89,7 +89,8 @@ const RegisterPage = ({ setIsFormRegister }) => {
 export default RegisterPage;
 
 const Form = styled.form`
-  margin: 120px 0;
+  /* margin: 120px 0; */
+  // mobile 버전 적용 시 header fixed 속성이랑 겹쳐서 주석처리 해놨습니다!
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -102,6 +103,9 @@ const Form = styled.form`
   & > button {
     width: 954px;
     margin: 80px 0;
+  }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
   }
 `;
 

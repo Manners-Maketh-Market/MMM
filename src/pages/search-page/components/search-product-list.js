@@ -24,7 +24,7 @@ const SearchProductList = () => {
 
   return (
     searchProducts && (
-      <>
+      <S.Wrapper>
         {searchProducts[0].length === 0 ||
         searchValue === 194191464161616511 ? (
           <NoResultPage />
@@ -66,31 +66,37 @@ const SearchProductList = () => {
             ))}
           </Grid>
         </Container>
-      </>
+      </S.Wrapper>
     )
   );
 };
 export default SearchProductList;
 
+const Wrapper = styled.div`
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 1165px;
+  max-width: 1165px;
   margin: 0 auto;
+  padding-top: 36px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     justify-content: flex-start;
     flex-direction: column;
-    width: 767px;
     margin-left: 32px;
   }
   @media ${({ theme }) => theme.DEVICE.tablet} {
     justify-content: flex-start;
     flex-direction: column;
-    width: 1023px;
     margin-left: 32px;
   }
 `;
 
 const S = {
   TitleWrapper,
+  Wrapper,
 };

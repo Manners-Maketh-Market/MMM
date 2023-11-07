@@ -1,7 +1,4 @@
-import { atom } from 'recoil';
-import { useQuery } from 'react-query';
-import { PRODUCT_QUERY_KEY } from 'consts';
-import { Api } from 'apis';
+import { atom } from "recoil";
 
 export const mswDataState = atom({
     key: 'mswDataState',
@@ -9,8 +6,23 @@ export const mswDataState = atom({
 });
 
 export const mswDataTest = atom({
-    key: 'mswDataTest',
-    default: '',
+  key: "mswDataTest",
+  default: "",
+});
+
+export const isMenuBarState = atom({
+  key: "isMenuBarState",
+  default: false,
+});
+
+export const buyerChatDataIndex = atom({
+  key: "buyerChatDataIndex",
+  default: null,
+});
+
+export const isMobileChattingRoom = atom({
+  key: "isMobileChattingRoom",
+  default: false,
 });
 
 export const isMenuBarState = atom({
