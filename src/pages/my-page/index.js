@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import UserInfo from "components/userInfo";
+import UserInfo from "components/user-Info";
 import TabList from "./components/tab-list";
 import { MockUserData } from "__mock__/faker-data";
 

@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import OneProduct from "components/one-product";
 import { useQuery } from "react-query";
-import { worker } from "__mock__/browser";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
-import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
 import { Container, Grid } from "@mui/material";
 import MMMButton from "components/button";
@@ -13,10 +11,6 @@ import { mswDataSell, mswDataFree } from "store";
 import { useEffect } from "react";
 
 const ProductList = () => {
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
-
   const navigate = useNavigate();
 
   // 중고 목록 데이터를 리코일에 저장
