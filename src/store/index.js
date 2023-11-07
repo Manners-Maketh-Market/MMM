@@ -24,8 +24,3 @@ export const isMobileChattingRoom = atom({
   key: "isMobileChattingRoom",
   default: false,
 });
-
-export const isMenuBarState = atom({
-    key: 'isMenuBarState',
-    default: false,
-});
