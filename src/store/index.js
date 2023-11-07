@@ -1,20 +1,19 @@
-import { atom } from "recoil";
-import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
-
+import { atom } from 'recoil';
+import { useQuery } from 'react-query';
+import { PRODUCT_QUERY_KEY } from 'consts';
+import { Api } from 'apis';
 
 export const mswDataState = atom({
-  key: "mswDataState",
-  default: [],
+    key: 'mswDataState',
+    default: [],
 });
 
 export const mswDataTest = atom({
-  key: "mswDataTest",
-  default: "",
+    key: 'mswDataTest',
+    default: '',
+});
 
 export const isMenuBarState = atom({
-  key: "isMenuBarState",
-  default: false,
-
+    key: 'isMenuBarState',
+    default: false,
 });
