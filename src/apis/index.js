@@ -21,6 +21,7 @@ const getFreeProduct = async () => {
   return res.data;
 };
 
+
 const getBuyerChatData = async () => {
   const res = await axiosInstance.get("/chat/buyer");
   return res.data;
@@ -30,6 +31,7 @@ const postMyChatData = async (bodyData) => {
   const res = await axiosInstance.post("/chat/buyer", bodyData);
   return res;
 };
+
 
 const getUserData = async () => {
   const res = await axiosInstance.get("/user");

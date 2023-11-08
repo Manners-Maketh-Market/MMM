@@ -76,6 +76,55 @@ const Wrapper = styled.div`
     ${flexAlignCenter};
     align-items: flex-start;
   }
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      & > label {
+        font-size: 12px;
+      }
+      & > p {
+        font-size: 12px;
+      }
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      & > label {
+        font-size: 12px;
+      }
+      & > p {
+        font-size: 12px;
+      }
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    & > div {
+      & > input {
+        min-width: 620px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+  }
 `;
 
 const S = {

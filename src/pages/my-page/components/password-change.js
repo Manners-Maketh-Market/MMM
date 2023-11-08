@@ -17,13 +17,14 @@ const ChangePassword = () => {
         <MMMInput
           label={"새 비밀번호 확인"}
           size={"editInfo"}
-          placeholder="confirm new pasword"
+          placeholder="confirm new password"
         />
         <MMMButton size={"small"}>변경사항 저장</MMMButton>
       </Contents>
     </Wrapper>
   );
 };
+
 export default ChangePassword;
 
 const Wrapper = styled.div`
@@ -32,24 +33,97 @@ const Wrapper = styled.div`
   margin-left: 80px;
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    margin-left: 0px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    margin-left: 0px;
+  }
 `;
+
 const Title = styled.h1`
   padding: 80px 0;
   color: ${({ theme }) => theme.COLORS["black"]};
   font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    font-size: 12px;
+    padding: 10px 0 50px 10px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    margin-left: 10px;
+    padding: 0 0 50px;
+  }
 `;
+
 const Contents = styled.form`
   ${flexAlignCenter}
   flex-direction: column;
-  margin-top: 200px;
   margin-left: 40px;
-
-  & > input {
-    width: 780px;
-  }
 
   & > button {
     margin: 60px 0 100px;
+  }
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    align-items: flex-start;
+    margin-left: 0px;
+
+    & > div {
+      & > input {
+        min-width: 240px;
+      }
+      & > label {
+        font-size: 12px;
+      }
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      width: 120px;
+      margin: 30px 0 60px 25%;
+      font-size: 12px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    align-items: flex-start;
+    margin-left: 0px;
+
+    & > div {
+      & > input {
+        min-width: 400px;
+      }
+      & > label {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      margin: 20px 0 0 23%;
+      font-size: 12px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    align-items: flex-start;
+    margin-left: 0px;
+
+    & > div {
+      & > input {
+        min-width: 560px;
+      }
+    }
+    & > button {
+      margin-left: 30%;
+    }
   }
 `;

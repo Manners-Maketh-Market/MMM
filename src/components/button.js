@@ -78,8 +78,8 @@ const sizeCSS = {
     }
   `,
   confirm: css`
-    width: 313px;
-    height: 46px;
+    min-width: 313px;
+    min-height: 46px;
     border-radius: 4px;
     margin-left: 20px;
   `,
@@ -89,8 +89,8 @@ const sizeCSS = {
     border-radius: 6px;
   `,
   full: css`
-    width: 918px;
-    height: 46px;
+    min-width: 918px;
+    min-height: 46px;
     border-radius: 10px;
   `,
 };
