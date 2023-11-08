@@ -13,7 +13,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
 
 const SignUpForm = ({ setIsFormLogin }) => {
-
   // goBack to LoginPage, onClick Logo image
   const navigate = useNavigate();
   const onClickSignIn = () => {
@@ -142,6 +141,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: scroll;
+  background-color: aliceblue;
 `;
 const Logo = styled.div`
   position: absolute;
@@ -171,11 +171,10 @@ const Form = styled.form`
   ${flexAlignCenter}
   flex-direction: column;
   justify-content: space-evenly;
+  // submit button
   & > button {
     margin: 100px 0;
   }
-
-  // mediaQuery - submit button
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     & > button {
       min-width: 200px;
@@ -202,15 +201,22 @@ const Form = styled.form`
 
 const OneRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  flex-direction: row;
+  //confirm button
   & > button {
     border: 1px solid #282190;
     background-color: #fff;
     color: #282190;
     font-weight: 600;
     margin-top: 20px;
+
+    @media ${({ theme }) => theme.DEVICE.laptop} {
+      min-width: 620px;
+      min-height: 46px;
+      margin: -16px 0 60px;
+    }
   }
 
   // mediaQuery - inputBox
@@ -219,5 +225,17 @@ const OneRow = styled.div`
   @media ${({ theme }) => theme.DEVICE.tablet2} {
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    flex-direction: column;
+    // inputBox
+    & > div {
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > input {
+        min-width: 620px;
+      }
+    }
   }
 `;
