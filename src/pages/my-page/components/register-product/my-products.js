@@ -26,4 +26,37 @@ const Wrapper = styled.div`
     color: ${({ theme }) => theme.COLORS.gray[400]};
     font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
   }
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    min-height: 400px;
+    & > p {
+      font-size: 10px;
+    }
+    & > button {
+      font-size: 10px;
+      width: 140px;
+      height: 40px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    & > p {
+      font-size: 12px;
+    }
+    & > button {
+      font-size: 12px;
+      width: 180px;
+      height: 46px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    & > p {
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
+    & > button {
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      width: 230px;
+      height: 50px;
+    }
+  }
 `;

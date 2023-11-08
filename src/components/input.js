@@ -22,14 +22,14 @@ const sizeCSS = {
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
   large: css`
-    width: 585px;
-    height: 48px;
+    min-width: 585px;
+    min-height: 48px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   larger: css`
-    width: 740px;
-    height: 48px;
+    min-width: 740px;
+    min-height: 48px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
@@ -40,15 +40,15 @@ const sizeCSS = {
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   editInfo: css`
-    width: 780px;
-    height: 48px;
+    min-width: 780px;
+    min-height: 48px;
     border: none;
     outline: none;
     border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
   `,
   full: css`
-    width: 918px;
-    height: 48px;
+    min-width: 918px;
+    min-height: 48px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,

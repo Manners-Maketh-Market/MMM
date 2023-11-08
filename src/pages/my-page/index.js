@@ -21,10 +21,23 @@ const MyPage = () => {
 export default MyPage;
 
 const Wrapper = styled.div`
-  min-width: 1200px;
-  margin: 0 20%;
-  ${flexCenter}
-  flex-direction: column;
+  // 1280+
+  max-width: 1200px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow-x: hidden;
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+  }
 `;
 
 const UserContainer = styled.div`
