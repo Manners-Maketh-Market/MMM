@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
 export const mswDataState = atom({
-    key: 'mswDataState',
-    default: [],
+  key: "mswDataState",
+  default: [],
 });
 
 export const mswDataTest = atom({
@@ -24,3 +24,9 @@ export const isMobileChattingRoom = atom({
   key: "isMobileChattingRoom",
   default: false,
 });
+
+export const isCreateChat = atom({
+  key: "isCreateChat",
+  default: false,
+});
+

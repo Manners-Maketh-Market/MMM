@@ -1,16 +1,35 @@
-import { worker } from "__mock__/browser";
+import { Api } from "apis";
+import { useMutation } from "react-query";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isCreateChat } from "store";
 import styled from "styled-components";
+import ChattingBar from "./chatting-bar";
+import { buyerChatDataIndex } from "store";
 
 const SendForm = () => {
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
+  const setIsCreateChat = useSetRecoilState(isCreateChat);
+  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
+
+  const { mutate } = useMutation((chatData) => Api.postMyChatData(chatData));
+
+  const onSendMessage = (e) => {
+    e.preventDefault();
+    const chatData = {
+      message: e.target.chatMessage.value,
+      buyerUserIndex: readBuyerChatListIndex,
+    };
+    const bodyData = JSON.stringify(chatData);
+    mutate(bodyData);
+    setIsCreateChat((prev) => !prev);
+  };
 
   return (
-    <S.SendFormBox>
-      <S.SendMessage placeholder="메세지를 입력하세요." />
-      <S.SendBtn>전송</S.SendBtn>
-    </S.SendFormBox>
+    <>
+      <S.SendFormBox onSubmit={onSendMessage}>
+        <S.SendMessage placeholder="메세지를 입력하세요." name="chatMessage" />
+        <S.SendBtn>전송</S.SendBtn>
+      </S.SendFormBox>
+    </>
   );
 };
 
@@ -44,6 +63,7 @@ const SendMessage = styled.textarea`
   border: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
   padding: 15px;
   resize: none;
+  font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
   &:focus {
     outline: none;
   }

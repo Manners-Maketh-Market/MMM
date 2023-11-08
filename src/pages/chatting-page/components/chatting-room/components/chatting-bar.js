@@ -1,13 +1,19 @@
 import styled from "styled-components";
-import { useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { useRecoilValue } from "recoil";
 import { buyerChatDataIndex } from "store";
+import { Api } from "apis";
+import { isCreateChat } from "store";
 
-const ChattingBar = () => {
+const ChattingBar = ({ newData }) => {
   const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
-  const queryClient = useQueryClient();
-  const buyerData = queryClient.getQueryData(PRODUCT_QUERY_KEY.BUYER_CHAT_DATA);
+  const isCreateChatState = useRecoilValue(isCreateChat);
+
+  const { data: buyerData } = useQuery(
+    [PRODUCT_QUERY_KEY.BUYER_CHAT_DATA, isCreateChatState],
+    () => Api.getBuyerChatData()
+  );
 
   return (
     buyerData && (
