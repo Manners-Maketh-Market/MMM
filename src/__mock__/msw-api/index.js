@@ -69,6 +69,17 @@ const buyerData = [
   },
 ];
 
+const signupUserData = [
+  {
+    id: shortId.generate(),
+    email: faker.internet.email(),
+    password: faker.lorem.sentence(),
+    nickName: faker.person.fullName(),
+    phoneNumber: faker.phone.number(),
+    location: faker.location.cityName(),
+  },
+]
+
 export const getProductsData = http.get("api/products", () => {
   return HttpResponse.json([productsData], {
     status: 200,
@@ -146,3 +157,17 @@ export const postBuyerData = http.post(
     });
   }
 );
+
+
+// 회원가입 회원 정보
+export const postsignupUserData = http.post('api/user', async ({ request }) => {
+  const newUser = await request.json();
+
+  const { email, password, nickName, phoneNumber, location , signupUserIndex } = newUser;
+    
+  signupUserData[signupUserIndex].signupUserData.push(email, password, nickName, phoneNumber, location);
+  
+  return HttpResponse.json(
+    signupUserData, {status: 201,}
+    )
+  })

@@ -2,6 +2,7 @@ import { formValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
+import { useMutation } from "react-query";
 import styled from "styled-components";
 import Phone from "./phone";
 import Location from "./location";
@@ -11,8 +12,16 @@ import { useAuth } from "provider/authProvider";
 import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
+import { IsFormLogin } from "store";
+import { Api } from "apis";
+import { signupUserDataIndex } from "store";
 
-const SignUpForm = ({ setIsFormLogin }) => {
+const SignUpForm = () => {
+
+  const setIsFormLogin = useSetRecoilState(IsFormLogin);
+  const readsignupUserListIndex = useRecoilValue(signupUserDataIndex);
+
+  const { mutate } = useMutation((signupUserData) => Api.postUserData(signupUserData));
 
   // goBack to LoginPage, onClick Logo image
   const navigate = useNavigate();
@@ -20,39 +29,62 @@ const SignUpForm = ({ setIsFormLogin }) => {
     navigate("/sign-in");
   };
 
-  const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
-    useInputs({
-      email: "",
-      password: "",
-      passwordConfirm: "",
-      nickName: "",
-    });
-  const { disabled, errors, access } = formValidate({
-    email,
-    password,
-    passwordConfirm,
-    nickName,
-  });
+  const onSubmitSignUp = (e) => {
+    e.preventDefault();
+    const signupUserData = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+      nickName: e.target.nickName.value,
+      phoneNumber: e.target.phoneNumber.value,
+      location: e.target.location.value,
+      signupUserIndex: readsignupUserListIndex,
+    };
+    const signupData = JSON.stringify(signupUserData);
+    mutate(signupData);
+    setIsFormLogin(true);
+  };
+
+  // const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
+  //   useInputs({
+  //     email: "",
+  //     password: "",
+  //     passwordConfirm: "",
+  //     nickName: "",
+  //   });
+
+  // const { disabled, errors, access } = formValidate({
+  //   email,
+  //   password,
+  //   passwordConfirm,
+  //   nickName,
+  // });
 
   // const { signUp } = useAuth();
-  const setAccessToken = useSetRecoilState(TokenAtom);
-  const isLogin = useRecoilValue(isLoginSelector);
+  // const setAccessToken = useSetRecoilState(TokenAtom);
+  // const isLogin = useRecoilValue(isLoginSelector);
 
   // onSuccess
-  const onSubmitSignUp = async (e) => {
-    e.preventDefault();
-    try {
-      // await signUp({ email, password, nickName }); setIsFormLogin(true);
-      axios.post("/user/login", { id: email, pw: password }).then((res) => {
-        setAccessToken(res.data.accessToken);
-        isLogin(true);
-      });
-      alert("회원가입이 되었습니다. 축하합니다.");
-      navigate("/sign-in"); // 회원가입과 동시에 로그인, 혹은 회원가입 후 로그인 창으로 보내기?
-    } catch {
-      alert("회원가입이 정상적으로 이루어지지 않았습니다, 죄송합니다.");
-    }
-  };
+  // const onSubmitSignUp = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     // await signUp({ email, password, nickName }); setIsFormLogin(true);
+  //     axios.post("/user/login", { id: email, pw: password }).then((res) => {
+  //       setAccessToken(res.data.accessToken);
+  //       isLogin(true);
+  //     });
+  //     alert("회원가입이 되었습니다. 축하합니다.");
+  //     navigate("/sign-in"); // 회원가입과 동시에 로그인, 혹은 회원가입 후 로그인 창으로 보내기?
+  //   } catch {
+  //     alert("회원가입이 정상적으로 이루어지지 않았습니다, 죄송합니다.");
+  //   }
+  // };
+
+  // const onSubmitSignUp = (e) => {
+  //   e.preventDefault();
+  //   // 로그인으로 어떻게 보내지?
+  //   alert("회원가입이 되었습니다. 축하합니다");
+  //   setIsFormLogin(true);
+  // };
 
   return (
     <Wrapper>
@@ -64,9 +96,9 @@ const SignUpForm = ({ setIsFormLogin }) => {
             name="email"
             type="text"
             placeholder="이메일을 입력해주세요"
-            onChange={onChangeInputs}
-            error={errors.email}
-            access={access.email}
+            // onChange={onChangeInputs}
+            // error={errors.email}
+            // access={access.email}
             size={"large"}
           />
           <MMMButton size={"confirm"} type="button">
@@ -79,9 +111,9 @@ const SignUpForm = ({ setIsFormLogin }) => {
             name="password"
             type="password"
             placeholder="비밀번호를 입력해주세요"
-            onChange={onChangeInputs}
-            error={errors.password}
-            access={access.password}
+            // onChange={onChangeInputs}
+            // error={errors.password}
+            // access={access.password}
             size={"full"}
             maxLength={12}
           />
@@ -92,8 +124,8 @@ const SignUpForm = ({ setIsFormLogin }) => {
             name="passwordConfirm"
             type="password"
             placeholder="비밀번호 확인"
-            error={errors.passwordConfirm}
-            onChange={onChangeInputs}
+            // error={errors.passwordConfirm}
+            // onChange={onChangeInputs}
             size={"full"}
           />
         </OneRow>
@@ -103,9 +135,9 @@ const SignUpForm = ({ setIsFormLogin }) => {
             name="nickName"
             type="text"
             placeholder="닉네임을 입력해주세요."
-            onChange={onChangeInputs}
-            error={errors.nickName}
-            access={access.nickName}
+            // onChange={onChangeInputs}
+            // error={errors.nickName}
+            // access={access.nickName}
             size={"large"}
             maxLength={10}
           />
@@ -117,9 +149,9 @@ const SignUpForm = ({ setIsFormLogin }) => {
           <Phone />
         </OneRow>
         <Location />
-        <MMMButton
+        <MMMButton 
           size={"full"}
-          disabled={disabled}
+          // disabled={disabled}
           type="submit"
           onClick={onSubmitSignUp}
         >

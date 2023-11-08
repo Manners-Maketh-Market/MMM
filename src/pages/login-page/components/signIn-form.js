@@ -27,18 +27,26 @@ const SignInForm = () => {
   const location = useLocation();
   const from = location?.state?.redirectedFrom?.pathname || "/";
 
-  // sign-in button > login
-  const onSubmitSignIn = async (e) => {
+  // // sign-in button > login
+  // const onSubmitSignIn = async (e) => {
+  //   e.preventDefault();
+
+  //   // await signIn({ email, password });
+  //   axios.post("/user/login", { id: email, pw: password }).then((res) => {
+  //     setAccessToken(res.data.accessToken);
+  //     navigate(from);
+  //   });
+
+  //   // if (email === "test@test.com" && password === "test") {return navigate("/");}
+  //   // alert("아이디와 비밀번호를 다시 한번 확인해주세요");
+  // };
+
+  const onSubmitSignIn = (e) => {
     e.preventDefault();
-
-    // await signIn({ email, password });
-    axios.post("/user/login", { id: email, pw: password }).then((res) => {
-      setAccessToken(res.data.accessToken);
-      navigate(from);
-    });
-
-    // if (email === "test@test.com" && password === "test") {return navigate("/");}
-    // alert("아이디와 비밀번호를 다시 한번 확인해주세요");
+    if (email === "test@test.com" && password === "test") {
+      return navigate("/");
+    }
+    alert("아이디와 비밀번호를 다시 한번 확인해주세요");
   };
 
   // sign-up button
@@ -190,12 +198,3 @@ const ButtonBox = styled.div`
   }
 `;
 
-const ButtonBox = styled.div`
-  ${flexCenter}
-  flex-direction: column;
-  margin: 95px 0;
-
-  & > button {
-    margin: 5px 0;
-  }
-`;

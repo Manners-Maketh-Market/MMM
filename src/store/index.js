@@ -30,3 +30,12 @@ export const isCreateChat = atom({
   default: false,
 });
 
+export const IsFormLogin = atom({
+  key: "IsFormLogin",
+  default: false,
+});
+
+export const signupUserDataIndex = atom({
+  key: "signupUserDataIndex",
+  default: null,
+});
