@@ -212,6 +212,20 @@ const OneRow = styled.div`
     font-weight: 600;
     margin-top: 20px;
 
+    @media ${({ theme }) => theme.DEVICE.smallMobile} {
+      min-width: 200px;
+      min-height: 38px;
+      border-radius: 4px;
+      font-size: 10px;
+      margin: -16px 0 32px;
+    }
+    @media ${({ theme }) => theme.DEVICE.tablet2} {
+      min-width: 320px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin: -16px 0 60px;
+    }
     @media ${({ theme }) => theme.DEVICE.laptop} {
       min-width: 620px;
       min-height: 46px;
@@ -221,13 +235,43 @@ const OneRow = styled.div`
 
   // mediaQuery - inputBox
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    ${flexCenter}
+    flex-direction: column;
+
+    & > div {
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+      & > input {
+        min-width: 200px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+    }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    flex-direction: column;
+
+    & > div {
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+    }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
     ${flexCenter}
     flex-direction: column;
-    // inputBox
+
     & > div {
       & > label,
       & > p {
