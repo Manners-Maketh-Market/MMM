@@ -1,16 +1,13 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import MMMLogo from "../../images/logo/MMMlogo.png";
 import BuyerChattingList from "./components/buyer-list/buyer-chatting-list";
 import ChattingRoom from "./components/chatting-room";
+import ChattingLogo from "./components/chatting-logo";
 
 const ChattingPage = () => {
   return (
     <S.Wrapper>
-      <S.ImgWrapper>
-        <S.LogoImg src={MMMLogo} alt="User" />
-      </S.ImgWrapper>
-
+      <ChattingLogo />
       <S.ChattingWrapper>
         <BuyerChattingList />
         <ChattingRoom />
@@ -21,25 +18,17 @@ const ChattingPage = () => {
 
 export default ChattingPage;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
+`;
 
 const ChattingWrapper = styled.div`
   ${flexCenter}
 `;
 
-const ImgWrapper = styled.div`
-  ${flexCenter}
-  flex-direction: column;
-`;
-
-const LogoImg = styled.img`
-  ${flexCenter}
-  margin-bottom : 40px;
-`;
-
 const S = {
   Wrapper,
   ChattingWrapper,
-  LogoImg,
-  ImgWrapper,
 };

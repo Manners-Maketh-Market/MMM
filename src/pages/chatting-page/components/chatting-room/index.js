@@ -2,18 +2,19 @@ import styled from "styled-components";
 import ProductBar from "./components/product-bar";
 import BuyerBar from "./components/buyer-bar";
 import ChattingBar from "./components/chatting-bar";
-import { flexCenter } from "styles/common.style";
+import SendForm from "./components/send-form";
+import { useRecoilValue } from "recoil";
+import { isMobileChattingRoom } from "store";
 
 const ChattingRoom = () => {
+  const isMobileChattingRoomState = useRecoilValue(isMobileChattingRoom);
+
   return (
-    <S.Wrapper>
+    <S.Wrapper isMobileChattingRoomState={isMobileChattingRoomState}>
       <BuyerBar />
       <ProductBar />
       <ChattingBar />
-      <S.SendForm>
-        <S.SendMessage placeholder="메세지를 입력하세요." />
-        <S.SendBtn>전송</S.SendBtn>
-      </S.SendForm>
+      <SendForm />
     </S.Wrapper>
   );
 };
@@ -22,43 +23,19 @@ export default ChattingRoom;
 
 const Wrapper = styled.div`
   width: 732px;
-  height: 1462px;
+  height: 700px;
   border: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
-`;
-
-const SendForm = styled.form`
   position: relative;
-  ${flexCenter}
-`;
-
-const SendBtn = styled.button`
-  position: absolute;
-  width: 80px;
-  height: 40px;
-  right: 50px;
-  bottom: 15px;
-  border-radius: 4px;
-  &:hover {
-    color: ${({ theme }) => theme.COLORS.white};
-    background-color: ${({ theme }) => theme.COLORS.primary.blue};
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 600px;
+    height: 570px;
   }
-`;
-
-const SendMessage = styled.textarea`
-  border-radius: 4px;
-  width: 694px;
-  height: 148px;
-  border: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
-  padding: 15px;
-  resize: none;
-  &:focus {
-    outline: none;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    display: ${(props) => (props.isMobileChattingRoomState ? "block" : "none")};
+    width: 448px;
   }
 `;
 
 const S = {
   Wrapper,
-  SendForm,
-  SendMessage,
-  SendBtn,
 };

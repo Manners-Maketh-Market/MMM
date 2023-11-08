@@ -1,19 +1,26 @@
-import { MockProductsData } from "__mock__/faker-data";
 import styled from "styled-components";
+import { useQueryClient } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { useRecoilValue } from "recoil";
+import { buyerChatDataIndex } from "store";
 
 const ProductBar = () => {
-  const MockUserData = MockProductsData(1);
-
-  console.log(MockUserData);
+  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
+  const queryClient = useQueryClient();
+  const buyerData = queryClient.getQueryData(PRODUCT_QUERY_KEY.BUYER_CHAT_DATA);
 
   return (
-    <S.Wrapper>
-      <S.ProductImg src={MockUserData[0].Product_img[0]} />
-      <S.PriceAndTitle>
-        <S.Price>{MockUserData[0].price}원</S.Price>
-        <S.ProductTitle>{MockUserData[0].title}</S.ProductTitle>
-      </S.PriceAndTitle>
-    </S.Wrapper>
+    buyerData && (
+      <S.Wrapper>
+        <S.ProductImg src={buyerData[0][readBuyerChatListIndex]?.Product_img} />
+        <S.PriceAndTitle>
+          <S.Price>{buyerData[0][readBuyerChatListIndex]?.price}원</S.Price>
+          <S.ProductTitle>
+            {buyerData[0][readBuyerChatListIndex]?.title}
+          </S.ProductTitle>
+        </S.PriceAndTitle>
+      </S.Wrapper>
+    )
   );
 };
 
@@ -21,10 +28,19 @@ export default ProductBar;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 732px;
-  height: 100px;
+  width: 730px;
+  height: 80px;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
+  border: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
+  border-bottom: 2px solid ${({ theme }) => theme.COLORS.gray[300]};
+  background-color: white;
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 598px;
+    height: 60px;
+  }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 446px;
+  }
 `;
 
 const ProductImg = styled.img`

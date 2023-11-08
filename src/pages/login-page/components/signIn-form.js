@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useAuth } from "provider/authProvider";
 
 const SignInForm = () => {
+
   const [{ email, password }, onChangeInputs] = useInputs({
     email: "",
     password: "",
@@ -43,6 +44,7 @@ const SignInForm = () => {
   // sign-up button
   const onClickSignUp = () => {
     navigate("/sign-up");
+
   };
 
   return (
@@ -185,5 +187,15 @@ const ButtonBox = styled.div`
       min-width: 620px;
       min-height: 48px;
     }
+  }
+`;
+
+const ButtonBox = styled.div`
+  ${flexCenter}
+  flex-direction: column;
+  margin: 95px 0;
+
+  & > button {
+    margin: 5px 0;
   }
 `;

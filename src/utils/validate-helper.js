@@ -14,6 +14,7 @@ export const formValidate = ({
   if (passwordConfirm) {
     disabled =
       disabled ||
+
       (password !== passwordConfirm &&
         !/^[a-zA-Z0-9]$/.test(nickName) &&
         !/^[0-9]+${,11}/.test(phoneNumber));
@@ -42,6 +43,7 @@ export const formValidate = ({
     location:
       !/^[ㄱ-ㅣ가-힣]+$/.test(location) &&
       "한글만 입력 가능합니다, 한국 주소를 입력해주세요",
+
   };
 
   let access = {
@@ -55,6 +57,7 @@ export const formValidate = ({
     nickName: /^[a-zA-Z0-9]+$/.test(nickName) && "사용 가능한 아이디입니다",
     phoneNumber: /^[0-9]+${,11}/.test(phoneNumber) && "", // 원래는 본인 인증을 통해야 하는데..!
     location: /^[ㄱ-ㅣ가-힣]+$/.test(location) && "",
+
   };
 
   return { disabled, errors, access };

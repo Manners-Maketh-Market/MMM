@@ -1,4 +1,3 @@
-import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import Search from "./components/search";
@@ -7,32 +6,70 @@ import BlackLogo from "../../images/logo/BlackLogo.png";
 import my_store from "../../images/icon/my_store.png";
 import user from "../../images/icon/user.png";
 import menubar from "../../images/icon/menubar.png";
+import close from "../../images/icon/close.png";
+import MenuBar from "./components/menu-bar";
+import { useRecoilState } from "recoil";
+import { isMenuBarState } from "store";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const [isShowMenuBar, setIsShowMenuBar] = useRecoilState(isMenuBarState);
+
   const onGoProductsListPage = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
   };
   const onGoMainPage = () => {
     navigate(`/`);
   };
+  const onGoPriceCheckPage = () => {
+    navigate("/pricecheckpage");
+  };
+  const onGoMyPage = () => {
+    navigate("/my-page");
+  };
+
+  const onGoRegisterProductPage = () => {
+    navigate("/my-page/registerProductForm");
+  };
+
+  const onOpenAndCloseMenuBar = () => {
+    setIsShowMenuBar((prev) => !prev);
+  };
 
   return (
     <S.Wrapper>
       <S.LeftContainer>
-        <S.HeaderIcon src={BlackLogo} alt="Logo" onClick={onGoMainPage} />
+        <S.HeaderLogoIcon src={BlackLogo} alt="Logo" onClick={onGoMainPage} />
         <S.Ul>
           <li onClick={() => onGoProductsListPage("sell")}>중고거래</li>
           <li onClick={() => onGoProductsListPage("free")}>무료나눔</li>
-          <li>시세조회</li>
+          <li onClick={onGoPriceCheckPage}>시세조회</li>
         </S.Ul>
       </S.LeftContainer>
       <S.RightIconContainer>
         <Search />
-        <S.HeaderIcon src={user} alt="User" />
-        <S.HeaderIcon src={my_store} alt="myStore" />
+        <S.HeaderIcon src={user} alt="User" onClick={onGoMyPage} />
+        <S.HeaderIcon
+          src={my_store}
+          alt="myStore"
+          onClick={onGoRegisterProductPage}
+        />
       </S.RightIconContainer>
-      <S.MobileMenuBar src={menubar} alt="menubar" />
+      {isShowMenuBar ? (
+        <S.MobileMenuBar
+          src={close}
+          alt="close"
+          onClick={onOpenAndCloseMenuBar}
+        />
+      ) : (
+        <S.MobileMenuBar
+          src={menubar}
+          alt="menubar"
+          onClick={onOpenAndCloseMenuBar}
+        />
+      )}
+      {isShowMenuBar && <MenuBar />}
     </S.Wrapper>
   );
 };
@@ -44,8 +81,12 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 32px;
-  margin-bottom: 80px;
+  background: white;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    position: fixed;
+    z-index: 9999;
+  }
 `;
 
 const Ul = styled.ul`
@@ -92,6 +133,8 @@ const RightIconContainer = styled.div`
 const MobileMenuBar = styled.img`
   width: 24px;
   display: none;
+  cursor: pointer;
+  margin-right: 24px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: block;
   }
@@ -101,11 +144,17 @@ const HeaderIcon = styled.img`
   width: 24px;
 `;
 
+const HeaderLogoIcon = styled.img`
+  margin-left: 32px;
+  width: 24px;
+`;
+
 const S = {
   Wrapper,
   LeftContainer,
   RightIconContainer,
   MobileMenuBar,
   HeaderIcon,
+  HeaderLogoIcon,
   Ul,
 };

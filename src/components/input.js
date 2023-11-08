@@ -21,6 +21,9 @@ const sizeCSS = {
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
+
+  // signIn & signUp : large, full
+
   large: css`
     min-width: 585px;
     min-height: 48px;
@@ -36,8 +39,19 @@ const sizeCSS = {
   searchPrice: css`
     width: 764px;
     height: 56px;
-    border-radius: 50%;
+    border-radius: 50px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      width: 300px;
+      height: 40px;
+    }
+
+    @media ${({ theme }) => theme.DEVICE.tablet} {
+      width: 500px;
+      height: 56px;
+    }
+
   `,
   editInfo: css`
     min-width: 780px;

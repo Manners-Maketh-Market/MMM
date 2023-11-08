@@ -39,18 +39,16 @@ const ScrollIcon = () => {
   if (window.location.pathname === "/MMM/chat") return null;
 
   return (
-    <>
+    <S.IconContainer>
       {isShowButton && (
-        <S.IconContainer>
-          <S.IconSet>
-            <S.OneIcon src={ChatIcon} onClick={onGoChattingPage} />
-          </S.IconSet>
-          <S.IconSet onClick={goToScrollTop}>
-            <S.OneIcon src={ScrollTopIcon} />
-          </S.IconSet>
-        </S.IconContainer>
+        <S.IconSet onClick={goToScrollTop}>
+          <S.OneIcon src={ScrollTopIcon} />
+        </S.IconSet>
       )}
-    </>
+      <S.IconSet>
+        <S.OneIcon src={ChatIcon} onClick={onGoChattingPage} />
+      </S.IconSet>
+    </S.IconContainer>
   );
 };
 
@@ -60,6 +58,10 @@ const IconContainer = styled.div`
   position: fixed;
   bottom: 20px;
   right: 50px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    bottom: 10px;
+    right: 25px;
+  }
 `;
 
 const IconSet = styled.div`
@@ -72,12 +74,22 @@ const IconSet = styled.div`
   &:hover {
     cursor: pointer;
   }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const OneIcon = styled.img`
   padding: 10px;
   width: 56px;
   height: 56px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 40px;
+    height: 40px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+  }
 `;
 
 const S = {

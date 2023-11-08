@@ -13,6 +13,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
 
 const SignUpForm = ({ setIsFormLogin }) => {
+
   // goBack to LoginPage, onClick Logo image
   const navigate = useNavigate();
   const onClickSignIn = () => {

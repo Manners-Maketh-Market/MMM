@@ -9,6 +9,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(TokenRepository.getToken());
+  
   useEffect(() => {
     const token = TokenRepository.getToken();
     if (token) setAccessToken(token);
@@ -22,6 +23,7 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+
 
 export const useAuth = () => {
   const [accessToken, setAccessToken] = useContext(AuthContext);

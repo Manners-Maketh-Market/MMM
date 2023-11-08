@@ -1,82 +1,114 @@
-import styled from "styled-components";
-import { Grid, GridItem } from "@chakra-ui/react";
-import OneProduct from "components/one-product";
-import { useQuery } from "react-query";
-import { worker } from "__mock__/browser";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
-import { flexCenter } from "styles/common.style";
-import { useNavigate } from "react-router";
-import MMMButton from "components/button";
+import styled from 'styled-components';
+import OneProduct from 'components/one-product';
+import { useQuery } from 'react-query';
+import { worker } from '__mock__/browser';
+import { PRODUCT_QUERY_KEY } from 'consts';
+import { Api } from 'apis';
+import { flexCenter } from 'styles/common.style';
+import { useNavigate } from 'react-router';
+import { Container, Grid } from '@mui/material';
+import MMMButton from 'components/button';
+import { useSetRecoilState } from 'recoil';
+import { mswDataTest } from 'store';
+import { useEffect } from 'react';
 
 const ProductList = () => {
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
+    if (process.env.NODE_ENV === 'development') {
+        worker.start();
+    }
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const { data: UsedProductList } = useQuery([PRODUCT_QUERY_KEY.USED_PRODUCT_LIST], () => Api.getUsedProduct());
+    // 중고 목록 데이터를 리코일에 저장
+    const setUsed = useSetRecoilState(mswDataTest);
 
-  const { data: FreeProductList } = useQuery([PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST], () => Api.getFreeProduct());
+    const { data: UsedProductList } = useQuery([PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST], () => Api.getUsedProduct());
 
-  const onClickMoreBtn = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
-  };
+    const { data: FreeProductList } = useQuery([PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST], () => Api.getFreeProduct());
 
-  return (
-    UsedProductList &&
-    FreeProductList && (
-      <Wrapper>
-        <UsedTrade>
-          <Title>중고거래</Title>
-          <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15} cursor={"pointer"}>
-            {UsedProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem w="280px" h="" key={idx}>
-                <OneProduct title={item.title} content={item.content} img={item.Product_img} price={item.price} isLiked={item.isLiked} id={item.id} />
-              </GridItem>
-            ))}
-          </Grid>
-          <MMMButton onClick={() => onClickMoreBtn("sell")} variant={"More"} style={{ border: "1px solid #9F9EB3" }}>
-            MORE
-          </MMMButton>
-        </UsedTrade>
-        <Share>
-          <Title>무료나눔</Title>
-          <Grid templateColumns="repeat(4, 1fr)" gap={50} gridColumnGap={15} cursor={"pointer"}>
-            {FreeProductList[0].slice(0, 8).map((item, idx) => (
-              <GridItem w="280px" h="" key={idx}>
-                <OneProduct title={item.title} content={item.content} img={item.Product_img} price={item.price} isLiked={item.isLiked} />
-              </GridItem>
-            ))}
-          </Grid>
-          <MMMButton onClick={() => onClickMoreBtn("free")} variant={"More"} style={{ border: "1px solid #9F9EB3" }}>
-            MORE
-          </MMMButton>
-        </Share>
-      </Wrapper>
-    )
-  );
+    useEffect(() => {
+        setUsed(UsedProductList);
+    }, [UsedProductList]);
+
+    const onClickMoreBtn = (saleStatus) => {
+        navigate(`/products/${saleStatus}`);
+    };
+
+    return (
+        UsedProductList &&
+        FreeProductList && (
+            <Container>
+                <S.UsedTrade>
+                    <S.Title>중고거래</S.Title>
+                    <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
+                        {UsedProductList[0].slice(0, 8).map((item, index) => (
+                            <Grid key={index} item xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
+                                <OneProduct
+                                    title={item.title}
+                                    content={item.content}
+                                    img={item.Product_img}
+                                    price={item.price}
+                                    isLiked={item.isLiked}
+                                    id={item.id}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <MMMButton
+                        onClick={() => onClickMoreBtn('sell')}
+                        variant={'More'}
+                        style={{ border: '1px solid #9F9EB3' }}
+                    >
+                        MORE
+                    </MMMButton>
+                </S.UsedTrade>
+                <S.Share>
+                    <Title>무료나눔</Title>
+
+                    <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
+                        {FreeProductList[0].slice(0, 8).map((item, index) => (
+                            <Grid key={index} item xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
+                                <OneProduct
+                                    title={item.title}
+                                    content={item.content}
+                                    img={item.Product_img}
+                                    price={item.price}
+                                    isLiked={item.isLiked}
+                                    id={item.id}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <MMMButton
+                        onClick={() => onClickMoreBtn('free')}
+                        variant={'More'}
+                        style={{ border: '1px solid #9F9EB3' }}
+                    >
+                        MORE
+                    </MMMButton>
+                </S.Share>
+            </Container>
+        )
+    );
 };
 
 export default ProductList;
 
-const Wrapper = styled.div`
-  flex-direction: column;
-  ${flexCenter}
-  width: 1280px;
-  margin: 70px auto;
-`;
-
 const UsedTrade = styled.div`
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 `;
 
 const Title = styled.h1`
-  font-size: 26px;
-  font-weight: bold;
-  padding: 30px 0;
-  left: 0;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 30px 0;
+    left: 0;
 `;
 
 const Share = styled.div``;
+
+const S = {
+    UsedTrade,
+    Title,
+    Share,
+};
