@@ -54,8 +54,10 @@ const Wrapper = styled.div`
   }
   &:hover {
     cursor: pointer;
-    box-shadow: 4px 4px 4px 4px ${({ theme }) => theme.COLORS.gray[400]};
+    box-shadow: 3px 3px 3px 3px ${({ theme }) => theme.COLORS.gray[100]};
     transform: translateY(-8px);
+    transition: all ease 0.2s;
+    border-radius: 10px;
   }
 
   .content {
