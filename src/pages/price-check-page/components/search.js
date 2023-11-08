@@ -7,12 +7,15 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const PriceSearch = () => {
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
+  const [isMouseHover, setIsMouseHover] = useState(false);
 
   //const { skipTitleView } = useMaxLength();
+  const navigate = useNavigate();
 
   const { data: UsedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
@@ -34,7 +37,23 @@ const PriceSearch = () => {
 
   // 포커스아웃시 검색목록 사라지게 하는 모달
   const onNoneSearchListModal = () => {
+    if (!isMouseHover) setSearchModal(false);
+  };
+
+  // 연관검색어 클릭시 해당 상품 시세페이지로 이동
+  const onRelatedSearchWord = (title) => {
+    navigate(`/pricecheckpage/${title}`);
+    window.scrollTo({ top: 0 });
     setSearchModal(false);
+  };
+
+  // 마우스가 검색어 위에 올라가있으면 검색창이 닫히지 않게
+  const onMouseHoverEvent = () => {
+    setIsMouseHover(true);
+  };
+
+  const onMouseLeaveEvent = () => {
+    setIsMouseHover(false);
   };
 
   return (
@@ -70,7 +89,11 @@ const PriceSearch = () => {
           {filter.length >= 1 ? (
             <div>
               {filter.slice(0, 10).map((list) => (
-                <ListWrap>
+                <ListWrap
+                  onClick={() => onRelatedSearchWord(list.title)}
+                  onMouseEnter={() => onMouseHoverEvent()}
+                  onMouseLeave={() => onMouseLeaveEvent()}
+                >
                   <SearchIconWrap>
                     <SearchIcon src={SearchIconImage} />
                   </SearchIconWrap>
