@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useQueryClient } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { useRecoilValue } from "recoil";
 import { buyerChatDataIndex } from "store";
+import { useQueryClient } from "react-query";
 
 const ProductBar = () => {
   const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);

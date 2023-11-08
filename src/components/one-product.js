@@ -49,22 +49,30 @@ const Wrapper = styled.div`
   ${flexCenter};
   flex-direction: column;
 
+  @media screen and (min-width: 1023px) {
+    width: 290px;
+  }
+  &:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 4px 4px ${({ theme }) => theme.COLORS.gray[400]};
+    transform: translateY(-8px);
+  }
+
   .content {
     @media ${({ theme }) => theme.DEVICE.mobile} {
       width: 50%;
     }
-    @ ${({ theme }) => theme.DEVICE.tablet} {
+    @media ${({ theme }) => theme.DEVICE.tablet} {
       width: 50%;
     }
   }
-
 `;
 
 const ProductImg = styled.img`
   width: 280px;
   height: 280px;
   border-radius: 16px;
-  
+
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
     height: 90%;
@@ -73,7 +81,6 @@ const ProductImg = styled.img`
     width: 90%;
     height: 90%;
   }
-
 `;
 
 const TitleAndLikeBox = styled.div`
@@ -88,7 +95,6 @@ const TitleAndLikeBox = styled.div`
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
-
 `;
 
 const Title = styled.div`
@@ -131,7 +137,6 @@ const Content = styled.div`
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
-
 `;
 
 const Price = styled.div`
@@ -148,7 +153,6 @@ const Price = styled.div`
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 90%;
   }
-
 `;
 
 const S = {

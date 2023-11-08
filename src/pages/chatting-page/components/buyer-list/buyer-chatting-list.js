@@ -3,16 +3,11 @@ import OneChat from "./one-buyer-chat";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
-import { worker } from "__mock__/browser";
 import { useRecoilValue } from "recoil";
 import { isMobileChattingRoom } from "store";
 
 const BuyerChattingList = () => {
   const isMobileChattingRoomState = useRecoilValue(isMobileChattingRoom);
-
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
 
   const { data: buyerData } = useQuery(
     [PRODUCT_QUERY_KEY.BUYER_CHAT_DATA],
@@ -28,7 +23,7 @@ const BuyerChattingList = () => {
             index={index}
             profileImg={el.User.profileImg}
             nickName={el.User.nickName}
-            buyerChat={el.User.chatData.buyer[0]}
+            buyerChat={el.User.chatData.buyer.at(-1)}
             productImg={el.Product_img}
           />
         ))}
