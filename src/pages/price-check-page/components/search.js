@@ -14,6 +14,8 @@ const PriceSearch = () => {
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
 
+  const { skipTitleView } = useMaxLength();
+
   //const { skipTitleView } = useMaxLength();
   const navigate = useNavigate();
 
@@ -97,7 +99,7 @@ const PriceSearch = () => {
                   <SearchIconWrap>
                     <SearchIcon src={SearchIconImage} />
                   </SearchIconWrap>
-                  {list.title}
+                  {skipTitleView(list.title)}
                 </ListWrap>
               ))}
             </div>
@@ -119,10 +121,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  height: 50px;
-  padding-bottom: 100px;
+  height: 70px;
+  // padding-bottom: 40px;
   text-align: center;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
@@ -135,16 +137,16 @@ const Title = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
   @media ${({ theme }) => theme.DEVICE.mobile} {
     display: none;
   }
 `;
 
 const SearchList = styled.div`
-  width: 764px;
+  width: 450px;
   text-align: left;
   position: relative;
 
@@ -153,7 +155,7 @@ const SearchList = styled.div`
   }
 
   @media ${({ theme }) => theme.DEVICE.tablet} {
-    width: 500px;
+    width: 400px;
   }
 
   & > div {

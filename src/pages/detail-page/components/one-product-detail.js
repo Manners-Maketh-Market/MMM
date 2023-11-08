@@ -6,12 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { UsePriceComma } from "hooks/use-price-comma";
-import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
-import { MockProductsData } from "__mock__/faker-data";
-import { mswDataTest } from "store";
-import { mswDataSell } from "store";
-import { mswDataFree } from "store";
+import { useQuery } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
 
 const OneProductDetail = () => {
   // 임시로 사용할 데이터
@@ -21,10 +19,13 @@ const OneProductDetail = () => {
   // id 값과 같은 데이터를 recoil에 저장한 use데이터목록에서 가져오기
   const param = useParams();
   const dataId = param.id;
-  const Used = useRecoilValue(mswDataSell);
-  const Free = useRecoilValue(mswDataFree);
-  const Full = Used && Free && Used[0].concat(Free[0]);
-  const detailItem = Full && Full.filter((item) => item.id === dataId);
+
+  const { data: UsedProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
+    () => Api.getUsedProduct()
+  );
+
+  const detailItem = UsedProductList[0].filter((item) => item.id === dataId);
 
   const marketPricePage = () => {
     const titleValue = detailItem[0].title;
@@ -95,7 +96,7 @@ const OneProductDetail = () => {
             {/*관련 상품 목록 */}
             <RelatedProduct>
               <span>연관상품</span>
-              <ImgSlider related={Used[0]} />
+              <ImgSlider related={UsedProductList[0]} />
             </RelatedProduct>
           </ProductDetail>
         </Wrapper>
