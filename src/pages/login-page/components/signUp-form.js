@@ -32,11 +32,11 @@ const SignUpForm = () => {
   const onSubmitSignUp = (e) => {
     e.preventDefault();
     const signupUserData = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-      nickName: e.target.nickName.value,
-      phoneNumber: e.target.phoneNumber.value,
-      location: e.target.location.value,
+      email: e.target.email,
+      password: e.target.password,
+      nickName: e.target.nickName,
+      phoneNumber: e.target.phoneNumber,
+      location: e.target.location,
       signupUserIndex: readsignupUserListIndex,
     };
     const signupData = JSON.stringify(signupUserData);

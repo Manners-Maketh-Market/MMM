@@ -70,13 +70,14 @@ const buyerData = [
 ];
 
 const signupUserData = [
-  {
+  {user:{
     id: shortId.generate(),
     email: faker.internet.email(),
     password: faker.lorem.sentence(),
     nickName: faker.person.fullName(),
     phoneNumber: faker.phone.number(),
     location: faker.location.cityName(),
+  }
   },
 ]
 
