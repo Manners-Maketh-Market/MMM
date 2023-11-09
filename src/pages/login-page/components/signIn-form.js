@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useAuth } from "provider/authProvider";
 
 const SignInForm = () => {
-
   const [{ email, password }, onChangeInputs] = useInputs({
     email: "",
     password: "",
@@ -44,7 +43,6 @@ const SignInForm = () => {
   // sign-up button
   const onClickSignUp = () => {
     navigate("/sign-up");
-
   };
 
   return (
@@ -103,9 +101,7 @@ const Form = styled.form`
         border-radius: 4px;
         font-size: 10px;
       }
-      & > label {
-        font-size: 10px;
-      }
+      & > label,
       & > p {
         font-size: 10px;
       }
@@ -123,9 +119,7 @@ const Form = styled.form`
         border-radius: 6px;
         font-size: 12px;
       }
-      & > label {
-        font-size: 12px;
-      }
+      & > label,
       & > p {
         font-size: 12px;
       }
@@ -141,9 +135,7 @@ const Form = styled.form`
         min-height: 48px;
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
-      & > label {
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
+      & > label,
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
@@ -187,15 +179,5 @@ const ButtonBox = styled.div`
       min-width: 620px;
       min-height: 48px;
     }
-  }
-`;
-
-const ButtonBox = styled.div`
-  ${flexCenter}
-  flex-direction: column;
-  margin: 95px 0;
-
-  & > button {
-    margin: 5px 0;
   }
 `;
