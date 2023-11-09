@@ -1,12 +1,17 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import MMMlogo from "../../../images/logo/MMMlogo.png";
+import { useParams } from "react-router-dom";
 
 const NoResultPage = () => {
+  const { searchValue } = useParams();
+
   return (
     <S.Wrapper>
       <S.MMMLogo src={MMMlogo} alt="logo" />
-      <S.NoResultText>검색하신 결과가 없습니다.</S.NoResultText>
+      <S.NoResultText>
+        <S.SearchValue>{searchValue}</S.SearchValue> 의 검색 결과가 없습니다.
+      </S.NoResultText>
     </S.Wrapper>
   );
 };
@@ -32,8 +37,13 @@ const NoResultText = styled.p`
   margin: 40px;
 `;
 
+const SearchValue = styled.span`
+  color: ${({ theme }) => theme.COLORS.error};
+`;
+
 const S = {
   MMMLogo,
   NoResultText,
   Wrapper,
+  SearchValue,
 };
