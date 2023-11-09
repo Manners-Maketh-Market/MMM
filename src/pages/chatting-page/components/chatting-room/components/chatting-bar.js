@@ -1,34 +1,82 @@
 import styled from "styled-components";
+import { useQuery } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { useRecoilValue } from "recoil";
+import { buyerChatDataIndex } from "store";
+import { Api } from "apis";
+import { isCreateChat } from "store";
 
-const ChattingBar = () => {
-  return <S.Wrapper></S.Wrapper>;
+const ChattingBar = ({ newData }) => {
+  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
+  const isCreateChatState = useRecoilValue(isCreateChat);
+
+  const { data: buyerData } = useQuery(
+    [PRODUCT_QUERY_KEY.BUYER_CHAT_DATA, isCreateChatState],
+    () => Api.getBuyerChatData()
+  );
+
+  return (
+    buyerData && (
+      <S.Wrapper>
+        {buyerData[0][readBuyerChatListIndex]?.User.chatData.buyer.map(
+          (chat) => (
+            <S.BuyerBar>{chat}</S.BuyerBar>
+          )
+        )}
+        {buyerData[0][readBuyerChatListIndex]?.User.chatData.marketer.map(
+          (chat) => (
+            <S.MarketerFlex>
+              <S.MarketerBar>{chat}</S.MarketerBar>
+            </S.MarketerFlex>
+          )
+        )}
+      </S.Wrapper>
+    )
+  );
 };
 
 export default ChattingBar;
 
 const Wrapper = styled.div`
-  height: 1104px;
+  height: 380px;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
+
+const BuyerBar = styled.p`
+  margin: 12px;
+  width: max-content;
+  padding: 10px;
+  border-radius: 24px;
+  background-color: rgba(40, 33, 144, 0.1);
+  max-width: 400px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  white-space: -moz-pre-wrap;
+`;
+
+const MarketerFlex = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const MarketerBar = styled.p`
+  margin: 6px 12px;
+  width: max-content;
+  padding: 10px;
+  border-radius: 24px;
+  color: ${({ theme }) => theme.COLORS.white};
+  background-color: ${({ theme }) => theme.COLORS.primary.logo};
+  max-width: 400px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  white-space: -moz-pre-wrap;
+`;
+
 const S = {
   Wrapper,
+  BuyerBar,
+  MarketerFlex,
+  MarketerBar,
 };
-
-
-/*
- 스타일 
- 백그라운드 컬러
- 굴곡
- 바
- 틀
-
- const ChattingBar = ({프롭으로 비동기 받아온 데이터.user.chatting 배열을 받고, 2}) => {
-
-  위에서 만든 틀안에 랜더
-
-  채팅 바를 2개로 나눠서
-
-  하나는 상대방 데이터 map 돌리고
-
-  하나는 내 채팅 추가된 데이터 map
-  
-*/

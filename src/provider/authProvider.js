@@ -1,14 +1,15 @@
 import AuthApi from "apis/auth";
 import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
+import { Navigate } from "react-router-dom";
 import TokenRepository from "repository/TokenRepository";
 
 const AuthContext = createContext();
+// const navigate = Navigate();
 
 const AuthProvider = ({ children }) => {
-  // user의 로그인/로그아웃 여부를 알 수 있는 state
   const [accessToken, setAccessToken] = useState(TokenRepository.getToken());
-
+  
   useEffect(() => {
     const token = TokenRepository.getToken();
     if (token) setAccessToken(token);
@@ -23,9 +24,10 @@ const AuthProvider = ({ children }) => {
 
 export default AuthProvider;
 
-// accessToken에 data 넣기
+
 export const useAuth = () => {
   const [accessToken, setAccessToken] = useContext(AuthContext);
+  // TypeError: undefined is not iterable
   const signIn = async ({ email, password }, option) => {
     try {
       const response = await AuthApi.signIn(email, password);
@@ -33,13 +35,13 @@ export const useAuth = () => {
       TokenRepository.setToken(response.data.token);
       if (TokenRepository.getToken()) {
         option.onSuccess();
+        // navigate("/");
       }
     } catch (err) {
       option.onFailure(err);
     }
   };
 
-  // signUp이 여러 군데에 있다면 authProvider에 작성
   const signUp = async ({ email, password }, option) => {
     const response = await AuthApi.signUp(email, password);
     option.onSuccess(response);
@@ -47,13 +49,13 @@ export const useAuth = () => {
 
   const signOut = async () => {
     await AuthApi.signOut();
-    setAccessToken(null); // 유효하지 않은 Token
+    setAccessToken(null);
     TokenRepository.deleteToken();
+    // navigate("/");
   };
 
   return {
-    // !!accessToken > 값이 있는 거에 !! 붙이면 불리언 형태로 변함
-    // isLogin: !!accessToken,
+    isLogin: !!accessToken,
     accessToken,
     signIn,
     signUp,

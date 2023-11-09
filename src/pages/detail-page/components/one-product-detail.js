@@ -1,5 +1,5 @@
 import MMMButton from "components/button";
-import ImgSlider from "components/imgSlider";
+import ImgSlider from "components/img-slider";
 import styled from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import MannerTemperature from "components/manner-temperature";
 
 const OneProductDetail = () => {
   // 임시로 사용할 데이터
@@ -52,18 +53,23 @@ const OneProductDetail = () => {
                 {/* <hr /> */}
                 <UserProf>
                   <UserImgIdLoc>
-                    <ProfileImg>
-                      <img
-                        src={detailItem[0].User.profileImg}
-                        width={"100%"}
-                        height={"100%"}
-                        alt="ProfileImg"
-                      ></img>
-                    </ProfileImg>
-                    <UserIdLoc>
-                      <p>{detailItem[0].User.id}</p>
-                      <p>{detailItem[0].location}</p>
-                    </UserIdLoc>
+                    <UserProfBox>
+                      <ProfileImg>
+                        <img
+                          src={detailItem[0].User.profileImg}
+                          width={"100%"}
+                          height={"100%"}
+                          alt="ProfileImg"
+                        ></img>
+                      </ProfileImg>
+                      <UserIdLoc>
+                        <p>{detailItem[0].User.id}</p>
+                        <p>{detailItem[0].location}</p>
+                      </UserIdLoc>
+                    </UserProfBox>
+                    <MannerTemperature
+                      user={detailItem[0].User}
+                    ></MannerTemperature>
                   </UserImgIdLoc>
                 </UserProf>
                 <ul>
@@ -109,6 +115,9 @@ export default OneProductDetail;
 
 const Wrapper = styled.div`
   ${flexCenter}
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const ProductDetail = styled.div`
@@ -144,7 +153,7 @@ const Inform = styled.div`
   }
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
-    padding-top: 100px;
+    padding-top: 50px;
     margin-right: 52px;
   }
   @media ${({ theme }) => theme.DEVICE.tablet} {
@@ -197,16 +206,22 @@ const ProfileImg = styled.div`
 `;
 
 const UserProf = styled.div`
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
 
   border-top: 1px solid #e1e1e1;
   padding-top: 20px;
 `;
 
 const UserImgIdLoc = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  justify-content: space-between;
+`;
+
+const UserProfBox = styled.div`
   ${flexCenter}
-  padding-bottom:20px;
 `;
 
 const List = styled.li`

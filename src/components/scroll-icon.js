@@ -58,6 +58,10 @@ const IconContainer = styled.div`
   position: fixed;
   bottom: 20px;
   right: 50px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    bottom: 10px;
+    right: 25px;
+  }
 `;
 
 const IconSet = styled.div`
@@ -70,12 +74,22 @@ const IconSet = styled.div`
   &:hover {
     cursor: pointer;
   }
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const OneIcon = styled.img`
   padding: 10px;
   width: 56px;
   height: 56px;
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 40px;
+    height: 40px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+  }
 `;
 
 const S = {

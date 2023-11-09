@@ -27,13 +27,11 @@ const TitleContainer = styled.div`
   @media ${({ theme }) => theme.DEVICE.mobile} {
     justify-content: flex-start;
     flex-direction: column;
-    width: 767px;
     margin-left: 32px;
   }
   @media ${({ theme }) => theme.DEVICE.tablet} {
     justify-content: flex-start;
     flex-direction: column;
-    width: 1023px;
     margin-left: 32px;
   }
 `;

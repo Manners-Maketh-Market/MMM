@@ -7,13 +7,12 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PriceSearch = () => {
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
-  const [focusIdx, setFocusIdx] = useState(-1);
 
   const { skipTitleView } = useMaxLength();
 
@@ -63,7 +62,6 @@ const PriceSearch = () => {
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       navigate(`/pricecheckpage/${e.target.value}`);
-      console.log("안주현");
     }
   };
 
@@ -100,9 +98,8 @@ const PriceSearch = () => {
         <SearchList>
           {filter.length >= 1 ? (
             <div>
-              {filter.slice(0, 10).map((list, idx) => (
+              {filter.slice(0, 10).map((list) => (
                 <ListWrap
-                  focus={focusIdx === idx}
                   onClick={() => onRelatedSearchWord(list.title)}
                   onMouseEnter={() => onMouseHoverEvent()}
                   onMouseLeave={() => onMouseLeaveEvent()}
@@ -128,7 +125,12 @@ export default PriceSearch;
 const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
+
   position: relative;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    padding-top: 80px;
+  }
 `;
 
 const Title = styled.div`
