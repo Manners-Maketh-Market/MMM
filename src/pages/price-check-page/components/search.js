@@ -13,6 +13,7 @@ const PriceSearch = () => {
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
+  const [focusIdx, setFocusIdx] = useState(-1);
 
   const { skipTitleView } = useMaxLength();
 
@@ -58,6 +59,14 @@ const PriceSearch = () => {
     setIsMouseHover(false);
   };
 
+  // 엔터키 눌렀을 때 해당 품목 시세페이지로 이동
+  const onKeyPressEnter = (e) => {
+    if (e.key === "Enter") {
+      navigate(`/pricecheckpage/${e.target.value}`);
+      console.log("안주현");
+    }
+  };
+
   return (
     <Wrapper>
       <Title>시세조회</Title>
@@ -67,6 +76,7 @@ const PriceSearch = () => {
           onFocus={onSearchListModal}
           onBlur={onNoneSearchListModal}
           onChange={onTitleChange}
+          onKeyPress={onKeyPressEnter}
           size={"searchPriceFocus"}
           placeholder="어떤 시세 정보가 궁금하세요?"
           style={{
@@ -90,8 +100,9 @@ const PriceSearch = () => {
         <SearchList>
           {filter.length >= 1 ? (
             <div>
-              {filter.slice(0, 10).map((list) => (
+              {filter.slice(0, 10).map((list, idx) => (
                 <ListWrap
+                  focus={focusIdx === idx}
                   onClick={() => onRelatedSearchWord(list.title)}
                   onMouseEnter={() => onMouseHoverEvent()}
                   onMouseLeave={() => onMouseLeaveEvent()}
@@ -156,6 +167,7 @@ const SearchList = styled.div`
 
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 400px;
+    top: 30px;
   }
 
   & > div {
