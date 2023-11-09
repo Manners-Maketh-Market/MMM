@@ -30,9 +30,18 @@ export const isCreateChat = atom({
   default: false,
 });
 
-export const IsFormLogin = atom({
-  key: "IsFormLogin",
-  default: false,
+export const user = atom({
+  key: "user",
+  default: {
+    email: "",
+    nickName: "",
+  },
+});
+
+// 로그인 여부 확인
+export const isLogin = atom({
+  key: "isLogin",
+  default: localStorage.getItem("token") ? true : false,
 });
 
 export const signupUserDataIndex = atom({
