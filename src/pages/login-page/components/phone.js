@@ -54,72 +54,72 @@ export default Phone;
 
 const Wrapper = styled.div`
   border: none;
-  margin: 0px;
+  margin: 30px 0 40px;
   outline: none;
   color: ${({ theme }) => theme.COLORS.gray[400]};
-  padding-bottom: 30px;
 
   & > input {
-    width: 918px;
-    height: 48px;
+    position: relative;
+    min-width: 918px;
+    min-height: 48px;
     border-radius: 6px;
     padding-left: 16px;
     margin: 4px 0 4px;
     ${flexCenter};
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+
+    @media ${({ theme }) => theme.DEVICE.tablet2} {
+      min-width: 320px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    @media ${({ theme }) => theme.DEVICE.laptop} {
+      min-width: 620px;
+    }
   }
 
   & > label {
-    padding-left: 12px;
+    position: absolute;
+    margin-top: -2%;
+    margin-left: 12px;
     color: ${({ theme }) => theme.COLORS["black"]};
     font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
     ${flexAlignCenter};
     align-items: flex-start;
-  }
 
-  // mediaQuery
-  @media ${({ theme }) => theme.DEVICE.smallMobile} {
-    & > div {
-      & > input {
-        min-width: 320px;
-        min-height: 42px;
-        border-radius: 6px;
-        font-size: 12px;
-      }
-      & > label {
-        font-size: 12px;
-      }
-      & > p {
-        font-size: 12px;
-      }
+    @media ${({ theme }) => theme.DEVICE.smallMobile} {
+      margin-top: -8px;
+      font-size: 12px;
+    }
+    @media ${({ theme }) => theme.DEVICE.tablet2} {
+      margin-left: -76%;
+      margin-top: -19%;
+      font-size: 12px;
+    }
+    @media ${({ theme }) => theme.DEVICE.laptop} {
+      margin-left: -86%;
+      margin-top: -12%;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
   }
+
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+  }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    flex-direction: column;
+
     & > div {
-      & > input {
-        min-width: 320px;
-        min-height: 42px;
-        border-radius: 6px;
-        font-size: 12px;
-      }
-      & > label {
-        font-size: 12px;
-      }
       & > p {
         font-size: 12px;
       }
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    flex-direction: column;
     & > div {
-      & > input {
-        min-width: 620px;
-        min-height: 48px;
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
-      & > label {
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }

@@ -4,15 +4,13 @@ import { formValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
-import axios from "axios";
-import { useState } from "react";
+import { flexCenter } from "styles/common.style";
 import { useAuth } from "provider/authProvider";
+import { user } from "store";
+import { isLogin } from "store";
+import { useSetRecoilState } from "recoil";
 
 const SignInForm = () => {
-
   const [{ email, password }, onChangeInputs] = useInputs({
     email: "",
     password: "",
@@ -20,39 +18,28 @@ const SignInForm = () => {
   const { disabled, errors } = formValidate({ email, password });
   const navigate = useNavigate();
 
-  const setAccessToken = useSetRecoilState(TokenAtom);
-  const isLogin = useRecoilValue(isLoginSelector);
-
   // 직접 로그인 페이지로 온 경우
   const location = useLocation();
   const from = location?.state?.redirectedFrom?.pathname || "/";
 
-  // // sign-in button > login
-  // const onSubmitSignIn = async (e) => {
-  //   e.preventDefault();
+  const { signIn } = useAuth();
+  const setUser = useSetRecoilState(user);
+  const setIsLogin = useSetRecoilState(isLogin);
 
-  //   // await signIn({ email, password });
-  //   axios.post("/user/login", { id: email, pw: password }).then((res) => {
-  //     setAccessToken(res.data.accessToken);
-  //     navigate(from);
-  //   });
-
-  //   // if (email === "test@test.com" && password === "test") {return navigate("/");}
-  //   // alert("아이디와 비밀번호를 다시 한번 확인해주세요");
-  // };
-
-  const onSubmitSignIn = (e) => {
+  const onSubmitSignIn = async (e) => {
     e.preventDefault();
-    if (email === "test@test.com" && password === "test") {
-      return navigate("/");
+    try {
+      const loggedInUser = await signIn({ email, password });
+      setUser(loggedInUser);
+      setIsLogin(true);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
     }
-    alert("아이디와 비밀번호를 다시 한번 확인해주세요");
   };
 
-  // sign-up button
   const onClickSignUp = () => {
     navigate("/sign-up");
-
   };
 
   return (
@@ -111,9 +98,7 @@ const Form = styled.form`
         border-radius: 4px;
         font-size: 10px;
       }
-      & > label {
-        font-size: 10px;
-      }
+      & > label,
       & > p {
         font-size: 10px;
       }
@@ -131,9 +116,7 @@ const Form = styled.form`
         border-radius: 6px;
         font-size: 12px;
       }
-      & > label {
-        font-size: 12px;
-      }
+      & > label,
       & > p {
         font-size: 12px;
       }
@@ -149,9 +132,7 @@ const Form = styled.form`
         min-height: 48px;
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
-      & > label {
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
+      & > label,
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
@@ -163,7 +144,10 @@ const ButtonBox = styled.div`
   ${flexCenter}
   flex-direction: column;
   margin: 95px 0;
+
   & > button {
+    min-width: 918px;
+    min-height: 46px;
     margin: 5px 0;
   }
 
@@ -197,4 +181,3 @@ const ButtonBox = styled.div`
     }
   }
 `;
-

@@ -2,89 +2,70 @@ import { formValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
-import { useMutation } from "react-query";
 import styled from "styled-components";
 import Phone from "./phone";
 import Location from "./location";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
+import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "provider/authProvider";
-import axios from "axios";
+import { isLogin } from "store";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
-import { IsFormLogin } from "store";
-import { Api } from "apis";
+import { user } from "store";
 import { signupUserDataIndex } from "store";
+import { useMutation } from "react-query";
+import { Api } from "apis";
 
 const SignUpForm = () => {
-
-  const setIsFormLogin = useSetRecoilState(IsFormLogin);
-  const readsignupUserListIndex = useRecoilValue(signupUserDataIndex);
-
-  const { mutate } = useMutation((signupUserData) => Api.postUserData(signupUserData));
-
-  // goBack to LoginPage, onClick Logo image
+  // onClick LogoImage, goBack to LoginPage
   const navigate = useNavigate();
   const onClickSignIn = () => {
     navigate("/sign-in");
   };
 
-  const onSubmitSignUp = (e) => {
+  const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
+    useInputs({
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      nickName: "",
+    });
+  const { disabled, errors, access } = formValidate({
+    email,
+    password,
+    passwordConfirm,
+    nickName,
+  });
+
+  const { signUp } = useAuth();
+  const setUser = useSetRecoilState(user);
+  const setIsLogin = useSetRecoilState(isLogin);
+  const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
+  const { mutate } = useMutation((signupUserData) =>
+    Api.postUserData(signupUserData)
+  );
+
+  const onSubmitSignUp = async (e) => {
     e.preventDefault();
-    const signupUserData = {
-      email: e.target.email,
-      password: e.target.password,
-      nickName: e.target.nickName,
-      phoneNumber: e.target.phoneNumber,
-      location: e.target.location,
-      signupUserIndex: readsignupUserListIndex,
-    };
-    const signupData = JSON.stringify(signupUserData);
-    mutate(signupData);
-    setIsFormLogin(true);
+    try {
+      const signupUserData = {
+        email: e.target.email,
+        password: e.target.password,
+        nickName: e.target.nickName,
+        phoneNumber: e.target.phoneNumber,
+        location: e.target.location,
+        signupUserIndex: readSignupUserListIndex,
+      };
+      const signupData = JSON.stringify(signupUserData);
+      mutate(signupData);
+      setUser(signupData);
+      setIsLogin(true);
+      console.log(signupData);
+      navigate("/sign-in");
+      alert("환영합니다! 회원 가입이 완료되었습니다!");
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  // const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
-  //   useInputs({
-  //     email: "",
-  //     password: "",
-  //     passwordConfirm: "",
-  //     nickName: "",
-  //   });
-
-  // const { disabled, errors, access } = formValidate({
-  //   email,
-  //   password,
-  //   passwordConfirm,
-  //   nickName,
-  // });
-
-  // const { signUp } = useAuth();
-  // const setAccessToken = useSetRecoilState(TokenAtom);
-  // const isLogin = useRecoilValue(isLoginSelector);
-
-  // onSuccess
-  // const onSubmitSignUp = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     // await signUp({ email, password, nickName }); setIsFormLogin(true);
-  //     axios.post("/user/login", { id: email, pw: password }).then((res) => {
-  //       setAccessToken(res.data.accessToken);
-  //       isLogin(true);
-  //     });
-  //     alert("회원가입이 되었습니다. 축하합니다.");
-  //     navigate("/sign-in"); // 회원가입과 동시에 로그인, 혹은 회원가입 후 로그인 창으로 보내기?
-  //   } catch {
-  //     alert("회원가입이 정상적으로 이루어지지 않았습니다, 죄송합니다.");
-  //   }
-  // };
-
-  // const onSubmitSignUp = (e) => {
-  //   e.preventDefault();
-  //   // 로그인으로 어떻게 보내지?
-  //   alert("회원가입이 되었습니다. 축하합니다");
-  //   setIsFormLogin(true);
-  // };
 
   return (
     <Wrapper>
@@ -96,48 +77,44 @@ const SignUpForm = () => {
             name="email"
             type="text"
             placeholder="이메일을 입력해주세요"
-            // onChange={onChangeInputs}
-            // error={errors.email}
-            // access={access.email}
+            onChange={onChangeInputs}
+            error={errors.email}
+            access={access.email}
             size={"large"}
           />
           <MMMButton size={"confirm"} type="button">
             중복확인
           </MMMButton>
         </OneRow>
-        <OneRow>
-          <MMMInput
-            label="비밀번호"
-            name="password"
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            // onChange={onChangeInputs}
-            // error={errors.password}
-            // access={access.password}
-            size={"full"}
-            maxLength={12}
-          />
-        </OneRow>
-        <OneRow>
-          <MMMInput
-            label="비밀번호 확인"
-            name="passwordConfirm"
-            type="password"
-            placeholder="비밀번호 확인"
-            // error={errors.passwordConfirm}
-            // onChange={onChangeInputs}
-            size={"full"}
-          />
-        </OneRow>
+        <MMMInput
+          label="비밀번호"
+          name="password"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          onChange={onChangeInputs}
+          error={errors.password}
+          access={access.password}
+          size={"full"}
+          maxLength={12}
+        />
+        <MMMInput
+          label="비밀번호 확인"
+          name="passwordConfirm"
+          type="password"
+          placeholder="비밀번호 확인"
+          error={errors.passwordConfirm}
+          onChange={onChangeInputs}
+          size={"full"}
+        />
         <OneRow>
           <MMMInput
             label="닉네임"
             name="nickName"
             type="text"
             placeholder="닉네임을 입력해주세요."
-            // onChange={onChangeInputs}
-            // error={errors.nickName}
-            // access={access.nickName}
+            onChange={onChangeInputs}
+            error={errors.nickName}
+            access={access.nickName}
             size={"large"}
             maxLength={10}
           />
@@ -145,13 +122,11 @@ const SignUpForm = () => {
             중복확인
           </MMMButton>
         </OneRow>
-        <OneRow>
-          <Phone />
-        </OneRow>
+        <Phone />
         <Location />
-        <MMMButton 
+        <MMMButton
           size={"full"}
-          // disabled={disabled}
+          disabled={disabled}
           type="submit"
           onClick={onSubmitSignUp}
         >
@@ -166,6 +141,7 @@ export default SignUpForm;
 
 const Wrapper = styled.div`
   position: relative;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -173,18 +149,19 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   overflow-x: hidden;
-  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const Logo = styled.div`
   position: absolute;
-  top: 180px;
+  top: 0;
   width: 230px;
   height: 90px;
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url("../../MMMlogo.png");
 
-  // mediaQuery - logo image
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     width: 150px;
     height: 60px;
@@ -197,18 +174,31 @@ const Logo = styled.div`
 
 const Form = styled.form`
   position: absolute;
-  top: 340px;
-  left: 50%;
-  transform: translateX(-50%);
-  ${flexAlignCenter}
+  top: 180px;
+  ${flexCenter}
   flex-direction: column;
-  justify-content: space-evenly;
+
   & > button {
+    min-width: 918px;
+    min-height: 46px;
     margin: 100px 0;
   }
 
-  // mediaQuery - submit button
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 200px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
     & > button {
       min-width: 200px;
       min-height: 38px;
@@ -217,6 +207,22 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-right: -10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
     & > button {
       min-width: 320px;
       min-height: 42px;
@@ -225,18 +231,35 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 620px;
+        min-height: 48px;
+        margin-right: -10px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
     & > button {
       min-width: 620px;
-      min-height: 48px;
+      min-height: 46px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
   }
 `;
 
 const OneRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  flex-direction: row;
+
   & > button {
     border: 1px solid #282190;
     background-color: #fff;
@@ -245,11 +268,71 @@ const OneRow = styled.div`
     margin-top: 20px;
   }
 
-  // mediaQuery - inputBox
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 150px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
+    }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 240px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
   }
 `;

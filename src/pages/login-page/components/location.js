@@ -3,6 +3,7 @@ import MMMInput from "components/input";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { flexCenter } from "styles/common.style";
 
 const Location = () => {
   const { kakao } = window;
@@ -75,5 +76,72 @@ const OneRow = styled.div`
     color: #282190;
     font-weight: 600;
     margin-top: 20px;
+  }
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 150px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 240px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
   }
 `;
