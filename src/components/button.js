@@ -62,8 +62,8 @@ const sizeCSS = {
     border-radius: 8px;
   `,
   small: css`
-    width: 200px;
-    height: 46px;
+    min-width: 200px;
+    min-height: 46px;
     border-radius: 4px;
     margin-left: 12px;
   `,
@@ -84,13 +84,13 @@ const sizeCSS = {
     margin-left: 20px;
   `,
   large: css`
-    width: 330px;
-    height: 46px;
+    max-width: 330px;
+    max-height: 46px;
     border-radius: 6px;
   `,
   full: css`
-    min-width: 918px;
-    min-height: 46px;
+    max-width: 918px;
+    max-height: 46px;
     border-radius: 10px;
   `,
 };

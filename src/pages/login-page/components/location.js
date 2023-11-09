@@ -76,74 +76,72 @@ const OneRow = styled.div`
     color: #282190;
     font-weight: 600;
     margin-top: 20px;
-
-    @media ${({ theme }) => theme.DEVICE.smallMobile} {
-      min-width: 200px;
-      min-height: 38px;
-      border-radius: 4px;
-      font-size: 10px;
-      margin: -16px 0 32px;
-    }
-    @media ${({ theme }) => theme.DEVICE.tablet2} {
-      min-width: 320px;
-      min-height: 42px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin: -16px 0 60px;
-    }
-    @media ${({ theme }) => theme.DEVICE.laptop} {
-      min-width: 620px;
-      min-height: 46px;
-      margin: -16px 0 60px;
-    }
   }
 
-  // mediaQuery - inputBox
+  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
-    ${flexCenter}
-    flex-direction: column;
+    max-width: 240px;
 
     & > div {
-      & > label,
-      & > p {
-        font-size: 10px;
-      }
       & > input {
-        min-width: 200px;
-        min-height: 40px;
+        min-width: 150px;
+        min-height: 38px;
         border-radius: 4px;
         font-size: 10px;
       }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
     }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
-    ${flexCenter}
-    flex-direction: column;
+    max-width: 400px;
 
     & > div {
-      & > label,
-      & > p {
-        font-size: 12px;
-      }
       & > input {
-        min-width: 320px;
+        min-width: 240px;
         min-height: 42px;
         border-radius: 6px;
         font-size: 12px;
       }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    ${flexCenter}
-    flex-direction: column;
+    max-width: 700px;
+
     & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
       & > label,
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
-      & > input {
-        min-width: 620px;
-      }
+    }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
   }
 `;

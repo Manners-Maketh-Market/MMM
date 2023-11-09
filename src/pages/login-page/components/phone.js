@@ -54,10 +54,9 @@ export default Phone;
 
 const Wrapper = styled.div`
   border: none;
-  margin: 0px;
+  margin: 30px 0 40px;
   outline: none;
   color: ${({ theme }) => theme.COLORS.gray[400]};
-  padding-bottom: 30px;
 
   & > input {
     position: relative;
