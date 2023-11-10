@@ -1,27 +1,16 @@
 import styled from "styled-components";
 import OneProduct from "components/one-product";
 import { useQuery } from "react-query";
-import { worker } from "__mock__/browser";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
-import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router";
 import { Container, Grid } from "@mui/material";
 import MMMButton from "components/button";
-import { useSetRecoilState } from "recoil";
-import { mswDataTest } from "store";
-import { useEffect } from "react";
 
 const ProductList = () => {
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
-
   const navigate = useNavigate();
 
   // 중고 목록 데이터를 리코일에 저장
-  const setUsed = useSetRecoilState(mswDataTest);
-
   const { data: UsedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
     () => Api.getUsedProduct()
@@ -31,10 +20,6 @@ const ProductList = () => {
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
     () => Api.getFreeProduct()
   );
-
-  useEffect(() => {
-    setUsed(UsedProductList);
-  }, [UsedProductList]);
 
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);

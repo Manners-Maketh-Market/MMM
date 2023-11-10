@@ -9,7 +9,6 @@ import { http, HttpResponse } from "msw";
 import { faker } from "@faker-js/faker";
 import shortId from "shortid";
 
-
 const productsData = MockProductsData(40);
 const UserData = MockUserData(10);
 const freeProductsData = MockFreeProductsData(20);
@@ -89,14 +88,12 @@ export const getSellProductsData = http.get("api/products/sell", () => {
   });
 });
 
-
 // 검색 결과 상품 데이터
 export const getSearchProductsData = http.get(
   "api/products/search/:title",
   ({ params }) => {
     return HttpResponse.json([MockSearchProductsData(params.title)], {
       status: 200,
-
     });
   }
 );

@@ -82,8 +82,8 @@ export const MockSellProductsData = (count) =>
         .fill()
         .map(() => faker.image.url()),
       createdAt: faker.date.between(
-        "2023-01-01T00:00:00.000Z",
-        "2023-01-31T00:00:00.000Z"
+        "2023-10-01T00:00:00.000Z",
+        "2023-11-07T00:00:00.000Z"
       ),
       isLiked: false,
       likedCount: Math.floor(Math.random() * 100),

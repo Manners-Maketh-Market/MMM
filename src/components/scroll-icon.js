@@ -32,7 +32,7 @@ const ScrollIcon = () => {
     };
   }, []);
 
-  const goToScrollTop = () => {
+  const onGoToScrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -41,7 +41,7 @@ const ScrollIcon = () => {
   return (
     <S.IconContainer>
       {isShowButton && (
-        <S.IconSet onClick={goToScrollTop}>
+        <S.IconSet onClick={onGoToScrollTop}>
           <S.OneIcon src={ScrollTopIcon} />
         </S.IconSet>
       )}
