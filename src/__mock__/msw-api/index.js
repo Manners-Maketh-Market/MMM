@@ -68,16 +68,9 @@ const buyerData = [
 ];
 
 const signupUserData = [
-  {
-    User: {
-      id: shortId.generate(),
-      email: faker.internet.email(),
-      password: faker.lorem.sentence(),
-      nickName: faker.person.fullName(),
-      phoneNumber: faker.phone.number(),
-      location: faker.location.cityName(),
-    },
-  },
+
+    // 유저 추가하는 방식으로
+
 ];
 
 export const getProductsData = http.get("api/products", () => {
@@ -125,21 +118,19 @@ export const postSignupUserData = http.post(
       email,
       password,
       nickName,
-      phoneNumber,
       location,
-      signupUserIndex,
     } = newUser;
 
-    signupUserData[signupUserIndex].signupUserData.User.push(
-      email,
-      password,
-      nickName,
-      phoneNumber,
-      location,
-      signupUserIndex
-    );
+    const userData = {
+      email : email,
+      password : password,
+      nickName : nickName,
+      location : location,
+    }
+    
+    signupUserData.push(userData)
 
-    return HttpResponse.json([signupUserData], { status: 201 });
+    return HttpResponse.json(signupUserData, { status: 201 });
   }
 );
 

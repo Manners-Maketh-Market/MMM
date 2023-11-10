@@ -36,31 +36,34 @@ const SignUpForm = () => {
     nickName,
   });
 
-  const { signUp } = useAuth();
+  // const { signUp } = useAuth();
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
   const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
-  const { mutate } = useMutation((signupUserData) =>
+  
+  const { mutate , data} = useMutation((signupUserData) =>
     Api.postUserData(signupUserData)
   );
 
+  data && console.log(data)
+
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
+
     try {
       const signupUserData = {
-        email: e.target.email,
-        password: e.target.password,
-        nickName: e.target.nickName,
-        phoneNumber: e.target.phoneNumber,
-        location: e.target.location,
-        signupUserIndex: readSignupUserListIndex,
+        email : e.target.email.value,
+        password : e.target.password.value,
+        nickName : e.target.nickName.value,
+        location : e.target.location.value,
+        signupUserIndex : readSignupUserListIndex,
       };
       const signupData = JSON.stringify(signupUserData);
       mutate(signupData);
       setUser(signupData);
       setIsLogin(true);
       console.log(signupData);
-      navigate("/sign-in");
+      // navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
     } catch (error) {
       console.error(error);
@@ -70,7 +73,7 @@ const SignUpForm = () => {
   return (
     <Wrapper>
       <Logo onClick={onClickSignIn} />
-      <Form>
+      <Form onSubmit={onSubmitSignUp}>
         <OneRow>
           <MMMInput
             label="이메일"
@@ -126,9 +129,8 @@ const SignUpForm = () => {
         <Location />
         <MMMButton
           size={"full"}
-          disabled={disabled}
+          // disabled={disabled}
           type="submit"
-          onClick={onSubmitSignUp}
         >
           회원가입
         </MMMButton>
