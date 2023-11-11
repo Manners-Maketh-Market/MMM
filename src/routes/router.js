@@ -12,7 +12,6 @@ import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,8 +50,18 @@ const router = createBrowserRouter([
         path: "/MMM/chat",
         element: <ChattingPage />,
       },
+
+      {
+        path: "/my-page",
+        element: <MyPage />,
+      },
+      {
+        path: "/my-page/registerProductForm",
+        element: <RegisterPage />,
+      },
     ],
   },
+  // sign-in & sign-up
   {
     path: "/sign-in",
     element: <LoginPage />,
@@ -61,19 +70,11 @@ const router = createBrowserRouter([
     path: "/sign-up",
     element: <SignUpForm />,
   },
-  {
-    path: "/my-page",
-    element: <MyPage />,
-  },
+
   /* protected route: users only */
   {
     element: <ProtectedRoute />,
-    children: [
-      {
-        path: "/my-page/registerProductForm",
-        element: <RegisterPage />,
-      },
-    ],
+    // children: [{path: "/my-page", element: <MyPage />,}, {path: "/my-page/registerProductForm", element: <RegisterPage />,},],
   },
 ]);
 

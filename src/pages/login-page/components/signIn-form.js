@@ -147,7 +147,10 @@ const ButtonBox = styled.div`
   ${flexCenter}
   flex-direction: column;
   margin: 95px 0;
+
   & > button {
+    min-width: 918px;
+    min-height: 46px;
     margin: 5px 0;
   }
 

@@ -31,8 +31,8 @@ const sizeCSS = {
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   larger: css`
-    min-width: 740px;
-    min-height: 48px;
+    max-width: 740px;
+    max-height: 48px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
@@ -85,8 +85,8 @@ const sizeCSS = {
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
   registerProduct: css`
-    width: 954px;
-    height: 48px;
+    max-width: 954px;
+    max-height: 48px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
