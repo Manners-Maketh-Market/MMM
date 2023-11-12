@@ -1,147 +1,172 @@
-import MMMButton from "components/button";
-import MMMInput from "components/input";
-import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { flexCenter } from "styles/common.style";
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import DaumPostcode from 'react-daum-postcode';
+
 
 const Location = () => {
-  const { kakao } = window;
+  const [modalState, setModalState] = useState(false);
+  const [inputAddressValue, setInputAddressValue] = useState();
+  const [inputZipCodeValue, setInputZipCodeValue] = useState();
 
-  const [state, setState] = useState({
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
-    isPanto: true,
-  });
-  const [searchAddress, SetSearchAddress] = useState();
 
-  // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
-  const SearchMap = (e) => {
-    e.preventDefault();
-    const ps = new kakao.maps.services.Places();
-    const placesSearchCB = function (data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {
-        const newSearch = data[0];
-        setState({
-          center: { lat: newSearch.y, lng: newSearch.x },
-        });
-      }
+  const modalRef = useRef(); //화면 외부 클릭하면 창이 닫히게
+  useEffect(() => {
+    document.addEventListener('mousedown', clickModalOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', clickModalOutside);
     };
-    ps.keywordSearch(`${searchAddress}`, placesSearchCB);
+  });
+
+  const clickModalOutside = event => {
+    if (modalState && !modalRef.current.contains(event.target)) {
+      setModalState(false);
+    }
   };
 
-  const handleSearchAddress = (e) => {
-    SetSearchAddress(e.target.value);
+  const onCompletePost = data => {
+    setModalState(false);
+    setInputAddressValue(data.address);
+    setInputZipCodeValue(data.zonecode);
   };
 
+  const postCodeStyle = {
+    width: '400px',
+    height: '400px',
+    display: modalState ? 'block' : 'none',
+  };
+
+  const handleModal = () => {
+    setModalState(true);
+  };
+
+
+
+  const handleZipCode = e => {
+    setModalState(false);
+    // set;
+  };
+
+  const handleAddress = e => {
+    setInputAddressValue(e.target.value);
+  };
   return (
-    <Wrapper>
-      <OneRow>
-        <MMMInput
-          label="지역선택"
-          name="location"
-          type="text"
-          placeholder="검색 버튼을 눌러주세요."
-          size={"large"}
-          onChange={handleSearchAddress}
-        />
-        <MMMButton size={"confirm"} onClick={SearchMap}>
-          검색
-        </MMMButton>
-      </OneRow>
-      <Map
-        center={state.center}
-        isPanto={state.isPanto}
-        style={{
-          width: "100%",
-          height: "350px",
-        }}
-        level={3}
-      ></Map>
-    </Wrapper>
+    <Container>
+      <ModalBlock modalState={modalState}></ModalBlock>
+            <UserAddressAndPayment>
+              <ShipMentTitle>주소검색</ShipMentTitle>
+              <ZipCodeWrapper>
+                <ZipCodeInput
+                  onChange={handleZipCode}
+                  value={inputZipCodeValue}
+                  placeholder="우편번호"
+                  type={'text'}
+                ></ZipCodeInput>
+                <ZipCodeFindButton onClick={handleModal}>
+                  주소찾기
+                </ZipCodeFindButton>
+              </ZipCodeWrapper>
+              <AddressInput
+                onChange={handleAddress}
+                value={inputAddressValue}
+                placeholder="주소"
+                type={'text'}
+              ></AddressInput>
+              <DetailAddressInput
+                placeholder="상세주소"
+                type={'text'}
+              ></DetailAddressInput>
+              <PostCodeWrapper ref={modalRef} modalState={modalState}>
+                <DaumPostcode
+                  style={postCodeStyle}
+                  onComplete={onCompletePost}
+                ></DaumPostcode>
+              </PostCodeWrapper>
+            </UserAddressAndPayment>
+    </Container>
   );
 };
 
 export default Location;
 
-const Wrapper = styled.div``;
-const OneRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-
-  & > button {
-    border: 1px solid #282190;
-    background-color: #fff;
-    color: #282190;
-    font-weight: 600;
-    margin-top: 20px;
-  }
-
-  // mediaQuery
-  @media ${({ theme }) => theme.DEVICE.smallMobile} {
-    max-width: 240px;
-
-    & > div {
-      & > input {
-        min-width: 150px;
-        min-height: 38px;
-        border-radius: 4px;
-        font-size: 10px;
-      }
-      & > label,
-      & > p {
-        font-size: 10px;
-      }
-    }
-    & > button {
-      min-width: 38px;
-      min-height: 38px;
-      font-size: 10px;
-      margin-left: 6px;
-    }
-  }
-  @media ${({ theme }) => theme.DEVICE.tablet2} {
-    max-width: 400px;
-
-    & > div {
-      & > input {
-        min-width: 240px;
-        min-height: 42px;
-        border-radius: 6px;
-        font-size: 12px;
-      }
-      & > label,
-      & > p {
-        font-size: 12px;
-      }
-    }
-    & > button {
-      min-width: 70px;
-      min-height: 42px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin-left: 10px;
-    }
-  }
-  @media ${({ theme }) => theme.DEVICE.laptop} {
-    max-width: 700px;
-
-    & > div {
-      & > input {
-        min-width: 466px;
-        min-height: 48px;
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
-      & > label,
-      & > p {
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
-    }
-    & > button {
-      min-width: 140px;
-      margin-left: 10px;
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-    }
-  }
+const Container = styled.div`
+  width: 1024px;
+  margin: auto;
+  padding: 50px 75px;
+  border: 1px solid 
+  margin-top: 50px;
+  margin-bottom: 100px;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
 `;
+
+const ModalBlock = styled.div`
+  width: 100%;
+  background-color: ;
+  opacity: 0.5;
+  position: absolute;
+  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
+  top: 0;
+  left: 0;
+`;
+
+
+const UserAddressAndPayment = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  width: 60%;
+  input {
+    padding: 7px 12px;
+    border: 1px solid;
+  }
+
+`;
+
+const ShipMentTitle = styled.div`
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: start;
+  font-size: 20px;
+`;
+
+
+
+
+const ZipCodeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+`;
+
+const ZipCodeInput = styled.input`
+  width: 30%;
+  margin-right: 10px;
+`;
+
+const ZipCodeFindButton = styled.div`
+  cursor: pointer;
+  padding: 6px 21px;
+`;
+
+const AddressInput = styled.input`
+  margin-bottom: 12px;
+`;
+
+const DetailAddressInput = styled.input`
+  margin-bottom: 12px;
+`;
+
+const PostCodeWrapper = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 400px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
+`;
+

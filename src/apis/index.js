@@ -40,6 +40,11 @@ const postUserData = async (signupData) => {
   return res;
 };
 
+const getsignUserData = async () => {
+  const res = await axiosInstance.get("/signup");
+  return res;
+};
+
 export const Api = {
   getUsedOrFreeProduct,
   getUsedProduct,
@@ -49,4 +54,5 @@ export const Api = {
   postMyChatData,
   getUserData,
   postUserData,
+  getsignUserData,
 };

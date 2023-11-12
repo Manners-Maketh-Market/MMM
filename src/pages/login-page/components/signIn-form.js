@@ -9,6 +9,9 @@ import { useAuth } from "provider/authProvider";
 import { user } from "store";
 import { isLogin } from "store";
 import { useSetRecoilState } from "recoil";
+import { useQuery } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
 
 const SignInForm = () => {
   const [{ email, password }, onChangeInputs] = useInputs({
@@ -18,25 +21,46 @@ const SignInForm = () => {
   const { disabled, errors } = formValidate({ email, password });
   const navigate = useNavigate();
 
+  const { data: signupData } = useQuery(
+    [PRODUCT_QUERY_KEY.SIGNUP_DATA],
+    () => Api.getsignUserData()
+  );
+
   // 직접 로그인 페이지로 온 경우
   const location = useLocation();
   const from = location?.state?.redirectedFrom?.pathname || "/";
 
-  const { signIn } = useAuth();
+  // const { signIn } = useAuth();
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
 
   const onSubmitSignIn = async (e) => {
     e.preventDefault();
+
     try {
-      const loggedInUser = await signIn({ email, password });
-      setUser(loggedInUser);
-      setIsLogin(true);
+      const signupUserData = {
+        email : e.target.email.value,
+        password : e.target.password.value,
+      };
+      setUser(signupData);
+      setIsLogin(false);
+      console.log(signupData);
       navigate("/");
+      alert("환영합니다! 로그인이 되었습니다.");
     } catch (error) {
       console.error(error);
     }
   };
+
+  //   try {
+  //     const loggedInUser = await signIn({ email, password });
+  //     setUser(loggedInUser);
+  //     setIsLogin(true);
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const onClickSignUp = () => {
     navigate("/sign-up");

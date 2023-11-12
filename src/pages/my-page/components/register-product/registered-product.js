@@ -3,6 +3,7 @@ import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import { styled } from "styled-components";
 import { flexCenter } from "styles/common.style";
+import Maps from "./maps";
 
 const RegisterPage = ({ setIsFormRegister }) => {
   const onSubmitRegister = (e) => {
@@ -18,7 +19,6 @@ const RegisterPage = ({ setIsFormRegister }) => {
       price: "",
       tag: "",
       explain: "",
-      place: "",
     });
 
   return (
@@ -56,29 +56,31 @@ const RegisterPage = ({ setIsFormRegister }) => {
         placeholder="0원"
         size={"registerProduct"}
       />
-      <MMMInput
-        label="태그"
-        name="tag"
-        onChange={onChangeInputs}
-        placeholder="카테고리를 입력해주세요."
-        size={"registerProduct"}
-      />
+      <RequestsTitle>태그</RequestsTitle>
+              <RequestSelect>
+                <option value="카테고리를 선택해주세요">
+                카테고리를 선택해주세요.
+                </option>
+                <option value="전자기기">
+                전자기기
+                </option>
+                <option value="의류">
+                의류
+                </option>
+                <option value="식품">
+                식품
+                </option>
+              </RequestSelect>
       <Box>
         <label>내용</label>
         <textarea placeholder="상품 설명을 입력해주세요" />
       </Box>
-      <SearchLocation>
-        <MMMInput
-          label="지역선택"
-          name="location"
-          onChange={onChangeInputs}
-          placeholder="검색 버튼을 눌러주세요."
-          size={"larger"}
-        />
+      <Maps />
+      {/* <SearchLocation>
         <MMMButton shape={"shape"} size={"small"} variant={"secondary"}>
           검색
         </MMMButton>
-      </SearchLocation>
+      </SearchLocation> */}
       <MMMButton shape={"shape"} size={"full"} variant={"secondary"}>
         물품 등록
       </MMMButton>
@@ -175,14 +177,24 @@ const TextBox = styled.div`
   }
 `;
 
-// 지역 검색
-const SearchLocation = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 
-  & > button {
-    margin-bottom: 35px;
-  }
+const RequestsTitle = styled.div`
+border: none;
+margin: 0px;
+outline: none;
+color: ${({ theme }) => theme.COLORS.gray[400]};
+padding-bottom: 30px;
+
+& > label {
+  padding-left: 12px;
+  color: ${({ theme }) => theme.COLORS["black"]};
+  font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+}
+`;
+
+const RequestSelect = styled.select`
+width: 954px;
+height: 48px;
+border-radius: 6px;
+border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;

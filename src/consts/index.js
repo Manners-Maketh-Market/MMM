@@ -5,4 +5,5 @@ export const PRODUCT_QUERY_KEY = {
   BUYER_CHAT_DATA: "buyerChatData",
   MY_CHAT_DATA: "myChatData",
   USER_DATA: "userData",
+  SIGNUP_DATA: "signUpData",
 };

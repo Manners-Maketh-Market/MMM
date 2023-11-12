@@ -134,6 +134,13 @@ export const postSignupUserData = http.post(
   }
 );
 
+export const getSignupUserData = http.get(
+  "api/signup", () => {
+    return HttpResponse.json([signupUserData], {
+      status: 200,
+    });
+  });
+
 // 상세페이지 데이터
 export const getDetailProductData = http.get(
   "api/products/detail/:id",

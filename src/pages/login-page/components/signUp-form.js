@@ -63,7 +63,7 @@ const SignUpForm = () => {
       setUser(signupData);
       setIsLogin(true);
       console.log(signupData);
-      // navigate("/sign-in");
+      navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
     } catch (error) {
       console.error(error);
