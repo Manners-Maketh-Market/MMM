@@ -48,3 +48,14 @@ export const signupUserDataIndex = atom({
   key: "signupUserDataIndex",
   default: null,
 });
+
+export const RegisterDataIndex = atom({
+  key: "RegisterDataIndex",
+  default: null,
+});
+
+// 물품 현황 확인
+export const RegistData = atom({
+  key: "RegistData",
+  default: localStorage.getItem("token") ? true : false,
+});

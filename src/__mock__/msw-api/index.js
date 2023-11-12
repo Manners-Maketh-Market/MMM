@@ -68,9 +68,24 @@ const buyerData = [
 ];
 
 const signupUserData = [
+  {
+      email : faker.internet.email(),
+      password : faker.internet.password(),
+      nickName : faker.person.firstName(),
+      phoneNumber : faker.phone.number(),
+      location : faker.location.state(),
+  },
+];
 
-    // 유저 추가하는 방식으로
-
+const RegisterstoreData = [
+  {
+    image : faker.image.avatar(),
+    title : faker.lorem.sentence(),
+    price : Math.floor(Math.random() * 100000),
+    tag : faker.commerce.productName(),
+    text : faker.lorem.word(),
+    location : faker.location.state(),
+  },
 ];
 
 export const getProductsData = http.get("api/products", () => {
@@ -110,6 +125,8 @@ export const getUserInfoData = http.get("api/user", () => {
   });
 });
 
+
+// 회원가입 데이터
 export const postSignupUserData = http.post(
   "api/signup",
   async ({ request }) => {
@@ -118,6 +135,7 @@ export const postSignupUserData = http.post(
       email,
       password,
       nickName,
+      phoneNumber,
       location,
     } = newUser;
 
@@ -125,12 +143,42 @@ export const postSignupUserData = http.post(
       email : email,
       password : password,
       nickName : nickName,
+      phoneNumber : phoneNumber,
       location : location,
     }
     
     signupUserData.push(userData)
 
     return HttpResponse.json(signupUserData, { status: 201 });
+  }
+);
+
+// 물품등록
+export const postregisterData = http.post(
+  "api/register",
+  async ({ request }) => {
+    const newRegister = await request.json();
+    const {
+    image,
+    title,
+    price,
+    tag,
+    text,
+    location,
+    } = newRegister;
+
+    const RegisterData = {
+      image : image,
+      title : title,
+      price : price,
+      tag : tag,
+      text : text,
+      location : location,
+    }
+    
+    RegisterstoreData.push(RegisterData)
+
+    return HttpResponse.json(RegisterstoreData, { status: 201 });
   }
 );
 

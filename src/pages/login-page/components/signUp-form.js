@@ -55,6 +55,7 @@ const SignUpForm = () => {
         email : e.target.email.value,
         password : e.target.password.value,
         nickName : e.target.nickName.value,
+        phoneNumber : e.target.phoneNumber.value,
         location : e.target.location.value,
         signupUserIndex : readSignupUserListIndex,
       };
@@ -125,8 +126,8 @@ const SignUpForm = () => {
             중복확인
           </MMMButton>
         </OneRow>
-        <Phone />
-        <Location />
+        <Phone name="phoneNumber"/>
+        <Location name="location"/>
         <MMMButton
           size={"full"}
           // disabled={disabled}

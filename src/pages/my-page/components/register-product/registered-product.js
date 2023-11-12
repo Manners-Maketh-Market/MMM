@@ -4,13 +4,15 @@ import useInputs from "hooks/use-inputs";
 import { styled } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import Maps from "./maps";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { RegisterDataIndex } from "store";
+import { Api } from "apis";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { RegistData } from "store";
+import { mswDataState } from "store";
 
-const RegisterPage = ({ setIsFormRegister }) => {
-  const onSubmitRegister = (e) => {
-    e.preventDefault();
-    alert("물품이 등록되었습니다.");
-    setIsFormRegister(true);
-  };
+const RegisterPage = () => {
 
   const [{ image, title, price, tag, explain, place }, onChangeInputs] =
     useInputs({
@@ -18,8 +20,49 @@ const RegisterPage = ({ setIsFormRegister }) => {
       title: "",
       price: "",
       tag: "",
-      explain: "",
+      text: "",
     });
+
+  const navigate = useNavigate();
+  const onClickmypage = () => {
+    navigate("/my-page");
+  };
+
+
+  const setRegister = useSetRecoilState(mswDataState);
+  const setIsRegister = useSetRecoilState(RegistData);
+  const readRegisterListIndex = useRecoilValue(RegisterDataIndex);
+  
+  const { mutate , data} = useMutation((newRegisterData) =>
+    Api.postRegistData(newRegisterData)
+  );
+
+  data && console.log(data)
+
+  const onSubmitRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const newRegisterData = {
+        image : e.target.image.value,
+        title : e.target.title.value,
+        price : e.target.price.value,
+        tag : e.target.tag.value,
+        text : e.target.text.value,
+        location : e.target.location.value,
+        RegisterIndex : readRegisterListIndex,
+      };
+      const RegistData = JSON.stringify(newRegisterData);
+      mutate(RegistData);
+      setRegister(RegistData);
+      setIsRegister(true);
+      console.log(RegistData);
+      navigate("/my-page");
+      alert("물품 등록이 완료되었습니다.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Form onSubmit={onSubmitRegister}>
@@ -57,7 +100,7 @@ const RegisterPage = ({ setIsFormRegister }) => {
         size={"registerProduct"}
       />
       <RequestsTitle>태그</RequestsTitle>
-              <RequestSelect>
+              <RequestSelect name = "tag">
                 <option value="카테고리를 선택해주세요">
                 카테고리를 선택해주세요.
                 </option>
@@ -73,7 +116,7 @@ const RegisterPage = ({ setIsFormRegister }) => {
               </RequestSelect>
       <Box>
         <label>내용</label>
-        <textarea placeholder="상품 설명을 입력해주세요" />
+        <textarea placeholder="상품 설명을 입력해주세요" name = "text"/>
       </Box>
       <Maps />
       {/* <SearchLocation>

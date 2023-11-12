@@ -40,6 +40,11 @@ const postUserData = async (signupData) => {
   return res;
 };
 
+const postRegistData = async (registData) => {
+  const res = await axiosInstance.post("/register", registData);
+  return res;
+};
+
 const getsignUserData = async () => {
   const res = await axiosInstance.get("/signup");
   return res;
@@ -55,4 +60,5 @@ export const Api = {
   getUserData,
   postUserData,
   getsignUserData,
+  postRegistData,
 };
