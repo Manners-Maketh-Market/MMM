@@ -2,9 +2,9 @@ import { Api } from "apis";
 import MMMInput from "components/input";
 import { PRODUCT_QUERY_KEY } from "consts";
 import useMaxLength from "hooks/use-max-length-overflow";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
 import { useNavigate } from "react-router-dom";
@@ -13,15 +13,11 @@ const PriceSearch = () => {
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const { skipTitleView } = useMaxLength();
 
-  //const { skipTitleView } = useMaxLength();
   const navigate = useNavigate();
-
-  //삭제내용
-  const listRef = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
@@ -34,25 +30,14 @@ const PriceSearch = () => {
       );
     } else if (e.key === "Enter" && selectedIndex > -1) {
       navigate(`/pricecheckpage/${filter[selectedIndex].title}`);
+      setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
       navigate(`/pricecheckpage/${e.target.value}`);
+      setSearchModal(false);
       e.target.blur();
     }
   };
-
-  useEffect(() => {
-    if (listRef.current) {
-      const selectedElement = listRef.current.children[selectedIndex];
-      if (selectedElement) {
-        selectedElement.scrollIntoView({
-          block: "nearest",
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [selectedIndex]);
-  //삭제내용
 
   const { data: UsedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
@@ -88,8 +73,9 @@ const PriceSearch = () => {
   };
 
   // 마우스가 검색어 위에 올라가있으면 검색창이 닫히지 않게
-  const onMouseHoverEvent = () => {
+  const onMouseHoverEvent = (index) => {
     setIsMouseHover(true);
+    setSelectedIndex(index);
   };
 
   const onMouseLeaveEvent = () => {
@@ -132,11 +118,10 @@ const PriceSearch = () => {
               {filter.map((list, index) => (
                 <ListWrap
                   style={{
-                    backgroundColor:
-                      selectedIndex === index ? "aliceblue" : "transparent",
+                    backgroundColor: selectedIndex === index && "aliceblue",
                   }}
                   onClick={() => onRelatedSearchWord(list.title)}
-                  onMouseEnter={() => onMouseHoverEvent()}
+                  onMouseEnter={() => onMouseHoverEvent(index)}
                   onMouseLeave={() => onMouseLeaveEvent()}
                 >
                   <SearchIconWrap>
@@ -245,6 +230,15 @@ const ListWrap = styled.div`
   cursor: pointer;
   padding: 0 30px;
   transition: background-color 0.3s;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      background-color: aliceblue;
+    `}
+  &:hover {
+    background-color: aliceblue;
+  }
+  // 글자색은 바뀐다.그러네! 어 됬다
 `;
 
 const SearchListResult = styled.div`
