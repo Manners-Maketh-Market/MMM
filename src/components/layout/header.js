@@ -142,6 +142,7 @@ const MobileMenuBar = styled.img`
 
 const HeaderIcon = styled.img`
   width: 24px;
+  cursor: pointer;
 `;
 
 const HeaderLogoIcon = styled.img`

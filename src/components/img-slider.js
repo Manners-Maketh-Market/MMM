@@ -13,11 +13,13 @@ import whiteArrow from "./../images/white-arrow2.png";
 
 import { styled } from "styled-components";
 import useMaxLength from "hooks/use-max-length-overflow";
+import { useNavigate } from "react-router-dom";
 
 const ImgSlider = ({ product, related }) => {
   // product : detailPage에서 사용할 상품의 data
   // Related : detailPage에서 사용할 관련상품의 data(Array)
   const { skipTitleView } = useMaxLength();
+  const navigate = useNavigate();
 
   const ImageArr = [image0, image1, image3, image5, image6, image7];
   // Banner Img를 담아 배열로 만듦.
@@ -88,8 +90,12 @@ const ImgSlider = ({ product, related }) => {
   };
   // 관련 상품(Related) slider의 세팅 옵션.
 
+  const onClickToDetailPage = (id) => {
+    navigate(`/products/detail/${id}`);
+    window.scrollTo({ top: 0 });
+  };
   return (
-    <Wrapper>
+    <>
       {/*product(상품) 값이 있을 시 product 슬라이더
       product값이 없고 related(관련 상품) 값이 있을 시 related 슬라이더
       둘 다 없을 시 banner 슬라이더 출력
@@ -107,10 +113,13 @@ const ImgSlider = ({ product, related }) => {
       ) : related ? (
         <RelatedProductWrap>
           <StyledSlider {...RelatedProductSetting}>
-            {related.map((img, idx) => (
+            {related.map((item, idx) => (
               <RelatedOption key={idx}>
-                <RelatedProductImg src={img.Product_img[0]}></RelatedProductImg>
-                <p>{skipTitleView(img.title)}</p>
+                <RelatedProductImg
+                  src={item.Product_img[0]}
+                  onClick={() => onClickToDetailPage(item.id)}
+                ></RelatedProductImg>
+                <p>{skipTitleView(item.title)}</p>
               </RelatedOption>
             ))}
           </StyledSlider>
@@ -124,17 +133,11 @@ const ImgSlider = ({ product, related }) => {
           ))}
         </StyledBanner>
       )}
-    </Wrapper>
+    </>
   );
 };
 
 export default ImgSlider;
-
-const Wrapper = styled.div`
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    padding-top: 80px;
-  }
-`;
 
 const RelatedOption = styled.div`
   text-align: center;
@@ -146,7 +149,6 @@ const RelatedOption = styled.div`
   }
 `;
 
-
 const BannerImgWrap = styled.div`
   width: 100%;
   cursor: pointer;
@@ -157,7 +159,6 @@ const BannerImgWrap = styled.div`
     min-height: 200px;
   }
 `;
-
 
 const Img = styled.img`
   width: 100%;
@@ -205,7 +206,6 @@ const ProductWrap = styled.div`
     width: 100%;
     height: 100%;
   }
-
 `;
 
 const RelatedProductImg = styled.img`

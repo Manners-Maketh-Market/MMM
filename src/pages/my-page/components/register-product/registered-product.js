@@ -134,39 +134,113 @@ const RegisterPage = () => {
 export default RegisterPage;
 
 const Form = styled.form`
-  /* margin: 120px 0; */
-  // mobile 버전 적용 시 header fixed 속성이랑 겹쳐서 주석처리 해놨습니다!
-  display: flex;
-  align-items: center;
+  // 1280+
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  ${flexAlignCenter}
   justify-content: space-evenly;
   flex-direction: column;
+  padding-top: 80px;
+  overflow-x: hidden;
 
-  input {
-    margin: 20px 0 40px;
+  & > div {
+    & > input {
+      min-width: 954px;
+      min-height: 48px;
+    }
   }
-
   & > button {
-    width: 954px;
+    min-width: 954px;
+    min-height: 46px;
     margin: 80px 0;
   }
-  @media ${({ theme }) => theme.DEVICE.mobile} {
-    padding-top: 80px;
+
+  // mediaQuery
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+    padding-top: 100px;
+
+    & > div {
+      & > input {
+        min-width: 200px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 200px;
+      min-height: 38px;
+      border-radius: 4px;
+      font-size: 10px;
+      margin: 40px 0 60px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    max-width: 400px;
+    padding-top: 160px;
+
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 320px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 620px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+    & > button {
+      min-width: 620px;
+      min-height: 46px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
   }
 `;
 
 const Box = styled.div`
-  width: 954px;
+  max-width: 954px;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 
   & > label {
-    justify-content: flex-start; // 적용 안 됨
-    margin-bottom: 20px;
+    margin-left: 12px;
+    margin-bottom: 4px;
   }
 
   & > textarea {
-    width: 954px;
+    min-width: 954px;
     min-height: 264px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     border-radius: 7px;
@@ -174,28 +248,87 @@ const Box = styled.div`
     padding: 20px 0 0 16px;
     margin-bottom: 20px;
   }
+
+  // mediaQuery - textarea
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > textarea {
+      min-width: 200px;
+      min-height: 220px;
+      padding: 20px;
+      font-size: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+
+    & > textarea {
+      min-width: 320px;
+      padding: 20px;
+      font-size: 12px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+
+    & > textarea {
+      min-width: 620px;
+      padding: 30px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
+  }
 `;
 
-// 물품 등록
 const ImageBox = styled.div`
-  width: 954px;
-  display: flex;
-  flex-direction: row;
+  max-width: 954px;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
 
   & > label {
-    justify-content: flex-start;
-    padding-left: 16px;
+    min-width: 930px;
     margin-bottom: 20px;
   }
 
   & > div {
-    margin-left: 30%;
     text-align: center;
+    justify-content: center;
+  }
+
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    min-width: 400px;
+
+    & > label {
+      padding-left: 41%;
+      margin-bottom: 10px;
+    }
+    & > div {
+      margin-left: 0%;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    min-width: 400px;
+
+    & > label {
+      padding-left: 34%;
+    }
+    & > div {
+      margin-left: 0%;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    min-width: 620px;
+    & > label {
+      padding-left: 18%;
+    }
+    & > div {
+      margin-left: 0%;
+    }
   }
 `;
 const AddImage = styled.input`
-  width: 200px;
+  max-width: 200px;
   height: 200px;
   border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   border-radius: 10px;
@@ -208,18 +341,36 @@ const AddImage = styled.input`
     background: no-repeat center;
     background-image: url("../../../assets/icon/camera.png");
   }
+
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 140px;
+    height: 140px;
+    font-size: 10px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 160px;
+    height: 160px;
+    font-size: 12px;
+  }
 `;
 
 const TextBox = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.COLORS.gray[400]};
-  margin-top: -20px;
+  margin-top: 20px;
+  text-align: center;
 
   & > p {
     padding: 2px 0;
   }
-`;
 
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    font-size: 8px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    font-size: 10px;
+  }
+`;
 
 const RequestsTitle = styled.div`
 border: none;

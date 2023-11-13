@@ -1,6 +1,6 @@
 const deviceSizes = {
-      mobile: 767,
-      tablet: 1023,
+  mobile: 767,
+  tablet: 1023,
   smallMobile: 480,
   tablet2: 768,
   laptop: 1279,
@@ -8,10 +8,11 @@ const deviceSizes = {
 };
 
 const DEVICE = {
-    mobile: `screen and (max-width: ${deviceSizes.mobile}px)`,
+  mobile: `screen and (max-width: ${deviceSizes.mobile}px)`,
   tablet: `screen and (min-width: ${
     deviceSizes.mobile + 1
   }px) and (max-width: ${deviceSizes.tablet}px)`,
+
   // smaller mobile : 0 ~ 480px (참고. 애플 아이폰 13미니의 가로는 64.2mm(243px))
   smallMobile: `screen and (max-width: ${deviceSizes.smallMobile}px)`,
   // larger mobile & tablet: 481 ~ 768px
@@ -26,9 +27,7 @@ const DEVICE = {
   larger: `screen and (min-width: ${
     deviceSizes.laptop + 1
   }px) and (min-width: ${deviceSizes.larger}px)`,
-
 };
-
 
 const COLORS = {
   primary: {

@@ -59,3 +59,4 @@ export const RegistData = atom({
   key: "RegistData",
   default: localStorage.getItem("token") ? true : false,
 });
+

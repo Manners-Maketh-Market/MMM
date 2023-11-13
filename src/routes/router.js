@@ -11,6 +11,8 @@ import ChattingPage from "pages/chatting-page";
 import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
+import ErrorPage from "pages/error-page";
+
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/pricecheckpage/:title",
+        element: <PriceCheckPage />,
+      },
+      {
+        path: "/pricecheckpage",
         element: <PriceCheckPage />,
       },
       {

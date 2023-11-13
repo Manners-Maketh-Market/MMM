@@ -1,5 +1,12 @@
 import { axiosInstance } from "./core";
 
+
+const getAllProduct = async () => {
+  const res = await axiosInstance.get(`/products`);
+  return res.data;
+};
+
+
 const getUsedOrFreeProduct = async (param) => {
   const res = await axiosInstance.get(`/products/${param}`);
   return res.data;
@@ -51,6 +58,7 @@ const getsignUserData = async () => {
 };
 
 export const Api = {
+  getAllProduct,
   getUsedOrFreeProduct,
   getUsedProduct,
   getSearchProduct,
