@@ -11,6 +11,7 @@ import ChattingPage from "pages/chatting-page";
 import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
+import ErrorPage from "pages/error-page";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +47,18 @@ const router = createBrowserRouter([
         path: "/MMM/chat",
         element: <ChattingPage />,
       },
+
+      {
+        path: "/my-page",
+        element: <MyPage />,
+      },
+      {
+        path: "/my-page/registerProductForm",
+        element: <RegisterPage />,
+      },
     ],
   },
+  // sign-in & sign-up
   {
     path: "/sign-in",
     element: <LoginPage />,
@@ -56,19 +67,11 @@ const router = createBrowserRouter([
     path: "/sign-up",
     element: <SignUpForm />,
   },
-  {
-    path: "/my-page",
-    element: <MyPage />,
-  },
+
   /* protected route: users only */
   {
     element: <ProtectedRoute />,
-    children: [
-      {
-        path: "/my-page/registerProductForm",
-        element: <RegisterPage />,
-      },
-    ],
+    // children: [{path: "/my-page", element: <MyPage />,}, {path: "/my-page/registerProductForm", element: <RegisterPage />,},],
   },
 ]);
 

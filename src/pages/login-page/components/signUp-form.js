@@ -13,7 +13,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
 
 const SignUpForm = ({ setIsFormLogin }) => {
-
   // goBack to LoginPage, onClick Logo image
   const navigate = useNavigate();
   const onClickSignIn = () => {
@@ -73,30 +72,26 @@ const SignUpForm = ({ setIsFormLogin }) => {
             중복확인
           </MMMButton>
         </OneRow>
-        <OneRow>
-          <MMMInput
-            label="비밀번호"
-            name="password"
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            onChange={onChangeInputs}
-            error={errors.password}
-            access={access.password}
-            size={"full"}
-            maxLength={12}
-          />
-        </OneRow>
-        <OneRow>
-          <MMMInput
-            label="비밀번호 확인"
-            name="passwordConfirm"
-            type="password"
-            placeholder="비밀번호 확인"
-            error={errors.passwordConfirm}
-            onChange={onChangeInputs}
-            size={"full"}
-          />
-        </OneRow>
+        <MMMInput
+          label="비밀번호"
+          name="password"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          onChange={onChangeInputs}
+          error={errors.password}
+          access={access.password}
+          size={"full"}
+          maxLength={12}
+        />
+        <MMMInput
+          label="비밀번호 확인"
+          name="passwordConfirm"
+          type="password"
+          placeholder="비밀번호 확인"
+          error={errors.passwordConfirm}
+          onChange={onChangeInputs}
+          size={"full"}
+        />
         <OneRow>
           <MMMInput
             label="닉네임"
@@ -113,9 +108,7 @@ const SignUpForm = ({ setIsFormLogin }) => {
             중복확인
           </MMMButton>
         </OneRow>
-        <OneRow>
-          <Phone />
-        </OneRow>
+        <Phone />
         <Location />
         <MMMButton
           size={"full"}
@@ -134,6 +127,7 @@ export default SignUpForm;
 
 const Wrapper = styled.div`
   position: relative;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -141,11 +135,13 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   overflow-x: hidden;
-  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const Logo = styled.div`
   position: absolute;
-  top: 180px;
+  top: 0;
   width: 230px;
   height: 90px;
   background-size: contain;
@@ -165,18 +161,32 @@ const Logo = styled.div`
 
 const Form = styled.form`
   position: absolute;
-  top: 340px;
-  left: 50%;
-  transform: translateX(-50%);
-  ${flexAlignCenter}
+  top: 180px;
+  ${flexCenter}
   flex-direction: column;
-  justify-content: space-evenly;
+
   & > button {
+    min-width: 918px;
+    min-height: 46px;
     margin: 100px 0;
   }
 
-  // mediaQuery - submit button
+  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 200px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
     & > button {
       min-width: 200px;
       min-height: 38px;
@@ -185,6 +195,22 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-right: -10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
     & > button {
       min-width: 320px;
       min-height: 42px;
@@ -193,18 +219,35 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 620px;
+        min-height: 48px;
+        margin-right: -10px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
     & > button {
       min-width: 620px;
-      min-height: 48px;
+      min-height: 46px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
   }
 `;
 
 const OneRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  flex-direction: row;
+
   & > button {
     border: 1px solid #282190;
     background-color: #fff;
@@ -213,11 +256,72 @@ const OneRow = styled.div`
     margin-top: 20px;
   }
 
-  // mediaQuery - inputBox
+  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 150px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
+    }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 240px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
   }
 `;
