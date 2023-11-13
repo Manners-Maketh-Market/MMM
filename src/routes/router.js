@@ -12,7 +12,6 @@ import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,10 +36,6 @@ const router = createBrowserRouter([
       },
       {
         path: "/pricecheckpage/:title",
-        element: <PriceCheckPage />,
-      },
-      {
-        path: "/pricecheckpage",
         element: <PriceCheckPage />,
       },
       {
