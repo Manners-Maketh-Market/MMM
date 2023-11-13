@@ -40,10 +40,6 @@ const router = createBrowserRouter([
         element: <PriceCheckPage />,
       },
       {
-        path: "/pricecheckpage",
-        element: <PriceCheckPage />,
-      },
-      {
         path: "/products/search/:searchValue",
         element: <SearchPage />,
       },

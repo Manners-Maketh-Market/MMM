@@ -4,7 +4,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import useMaxLength from "hooks/use-max-length-overflow";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
 import { useNavigate } from "react-router-dom";
@@ -13,23 +13,46 @@ const PriceSearch = () => {
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const { skipTitleView } = useMaxLength();
 
-  //const { skipTitleView } = useMaxLength();
   const navigate = useNavigate();
+
+  const onArrowKeyPress = (e) => {
+    if (e.key === "ArrowUp") {
+      setSelectedIndex((prevIndex) =>
+        prevIndex > -1 ? prevIndex - 1 : filter.length - 1
+      );
+    } else if (e.key === "ArrowDown") {
+      setSelectedIndex((prevIndex) =>
+        prevIndex < filter.length - 1 ? prevIndex + 1 : -1
+      );
+    } else if (e.key === "Enter" && selectedIndex > -1) {
+      navigate(`/pricecheckpage/${filter[selectedIndex].title}`);
+      setSearchModal(false);
+      e.target.blur();
+    } else if (e.key === "Enter") {
+      navigate(`/pricecheckpage/${e.target.value}`);
+      setSearchModal(false);
+      e.target.blur();
+    }
+  };
 
   const { data: UsedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
     () => Api.getUsedProduct()
   );
 
-  const filter = UsedProductList[0].filter((list) =>
-    list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
-  );
+  const filter = UsedProductList[0]
+    .slice(0, 10)
+    .filter((list) =>
+      list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
+    );
 
   const onTitleChange = (e) => {
     setTitles(e.target.value);
+    setSelectedIndex(-1);
   };
 
   // 포커스시 검색목록 띄우는 모달
@@ -50,19 +73,13 @@ const PriceSearch = () => {
   };
 
   // 마우스가 검색어 위에 올라가있으면 검색창이 닫히지 않게
-  const onMouseHoverEvent = () => {
+  const onMouseHoverEvent = (index) => {
     setIsMouseHover(true);
+    setSelectedIndex(index);
   };
 
   const onMouseLeaveEvent = () => {
     setIsMouseHover(false);
-  };
-
-  // 엔터키 눌렀을 때 해당 품목 시세페이지로 이동
-  const onKeyPressEnter = (e) => {
-    if (e.key === "Enter") {
-      navigate(`/pricecheckpage/${e.target.value}`);
-    }
   };
 
   return (
@@ -74,7 +91,7 @@ const PriceSearch = () => {
           onFocus={onSearchListModal}
           onBlur={onNoneSearchListModal}
           onChange={onTitleChange}
-          onKeyPress={onKeyPressEnter}
+          onKeyDown={onArrowKeyPress}
           size={"searchPriceFocus"}
           placeholder="어떤 시세 정보가 궁금하세요?"
           style={{
@@ -98,10 +115,13 @@ const PriceSearch = () => {
         <SearchList>
           {filter.length >= 1 ? (
             <div>
-              {filter.slice(0, 10).map((list) => (
+              {filter.map((list, index) => (
                 <ListWrap
+                  style={{
+                    backgroundColor: selectedIndex === index && "aliceblue",
+                  }}
                   onClick={() => onRelatedSearchWord(list.title)}
-                  onMouseEnter={() => onMouseHoverEvent()}
+                  onMouseEnter={() => onMouseHoverEvent(index)}
                   onMouseLeave={() => onMouseLeaveEvent()}
                 >
                   <SearchIconWrap>
@@ -189,7 +209,7 @@ const SearchList = styled.div`
 
     //
     line-height: 40px;
-  } // 해줘 일단 디자인 해줘
+  }
 `;
 const SearchIcon = styled.img`
   width: 15px;
@@ -209,10 +229,16 @@ const ListWrap = styled.div`
   align-items: center;
   cursor: pointer;
   padding: 0 30px;
-
+  transition: background-color 0.3s;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      background-color: aliceblue;
+    `}
   &:hover {
     background-color: aliceblue;
   }
+  // 글자색은 바뀐다.그러네! 어 됬다
 `;
 
 const SearchListResult = styled.div`
