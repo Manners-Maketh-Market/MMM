@@ -10,8 +10,8 @@ const getUsedOrFreeProduct = async (param) => {
   return res.data;
 };
 
-const getSearchProduct = async (param) => {
-  const res = await axiosInstance.get(`/products/search/${param}`);
+const getSearchProduct = async (category, keyword, page) => {
+  const res = await axiosInstance.get(`/api/product/search?category=${category}&keyword=${keyword}&page=${page}`);
   return res.data;
 };
 
