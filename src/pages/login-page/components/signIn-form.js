@@ -5,62 +5,50 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useAuth } from "provider/authProvider";
 import { user } from "store";
 import { isLogin } from "store";
 import { useSetRecoilState } from "recoil";
-import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import { useMutation } from "react-query";
+import { TokenAtom } from "Recoil/TokenAtom";
 
 const SignInForm = () => {
-  const [{ email, password }, onChangeInputs] = useInputs({
+  const [{ email, pw }, onChangeInputs] = useInputs({
     email: "",
-    password: "",
+    pw: "",
   });
-  const { disabled, errors } = formValidate({ email, password });
+  const { disabled, errors } = formValidate({ email, pw });
   const navigate = useNavigate();
-
-  const { data: signupData } = useQuery(
-    [PRODUCT_QUERY_KEY.SIGNUP_DATA],
-    () => Api.getsignUserData()
-  );
 
   // 직접 로그인 페이지로 온 경우
   const location = useLocation();
   const from = location?.state?.redirectedFrom?.pathname || "/";
 
-  // const { signIn } = useAuth();
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
+  const setAccessToken = useSetRecoilState(TokenAtom);
+  const { mutate } = useMutation((loginUserData) =>
+    Api.postLoginUserData(loginUserData)
+  );
 
   const onSubmitSignIn = async (e) => {
     e.preventDefault();
 
     try {
-      const signupUserData = {
-        email : e.target.email.value,
-        password : e.target.password.value,
+      const loginUserData = {
+        email: e.target.email.value,
+        pw: e.target.pw.value,
       };
-      setUser(signupData);
-      setIsLogin(false);
-      console.log(signupData);
+      const loginData = JSON.stringify(loginUserData);
+      mutate(loginData);
+      setUser(loginData);
+      setIsLogin(true);
       navigate("/");
-      alert("환영합니다! 로그인이 되었습니다.");
-    } catch (error) {
-      console.error(error);
+      alert("어서오세요!");
+    } catch {
+      alert("로그인에 실패했습니다.");
     }
   };
-
-  //   try {
-  //     const loggedInUser = await signIn({ email, password });
-  //     setUser(loggedInUser);
-  //     setIsLogin(true);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const onClickSignUp = () => {
     navigate("/sign-up");
@@ -80,10 +68,10 @@ const SignInForm = () => {
       <MMMInput
         label="비밀번호"
         type="password"
-        name="password"
+        name="pw"
         onChange={onChangeInputs}
         placeholder="비밀번호를 입력해주세요"
-        error={errors.password}
+        error={errors.pw}
         size={"full"}
       />
       <ButtonBox>
