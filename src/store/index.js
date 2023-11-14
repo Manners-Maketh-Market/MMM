@@ -55,8 +55,7 @@ export const RegisterDataIndex = atom({
 });
 
 // 물품 현황 확인
-export const RegistData = atom({
-  key: "RegistData",
+export const RegisterData = atom({
+  key: "RegisterData",
   default: localStorage.getItem("token") ? true : false,
 });
-
