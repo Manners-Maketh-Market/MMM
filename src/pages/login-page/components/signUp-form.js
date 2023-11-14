@@ -7,13 +7,14 @@ import Phone from "./phone";
 import Location from "./location";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "provider/authProvider";
 import { isLogin } from "store";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { user } from "store";
 import { signupUserDataIndex } from "store";
 import { useMutation } from "react-query";
 import { Api } from "apis";
+import { useState } from "react";
+import { axiosInstance } from "apis/core";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -22,42 +23,59 @@ const SignUpForm = () => {
     navigate("/sign-in");
   };
 
-  const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
-    useInputs({
-      email: "",
-      password: "",
-      passwordConfirm: "",
-      nickName: "",
-    });
+  const [{ email, pw, pwConfirm, nickName }, onChangeInputs] = useInputs({
+    email: "",
+    pw: "",
+    pwConfirm: "",
+    nickName: "",
+  });
   const { disabled, errors, access } = formValidate({
     email,
-    password,
-    passwordConfirm,
+    pw,
+    pwConfirm,
     nickName,
   });
 
-  // const { signUp } = useAuth();
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
   const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
-  
-  const { mutate , data} = useMutation((signupUserData) =>
+
+  const { mutate, data } = useMutation((signupUserData) =>
     Api.postUserData(signupUserData)
   );
 
-  data && console.log(data)
+  // duplicate check
+  const [isEmailDuplicate, setIsEmailDuplicate] = useState(false);
+  // email
+  const checkEmailDuplicate = (e) => {
+    e.preventDefault();
+    axiosInstance
+      .get(`/api/user/check/email?email=${email}`)
+      .then((response) => {
+        if (response.status === 200) {
+          alert("사용 가능한 이메일 입니다.");
+          setIsEmailDuplicate(true);
+        } else if (response.status === 400) {
+          alert("이미 사용중인 이메일 입니다.");
+          setIsEmailDuplicate(false);
+        }
+      })
+      .catch((error) => {
+        console.error("email duplicate:", error);
+      });
+  };
 
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
 
     try {
       const signupUserData = {
-        email : e.target.email.value,
-        password : e.target.password.value,
-        nickName : e.target.nickName.value,
-        phoneNumber : e.target.phoneNumber.value,
-        location : e.target.location.value,
-        signupUserIndex : readSignupUserListIndex,
+        email: e.target.email.value,
+        pw: e.target.pw.value,
+        nickName: e.target.nickName.value,
+        phoneNumber: e.target.phoneNumber.value,
+        location: e.target.location.value,
+        signupUserIndex: readSignupUserListIndex,
       };
       const signupData = JSON.stringify(signupUserData);
       mutate(signupData);
@@ -86,27 +104,31 @@ const SignUpForm = () => {
             access={access.email}
             size={"large"}
           />
-          <MMMButton size={"confirm"} type="button">
+          <MMMButton
+            size={"confirm"}
+            type="button"
+            onChange={checkEmailDuplicate}
+          >
             중복확인
           </MMMButton>
         </OneRow>
         <MMMInput
           label="비밀번호"
-          name="password"
+          name="pw"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={onChangeInputs}
-          error={errors.password}
-          access={access.password}
+          error={errors.pw}
+          access={access.pw}
           size={"full"}
           maxLength={12}
         />
         <MMMInput
           label="비밀번호 확인"
-          name="passwordConfirm"
+          name="pwConfirm"
           type="password"
           placeholder="비밀번호 확인"
-          error={errors.passwordConfirm}
+          error={errors.pwConfirm}
           onChange={onChangeInputs}
           size={"full"}
         />
@@ -126,13 +148,9 @@ const SignUpForm = () => {
             중복확인
           </MMMButton>
         </OneRow>
-        <Phone name="phoneNumber"/>
-        <Location name="location"/>
-        <MMMButton
-          size={"full"}
-          // disabled={disabled}
-          type="submit"
-        >
+        <Phone name="phone" />
+        <Location name="region" />
+        <MMMButton size={"full"} disabled={disabled} type="submit">
           회원가입
         </MMMButton>
       </Form>
@@ -186,7 +204,7 @@ const Form = styled.form`
     min-height: 46px;
     margin: 100px 0;
   }
-  
+
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -270,7 +288,6 @@ const OneRow = styled.div`
     font-weight: 600;
     margin-top: 20px;
   }
-
 
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
