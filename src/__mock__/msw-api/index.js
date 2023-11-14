@@ -69,22 +69,22 @@ const buyerData = [
 
 const signupUserData = [
   {
-      email : faker.internet.email(),
-      password : faker.internet.password(),
-      nickName : faker.person.firstName(),
-      phoneNumber : faker.phone.number(),
-      location : faker.location.state(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    nickName: faker.person.firstName(),
+    phoneNumber: faker.phone.number(),
+    location: faker.location.state(),
   },
 ];
 
 const RegisterstoreData = [
   {
-    image : faker.image.avatar(),
-    title : faker.lorem.sentence(),
-    price : Math.floor(Math.random() * 100000),
-    tag : faker.commerce.productName(),
-    text : faker.lorem.word(),
-    location : faker.location.state(),
+    image: faker.image.avatar(),
+    title: faker.lorem.sentence(),
+    price: Math.floor(Math.random() * 100000),
+    tag: faker.commerce.productName(),
+    text: faker.lorem.word(),
+    location: faker.location.state(),
   },
 ];
 
@@ -125,29 +125,22 @@ export const getUserInfoData = http.get("api/user", () => {
   });
 });
 
-
 // 회원가입 데이터
 export const postSignupUserData = http.post(
   "api/signup",
   async ({ request }) => {
     const newUser = await request.json();
-    const {
-      email,
-      password,
-      nickName,
-      phoneNumber,
-      location,
-    } = newUser;
+    const { email, pw, nickName, phone, region } = newUser;
 
     const userData = {
-      email : email,
-      password : password,
-      nickName : nickName,
-      phoneNumber : phoneNumber,
-      location : location,
-    }
-    
-    signupUserData.push(userData)
+      email: email,
+      pw: pw,
+      nickName: nickName,
+      phone: phone,
+      region: region,
+    };
+
+    signupUserData.push(userData);
 
     return HttpResponse.json(signupUserData, { status: 201 });
   }
@@ -158,36 +151,28 @@ export const postregisterData = http.post(
   "api/register",
   async ({ request }) => {
     const newRegister = await request.json();
-    const {
-    image,
-    title,
-    price,
-    tag,
-    text,
-    location,
-    } = newRegister;
+    const { image, title, price, tag, text, location } = newRegister;
 
     const RegisterData = {
-      image : image,
-      title : title,
-      price : price,
-      tag : tag,
-      text : text,
-      location : location,
-    }
-    
-    RegisterstoreData.push(RegisterData)
+      image: image,
+      title: title,
+      price: price,
+      tag: tag,
+      text: text,
+      location: location,
+    };
+
+    RegisterstoreData.push(RegisterData);
 
     return HttpResponse.json(RegisterstoreData, { status: 201 });
   }
 );
 
-export const getSignupUserData = http.get(
-  "api/signup", () => {
-    return HttpResponse.json([signupUserData], {
-      status: 200,
-    });
+export const getSignupUserData = http.get("api/signup", () => {
+  return HttpResponse.json([signupUserData], {
+    status: 200,
   });
+});
 
 // 상세페이지 데이터
 export const getDetailProductData = http.get(
