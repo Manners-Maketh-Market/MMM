@@ -1,8 +1,7 @@
 import { axiosInstance } from "./core";
 
-
 const getAllProduct = async () => {
-  const res = await axiosInstance.get(`/products`);
+  const res = await axiosInstance.get(`/api/product`);
   return res.data;
 };
 

@@ -1,59 +1,36 @@
 import { Api } from "apis";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { flexCenter } from "styles/common.style";
 import styled from "styled-components";
 import ProductPageTitle from "./product-page-title";
 import OneProduct from "components/one-product";
-import { worker } from "__mock__/browser";
 import { Container, Grid } from "@mui/material";
 
 const ProductList = () => {
-  if (process.env.NODE_ENV === "development") {
-    worker.start();
-  }
-  const params = useParams();
-  const saleStatus = params.saleStatus;
+  const { saleStatus } = useParams();
 
-  // 첫 번째 인자: QueryKey / 두 번째 인자: 비동기함수(api호출함수)
-  const { data: productList } = useInfiniteQuery(
-    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus],
-    () => Api.getUsedOrFreeProduct(saleStatus)
-  );
+  const { data: productList } = useQuery([PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus], () => Api.getAllProduct());
+
+  let currentProductList = null;
+
+  if (productList) {
+    currentProductList = saleStatus === "sell" ? productList.usedProduct : productList.freeProduct;
+  }
 
   return (
-    productList && (
+    currentProductList && (
       <S.Wrapper>
         <S.TitleWrapper>
-          <ProductPageTitle
-            totalProductsCount={productList.pages[0][0].length}
-          />
+          <ProductPageTitle totalProductsCount={currentProductList.length} />
         </S.TitleWrapper>
         <hr />
         <Container style={{ marginTop: 100 }}>
-          <Grid
-            container
-            spacing={{ xs: 1, md: 2, lg: 3 }}
-            style={{ paddingBottom: 20 }}
-          >
-            {productList.pages[0][0].map((product, index) => (
-              <Grid
-                key={index}
-                product
-                xs={12}
-                md={4}
-                lg={3}
-                style={{ paddingBottom: 40 }}
-              >
-                <OneProduct
-                  title={product.title}
-                  content={product.content}
-                  img={product.Product_img}
-                  price={product.price}
-                  isLiked={product.isLiked}
-                  id={product.id}
-                />
+          <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
+            {currentProductList.map((product, index) => (
+              <Grid key={index} product xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
+                <OneProduct title={product.title} status={product.status} img={product.img_url} price={product.price} isLiked={product.isLiked} id={product.id} />
               </Grid>
             ))}
           </Grid>

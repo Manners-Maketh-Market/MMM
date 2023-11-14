@@ -5,7 +5,7 @@ import { flexCenter } from "styles/common.style";
 import HeartIcon from "../images/icon/fullheart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
-const OneProduct = ({ title, content, img, price, id }) => {
+const OneProduct = ({ title, status, img, price, id }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -20,25 +20,13 @@ const OneProduct = ({ title, content, img, price, id }) => {
 
   return (
     <S.Wrapper>
-      <S.ProductImg
-        src={img[0]}
-        alt="product img"
-        onClick={() => onClickToDetailPage(id)}
-      />
+      <S.ProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
       <S.TitleAndLikeBox>
         <S.Title className="Title">{title}</S.Title>
 
-        {isLiked ? (
-          <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} />
-        ) : (
-          <S.HeartImg
-            src={emptyHeartIcon}
-            alt="emptyHeart"
-            onClick={onToggleIsLiked}
-          />
-        )}
+        {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
       </S.TitleAndLikeBox>
-      <S.Content className="Content">{content}</S.Content>
+      <S.Content className="Content">{status}</S.Content>
       <S.Price className="Price">{price}원</S.Price>
     </S.Wrapper>
   );
@@ -103,7 +91,7 @@ const TitleAndLikeBox = styled.div`
 const Title = styled.div`
   font-size: ${({ theme }) => theme.FONT_SIZE.medium};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
-  width: 37px;
+  width: 200px;
   height: 18px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
