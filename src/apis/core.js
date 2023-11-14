@@ -2,17 +2,27 @@ import axios from "axios";
 import TokenRepository from "repository/TokenRepository";
 import AuthApi from "./auth";
 
-// 데이터 받아오게되면 baseURL 변경예정
 export const axiosInstance = axios.create({
-  baseURL: "api",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
   headers: {
     // token 종류 명시 필수 (json web token(JWT) => Bearer)
-    Authorization: `Bearer ${TokenRepository.getToken()}`,
+    Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
     // kakao map app-key
-    Authorization: `KakaoAK ${"6b6beb973270d87c1d12fe2bd9162e58"}`,
   },
   withCredentials: true,
 });
+
+// Authorization 내용이 겹쳐서 403에러로 인해 2개로 나눴습니다.
+export const axiosKakaoInstance = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+  headers: {
+    // kakao map app-key
+    Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_TOKEN}`,
+  },
+  withCredentials: true,
+});
+
+/* 
 
 // axios.interceptor
 axiosInstance.interceptors.request.use((config) => {
@@ -39,9 +49,7 @@ axiosInstance.interceptors.response.use(
       const response = await AuthApi.refresh();
       const token = response.data;
       axiosInstance.setToken(token);
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${token}`;
+      axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       return axiosInstance(error.config);
     }
     // session 만료 (404)
@@ -55,3 +63,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+*/

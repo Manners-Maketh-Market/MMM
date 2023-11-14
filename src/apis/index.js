@@ -1,9 +1,7 @@
 import { axiosInstance } from "./core";
 
-// 중고거래, 무료나눔 텍스트 클릭시에 이동되는 페이지에서 사용하는 데이터입니다.
-
 const getAllProduct = async () => {
-  const res = await axiosInstance.get(`/products`);
+  const res = await axiosInstance.get(`/api/product`);
   return res.data;
 };
 
@@ -27,7 +25,6 @@ const getFreeProduct = async () => {
   return res.data;
 };
 
-
 const getBuyerChatData = async () => {
   const res = await axiosInstance.get("/chat/buyer");
   return res.data;
@@ -37,7 +34,6 @@ const postMyChatData = async (bodyData) => {
   const res = await axiosInstance.post("/chat/buyer", bodyData);
   return res;
 };
-
 
 const getUserData = async () => {
   const res = await axiosInstance.get("/user");
