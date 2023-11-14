@@ -5,15 +5,18 @@ import useInputs from "hooks/use-inputs";
 import styled from "styled-components";
 import Phone from "./phone";
 import Location from "./location";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
+import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "provider/authProvider";
-import axios from "axios";
+import { isLogin } from "store";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { TokenAtom, isLoginSelector } from "Recoil/TokenAtom";
+import { user } from "store";
+import { signupUserDataIndex } from "store";
+import { useMutation } from "react-query";
+import { Api } from "apis";
 
-const SignUpForm = ({ setIsFormLogin }) => {
-  // goBack to LoginPage, onClick Logo image
+const SignUpForm = () => {
+  // onClick LogoImage, goBack to LoginPage
   const navigate = useNavigate();
   const onClickSignIn = () => {
     navigate("/sign-in");
@@ -34,29 +37,44 @@ const SignUpForm = ({ setIsFormLogin }) => {
   });
 
   // const { signUp } = useAuth();
-  const setAccessToken = useSetRecoilState(TokenAtom);
-  const isLogin = useRecoilValue(isLoginSelector);
+  const setUser = useSetRecoilState(user);
+  const setIsLogin = useSetRecoilState(isLogin);
+  const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
+  
+  const { mutate , data} = useMutation((signupUserData) =>
+    Api.postUserData(signupUserData)
+  );
 
-  // onSuccess
+  data && console.log(data)
+
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
+
     try {
-      // await signUp({ email, password, nickName }); setIsFormLogin(true);
-      axios.post("/user/login", { id: email, pw: password }).then((res) => {
-        setAccessToken(res.data.accessToken);
-        isLogin(true);
-      });
-      alert("회원가입이 되었습니다. 축하합니다.");
-      navigate("/sign-in"); // 회원가입과 동시에 로그인, 혹은 회원가입 후 로그인 창으로 보내기?
-    } catch {
-      alert("회원가입이 정상적으로 이루어지지 않았습니다, 죄송합니다.");
+      const signupUserData = {
+        email : e.target.email.value,
+        password : e.target.password.value,
+        nickName : e.target.nickName.value,
+        phoneNumber : e.target.phoneNumber.value,
+        location : e.target.location.value,
+        signupUserIndex : readSignupUserListIndex,
+      };
+      const signupData = JSON.stringify(signupUserData);
+      mutate(signupData);
+      setUser(signupData);
+      setIsLogin(true);
+      console.log(signupData);
+      navigate("/sign-in");
+      alert("환영합니다! 회원 가입이 완료되었습니다!");
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <Wrapper>
       <Logo onClick={onClickSignIn} />
-      <Form>
+      <Form onSubmit={onSubmitSignUp}>
         <OneRow>
           <MMMInput
             label="이메일"
@@ -108,13 +126,12 @@ const SignUpForm = ({ setIsFormLogin }) => {
             중복확인
           </MMMButton>
         </OneRow>
-        <Phone />
-        <Location />
+        <Phone name="phoneNumber"/>
+        <Location name="location"/>
         <MMMButton
           size={"full"}
-          disabled={disabled}
+          // disabled={disabled}
           type="submit"
-          onClick={onSubmitSignUp}
         >
           회원가입
         </MMMButton>
@@ -148,7 +165,6 @@ const Logo = styled.div`
   background-repeat: no-repeat;
   background-image: url("../../MMMlogo.png");
 
-  // mediaQuery - logo image
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     width: 150px;
     height: 60px;
@@ -170,8 +186,7 @@ const Form = styled.form`
     min-height: 46px;
     margin: 100px 0;
   }
-
-  // mediaQuery
+  
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -256,7 +271,7 @@ const OneRow = styled.div`
     margin-top: 20px;
   }
 
-  // mediaQuery
+
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
