@@ -147,7 +147,7 @@ export const postSignupUserData = http.post(
 );
 
 // 물품등록
-export const postregisterData = http.post(
+export const postRegisterData = http.post(
   "api/register",
   async ({ request }) => {
     const newRegister = await request.json();
@@ -162,9 +162,9 @@ export const postregisterData = http.post(
       location: location,
     };
 
-    RegisterstoreData.push(RegisterData);
+    postRegisterData.push(RegisterData);
 
-    return HttpResponse.json(RegisterstoreData, { status: 201 });
+    return HttpResponse.json(postRegisterData, { status: 201 });
   }
 );
 
