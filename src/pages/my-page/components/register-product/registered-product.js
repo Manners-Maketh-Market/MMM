@@ -2,18 +2,17 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import { styled } from "styled-components";
-import { flexCenter } from "styles/common.style";
+import { flexCenter, flexAlignCenter } from "styles/common.style";
 import Maps from "./maps";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { RegisterDataIndex } from "store";
 import { Api } from "apis";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { RegistData } from "store";
+import { RegisterData } from "store";
 import { mswDataState } from "store";
 
 const RegisterPage = () => {
-
   const [{ image, title, price, tag, explain, place }, onChangeInputs] =
     useInputs({
       image: "",
@@ -24,39 +23,38 @@ const RegisterPage = () => {
     });
 
   const navigate = useNavigate();
-  const onClickmypage = () => {
+  const onClickMyPage = () => {
     navigate("/my-page");
   };
 
-
   const setRegister = useSetRecoilState(mswDataState);
-  const setIsRegister = useSetRecoilState(RegistData);
+  const setIsRegister = useSetRecoilState(RegisterData);
   const readRegisterListIndex = useRecoilValue(RegisterDataIndex);
-  
-  const { mutate , data} = useMutation((newRegisterData) =>
-    Api.postRegistData(newRegisterData)
+
+  const { mutate, data } = useMutation((newRegisterData) =>
+    Api.postRegisterData(newRegisterData)
   );
 
-  data && console.log(data)
+  data && console.log(data);
 
   const onSubmitRegister = async (e) => {
     e.preventDefault();
 
     try {
       const newRegisterData = {
-        image : e.target.image.value,
-        title : e.target.title.value,
-        price : e.target.price.value,
-        tag : e.target.tag.value,
-        text : e.target.text.value,
-        location : e.target.location.value,
-        RegisterIndex : readRegisterListIndex,
+        image: e.target.image.value,
+        title: e.target.title.value,
+        price: e.target.price.value,
+        tag: e.target.tag.value,
+        text: e.target.text.value,
+        location: e.target.location.value,
+        RegisterIndex: readRegisterListIndex,
       };
-      const RegistData = JSON.stringify(newRegisterData);
-      mutate(RegistData);
-      setRegister(RegistData);
+      const RegisterData = JSON.stringify(newRegisterData);
+      mutate(RegisterData);
+      setRegister(RegisterData);
       setIsRegister(true);
-      console.log(RegistData);
+      console.log(RegisterData);
       navigate("/my-page");
       alert("물품 등록이 완료되었습니다.");
     } catch (error) {
@@ -100,23 +98,17 @@ const RegisterPage = () => {
         size={"registerProduct"}
       />
       <RequestsTitle>태그</RequestsTitle>
-              <RequestSelect name = "tag">
-                <option value="카테고리를 선택해주세요">
-                카테고리를 선택해주세요.
-                </option>
-                <option value="전자기기">
-                전자기기
-                </option>
-                <option value="의류">
-                의류
-                </option>
-                <option value="식품">
-                식품
-                </option>
-              </RequestSelect>
+      <RequestSelect name="tag">
+        <option value="카테고리를 선택해주세요">
+          카테고리를 선택해주세요.
+        </option>
+        <option value="전자기기">전자기기</option>
+        <option value="의류">의류</option>
+        <option value="식품">식품</option>
+      </RequestSelect>
       <Box>
         <label>내용</label>
-        <textarea placeholder="상품 설명을 입력해주세요" name = "text"/>
+        <textarea placeholder="상품 설명을 입력해주세요" name="text" />
       </Box>
       <Maps />
       {/* <SearchLocation>
@@ -373,22 +365,22 @@ const TextBox = styled.div`
 `;
 
 const RequestsTitle = styled.div`
-border: none;
-margin: 0px;
-outline: none;
-color: ${({ theme }) => theme.COLORS.gray[400]};
-padding-bottom: 30px;
+  border: none;
+  margin: 0px;
+  outline: none;
+  color: ${({ theme }) => theme.COLORS.gray[400]};
+  padding-bottom: 30px;
 
-& > label {
-  padding-left: 12px;
-  color: ${({ theme }) => theme.COLORS["black"]};
-  font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
-}
+  & > label {
+    padding-left: 12px;
+    color: ${({ theme }) => theme.COLORS["black"]};
+    font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+  }
 `;
 
 const RequestSelect = styled.select`
-width: 954px;
-height: 48px;
-border-radius: 6px;
-border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+  width: 954px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;
