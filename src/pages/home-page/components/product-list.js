@@ -10,24 +10,33 @@ import MMMButton from "components/button";
 const ProductList = () => {
   const navigate = useNavigate();
 
-  // 중고 목록 데이터를 리코일에 저장
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getUsedProduct()
+  const { data: productList } = useQuery(
+    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
+    () => Api.getAllProduct()
   );
 
-  const { data: FreeProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getFreeProduct()
+  const { data: detailProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
+    () => Api.getDetailProduct("1050")
   );
+
+  console.log(productList);
+
+  let usedProductList = null;
+  let freeProductList = null;
+
+  if (productList) {
+    usedProductList = productList.usedProduct;
+    freeProductList = productList.freeProduct;
+  }
 
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
   };
 
   return (
-    UsedProductList &&
-    FreeProductList && (
+    usedProductList &&
+    freeProductList && (
       <Container>
         <S.UsedTrade>
           <S.Title>중고거래</S.Title>
@@ -36,7 +45,7 @@ const ProductList = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {UsedProductList[0].slice(0, 8).map((item, index) => (
+            {usedProductList.slice(0, 8).map((item, index) => (
               <Grid
                 key={index}
                 item
@@ -47,11 +56,11 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  content={item.content}
-                  img={item.Product_img}
+                  status={item.status}
+                  img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.id}
+                  id={item.idx}
                 />
               </Grid>
             ))}
@@ -72,7 +81,7 @@ const ProductList = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {FreeProductList[0].slice(0, 8).map((item, index) => (
+            {freeProductList.slice(0, 8).map((item, index) => (
               <Grid
                 key={index}
                 item
@@ -83,11 +92,11 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  content={item.content}
-                  img={item.Product_img}
+                  status={item.status}
+                  img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.id}
+                  id={item.idx}
                 />
               </Grid>
             ))}
