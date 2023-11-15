@@ -2,7 +2,7 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import { styled } from "styled-components";
-import { flexCenter } from "styles/common.style";
+import { flexAlignCenter, flexCenter } from 'styles/common.style';
 import Maps from "./maps";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { RegisterDataIndex } from "store";
