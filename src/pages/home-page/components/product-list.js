@@ -92,6 +92,10 @@ const Title = styled.h1`
 
 const Share = styled.div``;
 
+const UsedTrade = styled.div`
+    margin-bottom: 50px;
+`;
+
 const S = {
     UsedTrade,
     Title,
