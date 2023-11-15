@@ -264,4 +264,3 @@ const TitleInform = styled.div`
     color: burlywood;
   }
 `;
-//

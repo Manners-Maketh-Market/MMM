@@ -15,11 +15,6 @@ const ProductList = () => {
     () => Api.getAllProduct()
   );
 
-  const { data: detailProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
-    () => Api.getDetailProduct("1050")
-  );
-
   let usedProductList = null;
   let freeProductList = null;
 
