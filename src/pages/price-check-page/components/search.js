@@ -7,10 +7,13 @@ import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PriceSearch = () => {
-  const [titles, setTitles] = useState("");
+  const param = useParams();
+  const datatitle = param.title;
+
+  const [titles, setTitles] = useState(datatitle);
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -39,16 +42,22 @@ const PriceSearch = () => {
     }
   };
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getUsedProduct()
+  const { data: AllProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
+    () => Api.getAllProduct()
   );
 
-  const filter = UsedProductList[0]
-    .slice(0, 10)
-    .filter((list) =>
-      list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
-    );
+  const filterItem = AllProductList && [
+    ...AllProductList.usedProduct,
+    ...AllProductList.freeProduct,
+  ];
+  const filter =
+    filterItem &&
+    filterItem
+      .slice(0, 10)
+      .filter((list) =>
+        list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
+      );
 
   const onTitleChange = (e) => {
     setTitles(e.target.value);
@@ -136,6 +145,9 @@ const PriceSearch = () => {
           )}
         </SearchList>
       )}
+      <TitleInform>
+        <span>"{datatitle}"</span> 의 시세정보입니다.
+      </TitleInform>
     </Wrapper>
   );
 };
@@ -189,7 +201,6 @@ const SearchList = styled.div`
 
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 400px;
-    top: 30px;
   }
 
   & > div {
@@ -238,9 +249,19 @@ const ListWrap = styled.div`
   &:hover {
     background-color: aliceblue;
   }
-  // 글자색은 바뀐다.그러네! 어 됬다
 `;
 
 const SearchListResult = styled.div`
   ${flexCenter}
 `;
+
+const TitleInform = styled.div`
+  height: 30px;
+  ${flexCenter}
+  margin-bottom: 20px;
+  & > span {
+    font-weight: 700;
+    color: burlywood;
+  }
+`;
+//

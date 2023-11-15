@@ -63,11 +63,13 @@ const sizeCSS = {
     @media ${({ theme }) => theme.DEVICE.mobile} {
       width: 300px;
       height: 40px;
+      padding-bottom: 30px;
     }
 
     @media ${({ theme }) => theme.DEVICE.tablet} {
       width: 400px;
       height: 56px;
+      padding-bottom: 30px;
     }
   `,
 

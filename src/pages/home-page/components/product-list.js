@@ -20,8 +20,6 @@ const ProductList = () => {
     () => Api.getDetailProduct("1050")
   );
 
-  console.log(productList);
-
   let usedProductList = null;
   let freeProductList = null;
 

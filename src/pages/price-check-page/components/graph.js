@@ -17,28 +17,37 @@ const PriceGraph = () => {
   threeWeekAgo.setDate(today.getDate() - 21);
   fourWeekAgo.setDate(today.getDate() - 28);
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getUsedProduct()
+  const { data: AllProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
+    () => Api.getAllProduct()
   );
 
-  const aWeekAgoArr = UsedProductList[0].filter(
-    (item) => item.createdAt > aWeekAgo.toJSON()
-  );
-  const twoWeekAgoArr = UsedProductList[0].filter(
-    (item) =>
-      aWeekAgo.toJSON() > item.createdAt && item.createdAt > twoWeekAgo.toJSON()
-  );
-  const threeWeekAgoArr = UsedProductList[0].filter(
-    (item) =>
-      twoWeekAgo.toJSON() > item.createdAt &&
-      item.createdAt > threeWeekAgo.toJSON()
-  );
-  const fourWeekAgoArr = UsedProductList[0].filter(
-    (item) =>
-      threeWeekAgo.toJSON() > item.createdAt &&
-      item.createdAt > fourWeekAgo.toJSON()
-  );
+  const aWeekAgoArr =
+    AllProductList &&
+    AllProductList.freeProduct.filter(
+      (item) => item.createdAt > aWeekAgo.toJSON()
+    );
+  const twoWeekAgoArr =
+    AllProductList &&
+    AllProductList.freeProduct.filter(
+      (item) =>
+        aWeekAgo.toJSON() > item.createdAt &&
+        item.createdAt > twoWeekAgo.toJSON()
+    );
+  const threeWeekAgoArr =
+    AllProductList &&
+    AllProductList.freeProduct.filter(
+      (item) =>
+        twoWeekAgo.toJSON() > item.createdAt &&
+        item.createdAt > threeWeekAgo.toJSON()
+    );
+  const fourWeekAgoArr =
+    AllProductList &&
+    AllProductList.freeProduct.filter(
+      (item) =>
+        threeWeekAgo.toJSON() > item.createdAt &&
+        item.createdAt > fourWeekAgo.toJSON()
+    );
 
   console.log(aWeekAgoArr, twoWeekAgoArr, threeWeekAgoArr, fourWeekAgoArr);
 
