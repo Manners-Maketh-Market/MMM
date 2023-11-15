@@ -167,7 +167,6 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   height: 70px;
-  // padding-bottom: 40px;
   text-align: center;
   font-size: 28px;
   font-weight: 600;
