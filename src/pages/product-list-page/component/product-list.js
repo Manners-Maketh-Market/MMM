@@ -23,33 +23,26 @@ const ProductList = () => {
 
     productList && console.log(productList);
 
-    return (
-        currentProductList && (
-            <S.Wrapper>
-                <S.TitleWrapper>
-                    <ProductPageTitle totalProductsCount={currentProductList.length} />
-                </S.TitleWrapper>
-                <hr />
-                <Container style={{ marginTop: 100 }}>
-                    <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
-                        {currentProductList.map((product, index) => (
-                            <Grid key={index} product xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
-                                <OneProduct
-                                    title={product.title}
-                                    status={product.status}
-                                    img={product.img_url}
-                                    price={product.price}
-                                    isLiked={product.isLiked}
-                                    id={product.id}
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-                <S.MoreBtn>More</S.MoreBtn>
-            </S.Wrapper>
-        )
-    );
+  return (
+    currentProductList && (
+      <S.Wrapper>
+        <S.TitleWrapper>
+          <ProductPageTitle totalProductsCount={currentProductList.length} />
+        </S.TitleWrapper>
+        <hr />
+        <Container style={{ marginTop: 100 }}>
+          <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
+            {currentProductList.map((product, index) => (
+              <Grid key={index} product xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
+                <OneProduct title={product.title} status={product.status} img={product.img_url} price={product.price} isLiked={product.isLiked} id={product.id} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+        <S.MoreBtn>More</S.MoreBtn>
+      </S.Wrapper>
+    )
+  );
 };
 
 export default ProductList;

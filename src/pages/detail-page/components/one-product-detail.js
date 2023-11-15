@@ -21,31 +21,32 @@ const OneProductDetail = () => {
   const param = useParams();
   const dataId = param.id;
 
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getUsedProduct()
+  const { data: detailProduct } = useQuery(
+    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
+    () => Api.getDetailProduct(dataId)
   );
-
-  const detailItem = UsedProductList[0].filter((item) => item.id === dataId);
+  console.log(detailProduct);
 
   const marketPricePage = () => {
-    const titleValue = detailItem[0].title;
+    const titleValue = detailProduct.searchProduct.title;
 
     navigate(`/pricecheckpage/${titleValue}`);
   };
 
   return (
     <>
-      {detailItem && (
+      {detailProduct && (
         <Wrapper>
           <ProductDetail>
             {/*상품 프로덕트 사진, 제목, 가격, 유저 정보, 찜, 채팅 */}
             <ImgAndInform>
-              <ImgSlider product={detailItem[0]} />
+              <ImgSlider product={detailProduct.searchProduct} />
               <Inform>
-                <Title>상품제목 | {detailItem[0].title}</Title>
+                <Title>상품제목 | {detailProduct.searchProduct.title}</Title>
                 <FlexBox>
-                  <Price>{UsePriceComma(detailItem[0].price)}원</Price>
+                  <Price>
+                    {UsePriceComma(detailProduct.searchProduct.price)}원
+                  </Price>
                   <p onClick={() => marketPricePage()}>
                     이 상품 시세 조회하러 가기
                   </p>
@@ -56,19 +57,19 @@ const OneProductDetail = () => {
                     <UserProfBox>
                       <ProfileImg>
                         <img
-                          src={detailItem[0].User.profileImg}
+                          src={detailProduct.searchProduct.User.profile_url}
                           width={"100%"}
                           height={"100%"}
                           alt="ProfileImg"
                         ></img>
                       </ProfileImg>
                       <UserIdLoc>
-                        <p>{detailItem[0].User.id}</p>
-                        <p>{detailItem[0].location}</p>
+                        <p>{detailProduct.searchProduct.User.nick_name}</p>
+                        <p>{detailProduct.searchProduct.region}</p>
                       </UserIdLoc>
                     </UserProfBox>
                     <MannerTemperature
-                      user={detailItem[0].User}
+                      user={detailProduct.searchProduct.User.Ondo}
                     ></MannerTemperature>
                   </UserImgIdLoc>
                 </UserProf>
@@ -83,7 +84,7 @@ const OneProductDetail = () => {
                     <span>
                       <FontAwesomeIcon icon={faHeart} />
                     </span>{" "}
-                    찜 {detailItem[0].likedCount}
+                    찜 {detailProduct.searchProduct.liked}
                   </MMMButton>
                   <MMMButton variant={"detailB"} size={"medium"}>
                     <FontAwesomeIcon icon={faComments} /> 채팅하기
@@ -93,7 +94,7 @@ const OneProductDetail = () => {
             </ImgAndInform>
             <Content>
               <span>상품정보</span>
-              <p>{detailItem[0].content}</p>
+              <p>{detailProduct.searchProduct.description}</p>
             </Content>
             <MMMButton variant={"More"} style={{ border: "1px solid #9F9EB3" }}>
               More
@@ -102,7 +103,7 @@ const OneProductDetail = () => {
             {/*관련 상품 목록 */}
             <RelatedProduct>
               <span>연관상품</span>
-              <ImgSlider related={UsedProductList[0]} />
+              <ImgSlider related={detailProduct.relatedProduct.product} />
             </RelatedProduct>
           </ProductDetail>
         </Wrapper>

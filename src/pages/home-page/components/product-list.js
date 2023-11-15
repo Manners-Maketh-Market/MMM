@@ -12,6 +12,10 @@ const ProductList = () => {
 
     const { data: productList } = useQuery([PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST], () => Api.getAllProduct());
 
+    const { data: detailProductList } = useQuery([PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA], () =>
+        Api.getDetailProduct('1050')
+    );
+
     const UsedProductList = productList && productList.usedProduct;
     const FreeProductList = productList && productList.freeProduct;
 
@@ -78,10 +82,6 @@ const ProductList = () => {
 };
 
 export default ProductList;
-
-const UsedTrade = styled.div`
-    margin: 50px 0px;
-`;
 
 const Title = styled.h1`
     font-size: 26px;
