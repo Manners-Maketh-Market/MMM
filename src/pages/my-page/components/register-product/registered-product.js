@@ -2,14 +2,17 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import { styled } from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
+import { flexCenter } from "styles/common.style";
+import Maps from "./maps";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { RegisterDataIndex } from "store";
+import { Api } from "apis";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { RegistData } from "store";
+import { mswDataState } from "store";
 
-const RegisterPage = ({ setIsFormRegister }) => {
-  const onSubmitRegister = (e) => {
-    e.preventDefault();
-    alert("물품이 등록되었습니다.");
-    setIsFormRegister(true);
-  };
+const RegisterPage = () => {
 
   const [{ image, title, price, tag, explain, place }, onChangeInputs] =
     useInputs({
@@ -17,9 +20,49 @@ const RegisterPage = ({ setIsFormRegister }) => {
       title: "",
       price: "",
       tag: "",
-      explain: "",
-      place: "",
+      text: "",
     });
+
+  const navigate = useNavigate();
+  const onClickmypage = () => {
+    navigate("/my-page");
+  };
+
+
+  const setRegister = useSetRecoilState(mswDataState);
+  const setIsRegister = useSetRecoilState(RegistData);
+  const readRegisterListIndex = useRecoilValue(RegisterDataIndex);
+  
+  const { mutate , data} = useMutation((newRegisterData) =>
+    Api.postRegistData(newRegisterData)
+  );
+
+  data && console.log(data)
+
+  const onSubmitRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const newRegisterData = {
+        image : e.target.image.value,
+        title : e.target.title.value,
+        price : e.target.price.value,
+        tag : e.target.tag.value,
+        text : e.target.text.value,
+        location : e.target.location.value,
+        RegisterIndex : readRegisterListIndex,
+      };
+      const RegistData = JSON.stringify(newRegisterData);
+      mutate(RegistData);
+      setRegister(RegistData);
+      setIsRegister(true);
+      console.log(RegistData);
+      navigate("/my-page");
+      alert("물품 등록이 완료되었습니다.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Form onSubmit={onSubmitRegister}>
@@ -56,29 +99,31 @@ const RegisterPage = ({ setIsFormRegister }) => {
         placeholder="0원"
         size={"registerProduct"}
       />
-      <MMMInput
-        label="태그"
-        name="tag"
-        onChange={onChangeInputs}
-        placeholder="카테고리를 입력해주세요."
-        size={"registerProduct"}
-      />
+      <RequestsTitle>태그</RequestsTitle>
+              <RequestSelect name = "tag">
+                <option value="카테고리를 선택해주세요">
+                카테고리를 선택해주세요.
+                </option>
+                <option value="전자기기">
+                전자기기
+                </option>
+                <option value="의류">
+                의류
+                </option>
+                <option value="식품">
+                식품
+                </option>
+              </RequestSelect>
       <Box>
         <label>내용</label>
-        <textarea placeholder="상품 설명을 입력해주세요" />
+        <textarea placeholder="상품 설명을 입력해주세요" name = "text"/>
       </Box>
-      <SearchLocation>
-        <MMMInput
-          label="지역선택"
-          name="location"
-          onChange={onChangeInputs}
-          placeholder="검색 버튼을 눌러주세요."
-          size={"larger"}
-        />
+      <Maps />
+      {/* <SearchLocation>
         <MMMButton shape={"shape"} size={"small"} variant={"secondary"}>
           검색
         </MMMButton>
-      </SearchLocation>
+      </SearchLocation> */}
       <MMMButton shape={"shape"} size={"full"} variant={"secondary"}>
         물품 등록
       </MMMButton>
@@ -327,87 +372,23 @@ const TextBox = styled.div`
   }
 `;
 
-const SearchLocation = styled.div`
-  max-width: 954px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+const RequestsTitle = styled.div`
+border: none;
+margin: 0px;
+outline: none;
+color: ${({ theme }) => theme.COLORS.gray[400]};
+padding-bottom: 30px;
 
-  & > div {
-    & > input {
-      min-width: 740px;
-      min-height: 48px;
-    }
-  }
-  & > button {
-    margin-bottom: 15px;
-  }
+& > label {
+  padding-left: 12px;
+  color: ${({ theme }) => theme.COLORS["black"]};
+  font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+}
+`;
 
-  // mediaQuery
-  @media ${({ theme }) => theme.DEVICE.smallMobile} {
-    max-width: 240px;
-
-    & > div {
-      & > input {
-        min-width: 152px;
-        min-height: 38px;
-        border-radius: 4px;
-        font-size: 10px;
-      }
-      & > label,
-      & > p {
-        font-size: 10px;
-      }
-    }
-    & > button {
-      min-width: 38px;
-      min-height: 38px;
-      font-size: 10px;
-      margin-left: 6px;
-    }
-  }
-  @media ${({ theme }) => theme.DEVICE.tablet2} {
-    max-width: 400px;
-
-    & > div {
-      & > input {
-        min-width: 240px;
-        min-height: 42px;
-        border-radius: 6px;
-        font-size: 12px;
-      }
-      & > label,
-      & > p {
-        font-size: 12px;
-      }
-    }
-    & > button {
-      min-width: 70px;
-      min-height: 42px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin: 4px 0 20px 10px;
-    }
-  }
-  @media ${({ theme }) => theme.DEVICE.laptop} {
-    max-width: 700px;
-
-    & > div {
-      & > input {
-        min-width: 466px;
-        min-height: 48px;
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
-      & > label,
-      & > p {
-        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      }
-    }
-    & > button {
-      min-width: 140px;
-      margin: 4px 0 20px 10px;
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-    }
-  }
+const RequestSelect = styled.select`
+width: 954px;
+height: 48px;
+border-radius: 6px;
+border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
 `;

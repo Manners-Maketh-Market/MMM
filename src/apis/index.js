@@ -5,10 +5,12 @@ const getAllProduct = async () => {
   return res.data;
 };
 
+
 const getDetailProduct = async (param) => {
   const res = await axiosInstance.get(`/api/product/detail?prod_idx=${param}`);
   return res.data;
 };
+
 
 const getUsedOrFreeProduct = async (param) => {
   const res = await axiosInstance.get(`/products/${param}`);
@@ -45,6 +47,21 @@ const getUserData = async () => {
   return res.data;
 };
 
+const postUserData = async (signupData) => {
+  const res = await axiosInstance.post("/signup", signupData);
+  return res;
+};
+
+const postRegistData = async (registData) => {
+  const res = await axiosInstance.post("/register", registData);
+  return res;
+};
+
+const getsignUserData = async () => {
+  const res = await axiosInstance.get("/signup");
+  return res;
+};
+
 export const Api = {
   getAllProduct,
   getDetailProduct,
@@ -55,4 +72,7 @@ export const Api = {
   getBuyerChatData,
   postMyChatData,
   getUserData,
+  postUserData,
+  getsignUserData,
+  postRegistData,
 };
