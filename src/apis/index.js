@@ -5,7 +5,6 @@ const getAllProduct = async () => {
   return res.data;
 };
 
-
 const getUsedOrFreeProduct = async (param) => {
   const res = await axiosInstance.get(`/products/${param}`);
   return res.data;
@@ -42,17 +41,17 @@ const getUserData = async () => {
 };
 
 const postUserData = async (signupData) => {
-  const res = await axiosInstance.post("/signup", signupData);
+  const res = await axiosInstance.post("/api/user", signupData);
+  return res;
+};
+
+const getsignUserData = async () => {
+  const res = await axiosInstance.post("/api/user/login");
   return res;
 };
 
 const postRegistData = async (registData) => {
   const res = await axiosInstance.post("/register", registData);
-  return res;
-};
-
-const getsignUserData = async () => {
-  const res = await axiosInstance.get("/signup");
   return res;
 };
 
