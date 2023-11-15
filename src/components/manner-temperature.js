@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 const MannerTemperature = ({ user }) => {
-  const ratio = Math.floor((user.manner / 100) * 100);
+  const ratio = Math.floor((user.ondo / 100) * 100);
   const ratioColor =
     ratio <= 20
       ? "gray"
@@ -26,7 +26,7 @@ const MannerTemperature = ({ user }) => {
     <Manner>
       <Rate>
         <Celsius color={ratioColor}>
-          <p>{user.manner}℃</p>
+          <p>{user.ondo}℃</p>
         </Celsius>
         <Indicator>
           <Ratio ratio={ratio} color={ratioColor}></Ratio>

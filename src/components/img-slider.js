@@ -70,13 +70,32 @@ const ImgSlider = ({ product, related }) => {
 
   const RelatedProductSetting = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 1300,
     slidesToShow: 5,
     slidesToScroll: 5,
     autoplay: true,
     autoplaySpeed: 5000,
     arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          dots: true,
+        },
+      },
+    ],
+
     nextArrow: (
       <RelatedNext>
         <img src={DownArrow} alt="leftArrow" />
@@ -103,11 +122,10 @@ const ImgSlider = ({ product, related }) => {
       {product ? (
         <ProductWrap>
           <StyledDetailProduct {...ProductSetting}>
-            {product.Product_img.map((img, idx) => (
-              <div key={idx}>
-                <ProductImg src={img}></ProductImg>
-              </div>
-            ))}
+            {/*{product.ProductImages.map((img, idx) => ())}*/}
+            <div>
+              <ProductImg src={product.img_url}></ProductImg>
+            </div>
           </StyledDetailProduct>
         </ProductWrap>
       ) : related ? (
@@ -116,8 +134,8 @@ const ImgSlider = ({ product, related }) => {
             {related.map((item, idx) => (
               <RelatedOption key={idx}>
                 <RelatedProductImg
-                  src={item.Product_img[0]}
-                  onClick={() => onClickToDetailPage(item.id)}
+                  src={item.img_url}
+                  onClick={() => onClickToDetailPage(item.idx)}
                 ></RelatedProductImg>
                 <p>{skipTitleView(item.title)}</p>
               </RelatedOption>
@@ -146,6 +164,7 @@ const RelatedOption = styled.div`
     padding-top: 14px;
     font-size: 20px;
     font-weight: bold;
+    width: 180px;
   }
 `;
 
@@ -157,6 +176,7 @@ const BannerImgWrap = styled.div`
     overflow: hidden;
     display: inline-block;
     min-height: 200px;
+    /* padding-right: 50px; */
   }
 `;
 
@@ -194,8 +214,10 @@ const ProductImg = styled.img`
 `;
 
 const ProductWrap = styled.div`
-  width: 580px;
+  width: 880px;
+  //원래 580px
   height: 580px;
+  background-color: aliceblue;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 100%;
@@ -216,9 +238,16 @@ const RelatedProductImg = styled.img`
 
 const RelatedProductWrap = styled.div`
   width: 976px;
-  height: 220px;
+  height: 180px;
   margin: 60px auto;
   cursor: pointer;
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 100%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 100%;
+  }
 `;
 
 //StyledSlider :Slider Arrow css
@@ -226,15 +255,21 @@ const StyledSlider = styled(Slider)`
   .slick-prev {
     z-index: 1;
     left: -50px;
+    top: 90px;
   }
 
   .slick-next {
     right: -40px;
+    top: 90px;
   }
 
   .slick-prev::before,
   .slick-next::before {
     content: none;
+  }
+
+  .slick-slide {
+    padding-right: 20px;
   }
 `;
 

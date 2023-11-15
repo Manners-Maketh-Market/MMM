@@ -6,6 +6,12 @@ const getAllProduct = async () => {
 };
 
 
+const getDetailProduct = async (param) => {
+  const res = await axiosInstance.get(`/api/product/detail?prod_idx=${param}`);
+  return res.data;
+};
+
+
 const getUsedOrFreeProduct = async (param) => {
   const res = await axiosInstance.get(`/products/${param}`);
   return res.data;
@@ -58,6 +64,7 @@ const getsignUserData = async () => {
 
 export const Api = {
   getAllProduct,
+  getDetailProduct,
   getUsedOrFreeProduct,
   getUsedProduct,
   getSearchProduct,

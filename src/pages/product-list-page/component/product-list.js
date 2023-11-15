@@ -11,12 +11,16 @@ import { Container, Grid } from "@mui/material";
 const ProductList = () => {
   const { saleStatus } = useParams();
 
-  const { data: productList } = useQuery([PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus], () => Api.getAllProduct());
+  const { data: productList } = useQuery(
+    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus],
+    () => Api.getAllProduct()
+  );
 
   let currentProductList = null;
 
   if (productList) {
-    currentProductList = saleStatus === "sell" ? productList.usedProduct : productList.freeProduct;
+    currentProductList =
+      saleStatus === "sell" ? productList.usedProduct : productList.freeProduct;
   }
 
   return (
@@ -27,10 +31,28 @@ const ProductList = () => {
         </S.TitleWrapper>
         <hr />
         <Container style={{ marginTop: 100 }}>
-          <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
+          <Grid
+            container
+            spacing={{ xs: 1, md: 2, lg: 3 }}
+            style={{ paddingBottom: 20 }}
+          >
             {currentProductList.map((product, index) => (
-              <Grid key={index} product xs={12} md={4} lg={3} style={{ paddingBottom: 40 }}>
-                <OneProduct title={product.title} status={product.status} img={product.img_url} price={product.price} isLiked={product.isLiked} id={product.id} />
+              <Grid
+                key={index}
+                product
+                xs={12}
+                md={4}
+                lg={3}
+                style={{ paddingBottom: 40 }}
+              >
+                <OneProduct
+                  title={product.title}
+                  status={product.status}
+                  img={product.img_url}
+                  price={product.price}
+                  isLiked={product.isLiked}
+                  id={product.idx}
+                />
               </Grid>
             ))}
           </Grid>
