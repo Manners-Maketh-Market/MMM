@@ -5,20 +5,22 @@ const getAllProduct = async () => {
   return res.data;
 };
 
-
 const getDetailProduct = async (param) => {
   const res = await axiosInstance.get(`/api/product/detail?prod_idx=${param}`);
   return res.data;
 };
 
-
-const getUsedOrFreeProduct = async (param) => {
-  const res = await axiosInstance.get(`/products/${param}`);
+const getUsedOrFreeProduct = async (pageParam, saleStatus) => {
+  const res = await axiosInstance.get(
+    `/api/product/search?category=${saleStatus}&page=${pageParam}`
+  );
   return res.data;
 };
 
-const getSearchProduct = async (category, keyword, page) => {
-  const res = await axiosInstance.get(`/api/product/search?category=${category}&keyword=${keyword}&page=${page}`);
+const getSearchProduct = async (category, keyword, pageParam) => {
+  const res = await axiosInstance.get(
+    `/api/product/search?category=${category}&keyword=${keyword}&page=${pageParam}`
+  );
   return res.data;
 };
 

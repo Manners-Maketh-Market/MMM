@@ -42,8 +42,8 @@ const Header = () => {
       <S.LeftContainer>
         <S.HeaderLogoIcon src={BlackLogo} alt="Logo" onClick={onGoMainPage} />
         <S.Ul>
-          <li onClick={() => onGoProductsListPage("sell")}>중고거래</li>
-          <li onClick={() => onGoProductsListPage("free")}>무료나눔</li>
+          <li onClick={() => onGoProductsListPage("0")}>중고거래</li>
+          <li onClick={() => onGoProductsListPage("1")}>무료나눔</li>
           <li onClick={onGoPriceCheckPage}>시세조회</li>
         </S.Ul>
       </S.LeftContainer>
