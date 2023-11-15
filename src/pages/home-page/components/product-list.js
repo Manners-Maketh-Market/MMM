@@ -26,6 +26,7 @@ const ProductList = () => {
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
   };
+  console.log(productList);
 
   return (
     usedProductList &&

@@ -2,7 +2,7 @@ import { Api } from "apis";
 import MMMInput from "components/input";
 import { PRODUCT_QUERY_KEY } from "consts";
 import useMaxLength from "hooks/use-max-length-overflow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
@@ -13,7 +13,7 @@ const PriceSearch = () => {
   const param = useParams();
   const datatitle = param.title;
 
-  const [titles, setTitles] = useState(datatitle);
+  const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -21,6 +21,12 @@ const PriceSearch = () => {
   const { skipTitleView } = useMaxLength();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (datatitle) {
+      setTitles(datatitle);
+    }
+  }, [datatitle]);
 
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
@@ -167,6 +173,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   height: 70px;
+  // padding-bottom: 40px;
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -248,6 +255,7 @@ const ListWrap = styled.div`
   &:hover {
     background-color: aliceblue;
   }
+  // 글자색은 바뀐다.그러네! 어 됬다
 `;
 
 const SearchListResult = styled.div`
@@ -263,3 +271,4 @@ const TitleInform = styled.div`
     color: burlywood;
   }
 `;
+//

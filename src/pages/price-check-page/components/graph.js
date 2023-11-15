@@ -12,10 +12,10 @@ const PriceGraph = () => {
   const twoWeekAgo = new Date(today);
   const threeWeekAgo = new Date(today);
   const fourWeekAgo = new Date(today);
-  aWeekAgo.setDate(today.getDate() - 7);
-  twoWeekAgo.setDate(today.getDate() - 14);
-  threeWeekAgo.setDate(today.getDate() - 21);
-  fourWeekAgo.setDate(today.getDate() - 28);
+  aWeekAgo.setMonth(today.getMonth() - 1);
+  twoWeekAgo.setMonth(today.getMonth() - 2);
+  threeWeekAgo.setMonth(today.getMonth() - 3);
+  fourWeekAgo.setMonth(today.getMonth() - 4);
 
   const { data: AllProductList } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
@@ -24,88 +24,81 @@ const PriceGraph = () => {
 
   const aWeekAgoArr =
     AllProductList &&
-    AllProductList.freeProduct.filter(
+    AllProductList.usedProduct.filter(
       (item) => item.createdAt > aWeekAgo.toJSON()
     );
   const twoWeekAgoArr =
     AllProductList &&
-    AllProductList.freeProduct.filter(
+    AllProductList.usedProduct.filter(
       (item) =>
         aWeekAgo.toJSON() > item.createdAt &&
         item.createdAt > twoWeekAgo.toJSON()
     );
   const threeWeekAgoArr =
     AllProductList &&
-    AllProductList.freeProduct.filter(
+    AllProductList.usedProduct.filter(
       (item) =>
         twoWeekAgo.toJSON() > item.createdAt &&
         item.createdAt > threeWeekAgo.toJSON()
     );
   const fourWeekAgoArr =
     AllProductList &&
-    AllProductList.freeProduct.filter(
+    AllProductList.usedProduct.filter(
       (item) =>
         threeWeekAgo.toJSON() > item.createdAt &&
         item.createdAt > fourWeekAgo.toJSON()
     );
 
-  console.log(aWeekAgoArr, twoWeekAgoArr, threeWeekAgoArr, fourWeekAgoArr);
+  // 최고 시세
+  const MAXARR =
+    AllProductList &&
+    AllProductList.usedProduct.reduce((prev, value) => {
+      return prev.price >= value.price ? prev : value;
+    });
 
-  const data = [
-    { Price: 3000 },
-    {
-      name: "3개월 전",
-      Price: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "2개월 전",
-      Price: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "1개월 전",
-      Price: 9000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "오늘",
-      Price: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-  ];
+  // 최저 시세
+  const MINARR =
+    AllProductList &&
+    AllProductList.usedProduct.reduce((prev, value) => {
+      return prev.price >= value.price ? value : prev;
+    });
+
+  // 평균 시세
+  const result =
+    AllProductList &&
+    AllProductList.usedProduct.reduce((prev, value) => {
+      return prev + value.price;
+    }, 0);
+
+  const AVGARR =
+    result && Math.floor(result / AllProductList.usedProduct.length);
+
+  console.log(result, AVGARR);
+
+  //문제 배열안에서 가장 큰 값을 찾는 수식을 짜라 price가 가장 높은 애를 찾아라
 
   return (
     <Wrapper>
       <PriceBoxWrapper>
         <PriceBox
           title={"최고"}
-          price={data[3].Price}
+          price={MAXARR.price}
           style={{ color: "#DF0000" }}
         />
-        <PriceBox title={"시세"} price={4455} style={{ color: "#2EB200" }} />
+        <PriceBox title={"시세"} price={AVGARR} style={{ color: "#2EB200" }} />
         <PriceBox
           title={"최저"}
-          price={data[4].Price}
+          price={MINARR.price}
           style={{ border: "none", color: "#062BED" }}
         />
       </PriceBoxWrapper>
       {/* <p>최근 3 달간 안주현의 시세입니다. </p> */}
       {/* 그래프 미디어 쿼리 : display로 특정 사이즈마다 사라졌다가 보이게 하는 기능 */}
       <MainGraph>
-        <GraphItem data={data} width={460} height={300} />
+        <GraphItem data={2} width={460} height={300} />
       </MainGraph>
       <MediaGraph>
-        <GraphItem
-          data={data}
-          width={333}
-          height={218}
-          fontsize={12}
-        ></GraphItem>
+        <GraphItem data={2} width={333} height={218} fontsize={12}></GraphItem>
       </MediaGraph>
     </Wrapper>
   );
