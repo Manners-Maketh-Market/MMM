@@ -54,6 +54,7 @@ const ProductList = () => {
                   price={item.price}
                   isLiked={item.isLiked}
                   id={item.id}
+                  status={item.status}
                 />
               </Grid>
             ))}
@@ -90,6 +91,7 @@ const ProductList = () => {
                   price={item.price}
                   isLiked={item.isLiked}
                   id={item.id}
+                  status={item.status}
                 />
               </Grid>
             ))}
