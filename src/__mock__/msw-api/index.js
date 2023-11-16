@@ -67,13 +67,13 @@ const buyerData = [
   },
 ];
 
-const signupUserData = [
+const signupData = [
   {
     email: faker.internet.email(),
-    password: faker.internet.password(),
+    pw: faker.internet.password(),
     nickName: faker.person.firstName(),
-    phoneNumber: faker.phone.number(),
-    location: faker.location.state(),
+    phone: faker.phone.number(),
+    region: faker.location.state(),
   },
 ];
 
@@ -125,28 +125,42 @@ export const getUserInfoData = http.get("api/user", () => {
   });
 });
 
-// 회원가입 데이터
-export const postSignupUserData = http.post(
-  "api/signup",
+// 회원가입
+export const postSignupData = http.post("api/user", async ({ request }) => {
+  const newUser = await request.json();
+  const { email, pw, nickName, phone, region } = newUser;
+
+  const newUserData = {
+    email: email,
+    pw: pw,
+    nickName: nickName,
+    phone: phone,
+    region: region,
+  };
+
+  signupData.push(newUserData);
+
+  return HttpResponse.json(signupData, { status: 200 });
+});
+
+// 로그인
+export const postLoginData = http.post(
+  "api/user/login",
   async ({ request }) => {
-    const newUser = await request.json();
-    const { email, pw, nickName, phone, region } = newUser;
+    const loginUser = await request.json();
+    const { email, pw } = loginUser;
+    console.log("loginUser >>", loginUser);
 
-    const userData = {
-      email: email,
-      pw: pw,
-      nickName: nickName,
-      phone: phone,
-      region: region,
-    };
+    const findUser = signupData.find(
+      loginUser.email === email && loginUser.pw === pw
+    );
+    console.log(findUser);
 
-    signupUserData.push(userData);
-
-    return HttpResponse.json(signupUserData, { status: 201 });
+    return HttpResponse.json(loginUser, { status: 200 });
   }
 );
 
-// 물품등록
+// 내 물품 등록
 export const postRegisterData = http.post(
   "api/register",
   async ({ request }) => {
@@ -167,12 +181,6 @@ export const postRegisterData = http.post(
     return HttpResponse.json(postRegisterData, { status: 201 });
   }
 );
-
-export const getSignupUserData = http.get("api/signup", () => {
-  return HttpResponse.json([signupUserData], {
-    status: 200,
-  });
-});
 
 // 상세페이지 데이터
 export const getDetailProductData = http.get(
