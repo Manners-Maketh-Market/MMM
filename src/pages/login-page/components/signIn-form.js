@@ -11,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { Api } from "apis";
 import { useMutation } from "react-query";
 import { TokenAtom } from "Recoil/TokenAtom";
+import { axiosInstance } from "apis/core";
 
 const SignInForm = () => {
   const [{ email, pw }, onChangeInputs] = useInputs({
@@ -27,12 +28,18 @@ const SignInForm = () => {
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
   const setAccessToken = useSetRecoilState(TokenAtom);
+
   const { mutate } = useMutation((loginUserData) =>
     Api.postLoginUserData(loginUserData)
   );
 
   const onSubmitSignIn = async (e) => {
     e.preventDefault();
+
+    if (!email || !pw) {
+      alert("아이디와 비밀번호를 모두 입력해주세요");
+      return;
+    }
 
     try {
       const loginUserData = {
@@ -42,11 +49,26 @@ const SignInForm = () => {
       const loginData = JSON.stringify(loginUserData);
       mutate(loginData);
       setUser(loginData);
-      setIsLogin(true);
-      navigate("/");
-      alert("어서오세요!");
+
+      const jwtToken = user.token;
+      const { result, status } = loginUserData.data;
+
+      setAccessToken(jwtToken);
+
+      if (!result) {
+        // response.status
+        if (status === 400) {
+          setIsLogin(false);
+          alert("존재하지 않는 회원 정보입니다.");
+        }
+      } else {
+        setIsLogin(true);
+        // navigate("/", { replace: true });
+        alert("어서오세요!");
+      }
     } catch {
-      alert("로그인에 실패했습니다.");
+      setIsLogin(false);
+      console.log("로그인 실패");
     }
   };
 

@@ -8,9 +8,8 @@ import Location from "./location";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import { isLogin } from "store";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { user } from "store";
-import { signupUserDataIndex } from "store";
 import { useMutation } from "react-query";
 import { Api } from "apis";
 import { useState } from "react";
@@ -36,14 +35,6 @@ const SignUpForm = () => {
     nickName,
   });
 
-  const setUser = useSetRecoilState(user);
-  const setIsLogin = useSetRecoilState(isLogin);
-  const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
-
-  const { mutate, data } = useMutation((signupUserData) =>
-    Api.postUserData(signupUserData)
-  );
-
   // duplicate check
   const [isEmailDuplicate, setIsEmailDuplicate] = useState(false);
   // email
@@ -65,6 +56,13 @@ const SignUpForm = () => {
       });
   };
 
+  const setUser = useSetRecoilState(user);
+  const setIsLogin = useSetRecoilState(isLogin);
+
+  const { mutate, data } = useMutation((signupUserData) =>
+    Api.postSignUpData(signupUserData)
+  );
+
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
 
@@ -73,15 +71,14 @@ const SignUpForm = () => {
         email: e.target.email.value,
         pw: e.target.pw.value,
         nickName: e.target.nickName.value,
-        phoneNumber: e.target.phoneNumber.value,
-        location: e.target.location.value,
-        signupUserIndex: readSignupUserListIndex,
+        phone: e.target.phone.value,
+        region: e.target.location.value,
       };
       const signupData = JSON.stringify(signupUserData);
+
       mutate(signupData);
       setUser(signupData);
       setIsLogin(true);
-      console.log(signupData);
       navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
     } catch (error) {
