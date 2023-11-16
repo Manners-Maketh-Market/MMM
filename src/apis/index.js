@@ -40,16 +40,21 @@ const getUserData = async () => {
   return res.data;
 };
 
-const postUserData = async (signupData) => {
+// sign-up
+const postSignUpData = async (signupData) => {
   const res = await axiosInstance.post("/api/user", signupData);
   return res;
 };
 
-const getsignUserData = async () => {
-  const res = await axiosInstance.post("/api/user/login");
+// sign-in
+const postLoginUserData = async (loginUserData) => {
+  const res = await axiosInstance.post("/api/user/login", loginUserData);
   return res;
 };
 
+// logout
+
+// register my product
 const postRegistData = async (registData) => {
   const res = await axiosInstance.post("/register", registData);
   return res;
@@ -64,7 +69,7 @@ export const Api = {
   getBuyerChatData,
   postMyChatData,
   getUserData,
-  postUserData,
-  getsignUserData,
+  postSignUpData,
+  postLoginUserData,
   postRegistData,
 };
