@@ -69,8 +69,8 @@ const SearchProductList = () => {
                       price={product.price}
                       isLiked={product.isLiked}
                       status={product.status}
-                      likeCount={product.likeCount}
                       id={product.id}
+                      createdAt={product.createdAt}
                     />
                   </Grid>
                 ))}
