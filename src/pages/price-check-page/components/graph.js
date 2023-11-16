@@ -5,102 +5,107 @@ import GraphItem from "./graphItem";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
   const aWeekAgo = new Date(today);
-  const twoWeekAgo = new Date(today);
-  const threeWeekAgo = new Date(today);
-  const fourWeekAgo = new Date(today);
-  aWeekAgo.setMonth(today.getMonth() - 1);
-  twoWeekAgo.setMonth(today.getMonth() - 2);
-  threeWeekAgo.setMonth(today.getMonth() - 3);
-  fourWeekAgo.setMonth(today.getMonth() - 4);
+  aWeekAgo.setDate(today.getDate() - 4);
+  // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
-  const { data: AllProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
-    () => Api.getAllProduct()
+  const [graphKeyWord, setGraphKeyWord] = useState("");
+  const param = useParams();
+  const datatitle = param.title;
+
+  const { data: ProductPriceList } = useQuery(
+    [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
+    () =>
+      Api.getProductPrice(
+        "",
+        aWeekAgo.toJSON().substr(0, 10),
+        today.toJSON().substr(0, 10)
+      )
   );
 
-  const aWeekAgoArr =
-    AllProductList &&
-    AllProductList.usedProduct.filter(
-      (item) => item.createdAt > aWeekAgo.toJSON()
-    );
-  const twoWeekAgoArr =
-    AllProductList &&
-    AllProductList.usedProduct.filter(
-      (item) =>
-        aWeekAgo.toJSON() > item.createdAt &&
-        item.createdAt > twoWeekAgo.toJSON()
-    );
-  const threeWeekAgoArr =
-    AllProductList &&
-    AllProductList.usedProduct.filter(
-      (item) =>
-        twoWeekAgo.toJSON() > item.createdAt &&
-        item.createdAt > threeWeekAgo.toJSON()
-    );
-  const fourWeekAgoArr =
-    AllProductList &&
-    AllProductList.usedProduct.filter(
-      (item) =>
-        threeWeekAgo.toJSON() > item.createdAt &&
-        item.createdAt > fourWeekAgo.toJSON()
-    );
+  ProductPriceList && console.log(ProductPriceList, datatitle);
+
+  // useEffect(() => {
+  //   if (datatitle) {
+  //     setGraphKeyWord(datatitle);
+  //   }
+  // }, [datatitle]);
+
+  // 월일만 출력하기 위해서 자름
+  const sliceAvgPrice =
+    ProductPriceList &&
+    ProductPriceList.cumulativeAvgPrice.map((list) => {
+      return { date: list.date.substring(5), avgPrice: list.avgPrice };
+    });
 
   // 최고 시세
   const MAXARR =
-    AllProductList &&
-    AllProductList.usedProduct.reduce((prev, value) => {
+    ProductPriceList &&
+    ProductPriceList.products.product.reduce((prev, value) => {
       return prev.price >= value.price ? prev : value;
     });
 
   // 최저 시세
   const MINARR =
-    AllProductList &&
-    AllProductList.usedProduct.reduce((prev, value) => {
+    ProductPriceList &&
+    ProductPriceList.products.product.reduce((prev, value) => {
       return prev.price >= value.price ? value : prev;
     });
 
   // 평균 시세
   const result =
-    AllProductList &&
-    AllProductList.usedProduct.reduce((prev, value) => {
+    ProductPriceList &&
+    ProductPriceList.products.product.reduce((prev, value) => {
       return prev + value.price;
     }, 0);
 
   const AVGARR =
-    result && Math.floor(result / AllProductList.usedProduct.length);
-
-  console.log(result, AVGARR);
+    result && Math.floor(result / ProductPriceList.products.product.length);
 
   //문제 배열안에서 가장 큰 값을 찾는 수식을 짜라 price가 가장 높은 애를 찾아라
 
   return (
-    <Wrapper>
-      <PriceBoxWrapper>
-        <PriceBox
-          title={"최고"}
-          price={MAXARR.price}
-          style={{ color: "#DF0000" }}
-        />
-        <PriceBox title={"시세"} price={AVGARR} style={{ color: "#2EB200" }} />
-        <PriceBox
-          title={"최저"}
-          price={MINARR.price}
-          style={{ border: "none", color: "#062BED" }}
-        />
-      </PriceBoxWrapper>
-      {/* <p>최근 3 달간 안주현의 시세입니다. </p> */}
-      {/* 그래프 미디어 쿼리 : display로 특정 사이즈마다 사라졌다가 보이게 하는 기능 */}
-      <MainGraph>
-        <GraphItem data={2} width={460} height={300} />
-      </MainGraph>
-      <MediaGraph>
-        <GraphItem data={2} width={333} height={218} fontsize={12}></GraphItem>
-      </MediaGraph>
-    </Wrapper>
+    MINARR &&
+    MAXARR &&
+    AVGARR && (
+      <Wrapper>
+        <PriceBoxWrapper>
+          <PriceBox
+            title={"최고"}
+            price={MAXARR.price}
+            style={{ color: "#DF0000" }}
+          />
+          <PriceBox
+            title={"시세"}
+            price={AVGARR}
+            style={{ color: "#2EB200" }}
+          />
+          <PriceBox
+            title={"최저"}
+            price={MINARR.price}
+            style={{ border: "none", color: "#062BED" }}
+          />
+        </PriceBoxWrapper>
+        {/* <p>최근 3 달간 안주현의 시세입니다. </p> */}
+        {/* 그래프 미디어 쿼리 : display로 특정 사이즈마다 사라졌다가 보이게 하는 기능 */}
+        <MainGraph>
+          <GraphItem data={sliceAvgPrice} width={460} height={300} />
+        </MainGraph>
+        <MediaGraph>
+          <GraphItem
+            data={sliceAvgPrice}
+            width={333}
+            height={218}
+            fontsize={12}
+          ></GraphItem>
+        </MediaGraph>
+      </Wrapper>
+    )
   );
 };
 export default PriceGraph;

@@ -13,7 +13,7 @@ const ProductList = () => {
 
   const { data: productList } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus],
-    () => Api.getAllProduct()
+    () => Api.getMainProductList()
   );
 
   let currentProductList = null;

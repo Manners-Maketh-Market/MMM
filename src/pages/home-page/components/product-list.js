@@ -12,7 +12,7 @@ const ProductList = () => {
 
   const { data: productList } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
-    () => Api.getAllProduct()
+    () => Api.getMainProductList()
   );
 
   let usedProductList = null;
@@ -26,7 +26,6 @@ const ProductList = () => {
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
   };
-  console.log(productList);
 
   return (
     usedProductList &&

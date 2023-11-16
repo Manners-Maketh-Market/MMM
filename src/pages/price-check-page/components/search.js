@@ -22,6 +22,19 @@ const PriceSearch = () => {
 
   const navigate = useNavigate();
 
+  const { data: SearchProductList, refetch } = useQuery(
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_DATA],
+    () => Api.getSearchProduct(0, titles, 1)
+  );
+
+  // 키워드는 title(제목) description(내용)안에 키워드랑 같은 문자가 들어가있으면 데이터를 가져옴 / 비어놨을 때 전부가져옴
+  // 1페이지 데이터 20개 묶음으로 구분, 2 20~ 39
+  // 53~56 내용은 0(중고물품), 키워드(titles)=> 검색창에 입력하는 내용, 1(20개 묶음 페이지의 첫번째 페이지 즉 인덱스0~19번째)
+
+  useEffect(() => {
+    refetch();
+  }, [titles]);
+
   useEffect(() => {
     if (datatitle) {
       setTitles(datatitle);
@@ -31,14 +44,16 @@ const PriceSearch = () => {
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
       setSelectedIndex((prevIndex) =>
-        prevIndex > -1 ? prevIndex - 1 : filter.length - 1
+        prevIndex > -1 ? prevIndex - 1 : SearchProductList.product.length - 1
       );
     } else if (e.key === "ArrowDown") {
       setSelectedIndex((prevIndex) =>
-        prevIndex < filter.length - 1 ? prevIndex + 1 : -1
+        prevIndex < SearchProductList.product.length - 1 ? prevIndex + 1 : -1
       );
     } else if (e.key === "Enter" && selectedIndex > -1) {
-      navigate(`/pricecheckpage/${filter[selectedIndex].title}`);
+      navigate(
+        `/pricecheckpage/${SearchProductList.product[selectedIndex].title}`
+      );
       setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
@@ -47,23 +62,6 @@ const PriceSearch = () => {
       e.target.blur();
     }
   };
-
-  const { data: AllProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
-    () => Api.getAllProduct()
-  );
-
-  const filterItem = AllProductList && [
-    ...AllProductList.usedProduct,
-    ...AllProductList.freeProduct,
-  ];
-  const filter =
-    filterItem &&
-    filterItem
-      .slice(0, 10)
-      .filter((list) =>
-        list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
-      );
 
   const onTitleChange = (e) => {
     setTitles(e.target.value);
@@ -128,9 +126,9 @@ const PriceSearch = () => {
       )}
       {searchModal && (
         <SearchList>
-          {filter.length >= 1 ? (
+          {SearchProductList.product.length >= 1 ? (
             <div>
-              {filter.map((list, index) => (
+              {SearchProductList.product.slice(0, 10).map((list, index) => (
                 <ListWrap
                   style={{
                     backgroundColor: selectedIndex === index && "aliceblue",

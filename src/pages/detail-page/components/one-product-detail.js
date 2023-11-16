@@ -25,9 +25,10 @@ const OneProductDetail = () => {
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
+
   console.log(detailProduct);
 
-  const marketPricePage = () => {
+  const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
 
     navigate(`/pricecheckpage/${titleValue}`);
@@ -49,7 +50,7 @@ const OneProductDetail = () => {
                   <Price>
                     {UsePriceComma(detailProduct.searchProduct.price)}원
                   </Price>
-                  <p onClick={() => marketPricePage()}>
+                  <p onClick={() => onMarketPricePage()}>
                     이 상품 시세 조회하러 가기
                   </p>
                 </FlexBox>
