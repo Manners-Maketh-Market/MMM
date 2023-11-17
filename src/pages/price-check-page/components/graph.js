@@ -6,7 +6,6 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -14,27 +13,19 @@ const PriceGraph = () => {
   aWeekAgo.setDate(today.getDate() - 4);
   // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
-  const [graphKeyWord, setGraphKeyWord] = useState("");
   const param = useParams();
-  const datatitle = param.title;
+  //const datatitle = param.title;
+  // titleparam값으로 해당 title의 상품 시세 검색
 
   const { data: ProductPriceList } = useQuery(
     [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
     () =>
       Api.getProductPrice(
-        "",
+        "채팅방",
         aWeekAgo.toJSON().substr(0, 10),
         today.toJSON().substr(0, 10)
       )
   );
-
-  ProductPriceList && console.log(ProductPriceList, datatitle);
-
-  // useEffect(() => {
-  //   if (datatitle) {
-  //     setGraphKeyWord(datatitle);
-  //   }
-  // }, [datatitle]);
 
   // 월일만 출력하기 위해서 자름
   const sliceAvgPrice =
@@ -67,6 +58,7 @@ const PriceGraph = () => {
   const AVGARR =
     result && Math.floor(result / ProductPriceList.products.product.length);
 
+  //console.log(sliceAvgPrice, MAXARR, MINARR, AVGARR);
   //문제 배열안에서 가장 큰 값을 찾는 수식을 짜라 price가 가장 높은 애를 찾아라
 
   return (

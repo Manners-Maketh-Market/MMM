@@ -58,7 +58,7 @@ const ProductList = () => {
                       img={product.img_url}
                       price={product.price}
                       isLiked={product.isLiked}
-                      id={product.id}
+                      id={product.idx}
                       likeCount={product.likeCount}
                     />
                   </Grid>
