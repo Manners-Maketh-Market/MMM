@@ -11,8 +11,9 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   // 중고 목록 데이터를 리코일에 저장
+
   const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
+    [PRODUCT_QUERY_KEY.USED_PRODUCT_LIST],
     () => Api.getUsedProduct()
   );
 

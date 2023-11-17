@@ -14,6 +14,17 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+export const backendInstance = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+  headers: {
+    // token 종류 명시 필수 (json web token(JWT) => Bearer)
+    Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+    // kakao map app-key
+    //   Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_TOKEN}`,
+  },
+  withCredentials: true,
+});
+
 // axios.interceptor
 axiosInstance.interceptors.request.use((config) => {
   const accessToken = TokenRepository.getToken();
