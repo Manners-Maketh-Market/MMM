@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { Api } from "apis";
 import { useMutation } from "react-query";
 import { TokenAtom } from "Recoil/TokenAtom";
-import { axiosInstance } from "apis/core";
+import { useUserDispatch, useUserState } from "provider/userProvider";
 
 const SignInForm = () => {
   const [{ email, pw }, onChangeInputs] = useInputs({
@@ -33,39 +33,47 @@ const SignInForm = () => {
     Api.postLoginUserData(loginUserData)
   );
 
+  const { userList } = useUserState();
+  const dispatch = useUserDispatch();
+
   const onSubmitSignIn = async (e) => {
     e.preventDefault();
 
+    // required
     if (!email || !pw) {
       alert("아이디와 비밀번호를 모두 입력해주세요");
       return;
     }
 
     try {
-      const loginUserData = {
-        email: e.target.email.value,
-        pw: e.target.pw.value,
-      };
-      const loginData = JSON.stringify(loginUserData);
-      mutate(loginData);
-      setUser(loginData);
+      // const loginUserData = {
+      //   email: e.target.email.value,
+      //   pw: e.target.pw.value,
+      // };
+      // const loginData = JSON.stringify(loginUserData);
+      // mutate(loginData);
+      // setUser(loginData);
+
+      dispatch({
+        type: "SIGN_IN",
+        // nickName: nickName,
+      });
 
       const jwtToken = user.token;
-      const { result, status } = loginUserData.data;
+      // const { result, status } = loginUserData.data;
 
       setAccessToken(jwtToken);
 
-      if (!result) {
-        // response.status
-        if (status === 400) {
-          setIsLogin(false);
-          alert("존재하지 않는 회원 정보입니다.");
-        }
-      } else {
-        setIsLogin(true);
-        // navigate("/", { replace: true });
-        alert("어서오세요!");
-      }
+      // if (!result) {
+      //   if (status === 400) {
+      //     setIsLogin(false);
+      //     alert("존재하지 않는 회원 정보입니다.");
+      //   }
+      // } else {
+      //   setIsLogin(true);
+      //   // navigate("/", { replace: true });
+      //   alert("어서오세요!");
+      // }
     } catch {
       setIsLogin(false);
       console.log("로그인 실패");
@@ -86,6 +94,7 @@ const SignInForm = () => {
         placeholder="이메일을 입력해주세요"
         error={errors.email}
         size={"full"}
+        required
       />
       <MMMInput
         label="비밀번호"
@@ -95,6 +104,7 @@ const SignInForm = () => {
         placeholder="비밀번호를 입력해주세요"
         error={errors.pw}
         size={"full"}
+        required
       />
       <ButtonBox>
         <MMMButton size={"full"} disabled={disabled} variant={"secondary"}>
