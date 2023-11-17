@@ -20,6 +20,9 @@ const getUsedOrFreeProduct = async (pageParam, saleStatus) => {
 const getProductPrice = async (keyword, start, end) => {
   const res = await axiosInstance.get(
     `/api/product/quote?keyword=${keyword}&start=${start}&end=${end}`
+  );
+  return res.data;
+};
 
 const getSearchProduct = async (category, keyword, pageParam) => {
   const res = await axiosInstance.get(

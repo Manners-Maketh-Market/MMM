@@ -23,9 +23,11 @@ const PriceSearch = () => {
   const navigate = useNavigate();
 
   const { data: SearchProductList, refetch } = useQuery(
-    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_DATA],
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
     () => Api.getSearchProduct(0, titles, 1)
   );
+
+  console.log(SearchProductList);
 
   // 키워드는 title(제목) description(내용)안에 키워드랑 같은 문자가 들어가있으면 데이터를 가져옴 / 비어놨을 때 전부가져옴
   // 1페이지 데이터 20개 묶음으로 구분, 2 20~ 39
