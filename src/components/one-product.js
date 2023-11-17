@@ -5,7 +5,7 @@ import { flexCenter } from "styles/common.style";
 import HeartIcon from "../images/icon/fullheart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
-const OneProduct = ({ title, status, img, price, id }) => {
+const OneProduct = ({ title, status, img, price, id, likeCount }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -20,13 +20,36 @@ const OneProduct = ({ title, status, img, price, id }) => {
 
   return (
     <S.Wrapper>
-      <S.ProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
+      {status === "판매중" ? (
+        <S.ProductImg
+          src={img}
+          alt="product img"
+          onClick={() => onClickToDetailPage(id)}
+        />
+      ) : (
+        <>
+          <S.SoldOutProductImg
+            src={img}
+            alt="product img"
+            onClick={() => onClickToDetailPage(id)}
+          />
+          <S.SoldOutMessage>Sold Out</S.SoldOutMessage>
+        </>
+      )}
       <S.TitleAndLikeBox>
         <S.Title className="Title">{title}</S.Title>
 
-        {isLiked ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onToggleIsLiked} />}
+        {isLiked ? (
+          <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} />
+        ) : (
+          <S.HeartImg
+            src={emptyHeartIcon}
+            alt="emptyHeart"
+            onClick={onToggleIsLiked}
+          />
+        )}
       </S.TitleAndLikeBox>
-      <S.Content className="Content">{status}</S.Content>
+      <S.Content className="Content">{likeCount}명이 관심 있어요!</S.Content>
       <S.Price className="Price">{price}원</S.Price>
     </S.Wrapper>
   );
@@ -37,7 +60,7 @@ export default OneProduct;
 const Wrapper = styled.div`
   ${flexCenter};
   flex-direction: column;
-
+  position: relative;
   @media screen and (min-width: 1023px) {
     width: 290px;
   }
@@ -72,6 +95,30 @@ const ProductImg = styled.img`
     width: 90%;
     height: 90%;
   }
+`;
+
+const SoldOutProductImg = styled.img`
+  width: 280px;
+  height: 280px;
+  border-radius: 16px;
+  filter: contrast(15%);
+
+  @media ${({ theme }) => theme.DEVICE.mobile} {
+    width: 90%;
+    height: 90%;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet} {
+    width: 90%;
+    height: 90%;
+  }
+`;
+
+const SoldOutMessage = styled.div`
+  position: absolute;
+  top: 125px;
+  font-size: ${({ theme }) => theme.FONT_SIZE["extraLarge"]};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT["bold"]};
+  color: ${({ theme }) => theme.COLORS["white"]};
 `;
 
 const TitleAndLikeBox = styled.div`
@@ -136,7 +183,8 @@ const Price = styled.div`
   width: 280px;
   display: flex;
   justify-content: flex-start;
-  padding-top: 30px;
+  padding-top: 10px;
+  padding-bottom: 30px;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 90%;
@@ -154,4 +202,6 @@ const S = {
   Price,
   Title,
   HeartImg,
+  SoldOutProductImg,
+  SoldOutMessage,
 };

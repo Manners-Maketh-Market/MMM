@@ -13,7 +13,6 @@ const productsData = MockProductsData(40);
 const UserData = MockUserData(10);
 const freeProductsData = MockFreeProductsData(20);
 const sellProductsData = MockSellProductsData(20);
-
 const buyerData = [
   {
     id: shortId.generate(),
@@ -68,6 +67,27 @@ const buyerData = [
   },
 ];
 
+const signupUserData = [
+  {
+      email : faker.internet.email(),
+      password : faker.internet.password(),
+      nickName : faker.person.firstName(),
+      phoneNumber : faker.phone.number(),
+      location : faker.location.state(),
+  },
+];
+
+const RegisterstoreData = [
+  {
+    image : faker.image.avatar(),
+    title : faker.lorem.sentence(),
+    price : Math.floor(Math.random() * 100000),
+    tag : faker.commerce.productName(),
+    text : faker.lorem.word(),
+    location : faker.location.state(),
+  },
+];
+
 export const getProductsData = http.get("api/products", () => {
   return HttpResponse.json([productsData], {
     status: 200,
@@ -98,21 +118,76 @@ export const getSearchProductsData = http.get(
   }
 );
 
+// user 데이터
 export const getUserInfoData = http.get("api/user", () => {
   return HttpResponse.json([UserData], {
     status: 200,
   });
 });
 
-export const postUserInfoData = http.post("api/user", async () => {
-  const user = await requestAnimationFrame.json();
-  const { email, password, nickname } = user;
-  const token = "jtw-token";
-  return HttpResponse.json(
-    { email, password, nickname, token },
-    { status: 200 }
-  );
-});
+
+// 회원가입 데이터
+export const postSignupUserData = http.post(
+  "api/signup",
+  async ({ request }) => {
+    const newUser = await request.json();
+    const {
+      email,
+      password,
+      nickName,
+      phoneNumber,
+      location,
+    } = newUser;
+
+    const userData = {
+      email : email,
+      password : password,
+      nickName : nickName,
+      phoneNumber : phoneNumber,
+      location : location,
+    }
+    
+    signupUserData.push(userData)
+
+    return HttpResponse.json(signupUserData, { status: 201 });
+  }
+);
+
+// 물품등록
+export const postregisterData = http.post(
+  "api/register",
+  async ({ request }) => {
+    const newRegister = await request.json();
+    const {
+    image,
+    title,
+    price,
+    tag,
+    text,
+    location,
+    } = newRegister;
+
+    const RegisterData = {
+      image : image,
+      title : title,
+      price : price,
+      tag : tag,
+      text : text,
+      location : location,
+    }
+    
+    RegisterstoreData.push(RegisterData)
+
+    return HttpResponse.json(RegisterstoreData, { status: 201 });
+  }
+);
+
+export const getSignupUserData = http.get(
+  "api/signup", () => {
+    return HttpResponse.json([signupUserData], {
+      status: 200,
+    });
+  });
 
 // 상세페이지 데이터
 export const getDetailProductData = http.get(
@@ -133,7 +208,6 @@ export const postBuyerData = http.post(
   "api/chat/buyer",
   async ({ request }) => {
     const newChat = await request.json();
-
     const { message, buyerUserIndex } = newChat;
 
     buyerData[buyerUserIndex].User.chatData.marketer.push(message);

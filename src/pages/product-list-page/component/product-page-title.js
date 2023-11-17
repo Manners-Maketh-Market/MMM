@@ -8,7 +8,7 @@ const ProductPageTitle = ({ totalProductsCount }) => {
   return (
     // saleStatus에 따라서 중고거래와 무료나눔으로 바꿈
     <S.TitleContainer>
-      {productPageTitle === "sell" ? (
+      {productPageTitle === "0" ? (
         <S.Title>중고거래</S.Title>
       ) : (
         <S.Title>무료나눔</S.Title>

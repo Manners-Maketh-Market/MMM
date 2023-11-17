@@ -5,11 +5,12 @@ import { Navigate } from "react-router-dom";
 import TokenRepository from "repository/TokenRepository";
 
 const AuthContext = createContext();
-// const navigate = Navigate();
+//const navigate = Navigate();
 
 const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(TokenRepository.getToken());
-  
+
+  // 새로고침 시 데이터 다시 넣어주기
   useEffect(() => {
     const token = TokenRepository.getToken();
     if (token) setAccessToken(token);
@@ -24,10 +25,11 @@ const AuthProvider = ({ children }) => {
 
 export default AuthProvider;
 
-
+// accessToken에 data 넣기
 export const useAuth = () => {
   const [accessToken, setAccessToken] = useContext(AuthContext);
-  // TypeError: undefined is not iterable
+
+  // option : success & failure
   const signIn = async ({ email, password }, option) => {
     try {
       const response = await AuthApi.signIn(email, password);
@@ -42,8 +44,8 @@ export const useAuth = () => {
     }
   };
 
-  const signUp = async ({ email, password }, option) => {
-    const response = await AuthApi.signUp(email, password);
+  const signUp = async ({ email, password, nickName }, option) => {
+    const response = await AuthApi.signUp(email, password, nickName);
     option.onSuccess(response);
   };
 
@@ -51,7 +53,7 @@ export const useAuth = () => {
     await AuthApi.signOut();
     setAccessToken(null);
     TokenRepository.deleteToken();
-    // navigate("/");
+    // navigate("/sign-in"); // 다시 signIn 하세요
   };
 
   return {

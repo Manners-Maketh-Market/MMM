@@ -10,14 +10,9 @@ const getDetailProduct = async (param) => {
   return res.data;
 };
 
-const getUsedOrFreeProduct = async (param) => {
-  const res = await axiosInstance.get(`/products/${param}`);
-  return res.data;
-};
-
-const getSearchProduct = async (category, keyword, page) => {
+const getUsedOrFreeProduct = async (pageParam, saleStatus) => {
   const res = await axiosInstance.get(
-    `/api/product/search?category=${category}&keyword=${keyword}&page=${page}`
+    `/api/product/search?category=${saleStatus}&page=${pageParam}`
   );
   return res.data;
 };
@@ -25,6 +20,10 @@ const getSearchProduct = async (category, keyword, page) => {
 const getProductPrice = async (keyword, start, end) => {
   const res = await axiosInstance.get(
     `/api/product/quote?keyword=${keyword}&start=${start}&end=${end}`
+
+const getSearchProduct = async (category, keyword, pageParam) => {
+  const res = await axiosInstance.get(
+    `/api/product/search?category=${category}&keyword=${keyword}&page=${pageParam}`
   );
   return res.data;
 };
@@ -54,6 +53,21 @@ const getUserData = async () => {
   return res.data;
 };
 
+const postUserData = async (signupData) => {
+  const res = await axiosInstance.post("/signup", signupData);
+  return res;
+};
+
+const postRegistData = async (registData) => {
+  const res = await axiosInstance.post("/register", registData);
+  return res;
+};
+
+const getsignUserData = async () => {
+  const res = await axiosInstance.get("/signup");
+  return res;
+};
+
 export const Api = {
   getMainProductList,
   getDetailProduct,
@@ -65,4 +79,7 @@ export const Api = {
   postMyChatData,
   getUserData,
   getProductPrice,
+  postUserData,
+  getsignUserData,
+  postRegistData,
 };

@@ -15,21 +15,16 @@ const ProductList = () => {
     () => Api.getMainProductList()
   );
 
-  let usedProductList = null;
-  let freeProductList = null;
-
-  if (productList) {
-    usedProductList = productList.usedProduct;
-    freeProductList = productList.freeProduct;
-  }
+  const UsedProductList = productList && productList.usedProduct;
+  const FreeProductList = productList && productList.freeProduct;
 
   const onClickMoreBtn = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
   };
 
   return (
-    usedProductList &&
-    freeProductList && (
+    UsedProductList &&
+    FreeProductList && (
       <Container>
         <S.UsedTrade>
           <S.Title>중고거래</S.Title>
@@ -38,7 +33,7 @@ const ProductList = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {usedProductList.slice(0, 8).map((item, index) => (
+            {UsedProductList.slice(0, 8).map((item, index) => (
               <Grid
                 key={index}
                 item
@@ -49,17 +44,18 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  status={item.status}
+                  content={item.content}
                   img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.idx}
+                  id={item.id}
+                  status={item.status}
                 />
               </Grid>
             ))}
           </Grid>
           <MMMButton
-            onClick={() => onClickMoreBtn("sell")}
+            onClick={() => onClickMoreBtn("0")}
             variant={"More"}
             style={{ border: "1px solid #9F9EB3" }}
           >
@@ -74,7 +70,7 @@ const ProductList = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {freeProductList.slice(0, 8).map((item, index) => (
+            {FreeProductList.slice(0, 8).map((item, index) => (
               <Grid
                 key={index}
                 item
@@ -85,17 +81,18 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  status={item.status}
+                  content={item.content}
                   img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.idx}
+                  id={item.id}
+                  status={item.status}
                 />
               </Grid>
             ))}
           </Grid>
           <MMMButton
-            onClick={() => onClickMoreBtn("free")}
+            onClick={() => onClickMoreBtn("1")}
             variant={"More"}
             style={{ border: "1px solid #9F9EB3" }}
           >
@@ -109,10 +106,6 @@ const ProductList = () => {
 
 export default ProductList;
 
-const UsedTrade = styled.div`
-  margin-bottom: 50px;
-`;
-
 const Title = styled.h1`
   font-size: 26px;
   font-weight: bold;
@@ -121,6 +114,10 @@ const Title = styled.h1`
 `;
 
 const Share = styled.div``;
+
+const UsedTrade = styled.div`
+  margin-bottom: 50px;
+`;
 
 const S = {
   UsedTrade,

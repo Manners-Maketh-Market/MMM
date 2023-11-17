@@ -7,27 +7,34 @@ import styled from "styled-components";
 import ProductPageTitle from "./product-page-title";
 import OneProduct from "components/one-product";
 import { Container, Grid } from "@mui/material";
+import MMMButton from "components/button";
 
 const ProductList = () => {
   const { saleStatus } = useParams();
 
-  const { data: productList } = useQuery(
+  const { data: productList, fetchNextPage } = useInfiniteQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus],
+
     () => Api.getMainProductList()
+    ({ pageParam = 1 }) => Api.getUsedOrFreeProduct(pageParam, saleStatus),
+    {
+      getNextPageParam: (lastPage) => {
+        return (
+          lastPage.pagination.curPage < lastPage.pagination.totalPage &&
+          lastPage.pagination.curPage + 1
+        );
+      },
+    }
   );
-
-  let currentProductList = null;
-
-  if (productList) {
-    currentProductList =
-      saleStatus === "sell" ? productList.usedProduct : productList.freeProduct;
-  }
+  productList && console.log(productList.pages);
 
   return (
-    currentProductList && (
+    productList && (
       <S.Wrapper>
         <S.TitleWrapper>
-          <ProductPageTitle totalProductsCount={currentProductList.length} />
+          <ProductPageTitle
+            totalProductsCount={productList.pages[0].pagination.count}
+          />
         </S.TitleWrapper>
         <hr />
         <Container style={{ marginTop: 100 }}>
@@ -36,28 +43,45 @@ const ProductList = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {currentProductList.map((product, index) => (
-              <Grid
-                key={index}
-                product
-                xs={12}
-                md={4}
-                lg={3}
-                style={{ paddingBottom: 40 }}
-              >
-                <OneProduct
-                  title={product.title}
-                  status={product.status}
-                  img={product.img_url}
-                  price={product.price}
-                  isLiked={product.isLiked}
-                  id={product.idx}
-                />
-              </Grid>
+            {productList.pages?.map((page) => (
+              <>
+                {page.product?.map((product, index) => (
+                  <Grid
+                    key={index}
+                    product
+                    xs={12}
+                    md={4}
+                    lg={3}
+                    style={{ paddingBottom: 40 }}
+                  >
+                    <OneProduct
+                      title={product.title}
+                      status={product.status}
+                      img={product.img_url}
+                      price={product.price}
+                      isLiked={product.isLiked}
+                      id={product.id}
+                      likeCount={product.likeCount}
+                    />
+                  </Grid>
+                ))}
+              </>
             ))}
           </Grid>
         </Container>
-        <S.MoreBtn>More</S.MoreBtn>
+        {/* 더 이상 불러올 상품이 없다면 MORE 버튼 안보이게 하는 조건 */}
+        {!(
+          productList.pages.at(-1).pagination.curPage ===
+          productList.pages[0].pagination.endPage
+        ) && (
+          <MMMButton
+            variant={"More"}
+            style={{ border: "1px solid #9F9EB3" }}
+            onClick={() => fetchNextPage()}
+          >
+            More
+          </MMMButton>
+        )}
       </S.Wrapper>
     )
   );
