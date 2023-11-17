@@ -14,6 +14,8 @@ const ProductList = () => {
 
   const { data: productList, fetchNextPage } = useInfiniteQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, saleStatus],
+
+    () => Api.getMainProductList()
     ({ pageParam = 1 }) => Api.getUsedOrFreeProduct(pageParam, saleStatus),
     {
       getNextPageParam: (lastPage) => {

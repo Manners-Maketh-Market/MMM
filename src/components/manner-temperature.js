@@ -13,9 +13,9 @@ import {
 const MannerTemperature = ({ user }) => {
   const ratio = Math.floor((user.ondo / 100) * 100);
   const ratioColor =
-    ratio <= 20
+    ratio <= 10
       ? "gray"
-      : ratio <= 40
+      : ratio <= 30
       ? "navy"
       : ratio <= 60
       ? "green"
@@ -33,9 +33,9 @@ const MannerTemperature = ({ user }) => {
         </Indicator>
       </Rate>
       <Face color={ratioColor}>
-        {ratio <= 20 ? (
+        {ratio <= 10 ? (
           <FontAwesomeIcon icon={faFaceAngry} />
-        ) : ratio <= 40 ? (
+        ) : ratio <= 30 ? (
           <FontAwesomeIcon icon={faFaceFrownOpen} />
         ) : ratio <= 60 ? (
           <FontAwesomeIcon icon={faFaceSmile} />

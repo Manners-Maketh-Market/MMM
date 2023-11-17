@@ -15,7 +15,7 @@ const GraphItem = ({ data, width, height, fontsize }) => {
     <ResponsiveContainer width={width} height={height}>
       <LineChart data={data}>
         <XAxis
-          dataKey={"name"}
+          dataKey={"date"}
           stroke="#5550bd"
           strokeWidth={1}
           tickLine={false}
@@ -30,7 +30,7 @@ const GraphItem = ({ data, width, height, fontsize }) => {
         />
         <Line
           type="bump"
-          dataKey={"Price"}
+          dataKey={"avgPrice"}
           activeDot={{ r: 8 }}
           stroke="#282190"
           strokeWidth={3}

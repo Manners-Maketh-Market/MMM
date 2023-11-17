@@ -2,14 +2,17 @@ import { Api } from "apis";
 import MMMInput from "components/input";
 import { PRODUCT_QUERY_KEY } from "consts";
 import useMaxLength from "hooks/use-max-length-overflow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PriceSearch = () => {
+  const param = useParams();
+  const datatitle = param.title;
+
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
@@ -19,17 +22,38 @@ const PriceSearch = () => {
 
   const navigate = useNavigate();
 
+  const { data: SearchProductList, refetch } = useQuery(
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_DATA],
+    () => Api.getSearchProduct(0, titles, 1)
+  );
+
+  // 키워드는 title(제목) description(내용)안에 키워드랑 같은 문자가 들어가있으면 데이터를 가져옴 / 비어놨을 때 전부가져옴
+  // 1페이지 데이터 20개 묶음으로 구분, 2 20~ 39
+  // 53~56 내용은 0(중고물품), 키워드(titles)=> 검색창에 입력하는 내용, 1(20개 묶음 페이지의 첫번째 페이지 즉 인덱스0~19번째)
+
+  useEffect(() => {
+    refetch();
+  }, [titles]);
+
+  useEffect(() => {
+    if (datatitle) {
+      setTitles(datatitle);
+    }
+  }, [datatitle]);
+
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
       setSelectedIndex((prevIndex) =>
-        prevIndex > -1 ? prevIndex - 1 : filter.length - 1
+        prevIndex > -1 ? prevIndex - 1 : SearchProductList.product.length - 1
       );
     } else if (e.key === "ArrowDown") {
       setSelectedIndex((prevIndex) =>
-        prevIndex < filter.length - 1 ? prevIndex + 1 : -1
+        prevIndex < SearchProductList.product.length - 1 ? prevIndex + 1 : -1
       );
     } else if (e.key === "Enter" && selectedIndex > -1) {
-      navigate(`/pricecheckpage/${filter[selectedIndex].title}`);
+      navigate(
+        `/pricecheckpage/${SearchProductList.product[selectedIndex].title}`
+      );
       setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
@@ -38,17 +62,6 @@ const PriceSearch = () => {
       e.target.blur();
     }
   };
-
-  const { data: UsedProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.FREE_PRODUCT_LIST],
-    () => Api.getUsedProduct()
-  );
-
-  const filter = UsedProductList[0]
-    .slice(0, 10)
-    .filter((list) =>
-      list.title.toLocaleLowerCase().includes(titles.toLocaleLowerCase())
-    );
 
   const onTitleChange = (e) => {
     setTitles(e.target.value);
@@ -113,9 +126,9 @@ const PriceSearch = () => {
       )}
       {searchModal && (
         <SearchList>
-          {filter.length >= 1 ? (
+          {SearchProductList.product.length >= 1 ? (
             <div>
-              {filter.map((list, index) => (
+              {SearchProductList.product.slice(0, 10).map((list, index) => (
                 <ListWrap
                   style={{
                     backgroundColor: selectedIndex === index && "aliceblue",
@@ -136,6 +149,9 @@ const PriceSearch = () => {
           )}
         </SearchList>
       )}
+      <TitleInform>
+        <span>"{datatitle}"</span> 의 시세정보입니다.
+      </TitleInform>
     </Wrapper>
   );
 };
@@ -189,7 +205,6 @@ const SearchList = styled.div`
 
   @media ${({ theme }) => theme.DEVICE.tablet} {
     width: 400px;
-    top: 30px;
   }
 
   & > div {
@@ -244,3 +259,14 @@ const ListWrap = styled.div`
 const SearchListResult = styled.div`
   ${flexCenter}
 `;
+
+const TitleInform = styled.div`
+  height: 30px;
+  ${flexCenter}
+  margin-bottom: 20px;
+  & > span {
+    font-weight: 700;
+    color: burlywood;
+  }
+`;
+//
