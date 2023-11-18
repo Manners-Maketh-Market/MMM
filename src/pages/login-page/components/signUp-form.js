@@ -86,28 +86,24 @@ const SignUpForm = () => {
     }
 
     try {
-      // const signupUserData = {
-      //   email: e.target.email.value,
-      //   pw: e.target.pw.value,
-      //   nickName: e.target.nickName.value,
-      //   phone: e.target.phone.value,
-      //   region: e.target.location.value,
-      // };
-      // const signupData = JSON.stringify(signupUserData);
-      //
-      // mutate(signupData);
+      const signupUserData = {
+        email: e.target.email,
+        pw: e.target.pw,
+        nickName: e.target.nickName,
+        phone: e.target.phone,
+        region: e.target.location,
+      };
+      const signupData = JSON.stringify(signupUserData);
+      mutate(signupData);
 
-      dispatch({
-        type: "SIGN_UP",
-        user: {
-          email,
-          pw,
-          nickName,
-          phone,
-          region,
-        },
-      });
-      const signupData = JSON.stringify(user);
+      console.log("signupUserData", signupUserData);
+
+      // dispatch({
+      //   type: "SIGN_UP",
+      //   user: { email, pw, nickName, phone, region },
+      // });
+      // const signupData = JSON.stringify(user);
+
       setUser(signupData);
       navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");

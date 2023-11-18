@@ -44,25 +44,28 @@ const SignInForm = () => {
       alert("아이디와 비밀번호를 모두 입력해주세요");
       return;
     }
+    console.log("required >> ", email, pw);
 
     try {
-      // const loginUserData = {
-      //   email: e.target.email.value,
-      //   pw: e.target.pw.value,
-      // };
-      // const loginData = JSON.stringify(loginUserData);
-      // mutate(loginData);
-      // setUser(loginData);
+      const loginUserData = {
+        email: e.target.email.value,
+        pw: e.target.pw.value,
+      };
+      console.log("loginUserData", loginUserData);
 
-      dispatch({
-        type: "SIGN_IN",
-        // nickName: nickName,
-      });
+      const loginData = JSON.stringify(loginUserData);
+      mutate(loginData);
+      setUser(loginData);
+
+      // dispatch({type: "SIGN_IN", nickName: nickName,});
 
       const jwtToken = user.token;
-      // const { result, status } = loginUserData.data;
+      const { result, status } = loginUserData.data;
+
+      console.log("loginUserData.data", loginUserData.data);
 
       setAccessToken(jwtToken);
+      console.log("result", result);
 
       // if (!result) {
       //   if (status === 400) {
