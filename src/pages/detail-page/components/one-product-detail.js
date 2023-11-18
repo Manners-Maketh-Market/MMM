@@ -7,11 +7,16 @@ import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { UsePriceComma } from "hooks/use-price-comma";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  useQueryClient,
+} from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import MannerTemperature from "components/manner-temperature";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const OneProductDetail = () => {
   const navigate = useNavigate();
@@ -21,12 +26,27 @@ const OneProductDetail = () => {
   const param = useParams();
   const dataId = param.id;
 
-  const { data: detailProduct } = useQuery(
+  const { data: detailProduct, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
 
-  console.log(detailProduct);
+  const { mutate, data: LikedProductData } = useMutation((id) =>
+    Api.postLikedProduct(id)
+  );
+
+  console.log(LikedProductData);
+  const onClickLikedBtn = () => {
+    mutate(dataId);
+    if (LikedProductData && LikedProductData.message === true) {
+      alert("찜 취소");
+    } else if (
+      (LikedProductData && LikedProductData.message === false) ||
+      !LikedProductData
+    ) {
+      alert("찜");
+    }
+  };
 
   const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
@@ -99,12 +119,17 @@ const OneProductDetail = () => {
                   </List>
                 </ul>
                 <ButtonBox>
-                  <MMMButton variant={"detailG"} size={"medium"}>
+                  <MMMButton
+                    variant={"detailG"}
+                    size={"medium"}
+                    onClick={onClickLikedBtn}
+                  >
                     <span>
                       <FontAwesomeIcon icon={faHeart} />
                     </span>{" "}
                     찜 {detailProduct.searchProduct.liked}
                   </MMMButton>
+
                   <MMMButton variant={"detailB"} size={"medium"}>
                     <FontAwesomeIcon icon={faComments} /> 채팅하기
                   </MMMButton>

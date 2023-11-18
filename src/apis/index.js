@@ -31,6 +31,20 @@ const getSearchProduct = async (category, keyword, pageParam) => {
   return res.data;
 };
 
+const postLikedProduct = async (id) => {
+  const res = await axiosInstance.post(`/api/product/like`, {
+    prod_idx: id,
+  });
+  return res.data;
+};
+
+const getMyPageLikeProduct = async (pageParam) => {
+  const res = await axiosInstance.get(
+    `/api/user/my-page/like-product-list?page=${pageParam}`
+  );
+  return res.data;
+};
+
 const getUsedProduct = async () => {
   const res = await axiosInstance.get("/products/sell");
   return res.data;
@@ -85,4 +99,6 @@ export const Api = {
   postUserData,
   getsignUserData,
   postRegistData,
+  postLikedProduct,
+  getMyPageLikeProduct,
 };
