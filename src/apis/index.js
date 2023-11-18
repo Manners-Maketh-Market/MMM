@@ -35,6 +35,7 @@ const postMyChatData = async (bodyData) => {
   return res;
 };
 
+// get user info.
 const getUserData = async () => {
   const res = await axiosInstance.get("/user");
   return res.data;

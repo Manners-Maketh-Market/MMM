@@ -49,7 +49,7 @@ export const formValidate = ({
     pw: /^\d+$/.test(pw) && "사용 가능한 비밀번호입니다",
     pwConfirm: pw === pwConfirm && "비밀번호가 확인되었습니다",
     nickName: /^[a-zA-Z0-9]+$/.test(nickName) && "사용 가능한 아이디입니다",
-    phone: /^[0-9]+${,11}/.test(phone) && "", // 원래는 본인 인증을 통해야 하는데..!
+    phone: /^[0-9]+${,11}/.test(phone) && "",
     region: /^[ㄱ-ㅣ가-힣]+$/.test(region) && "",
   };
 

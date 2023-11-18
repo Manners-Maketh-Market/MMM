@@ -34,7 +34,7 @@ export const user = atom({
   key: "user",
   default: {
     email: "",
-    nickName: "",
+    pw: "",
   },
 });
 

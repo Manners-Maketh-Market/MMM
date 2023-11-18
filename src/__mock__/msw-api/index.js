@@ -152,9 +152,9 @@ export const postLoginData = http.post(
     console.log("loginUser >>", loginUser);
 
     const findUser = signupData.find(
-      loginUser.email === email && loginUser.pw === pw
+      email === signupData.email && pw === signupData.pw
     );
-    console.log(findUser);
+    console.log("findUser >>> ", findUser);
 
     return HttpResponse.json(loginUser, { status: 200 });
   }

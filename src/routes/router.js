@@ -13,7 +13,6 @@ import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
 import ErrorPage from "pages/error-page";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
