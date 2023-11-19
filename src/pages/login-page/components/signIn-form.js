@@ -11,7 +11,6 @@ import { useSetRecoilState } from "recoil";
 import { Api } from "apis";
 import { useMutation } from "react-query";
 import { TokenAtom } from "Recoil/TokenAtom";
-import { useUserDispatch, useUserState } from "provider/userProvider";
 
 const SignInForm = () => {
   const [{ email, pw }, onChangeInputs] = useInputs({
@@ -33,9 +32,6 @@ const SignInForm = () => {
     Api.postLoginUserData(loginUserData)
   );
 
-  const { userList } = useUserState();
-  const dispatch = useUserDispatch();
-
   const onSubmitSignIn = async (e) => {
     e.preventDefault();
 
@@ -53,11 +49,9 @@ const SignInForm = () => {
       };
       console.log("loginUserData", loginUserData);
 
-      const loginData = JSON.stringify(loginUserData);
-      mutate(loginData);
-      setUser(loginData);
-
-      // dispatch({type: "SIGN_IN", nickName: nickName,});
+      // const loginData = JSON.stringify(loginUserData);
+      mutate(loginUserData);
+      setUser(loginUserData);
 
       const jwtToken = user.token;
       const { result, status } = loginUserData.data;

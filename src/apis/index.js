@@ -53,6 +53,12 @@ const postLoginUserData = async (loginUserData) => {
   return res;
 };
 
+// 이메일 중복 체크
+const getCheckEmail = async (email) => {
+  const res = await axiosInstance.get(`/api/user/check/email?email=${email}`);
+  return res;
+};
+
 // logout
 
 // register my product
@@ -73,4 +79,5 @@ export const Api = {
   postSignUpData,
   postLoginUserData,
   postRegistData,
+  getCheckEmail,
 };

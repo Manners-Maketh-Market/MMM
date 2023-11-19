@@ -37,9 +37,9 @@ const Phone = () => {
 
   return (
     <S.Wrapper>
-      <label htmlFor="phoneNumber">휴대폰 번호</label>
+      <label htmlFor="phone">휴대폰 번호</label>
       <input
-        name="phoneNumber"
+        name="phone"
         value={num}
         ref={phoneRef}
         onChange={handlePhone}

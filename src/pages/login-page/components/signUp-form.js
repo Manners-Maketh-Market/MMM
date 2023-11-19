@@ -10,11 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { isLogin } from "store";
 import { useSetRecoilState } from "recoil";
 import { user } from "store";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Api } from "apis";
 import { useState } from "react";
-import { useUserDispatch } from "provider/userProvider";
-import { axiosInstance } from "apis/core";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -32,6 +30,7 @@ const SignUpForm = () => {
       phone: "",
       region: "",
     });
+
   // validation check
   const { disabled, errors, access } = formValidate({
     email,
@@ -42,77 +41,67 @@ const SignUpForm = () => {
     region,
   });
 
-  // duplicate check
-  const [isEmailDuplicate, setIsEmailDuplicate] = useState(false);
-  // email
-  const checkEmailDuplicate = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.get(
-        `/api/user/check/email?email=${email}`
-      );
-      const { result } = response.data;
-
-      if (result === 400) {
-        alert("이미 등록된 메일입니다. 다른 이메일을 사용해주세요.");
-        setIsEmailDuplicate(false);
-      } else {
-        alert("사용 가능한 메일입니다.");
-        setIsEmailDuplicate(true);
-      }
-    } catch (error) {
-      console.error("email duplicate:", error);
-    }
-  };
-  // nickName
-
   // sign-up
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
 
-  const { mutate, data } = useMutation((signupUserData) =>
-    Api.postSignUpData(signupUserData)
+  const { mutate, data: signUpRes } = useMutation(
+    (signupUserData) => Api.postSignUpData(signupUserData),
+    {
+      onSuccess: (data) => {
+        console.log("success >>", data);
+      },
+    }
   );
 
-  const dispatch = useUserDispatch();
+  const {
+    data: checkEmailData,
+    isError,
+    refetch,
+  } = useQuery(["checkEmail"], () => Api.getCheckEmail(email));
+  checkEmailData && console.log("checkEmailData >>", checkEmailData);
+  console.log(isError);
 
-  const onSubmitSignUp = async (e) => {
+  const onCheckEmail = (e) => {
+    e.preventDefault();
+
+    refetch();
+
+    /*
+      axios 에러 캐치 하는 법을 알아야 할 거 같아요
+    */
+
+    if (isError) {
+      isError && alert("중복된 이메일입니다");
+    }
+  };
+
+  const onSubmitSignUp = (e) => {
     e.preventDefault();
 
     // required
-    if (!email || !pw || !pwConfirm || !nickName) {
-      alert("입력되지 않은 값이 있습니다.");
-      return;
-    }
+    // if (!email || !pw || !pwConfirm || !nickName) {
+    //   alert("입력되지 않은 값이 있습니다.");
+    //   return;
+    // }
 
-    try {
-      const signupUserData = {
-        email: e.target.email,
-        pw: e.target.pw,
-        nickName: e.target.nickName,
-        phone: e.target.phone,
-        region: e.target.location,
-      };
-      const signupData = JSON.stringify(signupUserData);
-      mutate(signupData);
+    const signupUserData = {
+      email: e.target.email.value,
+      pw: e.target.pw.value,
+      nickName: e.target.nickName.value,
+      phone: e.target.phone.value,
+      region: e.target.location.value,
+    };
 
-      console.log("signupUserData", signupUserData);
+    // const signupData = JSON.stringify(signupUserData);
+    mutate(signupUserData);
 
-      // dispatch({
-      //   type: "SIGN_UP",
-      //   user: { email, pw, nickName, phone, region },
-      // });
-      // const signupData = JSON.stringify(user);
-
-      setUser(signupData);
-      navigate("/sign-in");
-      alert("환영합니다! 회원 가입이 완료되었습니다!");
-      setIsLogin(true);
-      console.log(signupData.nickName); // undefined
-    } catch (error) {
-      console.error(error);
-    }
+    // navigate("/sign-in");
+    // alert("환영합니다! 회원 가입이 완료되었습니다!");
+    // setIsLogin(true);
   };
+
+  signUpRes && console.log(signUpRes);
 
   return (
     <Wrapper>
@@ -126,15 +115,10 @@ const SignUpForm = () => {
             placeholder="이메일을 입력해주세요"
             onChange={onChangeInputs}
             error={errors.email}
-            access={access.email}
             size={"large"}
             required
           />
-          <MMMButton
-            size={"confirm"}
-            type="button"
-            onChange={checkEmailDuplicate}
-          >
+          <MMMButton size={"confirm"} type="button" onClick={onCheckEmail}>
             중복확인
           </MMMButton>
         </OneRow>
@@ -168,7 +152,6 @@ const SignUpForm = () => {
             placeholder="닉네임을 입력해주세요."
             onChange={onChangeInputs}
             error={errors.nickName}
-            access={access.nickName}
             size={"large"}
             maxLength={10}
             required
@@ -177,8 +160,8 @@ const SignUpForm = () => {
             중복확인
           </MMMButton>
         </OneRow>
-        <Phone name="phone" required />
-        <Location name="region" required />
+        <Phone name="phone" />
+        <Location name="region" />
         <MMMButton size={"full"} disabled={disabled} type="submit">
           회원가입
         </MMMButton>
