@@ -28,54 +28,34 @@ const SignInForm = () => {
   const setIsLogin = useSetRecoilState(isLogin);
   const setAccessToken = useSetRecoilState(TokenAtom);
 
-  const { mutate } = useMutation((loginUserData) =>
+  const { mutate, data: signInRes } = useMutation((loginUserData) =>
     Api.postLoginUserData(loginUserData)
   );
 
-  const onSubmitSignIn = async (e) => {
+  const onSubmitSignIn = (e) => {
     e.preventDefault();
+
+    const loginUserData = {
+      email: e.target.email.value,
+      pw: e.target.pw.value,
+    };
+    mutate(loginUserData);
 
     // required
     if (!email || !pw) {
       alert("아이디와 비밀번호를 모두 입력해주세요");
       return;
-    }
-    console.log("required >> ", email, pw);
-
-    try {
-      const loginUserData = {
-        email: e.target.email.value,
-        pw: e.target.pw.value,
-      };
-      console.log("loginUserData", loginUserData);
-
-      // const loginData = JSON.stringify(loginUserData);
-      mutate(loginUserData);
+    } else if (signInRes.status === 200) {
+      setIsLogin(true);
+      // navigate("/", { replace: true });
       setUser(loginUserData);
-
-      const jwtToken = user.token;
-      const { result, status } = loginUserData.data;
-
-      console.log("loginUserData.data", loginUserData.data);
-
-      setAccessToken(jwtToken);
-      console.log("result", result);
-
-      // if (!result) {
-      //   if (status === 400) {
-      //     setIsLogin(false);
-      //     alert("존재하지 않는 회원 정보입니다.");
-      //   }
-      // } else {
-      //   setIsLogin(true);
-      //   // navigate("/", { replace: true });
-      //   alert("어서오세요!");
-      // }
-    } catch {
-      setIsLogin(false);
-      console.log("로그인 실패");
+      // nickName으로 변경하기
+      alert(loginUserData.email + "님, 반갑습니다!");
+      console.log("login success >>", loginUserData);
     }
   };
+
+  signInRes && console.log("signInRes >>", signInRes);
 
   const onClickSignUp = () => {
     navigate("/sign-up");

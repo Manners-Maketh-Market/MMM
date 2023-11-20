@@ -12,7 +12,6 @@ import { useSetRecoilState } from "recoil";
 import { user } from "store";
 import { useMutation, useQuery } from "react-query";
 import { Api } from "apis";
-import { useState } from "react";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -41,17 +40,11 @@ const SignUpForm = () => {
     region,
   });
 
-  // sign-up
   const setUser = useSetRecoilState(user);
   const setIsLogin = useSetRecoilState(isLogin);
 
-  const { mutate, data: signUpRes } = useMutation(
-    (signupUserData) => Api.postSignUpData(signupUserData),
-    {
-      onSuccess: (data) => {
-        console.log("success >>", data);
-      },
-    }
+  const { mutate, data: signUpRes } = useMutation((signupUserData) =>
+    Api.postSignUpData(signupUserData)
   );
 
   const {
@@ -59,31 +52,27 @@ const SignUpForm = () => {
     isError,
     refetch,
   } = useQuery(["checkEmail"], () => Api.getCheckEmail(email));
-  checkEmailData && console.log("checkEmailData >>", checkEmailData);
-  console.log(isError);
+  checkEmailData && console.log("checkEmailData >> ", checkEmailData);
 
+  // check email duplicate
   const onCheckEmail = (e) => {
     e.preventDefault();
-
     refetch();
 
-    /*
-      axios 에러 캐치 하는 법을 알아야 할 거 같아요
-    */
-
+    // axios 에러 캐치 하는 법을 알아야 할 거 같아요
+    // 1번 클릭하면 3번 요청이 감. 1번 더 클릭하면 그제서야 중복 확인이 제대로 이뤄짐
     if (isError) {
-      isError && alert("중복된 이메일입니다");
+      alert("이미 가입된 이메일입니다.");
+      // value 비우기
+      // checkEmailData.value = "";
+    } else if (!isError) {
+      alert(checkEmailData.data.message);
     }
   };
 
+  // sign-up
   const onSubmitSignUp = (e) => {
     e.preventDefault();
-
-    // required
-    // if (!email || !pw || !pwConfirm || !nickName) {
-    //   alert("입력되지 않은 값이 있습니다.");
-    //   return;
-    // }
 
     const signupUserData = {
       email: e.target.email.value,
@@ -92,13 +81,23 @@ const SignUpForm = () => {
       phone: e.target.phone.value,
       region: e.target.location.value,
     };
-
     // const signupData = JSON.stringify(signupUserData);
     mutate(signupUserData);
 
-    // navigate("/sign-in");
-    // alert("환영합니다! 회원 가입이 완료되었습니다!");
-    // setIsLogin(true);
+    try {
+      // required
+      if (!email || !pw || !pwConfirm || !nickName) {
+        alert("내용을 전부 입력해주세요");
+        return;
+      } else {
+        setIsLogin(true);
+        setUser(signupUserData);
+        navigate("/sign-in");
+        alert("환영합니다! 회원 가입이 완료되었습니다!");
+      }
+    } catch (error) {
+      error && alert("회원가입하실 수 없습니다.");
+    }
   };
 
   signUpRes && console.log(signUpRes);
@@ -115,6 +114,7 @@ const SignUpForm = () => {
             placeholder="이메일을 입력해주세요"
             onChange={onChangeInputs}
             error={errors.email}
+            access={access.email}
             size={"large"}
             required
           />
@@ -152,6 +152,7 @@ const SignUpForm = () => {
             placeholder="닉네임을 입력해주세요."
             onChange={onChangeInputs}
             error={errors.nickName}
+            access={access.nickName}
             size={"large"}
             maxLength={10}
             required
