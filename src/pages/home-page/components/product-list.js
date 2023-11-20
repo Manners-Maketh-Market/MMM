@@ -89,6 +89,7 @@ const ProductList = () => {
                   isLiked={item.isLiked}
                   id={item.idx}
                   status={item.status}
+                  likeCount={item.likeCount}
                 />
               </Grid>
             ))}

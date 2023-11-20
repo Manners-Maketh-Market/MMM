@@ -17,6 +17,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import MannerTemperature from "components/manner-temperature";
 import { useEffect, useState } from "react";
+import unProfile from "./../../../images/icon/unprofile.png";
 
 const OneProductDetail = () => {
   const navigate = useNavigate();
@@ -31,21 +32,26 @@ const OneProductDetail = () => {
     () => Api.getDetailProduct(dataId)
   );
 
-  const { mutate, data: LikedProductData } = useMutation((id) =>
-    Api.postLikedProduct(id)
-  );
+  console.log(detailProduct);
+  // searchProduct.User.profile_url
 
-  console.log(LikedProductData);
-  const onClickLikedBtn = () => {
-    mutate(dataId);
-    if (LikedProductData && LikedProductData.message === true) {
-      alert("찜 취소");
-    } else if (
-      (LikedProductData && LikedProductData.message === false) ||
-      !LikedProductData
-    ) {
-      alert("찜");
+  const {
+    mutate,
+    mutateAsync: onLikeMutation,
+    data: likedData,
+  } = useMutation((id) => Api.postLikedProduct(id));
+
+  console.log(likedData);
+
+  const onClickLikedBtn = async () => {
+    if (detailProduct.searchProduct.liked === 1) {
+      await onLikeMutation(dataId);
+      alert("찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ");
+    } else if (detailProduct.searchProduct.liked === 0) {
+      await onLikeMutation(dataId);
+      alert("찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ");
     }
+    refetch();
   };
 
   const onMarketPricePage = () => {
@@ -80,7 +86,11 @@ const OneProductDetail = () => {
                     <UserProfBox>
                       <ProfileImg>
                         <img
-                          src={detailProduct.searchProduct.User.profile_url}
+                          src={
+                            detailProduct.searchProduct.User.profile_url
+                              ? detailProduct.searchProduct.User.profile_url
+                              : unProfile
+                          }
                           width={"100%"}
                           height={"100%"}
                           alt="ProfileImg"
@@ -120,14 +130,20 @@ const OneProductDetail = () => {
                 </ul>
                 <ButtonBox>
                   <MMMButton
-                    variant={"detailG"}
+                    variant={
+                      detailProduct.searchProduct.liked === 1
+                        ? "detailY"
+                        : "detailG"
+                    }
                     size={"medium"}
                     onClick={onClickLikedBtn}
                   >
                     <span>
                       <FontAwesomeIcon icon={faHeart} />
                     </span>{" "}
-                    찜 {detailProduct.searchProduct.liked}
+                    {detailProduct.searchProduct.liked === 1
+                      ? "찜 했어요!"
+                      : "찜 하기"}
                   </MMMButton>
 
                   <MMMButton variant={"detailB"} size={"medium"}>
