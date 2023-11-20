@@ -28,10 +28,12 @@ const SignInForm = () => {
   const setIsLogin = useSetRecoilState(isLogin);
   const setAccessToken = useSetRecoilState(TokenAtom);
 
-  const { mutate, data: signInRes } = useMutation((loginUserData) =>
-    Api.postLoginUserData(loginUserData)
-  );
-
+  const {
+    mutate,
+    data: signInRes,
+    status,
+  } = useMutation((loginUserData) => Api.postLoginUserData(loginUserData));
+  console.log("status", status);
   const onSubmitSignIn = (e) => {
     e.preventDefault();
 
@@ -45,12 +47,12 @@ const SignInForm = () => {
     if (!email || !pw) {
       alert("아이디와 비밀번호를 모두 입력해주세요");
       return;
-    } else if (signInRes.status === 200) {
+    } else if (status === "success") {
       setIsLogin(true);
-      // navigate("/", { replace: true });
       setUser(loginUserData);
-      // nickName으로 변경하기
+      // todo: nickName으로 변경하기
       alert(loginUserData.email + "님, 반갑습니다!");
+      navigate("/", { replace: true });
       console.log("login success >>", loginUserData);
     }
   };

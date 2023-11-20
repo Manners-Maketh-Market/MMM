@@ -118,7 +118,8 @@ const SignUpForm = () => {
             size={"large"}
             required
           />
-          <MMMButton size={"confirm"} type="button" onClick={onCheckEmail}>
+          <MMMButton size={"confirm"} type="button" onClick={onCheckEmail} />
+          <MMMButton size={"confirm"} type="button">
             중복확인
           </MMMButton>
         </OneRow>

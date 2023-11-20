@@ -67,7 +67,7 @@ const buyerData = [
   },
 ];
 
-const signupData = [
+const signupUserData = [
   {
     email: faker.internet.email(),
     pw: faker.internet.password(),
@@ -138,9 +138,9 @@ export const postSignupData = http.post("api/user", async ({ request }) => {
     region: region,
   };
 
-  signupData.push(newUserData);
+  signupUserData.push(newUserData);
 
-  return HttpResponse.json(signupData, { status: 200 });
+  return HttpResponse.json(signupUserData, { status: 200 });
 });
 
 // 로그인
@@ -151,8 +151,8 @@ export const postLoginData = http.post(
     const { email, pw } = loginUser;
     console.log("loginUser >>", loginUser);
 
-    const findUser = signupData.find(
-      email === signupData.email && pw === signupData.pw
+    const findUser = signupUserData.find(
+      email === signupUserData.email && pw === signupUserData.pw
     );
     console.log("findUser >>> ", findUser);
 
@@ -175,9 +175,7 @@ export const postRegisterData = http.post(
       text: text,
       location: location,
     };
-
     postRegisterData.push(RegisterData);
-
     return HttpResponse.json(postRegisterData, { status: 201 });
   }
 );
