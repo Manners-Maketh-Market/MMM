@@ -1,13 +1,31 @@
 import { styled, css } from "styled-components";
 import { flexCenter } from "../styles/common.style";
 
-const MMMInput = ({ label, error, access, size, ...inputProps }) => {
+const MMMInput = ({
+  label,
+  error,
+  access,
+  size,
+  isAvailableEmail,
+  isAvailableNickName,
+  ...inputProps
+}) => {
   return (
     <InputBox>
       <label>{label}</label>
       <Input {...inputProps} size={size} />
-      <Message>{error && <p>{error}</p>}</Message>
-      <Message>{access && <p>{access}</p>}</Message>
+
+      {isAvailableEmail || isAvailableNickName ? (
+        <DuplicateChecked>
+          {isAvailableEmail && <p>사용 가능한 이메일입니다</p>}
+          {isAvailableNickName && <p>사용 가능한 닉네임입니다</p>}
+        </DuplicateChecked>
+      ) : (
+        <>
+          <Message>{error && <p>{error}</p>}</Message>
+          <Message>{access && <p>{access}</p>}</Message>
+        </>
+      )}
     </InputBox>
   );
 };
@@ -21,9 +39,6 @@ const sizeCSS = {
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     background-color: ${({ theme }) => theme.COLORS.gray[100]};
   `,
-
-  // signIn & signUp : large, full
-
   large: css`
     min-width: 585px;
     min-height: 48px;
@@ -126,6 +141,13 @@ const Message = styled.p`
     color: ${({ theme }) => theme.COLORS["error"]};
   }
   &:nth-of-type(2) {
-    color: ${({ theme }) => theme.COLORS["access"]};
+    color: ${({ theme }) => theme.COLORS.gray[400]};
   }
+`;
+
+const DuplicateChecked = styled.p`
+  margin-left: 16px;
+  font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
+  color: ${({ theme }) => theme.COLORS["access"]};
 `;

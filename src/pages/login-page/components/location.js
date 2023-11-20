@@ -43,6 +43,7 @@ const Location = () => {
           placeholder="검색 버튼을 눌러주세요."
           size={"large"}
           onChange={handleSearchAddress}
+          required
         />
         <MMMButton size={"confirm"} onClick={SearchMap}>
           검색

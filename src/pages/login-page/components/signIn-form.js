@@ -1,66 +1,47 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import useInputs from "hooks/use-inputs";
-import { formValidate } from "utils/validate-helper";
+import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useAuth } from "provider/authProvider";
-import { user } from "store";
-import { isLogin } from "store";
-import { useSetRecoilState } from "recoil";
-import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import { useMutation } from "react-query";
 
 const SignInForm = () => {
-  const [{ email, password }, onChangeInputs] = useInputs({
+  const [{ email, pw }, onChangeInputs] = useInputs({
     email: "",
-    password: "",
+    pw: "",
   });
-  const { disabled, errors } = formValidate({ email, password });
+  const { disabled, errors } = FormValidate({ email, pw });
   const navigate = useNavigate();
-
-  const { data: signupData } = useQuery(
-    [PRODUCT_QUERY_KEY.SIGNUP_DATA],
-    () => Api.getsignUserData()
-  );
 
   // 직접 로그인 페이지로 온 경우
   const location = useLocation();
   const from = location?.state?.redirectedFrom?.pathname || "/";
 
-  // const { signIn } = useAuth();
-  const setUser = useSetRecoilState(user);
-  const setIsLogin = useSetRecoilState(isLogin);
+  const mutation = useMutation((loginUserData) =>
+    Api.postLoginUserData(loginUserData)
+  );
 
-  const onSubmitSignIn = async (e) => {
+  const onSubmitSignIn = (e) => {
     e.preventDefault();
 
+    const loginUserData = {
+      email: e.target.email.value,
+      pw: e.target.pw.value,
+    };
+
     try {
-      const signupUserData = {
-        email : e.target.email.value,
-        password : e.target.password.value,
-      };
-      setUser(signupData);
-      setIsLogin(false);
-      console.log(signupData);
-      navigate("/");
-      alert("환영합니다! 로그인이 되었습니다.");
+      const user = mutation.mutateAsync(loginUserData);
+
+      alert("반갑습니다^^");
+      navigate("/", { replace: true });
+      console.log("login success >>", user);
     } catch (error) {
-      console.error(error);
+      error && alert("이메일과 비밀번호를 확인해주세요");
     }
   };
-
-  //   try {
-  //     const loggedInUser = await signIn({ email, password });
-  //     setUser(loggedInUser);
-  //     setIsLogin(true);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const onClickSignUp = () => {
     navigate("/sign-up");
@@ -76,15 +57,17 @@ const SignInForm = () => {
         placeholder="이메일을 입력해주세요"
         error={errors.email}
         size={"full"}
+        required
       />
       <MMMInput
         label="비밀번호"
         type="password"
-        name="password"
+        name="pw"
         onChange={onChangeInputs}
         placeholder="비밀번호를 입력해주세요"
-        error={errors.password}
+        error={errors.pw}
         size={"full"}
+        required
       />
       <ButtonBox>
         <MMMButton size={"full"} disabled={disabled} variant={"secondary"}>

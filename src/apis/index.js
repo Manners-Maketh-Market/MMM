@@ -31,16 +31,6 @@ const getSearchProduct = async (category, keyword, pageParam) => {
   return res.data;
 };
 
-const getUsedProduct = async () => {
-  const res = await axiosInstance.get("/products/sell");
-  return res.data;
-};
-
-const getFreeProduct = async () => {
-  const res = await axiosInstance.get("/products/free");
-  return res.data;
-};
-
 const getBuyerChatData = async () => {
   const res = await axiosInstance.get("/chat/buyer");
   return res.data;
@@ -51,13 +41,36 @@ const postMyChatData = async (bodyData) => {
   return res;
 };
 
+// get user info.
 const getUserData = async () => {
   const res = await axiosInstance.get("/user");
   return res.data;
 };
 
-const postUserData = async (signupData) => {
-  const res = await axiosInstance.post("/signup", signupData);
+// sign-up
+const postSignUpData = async (signupData) => {
+  const res = await axiosInstance.post("/api/user", signupData);
+  return res;
+};
+
+// sign-in
+const postLoginUserData = async (loginUserData) => {
+  const res = await axiosInstance.post("/api/user/login", loginUserData);
+  return res;
+};
+// logout
+
+// 이메일 중복 체크
+const getCheckEmail = async (email) => {
+  const res = await axiosInstance.get(`/api/user/check/email?email=${email}`);
+  return res;
+};
+
+// 닉네임 중복 체크
+const getCheckNickName = async (nickName) => {
+  const res = await axiosInstance.get(
+    `/api/user/check/nickname?nickname=${nickName}`
+  );
   return res;
 };
 
@@ -66,23 +79,18 @@ const postRegistData = async (registData) => {
   return res;
 };
 
-const getsignUserData = async () => {
-  const res = await axiosInstance.get("/signup");
-  return res;
-};
-
 export const Api = {
   getMainProductList,
   getDetailProduct,
   getUsedOrFreeProduct,
-  getUsedProduct,
   getSearchProduct,
-  getFreeProduct,
   getBuyerChatData,
   postMyChatData,
   getUserData,
   getProductPrice,
-  postUserData,
-  getsignUserData,
   postRegistData,
+  postSignUpData,
+  postLoginUserData,
+  getCheckEmail,
+  getCheckNickName,
 };
