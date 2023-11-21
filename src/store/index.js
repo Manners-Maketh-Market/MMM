@@ -30,23 +30,16 @@ export const isCreateChat = atom({
   default: false,
 });
 
-export const user = atom({
-  key: "user",
-  default: {
-    email: "",
-    nickName: "",
-  },
+// 이메일 중복체크 함수
+export const isEmailCheckPass = atom({
+  key: "isEmailCheckPass",
+  default: false,
 });
 
-// 로그인 여부 확인
-export const isLogin = atom({
-  key: "isLogin",
-  default: localStorage.getItem("token") ? true : false,
-});
-
-export const signupUserDataIndex = atom({
-  key: "signupUserDataIndex",
-  default: null,
+// 닉네임 중복체크 함수
+export const isNickNameCheckPass = atom({
+  key: "isNickNameCheckPass",
+  default: false,
 });
 
 export const RegisterDataIndex = atom({
@@ -59,4 +52,3 @@ export const RegistData = atom({
   key: "RegistData",
   default: localStorage.getItem("token") ? true : false,
 });
-

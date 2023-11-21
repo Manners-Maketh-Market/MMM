@@ -1,4 +1,4 @@
-import { formValidate } from "utils/validate-helper";
+import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
@@ -7,67 +7,98 @@ import Phone from "./phone";
 import Location from "./location";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "provider/authProvider";
-import { isLogin } from "store";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { user } from "store";
-import { signupUserDataIndex } from "store";
 import { useMutation } from "react-query";
 import { Api } from "apis";
+import { useRecoilState } from "recoil";
+import { isEmailCheckPass, isNickNameCheckPass } from "store";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
   const navigate = useNavigate();
+
+  // duplicate check
+  const [isEmailCheckPassState, setIsEmailCheckPassState] =
+    useRecoilState(isEmailCheckPass);
+  const [isNickNameCheckPassState, setIsNickNameCheckPassState] =
+    useRecoilState(isNickNameCheckPass);
+
   const onClickSignIn = () => {
     navigate("/sign-in");
   };
 
-  const [{ email, password, passwordConfirm, nickName }, onChangeInputs] =
+  // input - hook func.
+  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] =
     useInputs({
       email: "",
-      password: "",
-      passwordConfirm: "",
+      pw: "",
+      pwConfirm: "",
       nickName: "",
+      phone: "",
+      region: "",
     });
-  const { disabled, errors, access } = formValidate({
+
+  // validation check
+  const { disabled, errors, access } = FormValidate({
     email,
-    password,
-    passwordConfirm,
+    pw,
+    pwConfirm,
     nickName,
+    phone,
+    region,
   });
 
-  // const { signUp } = useAuth();
-  const setUser = useSetRecoilState(user);
-  const setIsLogin = useSetRecoilState(isLogin);
-  const readSignupUserListIndex = useRecoilValue(signupUserDataIndex);
-  
-  const { mutate , data} = useMutation((signupUserData) =>
-    Api.postUserData(signupUserData)
+  // 회원 가입 요청 post
+  const mutation = useMutation((signupUserData) =>
+    Api.postSignUpData(signupUserData)
   );
 
-  data && console.log(data)
+  // check email duplicate
+  const onCheckEmail = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await Api.getCheckEmail(email);
+      setIsEmailCheckPassState(true);
+      alert(res.data.message);
+    } catch {
+      setIsEmailCheckPassState(false);
+      alert("중복된 이메일입니다.");
+    }
+  };
 
+  // check nickName duplicate
+  const onCheckNickName = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await Api.getCheckNickName(nickName);
+      setIsNickNameCheckPassState(true);
+      alert(res.data.message);
+    } catch {
+      setIsNickNameCheckPassState(false);
+      alert("중복된 닉네임입니다.");
+    }
+  };
+
+  // sign-up
   const onSubmitSignUp = async (e) => {
     e.preventDefault();
 
+    const signupUserData = {
+      email: e.target.email.value,
+      pw: e.target.pw.value,
+      nickName: e.target.nickName.value,
+      phone: e.target.phone.value,
+      region: e.target.location.value,
+    };
+
     try {
-      const signupUserData = {
-        email : e.target.email.value,
-        password : e.target.password.value,
-        nickName : e.target.nickName.value,
-        phoneNumber : e.target.phoneNumber.value,
-        location : e.target.location.value,
-        signupUserIndex : readSignupUserListIndex,
-      };
-      const signupData = JSON.stringify(signupUserData);
-      mutate(signupData);
-      setUser(signupData);
-      setIsLogin(true);
-      console.log(signupData);
+      const newUser = await mutation.mutateAsync(signupUserData);
+      console.log("newUser >>", newUser);
       navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
     } catch (error) {
-      console.error(error);
+      // 이메일 중복
+      // 닉네임 중복
+      error && alert("양식을 확인 후 다시 시도해주세요");
     }
   };
 
@@ -84,31 +115,35 @@ const SignUpForm = () => {
             onChange={onChangeInputs}
             error={errors.email}
             access={access.email}
+            isAvailableEmail={isEmailCheckPassState}
             size={"large"}
+            required
           />
-          <MMMButton size={"confirm"} type="button">
+          <MMMButton size={"confirm"} type="button" onClick={onCheckEmail}>
             중복확인
           </MMMButton>
         </OneRow>
         <MMMInput
           label="비밀번호"
-          name="password"
+          name="pw"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={onChangeInputs}
-          error={errors.password}
-          access={access.password}
+          error={errors.pw}
+          access={access.pw}
           size={"full"}
           maxLength={12}
+          required
         />
         <MMMInput
           label="비밀번호 확인"
-          name="passwordConfirm"
+          name="pwConfirm"
           type="password"
           placeholder="비밀번호 확인"
-          error={errors.passwordConfirm}
+          error={errors.pwConfirm}
           onChange={onChangeInputs}
           size={"full"}
+          required
         />
         <OneRow>
           <MMMInput
@@ -119,22 +154,23 @@ const SignUpForm = () => {
             onChange={onChangeInputs}
             error={errors.nickName}
             access={access.nickName}
+            isAvailableNickName={isNickNameCheckPassState}
             size={"large"}
-            maxLength={10}
+            maxLength={12}
+            required
           />
-          <MMMButton size={"confirm"} type="button">
+          <MMMButton size={"confirm"} type="button" onClick={onCheckNickName}>
             중복확인
           </MMMButton>
         </OneRow>
-        <Phone name="phoneNumber"/>
-        <Location name="location"/>
-        <MMMButton
-          size={"full"}
-          // disabled={disabled}
-          type="submit"
-        >
+        <Phone name="phone" />
+        <Location name="region" />
+        <MMMButton size={"full"} type="submit">
           회원가입
         </MMMButton>
+        {/* <MMMButton size={"full"} disabled={disabled} type="submit">
+          회원가입
+        </MMMButton> */}
       </Form>
     </Wrapper>
   );
@@ -186,7 +222,7 @@ const Form = styled.form`
     min-height: 46px;
     margin: 100px 0;
   }
-  
+
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -270,7 +306,6 @@ const OneRow = styled.div`
     font-weight: 600;
     margin-top: 20px;
   }
-
 
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;

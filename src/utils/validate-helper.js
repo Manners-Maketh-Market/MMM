@@ -1,29 +1,22 @@
-export const formValidate = ({
+export const FormValidate = ({
   email,
-  password,
-  passwordConfirm,
+  pw,
+  pwConfirm,
   nickName,
-  phoneNumber,
-  location,
+  phone,
+  region,
 }) => {
   let disabled =
     !/^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*|.[a-zA-Z]{2,3}$/.test(
       email
-    ) || !/^\d+$/.test(password);
+    ) || !/^[a-z0-9]+$/.test(pw);
 
-  if (passwordConfirm) {
+  if (pwConfirm) {
     disabled =
       disabled ||
-
-      (password !== passwordConfirm &&
+      (pw !== pwConfirm &&
         !/^[a-zA-Z0-9]$/.test(nickName) &&
-        !/^[0-9]+${,11}/.test(phoneNumber));
-  } else if (!password && !passwordConfirm) {
-    disabled =
-      disabled ||
-      (!/^[a-zA-Z0-9]$/.test(nickName) &&
-        !/^[0-9]+${,11}/.test(phoneNumber) &&
-        !/^[ㄱ-ㅣ가-힣]+$/.test(location));
+        !/^[0-9]+${,11}/.test(phone));
   }
 
   let errors = {
@@ -31,33 +24,27 @@ export const formValidate = ({
       !/^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*|.[a-zA-Z]{2,3}$/.test(
         email
       ) && "이메일 양식을 확인해주세요",
-    password:
-      !/^[a-z0-9]+$/.test(password) && "비밀번호는 영문과 숫자만 입력해주세요",
-    passwordConfirm:
-      password !== passwordConfirm && "비밀번호가 일치하지 않습니다",
+    pw: !/^[a-z0-9]+$/.test(pw) && "비밀번호는 영문과 숫자만 입력해주세요",
+    pwConfirm: pw !== pwConfirm && "비밀번호가 일치하지 않습니다",
     nickName:
-      !/^[a-zA-Z0-9]+$/.test(nickName) &&
-      "아이디는 영문과 숫자만 사용 가능합니다",
-    phoneNumber:
-      !/^[0-9]+${,11}/.test(phoneNumber) && "11자리의 숫자만 입력 가능합니다",
-    location:
-      !/^[ㄱ-ㅣ가-힣]+$/.test(location) &&
+      !/^[a-zA-Z0-9ㄱ-ㅣ가-힣]+$/.test(nickName) &&
+      "닉네임에는 특수문자가 포함될 수 없습니다",
+    phone: !/^[0-9]+${,11}/.test(phone) && "11자리의 숫자만 입력 가능합니다",
+    region:
+      !/^[ㄱ-ㅣ가-힣]+$/.test(region) &&
       "한글만 입력 가능합니다, 한국 주소를 입력해주세요",
-
   };
 
   let access = {
     email:
       /^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*|.[a-zA-Z]{2,3}$/.test(
         email
-      ) && "사용 가능한 이메일입니다",
-    password: /^\d+$/.test(password) && "사용 가능한 비밀번호입니다",
-    passwordConfirm:
-      password === passwordConfirm && "비밀번호가 확인되었습니다",
-    nickName: /^[a-zA-Z0-9]+$/.test(nickName) && "사용 가능한 아이디입니다",
-    phoneNumber: /^[0-9]+${,11}/.test(phoneNumber) && "", // 원래는 본인 인증을 통해야 하는데..!
-    location: /^[ㄱ-ㅣ가-힣]+$/.test(location) && "",
-
+      ) && "중복 확인을 해주세요",
+    pw: /^\d+$/.test(pw) && "",
+    pwConfirm: pw === pwConfirm && "비밀번호가 확인되었습니다",
+    nickName: /^[a-zA-Z0-9]+$/.test(nickName) && "중복 확인을 해주세요",
+    phone: /^[0-9]+${,11}/.test(phone) && "",
+    region: /^[ㄱ-ㅣ가-힣]+$/.test(region) && "",
   };
 
   return { disabled, errors, access };
