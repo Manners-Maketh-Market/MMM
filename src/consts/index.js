@@ -10,5 +10,5 @@ export const PRODUCT_QUERY_KEY = {
   USER_DATA: "userData",
   SIGNUP_DATA: "signUpData",
   FULL_PRODUCT_LIST: "fullProductList",
-
+  LIKED_PRODUCT_DATA: "likedProductData",
 };

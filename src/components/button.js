@@ -34,6 +34,18 @@ const variantCSS = {
       font-size: 16px;
     }
   `,
+
+  detailY: css`
+    background-color: #ffd02c;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    @media ${({ theme }) => theme.DEVICE.mobile} {
+      font-size: 16px;
+    }
+  `,
   More: css`
     ${flexCenter}
     width:97px;
