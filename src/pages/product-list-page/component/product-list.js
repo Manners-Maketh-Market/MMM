@@ -54,12 +54,12 @@ const ProductList = () => {
                   >
                     <OneProduct
                       title={product.title}
-                      status={product.status}
                       img={product.img_url}
                       price={product.price}
                       isLiked={product.isLiked}
+                      status={product.status}
                       id={product.id}
-                      likeCount={product.likeCount}
+                      createdAt={product.createdAt}
                     />
                   </Grid>
                 ))}
