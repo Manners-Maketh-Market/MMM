@@ -7,11 +7,17 @@ import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { UsePriceComma } from "hooks/use-price-comma";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  useQueryClient,
+} from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import MannerTemperature from "components/manner-temperature";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import unProfile from "./../../../images/icon/unprofile.png";
 
 const OneProductDetail = () => {
   const navigate = useNavigate();
@@ -21,12 +27,28 @@ const OneProductDetail = () => {
   const param = useParams();
   const dataId = param.id;
 
-  const { data: detailProduct } = useQuery(
+  const { data: detailProduct, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
 
   console.log(detailProduct);
+  // searchProduct.User.profile_url
+
+  const { mutateAsync: onLikeMutation } = useMutation((id) =>
+    Api.postLikedProduct(id)
+  );
+
+  const onClickLikedBtn = async () => {
+    if (detailProduct.searchProduct.liked === 1) {
+      await onLikeMutation(dataId);
+      alert("찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ");
+    } else if (detailProduct.searchProduct.liked === 0) {
+      await onLikeMutation(dataId);
+      alert("찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ");
+    }
+    refetch();
+  };
 
   const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
@@ -60,7 +82,11 @@ const OneProductDetail = () => {
                     <UserProfBox>
                       <ProfileImg>
                         <img
-                          src={detailProduct.searchProduct.User.profile_url}
+                          src={
+                            detailProduct.searchProduct.User.profile_url
+                              ? detailProduct.searchProduct.User.profile_url
+                              : unProfile
+                          }
                           width={"100%"}
                           height={"100%"}
                           alt="ProfileImg"
@@ -99,12 +125,23 @@ const OneProductDetail = () => {
                   </List>
                 </ul>
                 <ButtonBox>
-                  <MMMButton variant={"detailG"} size={"medium"}>
+                  <MMMButton
+                    variant={
+                      detailProduct.searchProduct.liked === 1
+                        ? "detailY"
+                        : "detailG"
+                    }
+                    size={"medium"}
+                    onClick={onClickLikedBtn}
+                  >
                     <span>
                       <FontAwesomeIcon icon={faHeart} />
                     </span>{" "}
-                    찜 {detailProduct.searchProduct.liked}
+                    {detailProduct.searchProduct.liked === 1
+                      ? "찜 했어요!"
+                      : "찜 하기"}
                   </MMMButton>
+
                   <MMMButton variant={"detailB"} size={"medium"}>
                     <FontAwesomeIcon icon={faComments} /> 채팅하기
                   </MMMButton>

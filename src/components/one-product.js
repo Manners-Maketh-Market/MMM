@@ -5,7 +5,7 @@ import { flexCenter } from "styles/common.style";
 import HeartIcon from "../images/icon/fullheart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 
-const OneProduct = ({ title, status, img, price, id, likeCount }) => {
+const OneProduct = ({ title, status, img, price, id, createdAt }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -16,6 +16,30 @@ const OneProduct = ({ title, status, img, price, id, likeCount }) => {
 
   const onToggleIsLiked = () => {
     setIsLiked((prev) => !prev);
+  };
+
+  const ProductRegistrationTime = (productRegistrationCreatedAt) => {
+    let currentTime = new Date();
+    let currentYear = currentTime.getFullYear();
+    let currentMonth = currentTime.getMonth() + 1;
+    let currentDate = currentTime.getDate();
+    let currentHours = currentTime.getHours();
+
+    const productRegistrationTime = new Date(productRegistrationCreatedAt);
+    const productRegistrationYear = productRegistrationTime.getFullYear();
+    const productRegistrationMonth = productRegistrationTime.getMonth() + 1;
+    const productRegistrationDate = productRegistrationTime.getDate();
+    const productRegistrationHours = productRegistrationTime.getHours();
+
+    if (productRegistrationYear < currentYear) {
+      return `${currentYear - productRegistrationYear}년전`;
+    } else if (productRegistrationMonth < currentMonth) {
+      return `${currentMonth - productRegistrationMonth}개월 전`;
+    } else if (productRegistrationDate < currentDate) {
+      return `${currentDate - productRegistrationMonth}일 전`;
+    } else if (productRegistrationHours < currentHours) {
+      return `${currentHours - productRegistrationHours}시간 전`;
+    }
   };
 
   return (
@@ -49,7 +73,10 @@ const OneProduct = ({ title, status, img, price, id, likeCount }) => {
           />
         )}
       </S.TitleAndLikeBox>
-      <S.Content className="Content">{likeCount}명이 관심 있어요!</S.Content>
+      <S.Content className="Content">
+        {ProductRegistrationTime(createdAt)}
+      </S.Content>
+
       <S.Price className="Price">{price}원</S.Price>
     </S.Wrapper>
   );
