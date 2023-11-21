@@ -35,13 +35,9 @@ const OneProductDetail = () => {
   console.log(detailProduct);
   // searchProduct.User.profile_url
 
-  const {
-    mutate,
-    mutateAsync: onLikeMutation,
-    data: likedData,
-  } = useMutation((id) => Api.postLikedProduct(id));
-
-  console.log(likedData);
+  const { mutateAsync: onLikeMutation } = useMutation((id) =>
+    Api.postLikedProduct(id)
+  );
 
   const onClickLikedBtn = async () => {
     if (detailProduct.searchProduct.liked === 1) {
