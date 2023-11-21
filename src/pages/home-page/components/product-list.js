@@ -12,12 +12,7 @@ const ProductList = () => {
 
   const { data: productList } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
-    () => Api.getAllProduct()
-  );
-
-  const { data: detailProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
-    () => Api.getDetailProduct("1050")
+    () => Api.getMainProductList()
   );
 
   const UsedProductList = productList && productList.usedProduct;
@@ -55,6 +50,8 @@ const ProductList = () => {
                   status={item.status}
                   id={item.id}
                   createdAt={item.createdAt}
+                  status={item.status}
+
                 />
               </Grid>
             ))}
@@ -92,6 +89,7 @@ const ProductList = () => {
                   status={item.status}
                   id={item.id}
                   createdAt={item.createdAt}
+                  status={item.status}
                 />
               </Grid>
             ))}

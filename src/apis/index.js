@@ -1,6 +1,6 @@
 import { axiosInstance } from "./core";
 
-const getAllProduct = async () => {
+const getMainProductList = async () => {
   const res = await axiosInstance.get(`/api/product`);
   return res.data;
 };
@@ -13,6 +13,13 @@ const getDetailProduct = async (param) => {
 const getUsedOrFreeProduct = async (pageParam, saleStatus) => {
   const res = await axiosInstance.get(
     `/api/product/search?category=${saleStatus}&page=${pageParam}`
+  );
+  return res.data;
+};
+
+const getProductPrice = async (keyword, start, end) => {
+  const res = await axiosInstance.get(
+    `/api/product/quote?keyword=${keyword}&start=${start}&end=${end}`
   );
   return res.data;
 };
@@ -65,7 +72,7 @@ const getsignUserData = async () => {
 };
 
 export const Api = {
-  getAllProduct,
+  getMainProductList,
   getDetailProduct,
   getUsedOrFreeProduct,
   getUsedProduct,
@@ -74,6 +81,7 @@ export const Api = {
   getBuyerChatData,
   postMyChatData,
   getUserData,
+  getProductPrice,
   postUserData,
   getsignUserData,
   postRegistData,

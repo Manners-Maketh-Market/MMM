@@ -1,6 +1,6 @@
 import MMMButton from "components/button";
 import ImgSlider from "components/img-slider";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +11,11 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import MannerTemperature from "components/manner-temperature";
+import { useState } from "react";
 
 const OneProductDetail = () => {
-  // 임시로 사용할 데이터
-
   const navigate = useNavigate();
+  const [isMoreContent, setIsMoreContent] = useState(true);
 
   // id 값과 같은 데이터를 recoil에 저장한 use데이터목록에서 가져오기
   const param = useParams();
@@ -25,14 +25,17 @@ const OneProductDetail = () => {
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
+
   console.log(detailProduct);
 
-  const marketPricePage = () => {
+  const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
 
     navigate(`/pricecheckpage/${titleValue}`);
   };
-
+  const onMoreContentBtn = () => {
+    setIsMoreContent((prev) => !prev);
+  };
   return (
     <>
       {detailProduct && (
@@ -47,7 +50,7 @@ const OneProductDetail = () => {
                   <Price>
                     {UsePriceComma(detailProduct.searchProduct.price)}원
                   </Price>
-                  <p onClick={() => marketPricePage()}>
+                  <p onClick={() => onMarketPricePage()}>
                     이 상품 시세 조회하러 가기
                   </p>
                 </FlexBox>
@@ -74,10 +77,26 @@ const OneProductDetail = () => {
                   </UserImgIdLoc>
                 </UserProf>
                 <ul>
-                  <List>거래상태</List>
-                  <List>교환여부</List>
-                  <List>배송비</List>
-                  <List>거래지역</List>
+                  <List>
+                    <Category>거래상태</Category>{" "}
+                    <span>{detailProduct.searchProduct.status}</span>
+                  </List>
+                  <List>
+                    <Category>카테고리</Category>{" "}
+                    {detailProduct.searchProduct.ProductsTags.map((tag) => (
+                      <span>{tag.Tag.tag} </span>
+                    ))}
+                  </List>
+                  <List>
+                    <Category>등록일</Category>{" "}
+                    <span>
+                      {detailProduct.searchProduct.createdAt.split("T", 1)}
+                    </span>
+                  </List>
+                  <List>
+                    <Category>거래지역</Category>{" "}
+                    <span>{detailProduct.searchProduct.region}</span>{" "}
+                  </List>
                 </ul>
                 <ButtonBox>
                   <MMMButton variant={"detailG"} size={"medium"}>
@@ -92,11 +111,16 @@ const OneProductDetail = () => {
                 </ButtonBox>
               </Inform>
             </ImgAndInform>
-            <Content>
+            <Content isMore={isMoreContent}>
               <span>상품정보</span>
+              {/*true 일때 일부분, false일 때 전체 내용 */}
               <p>{detailProduct.searchProduct.description}</p>
             </Content>
-            <MMMButton variant={"More"} style={{ border: "1px solid #9F9EB3" }}>
+            <MMMButton
+              variant={"More"}
+              style={{ border: "1px solid #9F9EB3" }}
+              onClick={onMoreContentBtn}
+            >
               More
             </MMMButton>
 
@@ -226,9 +250,21 @@ const UserProfBox = styled.div`
 `;
 
 const List = styled.li`
-  list-style: disc;
+  /* list-style: disc; */
   color: #757575;
   padding: 15px 0;
+
+  & > span {
+    font-weight: 700;
+    color: #000;
+  }
+`;
+
+const Category = styled.div`
+  display: inline-block;
+  width: 100px;
+  color: #757575;
+  font-weight: 400;
 `;
 
 const UserIdLoc = styled.div`
@@ -247,11 +283,18 @@ const ButtonBox = styled.div`
 `;
 
 const Content = styled.div`
-  min-height: 484px;
-
   margin-top: 50px;
   border-top: 1px solid #e1e1e1;
   padding-top: 70px;
+  min-height: 484px;
+
+  ${(props) =>
+    props.isMore &&
+    css`
+      min-height: 484px;
+      max-height: 600px;
+      overflow: hidden;
+    `}
 
   & > span {
     font-size: 32px;
@@ -260,7 +303,6 @@ const Content = styled.div`
 
   & > p {
     padding-top: 30px;
-    width: 200px;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
