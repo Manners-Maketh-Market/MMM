@@ -46,12 +46,12 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  content={item.content}
                   img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
                   id={item.idx}
                   status={item.status}
+                  createdAt={item.createdAt}
                 />
               </Grid>
             ))}
@@ -83,11 +83,11 @@ const ProductList = () => {
               >
                 <OneProduct
                   title={item.title}
-                  content={item.content}
                   img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.idx}
+                  id={item.id}
+                  createdAt={item.createdAt}
                   status={item.status}
                   likeCount={item.likeCount}
                 />
