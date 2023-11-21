@@ -1,21 +1,26 @@
 import styled from "styled-components";
-import { flexCenter } from "styles/common.style";
 import UserInfo from "components/user-Info";
 import TabList from "./components/tab-list";
-import { MockUserData } from "__mock__/faker-data";
+import { useQuery } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
 
 const MyPage = () => {
-  // getUserInfo. (temporary)
-  const user = MockUserData(1);
-  console.log("The user >>", user);
+  const { data: myPageData } = useQuery(
+    [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
+    () => Api.getMyPageData()
+  );
+  myPageData && console.log("myPageData : ", myPageData);
 
   return (
-    <Wrapper>
-      <UserContainer>
-        <UserInfo user={user} />
-      </UserContainer>
-      <TabList user={user} />
-    </Wrapper>
+    myPageData && (
+      <Wrapper>
+        <UserContainer>
+          <UserInfo user={myPageData.User} temp={myPageData} />
+        </UserContainer>
+        <TabList user={myPageData.User} />
+      </Wrapper>
+    )
   );
 };
 export default MyPage;

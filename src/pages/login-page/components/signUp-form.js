@@ -222,7 +222,6 @@ const Form = styled.form`
     min-height: 46px;
     margin: 100px 0;
   }
-
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -306,7 +305,6 @@ const OneRow = styled.div`
     font-weight: 600;
     margin-top: 20px;
   }
-
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 

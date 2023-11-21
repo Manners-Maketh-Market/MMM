@@ -76,7 +76,6 @@ const OneProduct = ({ title, status, img, price, id, createdAt }) => {
       <S.Content className="Content">
         {ProductRegistrationTime(createdAt)}
       </S.Content>
-
       <S.Price className="Price">{price}원</S.Price>
     </S.Wrapper>
   );

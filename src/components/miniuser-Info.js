@@ -1,26 +1,22 @@
 import { MockUserData } from "__mock__/faker-data";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import MannerTemperature from "./manner-temperature";
 import defaultProfile from "../images/defaultProfile.jpg";
 
-const UserInfo = ({ user, temp }) => {
+const MiniUserInfo = ({ user }) => {
   return (
     <Wrapper>
       <User>
         <Profile src={user.profileUrl ? user.profileUrl : defaultProfile} />
         <Text>
           <NickName>{user.nickName}</NickName>
-          {/* <Location>{user.region}</Location> */}
         </Text>
       </User>
-
-      <MannerTemperature temp={temp} />
     </Wrapper>
   );
 };
 
-export default UserInfo;
+export default MiniUserInfo;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,8 +30,8 @@ const User = styled.div`
   flex-direction: row;
 `;
 const Profile = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: navy; // temporary color
   background-position: center;
@@ -49,8 +45,4 @@ const NickName = styled.h1`
   font-size: ${({ theme }) => theme.FONT_SIZE["larger"]};
   color: ${({ theme }) => theme.COLORS["black"]};
   margin-bottom: 4px;
-`;
-const Location = styled.h3`
-  font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
-  color: ${({ theme }) => theme.COLORS.gray[400]};
 `;

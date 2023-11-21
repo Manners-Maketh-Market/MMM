@@ -10,11 +10,14 @@ import close from "../../images/icon/close.png";
 import MenuBar from "./components/menu-bar";
 import { useRecoilState } from "recoil";
 import { isMenuBarState } from "store";
+import { useState } from "react";
+import MyPageModal from "components/my-page-Modal";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [isShowMenuBar, setIsShowMenuBar] = useRecoilState(isMenuBarState);
+  const [isMyPageModal, setIsMyPageModal] = useState(false);
 
   const onGoProductsListPage = (saleStatus) => {
     navigate(`/products/${saleStatus}`);
@@ -26,7 +29,8 @@ const Header = () => {
     navigate("/pricecheckpage");
   };
   const onGoMyPage = () => {
-    navigate("/my-page");
+    setIsMyPageModal((prev) => !prev);
+    console.log(isMyPageModal);
   };
 
   const onGoRegisterProductPage = () => {
@@ -34,7 +38,7 @@ const Header = () => {
   };
 
   const onOpenAndCloseMenuBar = () => {
-    setIsShowMenuBar((prev) => !prev);
+    setIsMyPageModal((prev) => !prev);
   };
 
   return (
@@ -50,6 +54,7 @@ const Header = () => {
       <S.RightIconContainer>
         <Search />
         <S.HeaderIcon src={user} alt="User" onClick={onGoMyPage} />
+        {isMyPageModal && <MyPageModal setIsMyPageModal={setIsMyPageModal} />}
         <S.HeaderIcon
           src={my_store}
           alt="myStore"

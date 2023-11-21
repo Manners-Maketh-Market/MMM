@@ -98,7 +98,7 @@ const OneProductDetail = () => {
                       </UserIdLoc>
                     </UserProfBox>
                     <MannerTemperature
-                      user={detailProduct.searchProduct.User.Ondo}
+                      temp={detailProduct.searchProduct.User.Ondo}
                     ></MannerTemperature>
                   </UserImgIdLoc>
                 </UserProf>
@@ -141,7 +141,6 @@ const OneProductDetail = () => {
                       ? "찜 했어요!"
                       : "찜 하기"}
                   </MMMButton>
-
                   <MMMButton variant={"detailB"} size={"medium"}>
                     <FontAwesomeIcon icon={faComments} /> 채팅하기
                   </MMMButton>
@@ -160,7 +159,6 @@ const OneProductDetail = () => {
             >
               More
             </MMMButton>
-
             {/*관련 상품 목록 */}
             <RelatedProduct>
               <span>연관상품</span>

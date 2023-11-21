@@ -1,7 +1,7 @@
 import { axiosInstance } from "./core";
 
 const getMainProductList = async () => {
-  const res = await axiosInstance.get(`/api/product`);
+  const res = await axiosInstance.get("/api/product");
   return res.data;
 };
 
@@ -65,12 +65,6 @@ const postMyChatData = async (bodyData) => {
   return res;
 };
 
-// get user info.
-const getUserData = async () => {
-  const res = await axiosInstance.get("/user");
-  return res.data;
-};
-
 // sign-up
 const postSignUpData = async (signupData) => {
   const res = await axiosInstance.post("/api/user", signupData);
@@ -82,15 +76,38 @@ const postLoginUserData = async (loginUserData) => {
   const res = await axiosInstance.post("/api/user/login", loginUserData);
   return res;
 };
-// logout
 
-// 이메일 중복 체크
+// get user info.
+const getUserData = async () => {
+  const res = await axiosInstance.get("/api/user/info");
+  return res.data;
+};
+
+// get my-page info.
+const getMyPageData = async () => {
+  const res = await axiosInstance.get("/api/user/my-page");
+  return res.data;
+};
+
+// patch user info.
+const patchUserData = async () => {
+  const res = await axiosInstance.patch("/api/user");
+  return res.data;
+};
+
+// logout
+const getUserLogout = async () => {
+  const res = await axiosInstance.get("/api/user/logout");
+  return res.data;
+};
+
+// duplicate check(email)
 const getCheckEmail = async (email) => {
   const res = await axiosInstance.get(`/api/user/check/email?email=${email}`);
   return res;
 };
 
-// 닉네임 중복 체크
+// duplicate check(nickName)
 const getCheckNickName = async (nickName) => {
   const res = await axiosInstance.get(
     `/api/user/check/nickname?nickname=${nickName}`
@@ -108,6 +125,7 @@ export const Api = {
   getDetailProduct,
   getUsedOrFreeProduct,
   getSearchProduct,
+  getFreeProduct,
   getBuyerChatData,
   postMyChatData,
   getUserData,
@@ -119,4 +137,11 @@ export const Api = {
   getCheckNickName,
   postLikedProduct,
   getMyPageLikeProduct,
+  postSignUpData,
+  postLoginUserData,
+  getCheckEmail,
+  getCheckNickName,
+  getMyPageData,
+  patchUserData,
+  getUserLogout,
 };

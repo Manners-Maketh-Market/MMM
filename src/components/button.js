@@ -34,7 +34,6 @@ const variantCSS = {
       font-size: 16px;
     }
   `,
-
   detailY: css`
     background-color: #ffd02c;
     color: #fff;
