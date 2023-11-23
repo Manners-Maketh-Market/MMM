@@ -6,8 +6,14 @@ import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
 import useInputs from "hooks/use-inputs";
 import { FormValidate } from "utils/validate-helper";
+import { useMutation, useQuery } from "react-query";
+import { Api } from "apis";
+import { useRecoilState } from "recoil";
+import { isEmailCheckPass } from "store";
+import { isNickNameCheckPass } from "store";
+import { PRODUCT_QUERY_KEY } from "consts";
 
-const EditAccountInfo = ({ user }) => {
+const EditAccountInfo = () => {
   // change profile image
   const [uploadedImage, setUploadedImage] = useState("");
 
@@ -20,82 +26,183 @@ const EditAccountInfo = ({ user }) => {
     setUploadedImage(defaultProfile);
   };
 
-  // change email, nickname, phoneNumber, location
+  // changeProfileUrl.
+  const { mutateAsync: mutateChangeProfile } = useMutation((uploadedImage) =>
+    Api.patchUserProfile(uploadedImage)
+  );
+
+  // duplicate check
+  const [isEmailCheckPassState, setIsEmailCheckPassState] =
+    useRecoilState(isEmailCheckPass);
+  const [isNickNameCheckPassState, setIsNickNameCheckPassState] =
+    useRecoilState(isNickNameCheckPass);
+
+  // check email duplicate
+  const onCheckEmail = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await Api.getCheckEmail(email);
+      setIsEmailCheckPassState(true);
+      alert(res.data.message);
+    } catch {
+      setIsEmailCheckPassState(false);
+      alert("중복된 이메일입니다.");
+    }
+  };
+
+  // check nickName duplicate
+  const onCheckNickName = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await Api.getCheckNickName(nickName);
+      setIsNickNameCheckPassState(true);
+      alert(res.data.message);
+    } catch {
+      setIsNickNameCheckPassState(false);
+      alert("중복된 닉네임입니다.");
+    }
+  };
+
   // validate check
-  const [{ email, nickName }, onChangeInputs] = useInputs({
-    email: "",
-    nickName: "",
-  });
+  const [{ email, nickName, phone, region, image }, onChangeInputs] = useInputs(
+    {
+      email: "",
+      nickName: "",
+      phone: "",
+      region: "",
+      image: "",
+    }
+  );
   const { disabled, errors, access } = FormValidate({
     email,
     nickName,
+    image,
   });
-  // 기존 정보와 동일한가?
 
-  // post edited Userinfo.
+  // getMyInfo.
+  const { data: getMyInfo } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
+    Api.getUserData()
+  );
+
+  console.log("getMyInfo", getMyInfo);
+
+  // changeInfo.
+  const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>
+    Api.patchUserData(editedInfo)
+  );
+
+  // change profile && info.
+  const onChangeMyInfo = async (e) => {
+    e.preventDefault();
+
+    // 변경할 정보
+    const editedInfo = {
+      email: e.target.email.value,
+      nickName: e.target.nickName.value,
+      phone: e.target.phone.value,
+      region: e.target.region.value,
+    };
+    const editProfile = {
+      image: e.target.image.value,
+    };
+
+    try {
+      await mutateChangeMyInfo(editedInfo);
+      await mutateChangeProfile(editProfile);
+      alert("변경사항이 적용되었습니다!");
+    } catch (error) {
+      error && alert("변경사항을 저장하지 못했습니다.");
+    }
+  };
 
   return (
-    <Wrapper>
-      <Title>개인정보 수정</Title>
-      <Contents>
-        <Profile>
-          {uploadedImage ? (
-            <Image src={uploadedImage} />
-          ) : (
-            <Image src={user.profileUrl} />
-          )}
-          <ButtonWrap>
-            <label htmlFor="imgUpload">변경하기</label>
-            <EditImage
-              id="imgUpload"
-              type="file"
-              name="file"
-              onChange={onChangeImage}
-              /* accept="image/jpg,impge/png,image/jpeg" */
-              accept="image/*"
+    getMyInfo && (
+      <Wrapper>
+        <Title>개인정보 수정</Title>
+        <Contents onSubmit={onChangeMyInfo}>
+          <Profile>
+            {uploadedImage ? (
+              <Image src={uploadedImage} />
+            ) : (
+              <Image /* src={user.profileUrl} */ />
+            )}
+            <ButtonWrap>
+              <label htmlFor="imgUpload">변경하기</label>
+              <EditImage
+                id="imgUpload"
+                type="file"
+                name="image"
+                onChange={onChangeImage}
+                accept="image/*"
+              />
+              <DeleteButton onClick={onDeleteImage} type="button">
+                삭제하기
+              </DeleteButton>
+            </ButtonWrap>
+          </Profile>
+          <OneRow>
+            <MMMInput
+              name="nickName"
+              label={"닉네임"}
+              size={"smallEditInfo"}
+              placeholder={getMyInfo.nick_name}
+              onChange={onChangeInputs}
+              error={errors.nickName}
+              access={access.nickName}
+              isAvailableNickName={isNickNameCheckPassState}
+              defaultValue={getMyInfo.nick_name}
             />
-            <DeleteButton onClick={onDeleteImage} type="button">
-              삭제하기
-            </DeleteButton>
-          </ButtonWrap>
-        </Profile>
-        <MMMInput
-          name="nickName"
-          label={"닉네임"}
-          size={"editInfo"}
-          placeholder={user.nickName}
-          onChange={onChangeInputs}
-          error={errors.nickName}
-          access={access.nickName}
-        />
-        <MMMInput
-          name="email"
-          label={"이메일 주소"}
-          size={"editInfo"}
-          placeholder={user.email}
-          onChange={onChangeInputs}
-          error={errors.email}
-          access={access.email}
-        />
-        <MMMInput
-          name="phoneNumber"
-          label={"핸드폰 번호"}
-          size={"editInfo"}
-          placeholder={user.phone}
-          onChange={onChangeInputs}
-        />
-        <MMMInput
-          name="location"
-          label={"우리 동네"}
-          size={"editInfo"}
-          placeholder={user.region}
-          onChange={onChangeInputs}
-        />
-        <MMMButton size={"small"} type="submit" disabled={disabled}>
-          변경사항 저장
-        </MMMButton>
-      </Contents>
-    </Wrapper>
+            <MMMButton
+              size={"smallConfirm"}
+              type="button"
+              onClick={onCheckNickName}
+            >
+              중복확인
+            </MMMButton>
+          </OneRow>
+          <OneRow>
+            <MMMInput
+              name="email"
+              label={"이메일 주소"}
+              size={"smallEditInfo"}
+              placeholder={getMyInfo.email}
+              onChange={onChangeInputs}
+              error={errors.email}
+              access={access.email}
+              isAvailableEmail={isEmailCheckPassState}
+              defaultValue={getMyInfo.email}
+            />
+            <MMMButton
+              size={"smallConfirm"}
+              type="button"
+              onClick={onCheckEmail}
+            >
+              중복확인
+            </MMMButton>
+          </OneRow>
+
+          <MMMInput
+            name="phone"
+            label={"핸드폰 번호"}
+            size={"editInfo"}
+            placeholder={getMyInfo.phone}
+            onChange={onChangeInputs}
+            defaultValue={getMyInfo.phone}
+          />
+          <MMMInput
+            name="region"
+            label={"우리 동네"}
+            size={"editInfo"}
+            placeholder={getMyInfo.region}
+            onChange={onChangeInputs}
+            defaultValue={getMyInfo.region}
+          />
+          <MMMButton size={"small"} type="submit">
+            변경사항 저장
+          </MMMButton>
+        </Contents>
+      </Wrapper>
+    )
   );
 };
 
@@ -224,7 +331,7 @@ const Profile = styled.div`
 const Image = styled.img`
   width: 120px;
   height: 120px;
-  border: none;
+  border: 1px solid navy;
   border-radius: 50%;
 
   // mediaQuery
@@ -290,3 +397,18 @@ const EditImage = styled.input`
   display: none;
 `;
 const DeleteButton = styled.button``;
+
+const OneRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+
+  & > button {
+    border: 1px solid #282190;
+    background-color: #fff;
+    color: #282190;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+`;

@@ -90,8 +90,16 @@ const getMyPageData = async () => {
 };
 
 // patch user info.
-const patchUserData = async () => {
-  const res = await axiosInstance.patch("/api/user");
+const patchUserData = async (myCurrentInfo) => {
+  const res = await axiosInstance.patch("/api/user", myCurrentInfo);
+  return res.data;
+};
+const patchUserProfile = async (uploadedImage) => {
+  const res = await axiosInstance.patch("/api/user/profile", uploadedImage);
+  return res.data;
+};
+const patchUserPassword = async (newPassword) => {
+  const res = await axiosInstance.patch("/api/user/password", newPassword);
   return res.data;
 };
 
@@ -113,6 +121,22 @@ const getCheckNickName = async (nickName) => {
     `/api/user/check/nickname?nickname=${nickName}`
   );
   return res;
+};
+
+// get my products list
+const getMyProductList = async (page, category) => {
+  const res = await axiosInstance.get(
+    `/api/user/my-page/product-list&page=${page}?category=${category}`
+  );
+  return res;
+};
+
+// get my interested products list
+const getInterestedProductList = async (page) => {
+  const res = await axiosInstance.get(
+    `/api/user/my-page/like-product-list?page=${page}`
+  );
+  return res.data;
 };
 
 const postRegistData = async (registData) => {
@@ -144,4 +168,8 @@ export const Api = {
   getMyPageData,
   patchUserData,
   getUserLogout,
+  patchUserProfile,
+  patchUserPassword,
+  getMyProductList,
+  getInterestedProductList,
 };

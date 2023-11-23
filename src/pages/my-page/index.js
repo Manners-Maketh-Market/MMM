@@ -10,7 +10,6 @@ const MyPage = () => {
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
     () => Api.getMyPageData()
   );
-  myPageData && console.log("myPageData : ", myPageData);
 
   return (
     myPageData && (

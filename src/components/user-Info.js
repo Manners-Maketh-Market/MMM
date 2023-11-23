@@ -1,4 +1,3 @@
-import { MockUserData } from "__mock__/faker-data";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import MannerTemperature from "./manner-temperature";
@@ -14,7 +13,6 @@ const UserInfo = ({ user, temp }) => {
           {/* <Location>{user.region}</Location> */}
         </Text>
       </User>
-
       <MannerTemperature temp={temp} />
     </Wrapper>
   );
