@@ -93,7 +93,7 @@ const ProductList = () => {
                   img={item.img_url}
                   price={item.price}
                   isLiked={item.isLiked}
-                  id={item.id}
+                  id={item.idx}
                   createdAt={item.createdAt}
                   status={item.status}
                   likeCount={item.likeCount}

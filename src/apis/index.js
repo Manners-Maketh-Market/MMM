@@ -139,8 +139,8 @@ const getInterestedProductList = async (page) => {
   return res.data;
 };
 
-const postRegistData = async (registData) => {
-  const res = await axiosInstance.post("/register", registData);
+const postMyProduct = async (productData) => {
+  const res = await axiosInstance.post("/api/product", productData);
   return res;
 };
 
@@ -154,7 +154,7 @@ export const Api = {
   postMyChatData,
   getUserData,
   getProductPrice,
-  postRegistData,
+  postMyProduct,
   postSignUpData,
   postLoginUserData,
   getCheckEmail,

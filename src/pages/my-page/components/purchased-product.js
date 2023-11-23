@@ -6,19 +6,18 @@ import styled from "styled-components";
 
 const PurchasedProducts = () => {
   // getMyProductList
-  const { data: getMyProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
-    () => Api.getMyProductList(1, 1)
-  );
+  // const { data: getMyProductList } = useQuery(
+  //   [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
+  //   () => Api.getMyProductList(1, 1)
+  // );
 
   // getInterestedProductList
 
   return (
-    getMyProductList && (
-      <Wrapper>
-        구매한 제품 목록
-        <Container>
-          {/* <Grid
+    <Wrapper>
+      구매한 제품 목록
+      <Container>
+        {/* <Grid
           container
           spacing={{ xs: 1, md: 2, lg: 3 }}
           style={{ paddingBottom: 20 }}
@@ -32,9 +31,8 @@ const PurchasedProducts = () => {
             style={{ paddingBottom: 40 }}
           ></Grid>
         </Grid> */}
-        </Container>
-      </Wrapper>
-    )
+      </Container>
+    </Wrapper>
   );
 };
 export default PurchasedProducts;

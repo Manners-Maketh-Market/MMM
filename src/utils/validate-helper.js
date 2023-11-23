@@ -5,6 +5,7 @@ export const FormValidate = ({
   nickName,
   phone,
   region,
+  title,
 }) => {
   // sign-in
   let disabled =
@@ -35,6 +36,9 @@ export const FormValidate = ({
     region:
       !/^[ㄱ-ㅣ가-힣]+$/.test(region) &&
       "한글만 입력 가능합니다, 한국 주소를 입력해주세요",
+    title:
+      !/^[a-zA-Z0-9ㄱ-ㅣ가-힣]+$/.test(title) &&
+      "제목은 특수문자가 포함될 수 없습니다",
   };
 
   let access = {
