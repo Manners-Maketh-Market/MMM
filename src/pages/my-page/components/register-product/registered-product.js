@@ -7,8 +7,8 @@ import Maps from "./maps";
 import { Api } from "apis";
 import { useMutation } from "react-query";
 import { myProductList } from "store";
-import { Navigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const RegisterPage = () => {
   // hook function: use-input
@@ -24,36 +24,34 @@ const RegisterPage = () => {
     tag: "",
     images: "",
   });
-
+  const navigate = useNavigate();
   const { mutateAsync } = useMutation((Data) => Api.postMyProduct(Data));
 
   const onSubmitRegister = async (e) => {
     e.preventDefault();
 
-    const productData = {
-      title: e.target.title.value,
-      price: 3900,
-      description: e.target.description.value,
-      category: 1,
-      region: e.target.region.value,
-      tag: "[e.target.tag.value]",
-      images: [],
-    };
-    try {
-      console.log("productData:", productData);
-      const newProductData = await mutateAsync(productData);
-      console.log("newProductData >>", newProductData);
+    const formData = new FormData();
+    formData.append("title", e.target.title.value);
+    formData.append("price", e.target.price.value);
+    formData.append("description", e.target.description.value);
+    formData.append("category", e.target.category.value);
+    formData.append("region", e.target.region.value);
+    formData.append("tag", e.target.tag.value);
+    for (let i = 0; i < showImages.length; i++) {
+      formData.append("images", e.target.image.files[i]);
+    }
 
-      Navigate("/my-page");
+    try {
+      await mutateAsync(formData);
       alert("물품 등록이 완료되었습니다.");
+      navigate("/my-page");
     } catch (error) {
       error && alert("물품이 등록되지 않았습니다.");
-      //console.log(productData);
     }
   };
 
+  // preview uploaded images
   const [showImages, setShowImages] = useState([]);
-  const imageRef = useRef(null);
 
   const onUploadImage = (e) => {
     const imageLists = e.target.files;
@@ -61,7 +59,7 @@ const RegisterPage = () => {
 
     for (let i = 0; i < imageLists.length; i++) {
       const currentImageUrl = URL.createObjectURL(imageLists[i]);
-      imageUrlLists.push(currentImageUrl);
+      imageUrlLists.unshift(currentImageUrl);
     }
 
     if (imageUrlLists.length > 5) {
@@ -69,10 +67,12 @@ const RegisterPage = () => {
       alert("한 번에 이미지를 5개 이상 추가하실 수 없습니다.");
     }
     setShowImages(imageUrlLists);
-
-    console.log(showImages);
   };
-  // 올린 이미지 삭제하기 기능도 추가
+  const onDeleteImage = (index) => {
+    let deleteList = [...showImages];
+    deleteList.splice(index, 1);
+    setShowImages(deleteList);
+  };
 
   return (
     <Form onSubmit={onSubmitRegister}>
@@ -85,7 +85,6 @@ const RegisterPage = () => {
             type="file"
             multiple
             accept="image/*"
-            ref={imageRef}
             onChange={onUploadImage}
             placeholder="이미지를 선택해주세요."
             size={"search"}
@@ -97,7 +96,12 @@ const RegisterPage = () => {
         </div>
         <PreviewImages>
           {showImages.map((image, index) => (
-            <img src={image} />
+            <>
+              <img key={index} src={image} />
+              <button type="button" onClick={() => onDeleteImage(index)}>
+                x
+              </button>
+            </>
           ))}
         </PreviewImages>
       </ImageBox>
@@ -145,7 +149,12 @@ const RegisterPage = () => {
           검색
         </MMMButton>
       </SearchLocation> */}
-      <MMMButton shape={"shape"} size={"full"} variant={"secondary"}>
+      <MMMButton
+        shape={"shape"}
+        size={"full"}
+        variant={"secondary"}
+        type="submit"
+      >
         물품 등록
       </MMMButton>
     </Form>
@@ -177,7 +186,6 @@ const Form = styled.form`
     margin: 80px 0;
   }
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
     padding-top: 100px;
@@ -278,7 +286,6 @@ const Box = styled.div`
     padding: 0 10px;
   }
 
-  // mediaQuery - textarea
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -430,6 +437,20 @@ const PreviewImages = styled.div`
     margin: 0 1%;
   }
 
+  & > button {
+    position: relative;
+    right: 3.5%;
+    top: -36%;
+    border-radius: 50%;
+    color: #eee;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.6s;
+
+    &:hover {
+      color: #111;
+      background-color: #eee;
+    }
+  }
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     margin: 0;
 
@@ -439,6 +460,14 @@ const PreviewImages = styled.div`
       margin: 0 4px;
       border-radius: 4px;
     }
+    & > button {
+      width: 5px;
+      height: 5px;
+      right: 2%;
+      top: -8%;
+      font-size: 8px;
+      text-align: center;
+    }
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
     margin: 3% 0 0;
@@ -446,6 +475,10 @@ const PreviewImages = styled.div`
     & > img {
       width: 60px;
       height: 60px;
+    }
+    & > button {
+      right: 3.2%;
+      top: -18%;
     }
   }
 `;

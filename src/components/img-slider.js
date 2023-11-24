@@ -123,9 +123,14 @@ const ImgSlider = ({ product, related }) => {
         <ProductWrap>
           <StyledDetailProduct {...ProductSetting}>
             {/*{product.ProductImages.map((img, idx) => ())}*/}
-            <div>
+            <ProductImages>
               <ProductImg src={product.img_url}></ProductImg>
-            </div>
+            </ProductImages>
+            {product.ProductImages.map((image) => (
+              <ProductImages>
+                <ProductImg src={image.img_url} />
+              </ProductImages>
+            ))}
           </StyledDetailProduct>
         </ProductWrap>
       ) : related ? (
@@ -197,8 +202,12 @@ const Img = styled.img`
     margin: auto;
   }
 `;
-
+const ProductImages = styled.div`
+  width: 580px;
+  height: 580px;
+`;
 const ProductImg = styled.img`
+  object-fit: cover;
   width: 580px;
   height: 580px;
   border-radius: 15px;
@@ -214,10 +223,9 @@ const ProductImg = styled.img`
 `;
 
 const ProductWrap = styled.div`
-  width: 880px;
+  width: 580px;
   //원래 580px
   height: 580px;
-  background-color: aliceblue;
 
   @media ${({ theme }) => theme.DEVICE.mobile} {
     width: 100%;

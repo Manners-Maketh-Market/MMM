@@ -95,6 +95,8 @@ const EditAccountInfo = () => {
   const onChangeMyInfo = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("image", e.target.image.files[0]);
     // 변경할 정보
     const editedInfo = {
       email: e.target.email.value,
@@ -102,13 +104,12 @@ const EditAccountInfo = () => {
       phone: e.target.phone.value,
       region: e.target.region.value,
     };
-    const editProfile = {
-      image: e.target.image.value,
-    };
 
     try {
       await mutateChangeMyInfo(editedInfo);
-      await mutateChangeProfile(editProfile);
+      if (e.target.image.files.length > 0) {
+        await mutateChangeProfile(formData);
+      }
       alert("변경사항이 적용되었습니다!");
     } catch (error) {
       error && alert("변경사항을 저장하지 못했습니다.");
@@ -124,7 +125,7 @@ const EditAccountInfo = () => {
             {uploadedImage ? (
               <Image src={uploadedImage} />
             ) : (
-              <Image /* src={user.profileUrl} */ />
+              <Image src={getMyInfo.profile_url} />
             )}
             <ButtonWrap>
               <label htmlFor="imgUpload">변경하기</label>
