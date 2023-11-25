@@ -144,9 +144,9 @@ const getInterestedProductList = async (page) => {
   return res.data;
 };
 
-const getMyHousekeepingBook = async (page, category, start, end) => {
+const getMyHousekeepingBook = async (pageParam, category, start, end) => {
   const res = await axiosInstance.get(
-    `/api/user/my-page/account-book?page=${page}&category=${category}&start=${start}&end=${end}`
+    `/api/user/my-page/account-book?page=${pageParam}&category=${category}&start=${start}&end=${end}`
   );
   return res;
 };

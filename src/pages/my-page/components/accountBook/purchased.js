@@ -1,15 +1,19 @@
 import styled from "styled-components";
 
-const Purchased = () => {
+const Purchased = ({ category }) => {
+  // if category.count = 0 : comments 보여주기
+  // if category.count > 0 : comments 대신 payList 보여주기
+  const isCategoryCount = 0;
+
   return (
     <Container>
       <TextBox>
         <h2>구매 건수</h2>
-        <h2>0 건</h2>
+        <h2> 건</h2>
       </TextBox>
       <TextBox>
-        <h2>누적 구매 금액</h2>
-        <h2>0 원</h2>
+        <h2>이번 달 구매 금액</h2>
+        <h2> 원</h2>
       </TextBox>
       <Comments>
         <p>

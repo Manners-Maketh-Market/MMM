@@ -1,20 +1,20 @@
 import styled from "styled-components";
 
-const Sold = () => {
+const Sold = ({ user }) => {
   return (
     <Container>
       <TextBox>
         <h2>판매 건수</h2>
-        <h2>0 건</h2>
+        <h2>건</h2>
       </TextBox>
       <TextBox>
-        <h2>누적 판매 금액</h2>
-        <h2>0 원</h2>
+        <h2>이번달 판매금액</h2>
+        <h2> 원</h2>
       </TextBox>
       <Comments>
         <p>
           10월에는 판매를 한 적이 없으시네요. <br />
-          user_id_012 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
+          {user.nickName} 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
         </p>
         <p>
           다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를 시작해
