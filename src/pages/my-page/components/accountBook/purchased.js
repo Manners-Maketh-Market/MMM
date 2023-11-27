@@ -1,25 +1,31 @@
 import styled from "styled-components";
 
-const Purchased = ({ category }) => {
-  // if category.count = 0 : comments 보여주기
-  // if category.count > 0 : comments 대신 payList 보여주기
-  const isCategoryCount = 0;
+const Purchased = ({ purchasedData, thisMonth }) => {
+  const thisMonthPurchaseAmount =
+    purchasedData.data.amount.thisMonthPurchaseAmount;
 
   return (
     <Container>
       <TextBox>
         <h2>구매 건수</h2>
-        <h2> 건</h2>
+        <h2> {purchasedData.data.payList.length}건</h2>
       </TextBox>
       <TextBox>
         <h2>이번 달 구매 금액</h2>
-        <h2> 원</h2>
+        {thisMonthPurchaseAmount ? (
+          <h2> {thisMonthPurchaseAmount}원</h2>
+        ) : (
+          <h2> 0 원</h2>
+        )}
       </TextBox>
       <Comments>
         <p>
-          10월에는 구매를 한 적이 없으시네요. <br />
+          {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
         </p>
-        <p>10월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고 있어요</p>
+        <p>
+          {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
+          있어요
+        </p>
       </Comments>
     </Container>
   );

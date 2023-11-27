@@ -11,28 +11,35 @@ import { useMutation } from "react-query";
 import { useState } from "react";
 
 const AccountBook = () => {
+  const [{ category }, onChangeInputs] = useInputs({
+    category: "",
+    // 날짜추가
+  });
+
+  // data
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
     () => Api.getMyPageData()
   );
-
   const { mutateAsync } = useMutation((Data) =>
     Api.getMyHousekeepingBook(Data)
   );
 
   const { data: getMyHousekeepingBook } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_HOUSEKEEPING_BOOK],
-    () => Api.getMyHousekeepingBook(1, UserType.SELLER, firstDay, lastDay)
+    () => Api.getMyHousekeepingBook(1, UserType, firstDay, lastDay)
   );
 
+  // category type
   const UserType = {
     SELLER: "seller",
     BUYER: "buyer",
   };
   Object.freeze(UserType);
-  // console.log(UserType.BUYER);
 
+  // 매개변수를 전달을 위한 날짜 범위 나타내기
   const today = new Date();
+  const thisMonth = today.getMonth() + 1;
 
   function formattedDate(today, dash = "-") {
     const year = today.getFullYear();
@@ -41,32 +48,35 @@ const AccountBook = () => {
 
     return [year, month, date].join(dash);
   }
+
   const firstDay = formattedDate(
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
-
   const lastDay = formattedDate(
     new Date(today.getFullYear(), today.getMonth() + 1, 0)
   );
 
-  // console.log("firstDay", firstDay);
-
-  const [{ category }, onChangeInputs] = useInputs({
-    category: "",
-    // 날짜추가
-  });
-
-  const [currentTab, setCurrentTab] = useState(1);
+  // tabs - contents
+  const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
     {
       name: "판매목록",
       content: (
-        <Sold page={1} category={UserType.SELLER} user={myPageData.User} />
+        <Sold
+          user={myPageData.User}
+          thisMonth={thisMonth}
+          soldData={getMyHousekeepingBook}
+        />
       ),
     },
     {
       name: "구매목록",
-      content: <Purchased page={1} category={UserType.BUYER} />,
+      content: (
+        <Purchased
+          thisMonth={thisMonth}
+          purchasedData={getMyHousekeepingBook}
+        />
+      ),
     },
     { name: "나눔목록", content: <Shared /> },
   ];
@@ -78,7 +88,9 @@ const AccountBook = () => {
   return (
     getMyHousekeepingBook && (
       <Wrapper>
-        <Title>{myPageData.User.nickName}님의 10월 가계부 입니다.</Title>
+        <Title>
+          {myPageData.User.nickName}님의 {thisMonth}월 가계부 입니다.
+        </Title>
         <Tabs>
           {tabs.map((tab, index) => (
             <li
@@ -157,7 +169,7 @@ const Tabs = styled.ul`
     ${flexCenter}
     width: 90px;
     height: 28px;
-    border-radius: 6px;
+    border-radius: 50px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
     font-size: 12px;
 
