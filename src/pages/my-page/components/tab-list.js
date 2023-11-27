@@ -165,9 +165,8 @@ const Tabs = styled.ul`
   }
 `;
 
-const Contents = styled.li`
+const Contents = styled.div`
   width: 100%;
-  height: fit-content;
   min-height: 600px;
-  ${flexCenter}
+  ${flexAlignCenter}
 `;

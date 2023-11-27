@@ -123,8 +123,19 @@ const getCheckNickName = async (nickName) => {
   return res;
 };
 
+// my post CUD
 const postMyProduct = async (productData) => {
   const res = await axiosInstance.post("/api/product", productData);
+  return res;
+};
+
+const deleteMyPost = async (prod_idx) => {
+  const res = await axiosInstance.delete(`/api/product?prod_idx=${prod_idx}`);
+  return res;
+};
+
+const patchMyPost = async (patchedData) => {
+  const res = await axiosInstance.post("/api/product", patchedData);
   return res;
 };
 
@@ -149,6 +160,14 @@ const getMyHousekeepingBook = async (pageParam, category, start, end) => {
     `/api/user/my-page/account-book?page=${pageParam}&category=${category}&start=${start}&end=${end}`
   );
   return res;
+};
+
+// post sale-complete
+const postSaleComplete = async (idx) => {
+  const res = await axiosInstance.post(`/api/product/sale-complete`, {
+    prod_idx: idx,
+  });
+  return res.data;
 };
 
 export const Api = {
@@ -180,4 +199,7 @@ export const Api = {
   getMyProductList,
   getInterestedProductList,
   getMyHousekeepingBook,
+  postSaleComplete,
+  deleteMyPost,
+  patchMyPost,
 };

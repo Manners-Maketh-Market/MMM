@@ -3,20 +3,20 @@ import ImgSlider from "components/img-slider";
 import styled, { css } from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComments,
+  faHeart,
+  faTrashCan,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { UsePriceComma } from "hooks/use-price-comma";
 import { useParams } from "react-router-dom";
-import {
-  useQuery,
-  useMutation,
-  QueryClient,
-  useQueryClient,
-} from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import MannerTemperature from "components/manner-temperature";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import unProfile from "./../../../images/icon/unprofile.png";
 
 const OneProductDetail = () => {
@@ -32,11 +32,16 @@ const OneProductDetail = () => {
     () => Api.getDetailProduct(dataId)
   );
 
-  console.log(detailProduct);
-  // searchProduct.User.profile_url
-
   const { mutateAsync: onLikeMutation } = useMutation((id) =>
     Api.postLikedProduct(id)
+  );
+
+  const { mutateAsync: onSellMutation } = useMutation((id) =>
+    Api.postSaleComplete(id)
+  );
+
+  const { mutateAsync: deleteMyPost } = useMutation((id) =>
+    Api.deleteMyPost(id)
   );
 
   const onClickLikedBtn = async () => {
@@ -49,6 +54,25 @@ const OneProductDetail = () => {
     }
     refetch();
   };
+  detailProduct &&
+    console.log("searchPRoduct", detailProduct.searchProduct.status);
+  detailProduct &&
+    console.log(
+      "토큰",
+      detailProduct.searchProduct.User.token,
+      "id : ",
+      dataId
+    );
+
+  const onClickSellBtn = async () => {
+    if (detailProduct.searchProduct.status === "판매중") {
+      await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
+      alert("판매완료로 변경되었습니다.");
+    } else {
+      alert("이미 판매완료가 되었습니다. 즐거운 쇼핑되세요! ㅇvㅇ");
+    }
+    refetch();
+  };
 
   const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
@@ -58,6 +82,14 @@ const OneProductDetail = () => {
   const onMoreContentBtn = () => {
     setIsMoreContent((prev) => !prev);
   };
+
+  // delete & edit post
+  const onDeletePost = async () => {
+    await deleteMyPost(dataId);
+    alert("게시글이 삭제되었습니다.");
+    navigate("/");
+  };
+
   return (
     <>
       {detailProduct && (
@@ -104,24 +136,38 @@ const OneProductDetail = () => {
                 </UserProf>
                 <ul>
                   <List>
-                    <Category>거래상태</Category>{" "}
+                    <Category>거래상태</Category>
+                    <MMMButton
+                      variant={
+                        detailProduct.searchProduct.status === "판매중"
+                          ? "detailY"
+                          : "detailG"
+                      }
+                      onClick={onClickSellBtn}
+                    >
+                      {detailProduct.searchProduct.status === "판매중"
+                        ? "판매중"
+                        : detailProduct.searchProduct.status === "판매완료"
+                        ? "판매완료"
+                        : null}
+                    </MMMButton>
                     <span>{detailProduct.searchProduct.status}</span>
                   </List>
                   <List>
-                    <Category>카테고리</Category>{" "}
+                    <Category>카테고리</Category>
                     {detailProduct.searchProduct.ProductsTags.map((tag) => (
                       <span>{tag.Tag.tag} </span>
                     ))}
                   </List>
                   <List>
-                    <Category>등록일</Category>{" "}
+                    <Category>등록일</Category>
                     <span>
                       {detailProduct.searchProduct.createdAt.split("T", 1)}
                     </span>
                   </List>
                   <List>
-                    <Category>거래지역</Category>{" "}
-                    <span>{detailProduct.searchProduct.region}</span>{" "}
+                    <Category>거래지역</Category>
+                    <span>{detailProduct.searchProduct.region}</span>
                   </List>
                 </ul>
                 <ButtonBox>
@@ -136,7 +182,7 @@ const OneProductDetail = () => {
                   >
                     <span>
                       <FontAwesomeIcon icon={faHeart} />
-                    </span>{" "}
+                    </span>
                     {detailProduct.searchProduct.liked === 1
                       ? "찜 했어요!"
                       : "찜 하기"}
@@ -148,6 +194,14 @@ const OneProductDetail = () => {
               </Inform>
             </ImgAndInform>
             <Content isMore={isMoreContent}>
+              <ButtonWrapper>
+                <button>
+                  <FontAwesomeIcon icon={faPen} />
+                </button>
+                <button onClick={onDeletePost}>
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+              </ButtonWrapper>
               <span>상품정보</span>
               {/*true 일때 일부분, false일 때 전체 내용 */}
               <p>{detailProduct.searchProduct.description}</p>
@@ -317,7 +371,37 @@ const ButtonBox = styled.div`
   justify-content: space-between;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 5%;
+  right: 0;
+
+  & > button {
+    ${flexCenter}
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    transition: all 0.4s;
+
+    &:nth-of-type(2) {
+      margin-left: 10px;
+    }
+    &:hover {
+      background-color: #e3e3e3;
+    }
+
+    & > svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
+
 const Content = styled.div`
+  position: relative;
   margin-top: 50px;
   border-top: 1px solid #e1e1e1;
   padding-top: 70px;

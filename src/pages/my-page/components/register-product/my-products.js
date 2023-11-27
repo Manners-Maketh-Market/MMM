@@ -5,6 +5,8 @@ import { useQuery } from "react-query";
 import { Api } from "apis";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Container, Grid } from "@mui/material";
+import { useState } from "react";
+import { flexCenter } from "styles/common.style";
 
 const RegisteredProducts = () => {
   const navigate = useNavigate();
@@ -24,8 +26,42 @@ const RegisteredProducts = () => {
     window.scrollTo({ top: 0 });
   };
 
+  // tabs : 구매목록/판매목록 별 제품 나눠보기
+  const [currentTab, setCurrentTab] = useState(0);
+  const tabs = [{ name: "판매 중" }, { name: "판매 완료" }];
+  const selectedTab = (index) => {
+    setCurrentTab(index);
+  };
+
+  const OnSaleProducts =
+    getMyProductList &&
+    getMyProductList.products.filter(
+      (products) => products.status === "판매중"
+    );
+  const SoldProducts =
+    getMyProductList &&
+    getMyProductList.products.filter(
+      (products) => products.status === "판매완료"
+    );
+
+  console.log("onSale :", OnSaleProducts, "onSold :", SoldProducts);
+
+  // hover effect
+  const [onShow, setOnShow] = useState(false);
+
   return (
     <Wrapper>
+      <Tabs>
+        {tabs.map((tab, index) => (
+          <li
+            className={index === currentTab ? "tab focused" : "tab"}
+            onClick={() => selectedTab(index)}
+            key={index}
+          >
+            {tab.name}
+          </li>
+        ))}
+      </Tabs>
       {getMyProductList ? (
         <Container style={{ marginTop: 100 }}>
           <Grid
@@ -33,14 +69,23 @@ const RegisteredProducts = () => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {getMyProductList.products.map((list, index) => (
-              <Grid style={{ margin: 2 }}>
-                <OneImage
-                  src={list.img_url}
-                  onClick={() => onToDetailPage(list.idx)}
-                />
-              </Grid>
-            ))}
+            {currentTab === 0
+              ? OnSaleProducts.map((list, index) => (
+                  <Grid style={{ margin: 2 }}>
+                    <OneImage
+                      src={list.img_url}
+                      onClick={() => onToDetailPage(list.idx)}
+                    />
+                  </Grid>
+                ))
+              : SoldProducts.map((list, index) => (
+                  <Grid style={{ margin: 2 }}>
+                    <OneImage
+                      src={list.img_url}
+                      onClick={() => onToDetailPage(list.idx)}
+                    />
+                  </Grid>
+                ))}
           </Grid>
         </Container>
       ) : (
@@ -80,6 +125,7 @@ const Wrapper = styled.div`
       height: 40px;
     }
   }
+
   @media ${({ theme }) => theme.DEVICE.tablet2} {
     & > p {
       font-size: 12px;
@@ -101,12 +147,46 @@ const Wrapper = styled.div`
     }
   }
 `;
-const OneImage = styled.img`
-  background-color: lightgray;
-  width: 330px;
-  height: 330px;
+
+const Tabs = styled.ul`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  position: absolute;
+  left: 5%;
+  top: 45%;
 
   &:hover {
     cursor: pointer;
+  }
+
+  & > li {
+    ${flexCenter}
+    width: 90px;
+    height: 28px;
+    border-radius: 50px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+    font-size: 12px;
+
+    &:nth-of-type(2) {
+      margin: 0 10px;
+    }
+
+    &.focused {
+      background-color: navy;
+      color: white;
+    }
+  }
+`;
+
+const OneImage = styled.img`
+  width: 330px;
+  height: 330px;
+  position: relative;
+  transition: all 0.5s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.3;
   }
 `;

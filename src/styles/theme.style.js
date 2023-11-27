@@ -15,7 +15,7 @@ const DEVICE = {
 
   // smaller mobile : 0 ~ 480px (참고. 애플 아이폰 13미니의 가로는 64.2mm(243px))
   smallMobile: `screen and (max-width: ${deviceSizes.smallMobile}px)`,
-  // larger mobile & tablet: 481 ~ 768px
+
   tablet2: `screen and (min-width: ${
     deviceSizes.smallMobile + 1
   }px) and (max-width: ${deviceSizes.tablet2}px)`,
