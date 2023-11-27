@@ -8,7 +8,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import useInputs from "hooks/use-inputs";
 import { useMutation } from "react-query";
-import MMMButton from "components/button";
+import { useState } from "react";
 
 const AccountBook = () => {
   const { data: myPageData } = useQuery(
@@ -30,7 +30,7 @@ const AccountBook = () => {
     BUYER: "buyer",
   };
   Object.freeze(UserType);
-  console.log(UserType.BUYER);
+  // console.log(UserType.BUYER);
 
   const today = new Date();
 
@@ -49,67 +49,48 @@ const AccountBook = () => {
     new Date(today.getFullYear(), today.getMonth() + 1, 0)
   );
 
-  console.log("firstDay", firstDay);
+  // console.log("firstDay", firstDay);
 
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
     // 날짜추가
   });
 
-  const onSelectCategory = async (e) => {
-    e.preventDefault();
+  const [currentTab, setCurrentTab] = useState(1);
+  const tabs = [
+    {
+      name: "판매목록",
+      content: (
+        <Sold page={1} category={UserType.SELLER} user={myPageData.User} />
+      ),
+    },
+    {
+      name: "구매목록",
+      content: <Purchased page={1} category={UserType.BUYER} />,
+    },
+    { name: "나눔목록", content: <Shared /> },
+  ];
 
-    const formData = new FormData();
-    formData.append("category", e.target.category.value);
-
-    try {
-      await mutateAsync(formData);
-      alert("선택이 완료되었습니다.");
-    } catch (error) {
-      error && alert("선택이 되지않았습니다.");
-    }
+  const selectedTab = (index) => {
+    setCurrentTab(index);
   };
 
   return (
-    // getMyHousekeepingBook &&
-    myPageData && (
+    getMyHousekeepingBook && (
       <Wrapper>
         <Title>{myPageData.User.nickName}님의 10월 가계부 입니다.</Title>
-        <form onSubmit={onSelectCategory}>
-          <Box>
-            <select name="category">
-              <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-              <option value="UserType.SELLER">판매목록</option>
-              <option value="UserType.BUYER">구매목록</option>
-            </select>
-          </Box>
-          {/* <Box>
-          <select name="start">
-            <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-            <option value={Number("0")}>시작일</option>
-            <option value={Number("1")}>종료일</option>
-          </select>
-        </Box> */}
-          <MMMButton
-            shape={"shape"}
-            size={"full"}
-            variant={"secondary"}
-            type="submit"
-          >
-            선택
-          </MMMButton>
-        </form>
-        <Contents>
-          <Sold
-            // page={1}
-            // category={getMyHousekeepingBook.userCategory1}
-            user={myPageData.User}
-          />
-          <Purchased
-          // page={1} /* category={getMyHousekeepingBook.userCategory2} */
-          />
-          {/* <Shared /> */}
-        </Contents>
+        <Tabs>
+          {tabs.map((tab, index) => (
+            <li
+              className={index === currentTab ? "tab focused" : "tab"}
+              onClick={() => selectedTab(index)}
+              key={index}
+            >
+              {tab.name}
+            </li>
+          ))}
+        </Tabs>
+        <Contents>{tabs[currentTab].content}</Contents>
       </Wrapper>
     )
   );
@@ -167,16 +148,26 @@ const Contents = styled.form`
     margin: 60px 0 100px;
   }
 `;
-const Box = styled.div`
+const Tabs = styled.ul`
   display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+  flex-direction: row;
+  margin-bottom: 50px;
 
-  & > select {
-    width: 100px;
-    height: 40px;
+  & > li {
+    ${flexCenter}
+    width: 90px;
+    height: 28px;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
-    padding: 0 10px;
+    font-size: 12px;
+
+    &:nth-of-type(2) {
+      margin: 0 10px;
+    }
+
+    &.focused {
+      background-color: navy;
+      color: white;
+    }
   }
 `;
