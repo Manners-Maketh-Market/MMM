@@ -74,7 +74,7 @@ const postSignUpData = async (signupData) => {
 // sign-in
 const postLoginUserData = async (loginUserData) => {
   const res = await axiosInstance.post("/api/user/login", loginUserData);
-  return res;
+  return res.data;
 };
 
 // get user info.

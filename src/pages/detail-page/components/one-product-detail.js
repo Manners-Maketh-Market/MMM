@@ -54,22 +54,13 @@ const OneProductDetail = () => {
     }
     refetch();
   };
-  detailProduct &&
-    console.log("searchPRoduct", detailProduct.searchProduct.status);
-  detailProduct &&
-    console.log(
-      "토큰",
-      detailProduct.searchProduct.User.token,
-      "id : ",
-      dataId
-    );
 
-  const onClickSellBtn = async () => {
+  const onClickChangeProductStatus = async () => {
     if (detailProduct.searchProduct.status === "판매중") {
       await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
       alert("판매완료로 변경되었습니다.");
     } else {
-      alert("이미 판매완료가 되었습니다. 즐거운 쇼핑되세요! ㅇvㅇ");
+      alert("다시 판매 중으로 변경합니다.");
     }
     refetch();
   };
@@ -122,7 +113,7 @@ const OneProductDetail = () => {
                           width={"100%"}
                           height={"100%"}
                           alt="ProfileImg"
-                        ></img>
+                        />
                       </ProfileImg>
                       <UserIdLoc>
                         <p>{detailProduct.searchProduct.User.nick_name}</p>
@@ -137,20 +128,20 @@ const OneProductDetail = () => {
                 <ul>
                   <List>
                     <Category>거래상태</Category>
-                    <MMMButton
+                    {/* <MMMButton
                       variant={
                         detailProduct.searchProduct.status === "판매중"
                           ? "detailY"
                           : "detailG"
                       }
-                      onClick={onClickSellBtn}
+                      onClick={onClickChangeProductStatus}
                     >
                       {detailProduct.searchProduct.status === "판매중"
                         ? "판매중"
                         : detailProduct.searchProduct.status === "판매완료"
                         ? "판매완료"
                         : null}
-                    </MMMButton>
+                    </MMMButton> */}
                     <span>{detailProduct.searchProduct.status}</span>
                   </List>
                   <List>

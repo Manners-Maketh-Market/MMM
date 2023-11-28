@@ -33,7 +33,7 @@ const Wrapper = styled.div`
     max-width: 400px;
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    max-width: 700px;
+    max-width: 700 px;
   }
 `;
 

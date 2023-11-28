@@ -4,9 +4,9 @@ import { useState } from "react";
 import RegisteredProducts from "./register-product/my-products";
 import EditAccountInfo from "./edit-account";
 import ChangePassword from "./password-change";
-import AccountBook from "./accountBook/account-book";
 import PurchasedProducts from "./purchased-product";
 import InterestedProducts from "./interested-product";
+import MyAccountBook from "./account-book/my-account-book";
 
 const TabList = ({ user }) => {
   // product filter tabs
@@ -19,7 +19,7 @@ const TabList = ({ user }) => {
     { name: "등록물품", content: <RegisteredProducts user={user} /> },
     { name: "구매물품", content: <PurchasedProducts user={user} /> },
     { name: "관심상품", content: <InterestedProducts user={user} /> },
-    { name: "가계부", content: <AccountBook user={user} /> },
+    { name: "가계부", content: <MyAccountBook user={user} /> },
   ];
 
   const selectedTab = (index) => {

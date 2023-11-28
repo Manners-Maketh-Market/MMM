@@ -1,12 +1,11 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useInputs from "hooks/use-inputs";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { Api } from "apis";
-import { useMutation } from "react-query";
+import { useAuth } from "provider/auth-provider";
 
 const SignInForm = () => {
   const [{ email, pw }, onChangeInputs] = useInputs({
@@ -14,17 +13,12 @@ const SignInForm = () => {
     pw: "",
   });
   const { disabled, errors } = FormValidate({ email, pw });
+
   const navigate = useNavigate();
 
-  // 직접 로그인 페이지로 온 경우
-  const location = useLocation();
-  const from = location?.state?.redirectedFrom?.pathname || "/";
+  const { SignIn } = useAuth();
 
-  const mutation = useMutation((loginUserData) =>
-    Api.postLoginUserData(loginUserData)
-  );
-
-  const onSubmitSignIn = (e) => {
+  const onSubmitSignIn = async (e) => {
     e.preventDefault();
 
     const loginUserData = {
@@ -33,11 +27,9 @@ const SignInForm = () => {
     };
 
     try {
-      const user = mutation.mutateAsync(loginUserData);
-
+      await SignIn(loginUserData);
       alert("반갑습니다^^");
-      navigate("/", { replace: true });
-      console.log("login success >>", user);
+      window.location.replace("/");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
     }

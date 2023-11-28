@@ -10,7 +10,7 @@ import useInputs from "hooks/use-inputs";
 import { useMutation } from "react-query";
 import { useState } from "react";
 
-const AccountBook = () => {
+const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
     // 날짜추가
@@ -107,7 +107,7 @@ const AccountBook = () => {
     )
   );
 };
-export default AccountBook;
+export default MyAccountBook;
 
 const Wrapper = styled.div`
   width: 100%;
