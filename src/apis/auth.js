@@ -1,4 +1,22 @@
 import { axiosInstance } from "./core";
+// import { Cookies } from "react-cookie";
+
+// const cookies = new Cookies();
+
+// export const setCookie = (name, value, option) => {
+//   return cookies.set(name, value, { option });
+// };
+// export const getCookie = (name) => {
+//   return cookies.get(name);
+// };
+
+// setCookie("myToken", res, {
+//   path: "/",
+//   secure: true,
+//   sameSite: "none",
+//   expires: new Date().getDate() + 7,
+// });
+// console.log("myToken >>", getCookie("myToken"));
 
 const PATH = "/api/user";
 
@@ -8,6 +26,7 @@ const AuthApi = {
   // sign-up
   async postSignUpData(signupData) {
     const res = await axiosInstance.post(PATH, signupData);
+
     return res;
   },
   // sign-in
@@ -56,6 +75,10 @@ const AuthApi = {
     return res;
   },
   // refresh token
+  /* 
+    accessToken expired 417 (재발급 필요)
+    refreshToken expired 403 (세션 만료)
+  */
   async getRefreshToken() {
     const res = await axiosInstance.get(`${PATH}/refreshToken`);
     return res;

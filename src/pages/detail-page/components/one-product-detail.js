@@ -27,9 +27,15 @@ const OneProductDetail = () => {
   const param = useParams();
   const dataId = param.id;
 
+  // 물품 상세 정보
   const { data: detailProduct, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
+  );
+
+  // 유저 정보
+  const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
+    Api.getUserData()
   );
 
   const { mutateAsync: onLikeMutation } = useMutation((id) =>
@@ -79,6 +85,10 @@ const OneProductDetail = () => {
     await deleteMyPost(dataId);
     alert("게시글이 삭제되었습니다.");
     navigate("/");
+  };
+
+  const onEditPost = () => {
+    navigate(`/edit-post/${dataId}`);
   };
 
   return (
@@ -185,14 +195,17 @@ const OneProductDetail = () => {
               </Inform>
             </ImgAndInform>
             <Content isMore={isMoreContent}>
-              <ButtonWrapper>
-                <button>
-                  <FontAwesomeIcon icon={faPen} />
-                </button>
-                <button onClick={onDeletePost}>
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
-              </ButtonWrapper>
+              {detailProduct.searchProduct.User.nick_name ===
+                userInfoData.nick_name && (
+                <ButtonWrapper>
+                  <button onClick={onEditPost}>
+                    <FontAwesomeIcon icon={faPen} />
+                  </button>
+                  <button onClick={onDeletePost}>
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </ButtonWrapper>
+              )}
               <span>상품정보</span>
               {/*true 일때 일부분, false일 때 전체 내용 */}
               <p>{detailProduct.searchProduct.description}</p>

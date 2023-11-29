@@ -135,7 +135,7 @@ const deleteMyPost = async (prod_idx) => {
 };
 
 const patchMyPost = async (patchedData) => {
-  const res = await axiosInstance.post("/api/product", patchedData);
+  const res = await axiosInstance.patch("/api/product", patchedData);
   return res;
 };
 

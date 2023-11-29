@@ -5,10 +5,10 @@ import { styled } from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
 import Maps from "./maps";
 import { Api } from "apis";
-import { useMutation } from "react-query";
-import { myProductList } from "store";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { PRODUCT_QUERY_KEY } from "consts";
 
 const EditMyPost = () => {
   // hook function: use-input
@@ -25,28 +25,43 @@ const EditMyPost = () => {
     images: "",
   });
   const navigate = useNavigate();
-  const { mutateAsync } = useMutation((Data) => Api.postMyProduct(Data));
+  const param = useParams();
+  const editPostId = param.editPostId;
 
+  const { data: editThisPost } = useQuery(
+    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
+    () => Api.getDetailProduct(editPostId)
+  );
+
+  // patchMyPost
+  const { mutateAsync: patchMyPost } = useMutation((Data) =>
+    Api.patchMyPost(Data)
+  );
   const onSubmitRegister = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append("idx", editThisPost.searchProduct.idx);
     formData.append("title", e.target.title.value);
     formData.append("price", e.target.price.value);
     formData.append("description", e.target.description.value);
     formData.append("category", e.target.category.value);
     formData.append("region", e.target.region.value);
     formData.append("tag", e.target.tag.value);
+    formData.append("img_url", []);
     for (let i = 0; i < showImages.length; i++) {
       formData.append("images", e.target.image.files[i]);
     }
 
+    for (let key of formData.keys()) {
+      console.log(key, ":", formData.get(key));
+    }
     try {
-      await mutateAsync(formData);
-      alert("물품 등록이 완료되었습니다.");
+      await patchMyPost(formData);
+      alert("게시글 내용이 수정되었습니다.");
       navigate("/my-page");
     } catch (error) {
-      error && alert("물품이 등록되지 않았습니다.");
+      error && alert("앗! 수정 사항을 저장하지 못했습니다.");
     }
   };
 
@@ -75,89 +90,95 @@ const EditMyPost = () => {
   };
 
   return (
-    <Form onSubmit={onSubmitRegister}>
-      <ImageBox>
-        <label>물품 이미지</label>
-        <div>
-          <AddImage
-            label="물품 이미지"
-            name="image"
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={onUploadImage}
-            placeholder="이미지를 선택해주세요."
-            size={"search"}
+    editThisPost && (
+      <Form onSubmit={onSubmitRegister}>
+        <ImageBox>
+          <label>물품 이미지</label>
+          <div>
+            <AddImage
+              label="물품 이미지"
+              name="image"
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={onUploadImage}
+              placeholder="이미지를 선택해주세요."
+              size={"search"}
+            />
+            <TextBox>
+              <p>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</p>
+              <p>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</p>
+            </TextBox>
+          </div>
+          <PreviewImages>
+            {showImages.map((image, index) => (
+              <>
+                <img key={index} src={image} />
+                <button type="button" onClick={() => onDeleteImage(index)}>
+                  x
+                </button>
+              </>
+            ))}
+          </PreviewImages>
+        </ImageBox>
+        <MMMInput
+          label="제목"
+          name="title"
+          onChange={onChangeInputs}
+          size={"registerProduct"}
+          defaultValue={editThisPost.searchProduct.title}
+        />
+        <MMMInput
+          label="가격"
+          name="price"
+          type="number"
+          onChange={onChangeInputs}
+          size={"registerProduct"}
+          defaultValue={editThisPost.searchProduct.price}
+        />
+        <Box>
+          <label>거래 방식</label>
+          <select
+            name="category"
+            defaultValue={editThisPost.searchProduct.category ? 1 : 0}
+          >
+            <option value="거래방식을 선택해주세요">
+              거래 방식을 선택해주세요
+            </option>
+            <option value={Number("0")}>중고 판매</option>
+            <option value={Number("1")}>무료 나눔</option>
+          </select>
+        </Box>
+        <Box>
+          <label>태그</label>
+          <select
+            name="tag"
+            defaultValue={editThisPost.searchProduct.ProductsTags[0].Tag.tag}
+          >
+            <option value="태그를 선택해주세요">태그를 선택해주세요</option>
+            <option value="전자기기">전자기기</option>
+            <option value="의류">의류</option>
+            <option value="식품">식품</option>
+          </select>
+        </Box>
+        <Box>
+          <label>내용</label>
+          <textarea
+            name="description"
+            defaultValue={editThisPost.searchProduct.description}
           />
-          <TextBox>
-            <p>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</p>
-            <p>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</p>
-          </TextBox>
-        </div>
-        <PreviewImages>
-          {showImages.map((image, index) => (
-            <>
-              <img key={index} src={image} />
-              <button type="button" onClick={() => onDeleteImage(index)}>
-                x
-              </button>
-            </>
-          ))}
-        </PreviewImages>
-      </ImageBox>
-      <MMMInput
-        label="제목"
-        name="title"
-        onChange={onChangeInputs}
-        placeholder="제목을 입력해주세요"
-        size={"registerProduct"}
-      />
-      <MMMInput
-        label="가격"
-        name="price"
-        type="number"
-        onChange={onChangeInputs}
-        placeholder="0원"
-        size={"registerProduct"}
-      />
-      <Box>
-        <label>거래 방식</label>
-        <select name="category">
-          <option value="거래방식을 선택해주세요">
-            거래 방식을 선택해주세요
-          </option>
-          <option value={Number("0")}>중고 판매</option>
-          <option value={Number("1")}>무료 나눔</option>
-        </select>
-      </Box>
-      <Box>
-        <label>태그</label>
-        <select name="tag">
-          <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-          <option value="전자기기">전자기기</option>
-          <option value="의류">의류</option>
-          <option value="식품">식품</option>
-        </select>
-      </Box>
-      <Box>
-        <label>내용</label>
-        <textarea placeholder="상품 설명을 입력해주세요" name="description" />
-      </Box>
-      <Maps />
-      {/* <SearchLocation>
-        <MMMButton shape={"shape"} size={"small"} variant={"secondary"}>
-          검색
+        </Box>
+        <Maps region={editThisPost.searchProduct.region} />
+        <MMMButton
+          shape={"shape"}
+          size={"full"}
+          variant={"secondary"}
+          type="submit"
+        >
+          변경 사항 저장
         </MMMButton>
-      </SearchLocation> */}
-      <MMMButton
-        shape={"shape"}
-        size={"full"}
-        variant={"secondary"}
-        type="submit"
-      >
-        물품 등록
-      </MMMButton>
-    </Form>
+      </Form>
+    )
   );
 };
 

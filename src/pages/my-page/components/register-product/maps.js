@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { flexCenter } from "styles/common.style";
 
-const Maps = () => {
+const Maps = ({ region }) => {
   const { kakao } = window;
 
   const [state, setState] = useState({
@@ -43,6 +43,7 @@ const Maps = () => {
           placeholder="검색 버튼을 눌러주세요."
           size={"large"}
           onChange={handleSearchAddress}
+          defaultValue={region}
         />
         <MMMButton size={"confirm"} onClick={SearchMap}>
           검색
