@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import MMMButton from "components/button";
 import { useQuery } from "react-query";
-import { Api } from "apis";
+import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Container, Grid } from "@mui/material";
 import { useState } from "react";
@@ -18,8 +18,9 @@ const RegisteredProducts = () => {
   // getMyProductList
   const { data: getMyProductList } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
-    () => Api.getMyProductList(1, 0)
+    () => AuthApi.getMyProductList(1, 0)
   );
+  console.log("getMyProductList", getMyProductList);
 
   const onToDetailPage = (id) => {
     navigate(`/products/detail/${id}`);
@@ -62,7 +63,7 @@ const RegisteredProducts = () => {
           </li>
         ))}
       </Tabs>
-      {getMyProductList ? (
+      {OnSaleProducts && SoldProducts ? (
         <Container style={{ marginTop: 100 }}>
           <Grid
             container
@@ -89,7 +90,7 @@ const RegisteredProducts = () => {
           </Grid>
         </Container>
       ) : (
-        <>
+        <div>
           <p>등록된 상품이 없습니다.</p>
           <MMMButton
             onClick={registerForm}
@@ -98,7 +99,7 @@ const RegisteredProducts = () => {
           >
             물품 등록하기
           </MMMButton>
-        </>
+        </div>
       )}
     </Wrapper>
   );
@@ -106,49 +107,63 @@ const RegisteredProducts = () => {
 export default RegisteredProducts;
 
 const Wrapper = styled.div`
-  & > p {
-    text-align: center;
-    margin-bottom: 8px;
-    color: ${({ theme }) => theme.COLORS.gray[400]};
-    font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+  & > div {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    & > p {
+      text-align: center;
+      margin-bottom: 8px;
+      color: ${({ theme }) => theme.COLORS.gray[400]};
+      font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+    }
   }
 
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     min-height: 400px;
-    & > p {
-      font-size: 10px;
-    }
-    & > button {
-      font-size: 10px;
-      width: 140px;
-      height: 40px;
+
+    & > div {
+      & > p {
+        font-size: 10px;
+      }
+      & > button {
+        font-size: 10px;
+        width: 140px;
+        height: 40px;
+      }
     }
   }
 
   @media ${({ theme }) => theme.DEVICE.tablet2} {
-    & > p {
-      font-size: 12px;
-    }
-    & > button {
-      font-size: 12px;
-      width: 180px;
-      height: 46px;
+    & > div {
+      & > p {
+        font-size: 12px;
+      }
+      & > button {
+        font-size: 12px;
+        width: 180px;
+        height: 46px;
+      }
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    & > p {
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-    }
-    & > button {
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      width: 230px;
-      height: 50px;
+    & > div {
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > button {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        width: 230px;
+        height: 50px;
+      }
     }
   }
 `;
 
 const Tabs = styled.ul`
+  width: 100%;
+  height: 30px;
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;
@@ -176,6 +191,28 @@ const Tabs = styled.ul`
       background-color: navy;
       color: white;
     }
+  }
+
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    top: 34%;
+    height: 20px;
+    & > li {
+      width: 50px;
+      height: 20px;
+      font-size: 8px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    top: 36%;
+    height: 24px;
+    & > li {
+      width: 70px;
+      height: 24px;
+      font-size: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    top: 40%;
   }
 `;
 

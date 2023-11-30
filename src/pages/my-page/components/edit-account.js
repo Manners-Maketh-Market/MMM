@@ -8,6 +8,7 @@ import useInputs from "hooks/use-inputs";
 import { FormValidate } from "utils/validate-helper";
 import { useMutation, useQuery } from "react-query";
 import { Api } from "apis";
+import AuthApi from "apis/auth";
 import { useRecoilState } from "recoil";
 import { isEmailCheckPass } from "store";
 import { isNickNameCheckPass } from "store";
@@ -28,7 +29,7 @@ const EditAccountInfo = () => {
 
   // changeProfileUrl.
   const { mutateAsync: mutateChangeProfile } = useMutation((uploadedImage) =>
-    Api.patchUserProfile(uploadedImage)
+    AuthApi.patchUserProfile(uploadedImage)
   );
 
   // duplicate check
@@ -41,7 +42,7 @@ const EditAccountInfo = () => {
   const onCheckEmail = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckEmail(email);
+      const res = await AuthApi.getCheckEmail(email);
       setIsEmailCheckPassState(true);
       alert(res.data.message);
     } catch {
@@ -54,7 +55,7 @@ const EditAccountInfo = () => {
   const onCheckNickName = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckNickName(nickName);
+      const res = await AuthApi.getCheckNickName(nickName);
       setIsNickNameCheckPassState(true);
       alert(res.data.message);
     } catch {
@@ -81,14 +82,14 @@ const EditAccountInfo = () => {
 
   // getMyInfo.
   const { data: getMyInfo } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
-    Api.getUserData()
+    AuthApi.getUserData()
   );
 
   console.log("getMyInfo", getMyInfo);
 
   // changeInfo.
   const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>
-    Api.patchUserData(editedInfo)
+    AuthApi.patchUserData(editedInfo)
   );
 
   // change profile && info.
@@ -111,6 +112,7 @@ const EditAccountInfo = () => {
         await mutateChangeProfile(formData);
       }
       alert("변경사항이 적용되었습니다!");
+      window.scrollTo(0, 0);
     } catch (error) {
       error && alert("변경사항을 저장하지 못했습니다.");
     }

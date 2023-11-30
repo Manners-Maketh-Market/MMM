@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
+import AuthApi from "apis/auth";
 import MannerTemperature from "components/manner-temperature";
 import { useState } from "react";
 import unProfile from "./../../../images/icon/unprofile.png";
@@ -35,7 +36,7 @@ const OneProductDetail = () => {
 
   // 유저 정보
   const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
-    Api.getUserData()
+    AuthApi.getUserData()
   );
 
   const { mutateAsync: onLikeMutation } = useMutation((id) =>

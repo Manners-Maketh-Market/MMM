@@ -15,7 +15,6 @@ const SignInForm = () => {
   const { disabled, errors } = FormValidate({ email, pw });
 
   const navigate = useNavigate();
-
   const { SignIn } = useAuth();
 
   const onSubmitSignIn = async (e) => {
@@ -29,7 +28,7 @@ const SignInForm = () => {
     try {
       await SignIn(loginUserData);
       alert("반갑습니다^^");
-      // window.location.replace("/");
+      window.location.replace("/");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
     }
