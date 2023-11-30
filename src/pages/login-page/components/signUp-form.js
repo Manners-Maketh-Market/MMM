@@ -12,6 +12,7 @@ import { Api } from "apis";
 import { useRecoilState } from "recoil";
 import { isEmailCheckPass, isNickNameCheckPass } from "store";
 import { useAuth } from "provider/auth-provider";
+import AuthApi from "apis/auth";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -59,7 +60,7 @@ const SignUpForm = () => {
   const onCheckEmail = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckEmail(email);
+      const res = await AuthApi.getCheckEmail(email);
       setIsEmailCheckPassState(true);
       alert(res.data.message);
     } catch {
@@ -72,7 +73,7 @@ const SignUpForm = () => {
   const onCheckNickName = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckNickName(nickName);
+      const res = await AuthApi.getCheckNickName(nickName);
       setIsNickNameCheckPassState(true);
       alert(res.data.message);
     } catch {

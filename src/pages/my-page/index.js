@@ -3,12 +3,12 @@ import UserInfo from "components/user-Info";
 import TabList from "./components/tab-list";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
+import AuthApi from "apis/auth";
 
 const MyPage = () => {
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
-    () => Api.getMyPageData()
+    () => AuthApi.getMyPageData()
   );
 
   return (

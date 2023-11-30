@@ -1,4 +1,4 @@
-import { Api } from "apis";
+import AuthApi from "apis/auth";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
@@ -23,7 +23,7 @@ const ChangePassword = () => {
 
   // change password
   const { mutateAsync: mutateChangePassword, data: changePasswordData } =
-    useMutation((newPassword) => Api.patchUserPassword(newPassword));
+    useMutation((newPassword) => AuthApi.patchUserPassword(newPassword));
 
   // patch password
   const onEditPassword = async (e) => {
@@ -38,6 +38,7 @@ const ChangePassword = () => {
       try {
         await mutateChangePassword(patchPassword);
         alert("비밀번호 변경에 성공하셨습니다!");
+        window.scrollTo(0, 0);
       } catch (error) {
         error && alert("비밀번호 변경에 실패했습니다");
       }

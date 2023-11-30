@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
-import { Api } from "apis";
+import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Container, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const InterestedProducts = ({ user }) => {
   const { data: getInterestedProductList } = useQuery(
     [PRODUCT_QUERY_KEY.GET_INTERESTED_PRODUCT_LIST],
-    () => Api.getInterestedProductList(1)
+    () => AuthApi.getInterestedProductList(1)
   );
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const InterestedProducts = ({ user }) => {
   };
 
   return (
-    getInterestedProductList && (
+    getInterestedProductList.LikeList && (
       <Wrapper>
         <Container style={{ marginTop: 100 }}>
           <Grid
