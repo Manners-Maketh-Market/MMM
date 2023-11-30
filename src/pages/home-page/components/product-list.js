@@ -15,8 +15,6 @@ const ProductList = () => {
     () => Api.getMainProductList()
   );
 
-  productList && console.log(productList);
-
   const UsedProductList = productList && productList.usedProduct;
   const FreeProductList = productList && productList.freeProduct;
 

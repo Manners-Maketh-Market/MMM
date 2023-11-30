@@ -74,7 +74,7 @@ const postSignUpData = async (signupData) => {
 // sign-in
 const postLoginUserData = async (loginUserData) => {
   const res = await axiosInstance.post("/api/user/login", loginUserData);
-  return res;
+  return res.data;
 };
 
 // get user info.
@@ -123,8 +123,19 @@ const getCheckNickName = async (nickName) => {
   return res;
 };
 
+// my post CUD
 const postMyProduct = async (productData) => {
   const res = await axiosInstance.post("/api/product", productData);
+  return res;
+};
+
+const deleteMyPost = async (prod_idx) => {
+  const res = await axiosInstance.delete(`/api/product?prod_idx=${prod_idx}`);
+  return res;
+};
+
+const patchMyPost = async (patchedData) => {
+  const res = await axiosInstance.patch("/api/product", patchedData);
   return res;
 };
 
@@ -144,11 +155,19 @@ const getInterestedProductList = async (page) => {
   return res.data;
 };
 
-const getMyHousekeepingBook = async (page, category, start, end) => {
+const getMyHousekeepingBook = async (pageParam, category, start, end) => {
   const res = await axiosInstance.get(
-    `/api/user/my-page/account-book?page=${page}&category=${category}&start=${start}&end=${end}`
+    `/api/user/my-page/account-book?page=${pageParam}&category=${category}&start=${start}&end=${end}`
   );
   return res;
+};
+
+// post sale-complete
+const postSaleComplete = async (idx) => {
+  const res = await axiosInstance.post(`/api/product/sale-complete`, {
+    prod_idx: idx,
+  });
+  return res.data;
 };
 
 export const Api = {
@@ -180,4 +199,7 @@ export const Api = {
   getMyProductList,
   getInterestedProductList,
   getMyHousekeepingBook,
+  postSaleComplete,
+  deleteMyPost,
+  patchMyPost,
 };

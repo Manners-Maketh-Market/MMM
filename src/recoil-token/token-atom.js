@@ -1,8 +1,10 @@
 import { atom, selector } from "recoil";
 
+const token = localStorage.getItem("access_token");
+
 export const TokenAtom = atom({
   key: "TokenAtom",
-  default: undefined,
+  default: token ? true : false,
 });
 
 export const isLoginSelector = selector({

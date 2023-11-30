@@ -11,10 +11,13 @@ import { useMutation } from "react-query";
 import { Api } from "apis";
 import { useRecoilState } from "recoil";
 import { isEmailCheckPass, isNickNameCheckPass } from "store";
+import { useAuth } from "provider/auth-provider";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
   const navigate = useNavigate();
+
+  const { SignUp } = useAuth();
 
   // duplicate check
   const [isEmailCheckPassState, setIsEmailCheckPassState] =
@@ -91,8 +94,8 @@ const SignUpForm = () => {
     };
 
     try {
-      const newUser = await mutation.mutateAsync(signupUserData);
-      console.log("newUser >>", newUser);
+      //const newUser = await mutation.mutateAsync(signupUserData);
+      await SignUp(signupUserData);
       navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
     } catch (error) {

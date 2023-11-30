@@ -1,31 +1,36 @@
 import styled from "styled-components";
 
-const Sold = () => {
+const Purchased = ({ purchasedData, thisMonth }) => {
+  const thisMonthPurchaseAmount =
+    purchasedData.data.amount.thisMonthPurchaseAmount;
+
   return (
     <Container>
       <TextBox>
-        <h2>판매 건수</h2>
-        <h2>0 건</h2>
+        <h2>구매 건수</h2>
+        <h2> {purchasedData.data.payList.length}건</h2>
       </TextBox>
       <TextBox>
-        <h2>누적 판매 금액</h2>
-        <h2>0 원</h2>
+        <h2>이번 달 구매 금액</h2>
+        {thisMonthPurchaseAmount ? (
+          <h2> {thisMonthPurchaseAmount}원</h2>
+        ) : (
+          <h2> 0 원</h2>
+        )}
       </TextBox>
       <Comments>
         <p>
-          10월에는 판매를 한 적이 없으시네요. <br />
-          user_id_012 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
+          {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
         </p>
         <p>
-          다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를 시작해
-          보세요. 시작이 반이랍니다~
+          {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
+          있어요
         </p>
-        <p>10월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고 있어요</p>
       </Comments>
     </Container>
   );
 };
-export default Sold;
+export default Purchased;
 
 const Container = styled.div``;
 const TextBox = styled.div`
@@ -66,7 +71,6 @@ const Comments = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  word-break: keep-all;
   & > p {
     line-height: 130%;
     padding: 10px 0;
@@ -78,14 +82,14 @@ const Comments = styled.div`
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     width: 210px;
-    height: 200px;
+    height: 140px;
     padding: 20px;
     margin: 40px 0;
     font-size: 10px;
   }
   @media ${({ theme }) => theme.DEVICE.tablet2} {
     width: 380px;
-    height: 260px;
+    height: 180px;
     padding: 50px;
     margin: 60px 0;
     font-size: 12px;

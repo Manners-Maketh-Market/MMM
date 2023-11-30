@@ -12,7 +12,7 @@ import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
 import ProtectedRoute from "./protectedRoute";
 import ErrorPage from "pages/error-page";
-
+import EditMyPost from "pages/my-page/components/register-product/edit-post";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +48,6 @@ const router = createBrowserRouter([
         path: "/MMM/chat",
         element: <ChattingPage />,
       },
-
       {
         path: "/my-page",
         element: <MyPage />,
@@ -56,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "/my-page/registerProductForm",
         element: <RegisterPage />,
+      },
+      {
+        path: "/edit-post/:editPostId",
+        element: <EditMyPost />,
       },
     ],
   },
