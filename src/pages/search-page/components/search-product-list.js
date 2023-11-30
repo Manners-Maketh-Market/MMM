@@ -71,6 +71,7 @@ const SearchProductList = () => {
                       status={product.status}
                       id={product.id}
                       createdAt={product.createdAt}
+                      /* likeCount={product.likeCount} */
                     />
                   </Grid>
                 ))}

@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -13,15 +14,16 @@ const PriceGraph = () => {
   aWeekAgo.setDate(today.getDate() - 4);
   // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
+  const [graphKeyWord, setGraphKeyWord] = useState("");
   const param = useParams();
-  //const datatitle = param.title;
-  // titleparam값으로 해당 title의 상품 시세 검색
+  const datatitle = param.title;
 
   const { data: ProductPriceList } = useQuery(
     [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
     () =>
       Api.getProductPrice(
         "채팅방",
+        "",
         aWeekAgo.toJSON().substr(0, 10),
         today.toJSON().substr(0, 10)
       )

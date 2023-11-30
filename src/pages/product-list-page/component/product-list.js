@@ -60,7 +60,6 @@ const ProductList = () => {
                       id={product.idx}
                       likeCount={product.likeCount}
                       status={product.status}
-                      
                       createdAt={product.createdAt}
                     />
                   </Grid>

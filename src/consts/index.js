@@ -11,4 +11,6 @@ export const PRODUCT_QUERY_KEY = {
   SIGNUP_DATA: "signUpData",
   FULL_PRODUCT_LIST: "fullProductList",
   LIKED_PRODUCT_DATA: "likedProductData",
+  GET_MY_PAGE_DATA: "getMyPageData",
+  GET_USER_LOGOUT_DATA: "getUserLogoutData",
 };

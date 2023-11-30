@@ -2,14 +2,15 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import { useState } from "react";
 import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
+import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
 import useInputs from "hooks/use-inputs";
-import { formValidate } from "utils/validate-helper";
+import { FormValidate } from "utils/validate-helper";
 
 const EditAccountInfo = ({ user }) => {
   // change profile image
   const [uploadedImage, setUploadedImage] = useState("");
+
   const onChangeImage = (e) => {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
@@ -25,7 +26,7 @@ const EditAccountInfo = ({ user }) => {
     email: "",
     nickName: "",
   });
-  const { disabled, errors, access } = formValidate({
+  const { disabled, errors, access } = FormValidate({
     email,
     nickName,
   });
@@ -41,7 +42,7 @@ const EditAccountInfo = ({ user }) => {
           {uploadedImage ? (
             <Image src={uploadedImage} />
           ) : (
-            <Image src={user[0].profileImg} />
+            <Image src={user.profileUrl} />
           )}
           <ButtonWrap>
             <label htmlFor="imgUpload">변경하기</label>
@@ -62,7 +63,7 @@ const EditAccountInfo = ({ user }) => {
           name="nickName"
           label={"닉네임"}
           size={"editInfo"}
-          placeholder={user[0].nickName}
+          placeholder={user.nickName}
           onChange={onChangeInputs}
           error={errors.nickName}
           access={access.nickName}
@@ -71,7 +72,7 @@ const EditAccountInfo = ({ user }) => {
           name="email"
           label={"이메일 주소"}
           size={"editInfo"}
-          placeholder={user[0].email}
+          placeholder={user.email}
           onChange={onChangeInputs}
           error={errors.email}
           access={access.email}
@@ -80,14 +81,14 @@ const EditAccountInfo = ({ user }) => {
           name="phoneNumber"
           label={"핸드폰 번호"}
           size={"editInfo"}
-          placeholder={user[0].phoneNumber}
+          placeholder={user.phone}
           onChange={onChangeInputs}
         />
         <MMMInput
           name="location"
           label={"우리 동네"}
           size={"editInfo"}
-          placeholder={user[0].location}
+          placeholder={user.region}
           onChange={onChangeInputs}
         />
         <MMMButton size={"small"} type="submit" disabled={disabled}>

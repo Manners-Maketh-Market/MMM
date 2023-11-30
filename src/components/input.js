@@ -14,7 +14,6 @@ const MMMInput = ({
     <InputBox>
       <label>{label}</label>
       <Input {...inputProps} size={size} />
-
       {isAvailableEmail || isAvailableNickName ? (
         <DuplicateChecked>
           {isAvailableEmail && <p>사용 가능한 이메일입니다</p>}

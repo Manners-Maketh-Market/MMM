@@ -10,12 +10,19 @@ import MMMButton from "components/button";
 const ProductList = () => {
   const navigate = useNavigate();
 
+  const { data: myPageData } = useQuery(
+    [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
+    () => Api.getMyPageData()
+  );
+
+  myPageData && console.log("myPageData : ", myPageData);
+
   const { data: productList } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
     () => Api.getMainProductList()
   );
 
-  console.log(productList);
+  productList && console.log(productList); // undefined
 
   const UsedProductList = productList && productList.usedProduct;
   const FreeProductList = productList && productList.freeProduct;

@@ -10,8 +10,8 @@ import {
   faFaceLaughBeam,
 } from "@fortawesome/free-regular-svg-icons";
 
-const MannerTemperature = ({ user }) => {
-  const ratio = Math.floor((user.ondo / 100) * 100);
+const MannerTemperature = ({ temp }) => {
+  const ratio = Math.floor((temp.ondo / 100) * 100);
   const ratioColor =
     ratio <= 10
       ? "gray"
@@ -26,7 +26,7 @@ const MannerTemperature = ({ user }) => {
     <Manner>
       <Rate>
         <Celsius color={ratioColor}>
-          <p>{user.ondo}℃</p>
+          <p>{temp.ondo}℃</p>
         </Celsius>
         <Indicator>
           <Ratio ratio={ratio} color={ratioColor}></Ratio>
