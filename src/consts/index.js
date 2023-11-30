@@ -17,4 +17,5 @@ export const PRODUCT_QUERY_KEY = {
   PATCH_USER_PROFILE: "patchUserProfile",
   GET_MY_PRODUCT_LIST: "getMyProductList",
   GET_INTERESTED_PRODUCT_LIST: "getInterestedProductList",
+  GET_MY_HOUSEKEEPING_BOOK: "getMyHousekeepingBook",
 };

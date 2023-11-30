@@ -10,7 +10,6 @@ const InterestedProducts = ({ user }) => {
     [PRODUCT_QUERY_KEY.GET_INTERESTED_PRODUCT_LIST],
     () => Api.getInterestedProductList(1)
   );
-  console.log("getInterest", getInterestedProductList);
 
   const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ const InterestedProducts = ({ user }) => {
             spacing={{ xs: 1, md: 2, lg: 3 }}
             style={{ paddingBottom: 20 }}
           >
-            {getInterestedProductList.data.LikeList.map((list, index) => (
+            {getInterestedProductList.LikeList.map((list, index) => (
               <Grid style={{ margin: 2 }}>
                 <OneImage
                   src={list.Product.img_url}
@@ -49,4 +48,8 @@ const OneImage = styled.img`
   background-color: lightgray;
   width: 330px;
   height: 330px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;

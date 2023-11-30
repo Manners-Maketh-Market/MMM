@@ -3,17 +3,37 @@ import { flexAlignCenter, flexCenter } from "styles/common.style";
 import Sold from "./sold";
 import Shared from "./shared";
 import Purchased from "./purchased";
+import { useQuery } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
 
 const AccountBook = () => {
+  const { data: myPageData } = useQuery(
+    [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
+    () => Api.getMyPageData()
+  );
+
+  const { data: getMyHousekeepingBook } = useQuery(
+    [PRODUCT_QUERY_KEY.GET_MY_HOUSEKEEPING_BOOK],
+    () => Api.getMyHousekeepingBook()
+  );
+
+  const onSubmitAccountbook = async (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <Wrapper>
-      <Title>user_id_012 님의 10월 가계부 입니다.</Title>
-      <Contents>
-        <Sold />
-        <Purchased />
-        <Shared />
-      </Contents>
-    </Wrapper>
+    // getMyHousekeepingBook &&
+    myPageData && (
+      <Wrapper>
+        <Title>{myPageData.User.nickName}님의 10월 가계부 입니다.</Title>
+        <Contents>
+          <Sold />
+          <Purchased />
+          <Shared />
+        </Contents>
+      </Wrapper>
+    )
   );
 };
 export default AccountBook;
@@ -26,7 +46,6 @@ const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     margin-left: 0;
     ${flexCenter}
@@ -46,7 +65,6 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     padding: 50px 0;
     font-size: 10px;

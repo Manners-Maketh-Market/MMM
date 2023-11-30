@@ -38,7 +38,7 @@ const Maps = () => {
       <OneRow>
         <MMMInput
           label="지역선택"
-          name="location"
+          name="region"
           type="text"
           placeholder="검색 버튼을 눌러주세요."
           size={"large"}

@@ -123,12 +123,17 @@ const getCheckNickName = async (nickName) => {
   return res;
 };
 
+const postMyProduct = async (productData) => {
+  const res = await axiosInstance.post("/api/product", productData);
+  return res;
+};
+
 // get my products list
 const getMyProductList = async (page, category) => {
   const res = await axiosInstance.get(
-    `/api/user/my-page/product-list&page=${page}?category=${category}`
+    `/api/user/my-page/product-list?page=${page}&category=${category}`
   );
-  return res;
+  return res.data;
 };
 
 // get my interested products list
@@ -139,8 +144,10 @@ const getInterestedProductList = async (page) => {
   return res.data;
 };
 
-const postRegistData = async (registData) => {
-  const res = await axiosInstance.post("/register", registData);
+const getMyHousekeepingBook = async (page, category, start, end) => {
+  const res = await axiosInstance.get(
+    `/api/user/my-page/account-book?page=${page}&category=${category}&start=${start}&end=${end}`
+  );
   return res;
 };
 
@@ -154,7 +161,7 @@ export const Api = {
   postMyChatData,
   getUserData,
   getProductPrice,
-  postRegistData,
+  postMyProduct,
   postSignUpData,
   postLoginUserData,
   getCheckEmail,
@@ -172,4 +179,5 @@ export const Api = {
   patchUserPassword,
   getMyProductList,
   getInterestedProductList,
+  getMyHousekeepingBook,
 };

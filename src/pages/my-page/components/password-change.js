@@ -34,15 +34,17 @@ const ChangePassword = () => {
       pw: newPassword,
     };
 
-    if (newPassword === newPasswordConfirm) {
+    if (newPassword === newPasswordConfirm && newPassword.length >= 4) {
       try {
         await mutateChangePassword(patchPassword);
         alert("비밀번호 변경에 성공하셨습니다!");
       } catch (error) {
         error && alert("비밀번호 변경에 실패했습니다");
       }
-    } else {
+    } else if (newPassword !== newPasswordConfirm) {
       alert("비밀번호가 일치하는지 확인해주세요!");
+    } else if (newPassword.length < 4) {
+      alert("비밀번호를 네자리 이상 입력해주세요!");
     }
   };
 
