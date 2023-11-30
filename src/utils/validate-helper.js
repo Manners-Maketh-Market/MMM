@@ -6,12 +6,14 @@ export const FormValidate = ({
   phone,
   region,
 }) => {
+  // sign-in
   let disabled =
     !/^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*|.[a-zA-Z]{2,3}$/.test(
       email
     ) || !/^[a-z0-9]+$/.test(pw);
 
   if (pwConfirm) {
+    // sign-up
     disabled =
       disabled ||
       (pw !== pwConfirm &&

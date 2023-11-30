@@ -13,4 +13,8 @@ export const PRODUCT_QUERY_KEY = {
   LIKED_PRODUCT_DATA: "likedProductData",
   GET_MY_PAGE_DATA: "getMyPageData",
   GET_USER_LOGOUT_DATA: "getUserLogoutData",
+  PATCH_USER_DATA: "patchUserData",
+  PATCH_USER_PROFILE: "patchUserProfile",
+  GET_MY_PRODUCT_LIST: "getMyProductList",
+  GET_INTERESTED_PRODUCT_LIST: "getInterestedProductList",
 };

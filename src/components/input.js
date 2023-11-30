@@ -86,7 +86,13 @@ const sizeCSS = {
       /* padding-bottom: 30px; */
     }
   `,
-
+  smallEditInfo: css`
+    min-width: 640px;
+    min-height: 48px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid ${({ theme }) => theme.COLORS.gray[300]};
+  `,
   editInfo: css`
     min-width: 780px;
     min-height: 48px;

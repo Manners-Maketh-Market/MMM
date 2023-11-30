@@ -29,17 +29,6 @@ const MyPageModal = ({ user, setIsMyPageModal }) => {
   const mutation = useMutation(() => Api.getUserLogout());
 
   const onClickLogout = async () => {
-    // axiosInstance.get("api/user/logout").then((response) => {
-    //   if (response.data.message === "success") {
-    //     // todo: 로그인 되어 있던 유저 정보 초기화 (MiniUserInfo)
-    //     navigate("/sign-in");
-    //     alert("로그아웃 되었습니다");
-    //     console.log("userLogoutData >>", userLogoutData);
-    //   } else {
-    //     alert("로그아웃에 실패했습니다");
-    //   }
-    // });
-
     try {
       const logoutUser = mutation.mutateAsync();
       alert("로그아웃이 정상적으로 이뤄졌습니다.");

@@ -1,25 +1,79 @@
+import { Api } from "apis";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
+import useInputs from "hooks/use-inputs";
+import { useState } from "react";
+import { useMutation } from "react-query";
 import styled from "styled-components";
 import { flexAlignCenter } from "styles/common.style";
+import { FormValidate } from "utils/validate-helper";
 
 const ChangePassword = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  // validate check
+  const [{ pw, pwConfirm }, onChangeInputs] = useInputs({
+    pw: "",
+    pwConfirm: "",
+  });
+  const { errors, access } = FormValidate({
+    pw,
+    pwConfirm,
+  });
+
+  // change password
+  const { mutateAsync: mutateChangePassword, data: changePasswordData } =
+    useMutation((newPassword) => Api.patchUserPassword(newPassword));
+
+  // patch password
+  const onEditPassword = async (e) => {
+    e.preventDefault();
+    const newPasswordConfirm = e.target.pwConfirm.value;
+    const newPassword = e.target.pw.value;
+    const patchPassword = {
+      pw: newPassword,
+    };
+
+    if (newPassword === newPasswordConfirm) {
+      try {
+        await mutateChangePassword(patchPassword);
+        alert("비밀번호 변경에 성공하셨습니다!");
+      } catch (error) {
+        error && alert("비밀번호 변경에 실패했습니다");
+      }
+    } else {
+      alert("비밀번호가 일치하는지 확인해주세요!");
+    }
+  };
+
   return (
     <Wrapper>
       <Title>비밀번호 변경</Title>
-      <Contents>
-        <MMMInput label={"비밀번호"} size={"editInfo"} placeholder="password" />
+      <Contents onSubmit={onEditPassword}>
+        {/* <MMMInput label={"비밀번호"} type="password" name="pw" size={"editInfo"} placeholder="password" onChange={onChangeInputs}/> */}
         <MMMInput
           label={"새 비밀번호"}
+          type="password"
+          name="pw"
           size={"editInfo"}
           placeholder="new password"
+          onChange={onChangeInputs}
+          error={errors.pw}
+          access={access.pw}
         />
         <MMMInput
           label={"새 비밀번호 확인"}
+          type="password"
+          name="pwConfirm"
           size={"editInfo"}
           placeholder="confirm new password"
+          onChange={onChangeInputs}
+          error={errors.pwConfirm}
+          access={access.pwConfirm}
         />
-        <MMMButton size={"small"}>변경사항 저장</MMMButton>
+        <MMMButton size={"small"} type="submit" disabled={isDisabled}>
+          변경사항 저장
+        </MMMButton>
       </Contents>
     </Wrapper>
   );

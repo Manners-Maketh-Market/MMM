@@ -141,6 +141,7 @@ const SignUpForm = () => {
           type="password"
           placeholder="비밀번호 확인"
           error={errors.pwConfirm}
+          access={access.pwConfirm}
           onChange={onChangeInputs}
           size={"full"}
           required

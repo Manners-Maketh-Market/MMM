@@ -88,6 +88,12 @@ const sizeCSS = {
       height: 44px;
     }
   `,
+  smallConfirm: css`
+    min-width: 120px;
+    min-height: 46px;
+    border-radius: 4px;
+    margin-left: 20px;
+  `,
   confirm: css`
     min-width: 313px;
     min-height: 46px;
