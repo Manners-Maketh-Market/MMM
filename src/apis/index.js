@@ -38,13 +38,6 @@ const postLikedProduct = async (id) => {
   return res.data;
 };
 
-const getMyPageLikeProduct = async (pageParam) => {
-  const res = await axiosInstance.get(
-    `/api/user/my-page/like-product-list?page=${pageParam}`
-  );
-  return res.data;
-};
-
 const getUsedProduct = async () => {
   const res = await axiosInstance.get("/products/sell");
   return res.data;
@@ -65,62 +58,10 @@ const postMyChatData = async (bodyData) => {
   return res;
 };
 
-// sign-up
-const postSignUpData = async (signupData) => {
-  const res = await axiosInstance.post("/api/user", signupData);
-  return res;
-};
-
-// sign-in
-const postLoginUserData = async (loginUserData) => {
-  const res = await axiosInstance.post("/api/user/login", loginUserData);
-  return res.data;
-};
-
-// get user info.
-const getUserData = async () => {
-  const res = await axiosInstance.get("/api/user/info");
-  return res.data;
-};
-
-// get my-page info.
-const getMyPageData = async () => {
-  const res = await axiosInstance.get("/api/user/my-page");
-  return res.data;
-};
-
-// patch user info.
-const patchUserData = async (myCurrentInfo) => {
-  const res = await axiosInstance.patch("/api/user", myCurrentInfo);
-  return res.data;
-};
-const patchUserProfile = async (uploadedImage) => {
-  const res = await axiosInstance.patch("/api/user/profile", uploadedImage);
-  return res.data;
-};
-const patchUserPassword = async (newPassword) => {
-  const res = await axiosInstance.patch("/api/user/password", newPassword);
-  return res.data;
-};
-
 // logout
 const getUserLogout = async () => {
   const res = await axiosInstance.get("/api/user/logout");
   return res.data;
-};
-
-// duplicate check(email)
-const getCheckEmail = async (email) => {
-  const res = await axiosInstance.get(`/api/user/check/email?email=${email}`);
-  return res;
-};
-
-// duplicate check(nickName)
-const getCheckNickName = async (nickName) => {
-  const res = await axiosInstance.get(
-    `/api/user/check/nickname?nickname=${nickName}`
-  );
-  return res;
 };
 
 // my post CUD
@@ -136,29 +77,6 @@ const deleteMyPost = async (prod_idx) => {
 
 const patchMyPost = async (patchedData) => {
   const res = await axiosInstance.patch("/api/product", patchedData);
-  return res;
-};
-
-// get my products list
-const getMyProductList = async (page, category) => {
-  const res = await axiosInstance.get(
-    `/api/user/my-page/product-list?page=${page}&category=${category}`
-  );
-  return res.data;
-};
-
-// get my interested products list
-const getInterestedProductList = async (page) => {
-  const res = await axiosInstance.get(
-    `/api/user/my-page/like-product-list?page=${page}`
-  );
-  return res.data;
-};
-
-const getMyHousekeepingBook = async (pageParam, category, start, end) => {
-  const res = await axiosInstance.get(
-    `/api/user/my-page/account-book?page=${pageParam}&category=${category}&start=${start}&end=${end}`
-  );
   return res;
 };
 
@@ -178,27 +96,10 @@ export const Api = {
   getFreeProduct,
   getBuyerChatData,
   postMyChatData,
-  getUserData,
   getProductPrice,
   postMyProduct,
-  postSignUpData,
-  postLoginUserData,
-  getCheckEmail,
-  getCheckNickName,
   postLikedProduct,
-  getMyPageLikeProduct,
-  postSignUpData,
-  postLoginUserData,
-  getCheckEmail,
-  getCheckNickName,
-  getMyPageData,
-  patchUserData,
   getUserLogout,
-  patchUserProfile,
-  patchUserPassword,
-  getMyProductList,
-  getInterestedProductList,
-  getMyHousekeepingBook,
   postSaleComplete,
   deleteMyPost,
   patchMyPost,
