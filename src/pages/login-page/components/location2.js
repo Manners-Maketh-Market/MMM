@@ -12,7 +12,6 @@ const ProductOrder = () => {
   const modalRef = useRef(); //화면 외부 클릭하면 창이 닫히게
   useEffect(() => {
     document.addEventListener("mousedown", clickModalOutside);
-
     return () => {
       document.removeEventListener("mousedown", clickModalOutside);
     };
@@ -43,16 +42,14 @@ const ProductOrder = () => {
   const handleModal = () => {
     setModalState(true);
   };
-
-  const handleXbutton = () => {
+  const onCloseModal = () => {
     setModalState(false);
   };
 
-  const handleZipCode = (e) => {
+  const handleZipCodeValue = (e) => {
     setModalState(false);
   };
-
-  const handleAddress = (e) => {
+  const handleAddressValue = (e) => {
     setInputAddressValue(e.target.value);
   };
   return (
@@ -64,34 +61,30 @@ const ProductOrder = () => {
             <UserAddressAndPayment>
               <ZipCodeWrapper>
                 <ZipCodeInput
-                  onChange={handleZipCode}
+                  onChange={handleZipCodeValue}
                   value={inputZipCodeValue}
                   placeholder="우편번호"
                   type={"text"}
-                ></ZipCodeInput>
+                />
                 <ZipCodeFindButton onClick={handleModal}>
                   주소찾기
                 </ZipCodeFindButton>
               </ZipCodeWrapper>
               <AddressInput
-                onChange={handleAddress}
+                onChange={handleAddressValue}
                 value={inputAddressValue}
                 placeholder="주소"
                 type={"text"}
-              ></AddressInput>
-              <DetailAddressInput
-                placeholder="상세주소"
-                type={"text"}
-              ></DetailAddressInput>
-
+              />
+              <DetailAddressInput placeholder="상세주소" type={"text"} />
               <PostCodeWrapper ref={modalRef} modalState={modalState}>
                 <PostCodeHeader>
-                  <div onClick={handleXbutton}></div>
+                  <div onClick={onCloseModal}>x</div>
                 </PostCodeHeader>
                 <DaumPostcode
                   style={postCodeStyle}
                   onComplete={onCompletePost}
-                ></DaumPostcode>
+                />
               </PostCodeWrapper>
             </UserAddressAndPayment>
           </UserFormContainer>
