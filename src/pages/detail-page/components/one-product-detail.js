@@ -43,8 +43,8 @@ const OneProductDetail = () => {
     Api.postLikedProduct(id)
   );
 
-  const { mutateAsync: onSellMutation } = useMutation((id) =>
-    Api.postSaleComplete(id)
+  const { mutateAsync: onSellMutation } = useMutation((prod_idx, socket) =>
+    Api.postSaleComplete(prod_idx, socket)
   );
 
   const { mutateAsync: deleteMyPost } = useMutation((id) =>
@@ -65,9 +65,7 @@ const OneProductDetail = () => {
   const onClickChangeProductStatus = async () => {
     if (detailProduct.searchProduct.status === "판매중") {
       await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
-      alert("판매완료로 변경되었습니다.");
-    } else {
-      alert("다시 판매 중으로 변경합니다.");
+      alert("해당 제품은 판매완료로 변경되었습니다.");
     }
     refetch();
   };
@@ -139,21 +137,24 @@ const OneProductDetail = () => {
                 <ul>
                   <List>
                     <Category>거래상태</Category>
-                    {/* <MMMButton
-                      variant={
-                        detailProduct.searchProduct.status === "판매중"
-                          ? "detailY"
-                          : "detailG"
-                      }
-                      onClick={onClickChangeProductStatus}
-                    >
-                      {detailProduct.searchProduct.status === "판매중"
-                        ? "판매중"
-                        : detailProduct.searchProduct.status === "판매완료"
-                        ? "판매완료"
-                        : null}
-                    </MMMButton> */}
-                    <span>{detailProduct.searchProduct.status}</span>
+                    {detailProduct.searchProduct.User.nick_name ===
+                    userInfoData.nick_name ? (
+                      <MMMButton
+                        variant={
+                          detailProduct.searchProduct.status === "판매중"
+                            ? "detailY"
+                            : "detailG"
+                        }
+                        onClick={onClickChangeProductStatus}
+                      >
+                        {detailProduct.searchProduct.status === "판매중"
+                          ? "판매중"
+                          : detailProduct.searchProduct.status === "판매완료" &&
+                            "판매완료"}
+                      </MMMButton>
+                    ) : (
+                      <span>{detailProduct.searchProduct.status}</span>
+                    )}
                   </List>
                   <List>
                     <Category>카테고리</Category>

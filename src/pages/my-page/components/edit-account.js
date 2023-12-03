@@ -85,7 +85,7 @@ const EditAccountInfo = () => {
     AuthApi.getUserData()
   );
 
-  console.log("getMyInfo", getMyInfo);
+  // console.log("getMyInfo", getMyInfo);
 
   // changeInfo.
   const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>

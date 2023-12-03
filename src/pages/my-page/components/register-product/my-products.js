@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import MMMButton from "components/button";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
-import { Container, Grid } from "@mui/material";
-import { useState } from "react";
+import MMMButton from "components/button";
+import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import { Container, Grid } from "@mui/material";
 
 const RegisteredProducts = () => {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ const RegisteredProducts = () => {
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
     () => AuthApi.getMyProductList(1, 0)
   );
-  console.log("getMyProductList", getMyProductList);
 
   const onToDetailPage = (id) => {
     navigate(`/products/detail/${id}`);
@@ -45,11 +44,6 @@ const RegisteredProducts = () => {
       (products) => products.status === "판매완료"
     );
 
-  console.log("onSale :", OnSaleProducts, "onSold :", SoldProducts);
-
-  // hover effect
-  const [onShow, setOnShow] = useState(false);
-
   return (
     <Wrapper>
       <Tabs>
@@ -64,7 +58,7 @@ const RegisteredProducts = () => {
         ))}
       </Tabs>
       {OnSaleProducts && SoldProducts ? (
-        <Container style={{ marginTop: 100 }}>
+        <Container>
           <Grid
             container
             spacing={{ xs: 1, md: 2, lg: 3 }}
@@ -108,9 +102,13 @@ export default RegisteredProducts;
 
 const Wrapper = styled.div`
   & > div {
+    height: fit-content;
     position: absolute;
-    left: 50%;
+    overscroll-behavior-block: contain;
+    top: 60%;
+    left: 58%;
     transform: translateX(-50%);
+
     & > p {
       text-align: center;
       margin-bottom: 8px;
@@ -137,6 +135,9 @@ const Wrapper = styled.div`
 
   @media ${({ theme }) => theme.DEVICE.tablet2} {
     & > div {
+      top: 45%;
+      left: 56%;
+
       & > p {
         font-size: 12px;
       }
@@ -149,6 +150,8 @@ const Wrapper = styled.div`
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
     & > div {
+      left: 51%;
+
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
@@ -221,6 +224,7 @@ const OneImage = styled.img`
   height: 330px;
   position: relative;
   transition: all 0.5s;
+  border: 1px solid #000;
 
   &:hover {
     cursor: pointer;

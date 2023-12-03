@@ -10,7 +10,6 @@ import SearchPage from "pages/search-page";
 import ChattingPage from "pages/chatting-page";
 import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
-import ProtectedRoute from "./protectedRoute";
 import ErrorPage from "pages/error-page";
 import EditMyPost from "pages/my-page/components/register-product/edit-post";
 
@@ -19,8 +18,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
+      // sign-in & sign-up
       {
         path: "/",
+        element: <LoginPage />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUpForm />,
+      },
+      {
+        path: "/MMM",
         element: <HomePage />,
       },
       // useParams로 받을시 /: key가 되어서 페이지를 보여줌
@@ -61,21 +69,6 @@ const router = createBrowserRouter([
         element: <EditMyPost />,
       },
     ],
-  },
-  // sign-in & sign-up
-  {
-    path: "/sign-in",
-    element: <LoginPage />,
-  },
-  {
-    path: "/sign-up",
-    element: <SignUpForm />,
-  },
-
-  /* protected route: users only */
-  {
-    element: <ProtectedRoute />,
-    // children: [{path: "/my-page", element: <MyPage />,}, {path: "/my-page/registerProductForm", element: <RegisterPage />,},],
   },
 ]);
 

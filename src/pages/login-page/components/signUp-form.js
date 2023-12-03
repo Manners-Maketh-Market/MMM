@@ -1,23 +1,22 @@
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { Api } from "apis";
+import AuthApi from "apis/auth";
+import { useAuth } from "provider/auth-provider";
+import { isEmailCheckPass, isNickNameCheckPass } from "store";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
-import styled from "styled-components";
 import Phone from "./phone";
 import Location from "./location";
+import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
-import { Api } from "apis";
-import { useRecoilState } from "recoil";
-import { isEmailCheckPass, isNickNameCheckPass } from "store";
-import { useAuth } from "provider/auth-provider";
-import AuthApi from "apis/auth";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
   const navigate = useNavigate();
-
   const { SignUp } = useAuth();
 
   // duplicate check
@@ -27,7 +26,7 @@ const SignUpForm = () => {
     useRecoilState(isNickNameCheckPass);
 
   const onClickSignIn = () => {
-    navigate("/sign-in");
+    navigate("/");
   };
 
   // input - hook func.
@@ -95,7 +94,6 @@ const SignUpForm = () => {
     };
 
     try {
-      //const newUser = await mutation.mutateAsync(signupUserData);
       await SignUp(signupUserData);
       navigate("/sign-in");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
@@ -173,9 +171,6 @@ const SignUpForm = () => {
         <MMMButton size={"full"} type="submit">
           회원가입
         </MMMButton>
-        {/* <MMMButton size={"full"} disabled={disabled} type="submit">
-          회원가입
-        </MMMButton> */}
       </Form>
     </Wrapper>
   );

@@ -28,7 +28,7 @@ const SignInForm = () => {
     try {
       await SignIn(loginUserData);
       alert("반갑습니다^^");
-      window.location.replace("/");
+      window.location.replace("/MMM");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
     }
@@ -82,7 +82,6 @@ const Form = styled.form`
   position: absolute;
   top: 40%;
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     top: 29%;
     left: 0%;
@@ -149,7 +148,6 @@ const ButtonBox = styled.div`
     margin: 5px 0;
   }
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     margin: 40px 0;
 

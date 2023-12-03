@@ -1,8 +1,8 @@
-import { Container, Grid } from "@mui/material";
+import { useQuery } from "react-query";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
-import { useQuery } from "react-query";
 import styled from "styled-components";
+import { Container, Grid } from "@mui/material";
 
 const PurchasedProducts = () => {
   // getMyProductList
@@ -10,8 +10,6 @@ const PurchasedProducts = () => {
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
     () => AuthApi.getMyProductList(1, 1)
   );
-
-  // getInterestedProductList
 
   return (
     getMyProductList && (
@@ -23,7 +21,6 @@ const PurchasedProducts = () => {
             style={{ paddingBottom: 20 }}
           >
             <Grid
-              /* key={index} */
               item
               xs={12}
               md={4}

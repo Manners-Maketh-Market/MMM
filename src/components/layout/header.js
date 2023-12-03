@@ -23,7 +23,7 @@ const Header = () => {
     navigate(`/products/${saleStatus}`);
   };
   const onGoMainPage = () => {
-    navigate(`/`);
+    navigate(`/MMM`);
   };
   const onGoPriceCheckPage = () => {
     navigate("/pricecheckpage");

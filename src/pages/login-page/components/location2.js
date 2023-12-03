@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import DaumPostcode from 'react-daum-postcode';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
+import { useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import DaumPostcode from "react-daum-postcode";
+import styled from "styled-components";
 
 const ProductOrder = () => {
   const { state } = useLocation();
@@ -10,39 +9,35 @@ const ProductOrder = () => {
   const [inputAddressValue, setInputAddressValue] = useState();
   const [inputZipCodeValue, setInputZipCodeValue] = useState();
 
-
-
-  const navigate = useNavigate();
-
   const modalRef = useRef(); //화면 외부 클릭하면 창이 닫히게
   useEffect(() => {
-    document.addEventListener('mousedown', clickModalOutside);
+    document.addEventListener("mousedown", clickModalOutside);
 
     return () => {
-      document.removeEventListener('mousedown', clickModalOutside);
+      document.removeEventListener("mousedown", clickModalOutside);
     };
   });
 
-  const clickModalOutside = event => {
+  const clickModalOutside = (event) => {
     if (modalState && !modalRef.current.contains(event.target)) {
       setModalState(false);
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const onCompletePost = data => {
+  const onCompletePost = (data) => {
     setModalState(false);
     setInputAddressValue(data.address);
     setInputZipCodeValue(data.zonecode);
   };
 
   const postCodeStyle = {
-    width: '400px',
-    height: '400px',
-    display: modalState ? 'block' : 'none',
+    width: "400px",
+    height: "400px",
+    display: modalState ? "block" : "none",
   };
 
   const handleModal = () => {
@@ -53,12 +48,11 @@ const ProductOrder = () => {
     setModalState(false);
   };
 
-  const handleZipCode = e => {
+  const handleZipCode = (e) => {
     setModalState(false);
-    // set;
   };
 
-  const handleAddress = e => {
+  const handleAddress = (e) => {
     setInputAddressValue(e.target.value);
   };
   return (
@@ -67,13 +61,13 @@ const ProductOrder = () => {
       <ProductContainer>
         <UserForm onSubmit={handleSubmit}>
           <UserFormContainer>
-            <UserAddressAndPayment>             
+            <UserAddressAndPayment>
               <ZipCodeWrapper>
                 <ZipCodeInput
                   onChange={handleZipCode}
                   value={inputZipCodeValue}
                   placeholder="우편번호"
-                  type={'text'}
+                  type={"text"}
                 ></ZipCodeInput>
                 <ZipCodeFindButton onClick={handleModal}>
                   주소찾기
@@ -83,13 +77,13 @@ const ProductOrder = () => {
                 onChange={handleAddress}
                 value={inputAddressValue}
                 placeholder="주소"
-                type={'text'}
+                type={"text"}
               ></AddressInput>
               <DetailAddressInput
                 placeholder="상세주소"
-                type={'text'}
+                type={"text"}
               ></DetailAddressInput>
-       
+
               <PostCodeWrapper ref={modalRef} modalState={modalState}>
                 <PostCodeHeader>
                   <div onClick={handleXbutton}></div>
@@ -110,37 +104,29 @@ const ProductOrder = () => {
 export default ProductOrder;
 
 const Container = styled.div`
-  
   margin: auto;
   padding: 50px 75px;
-  border: 1px solid ;
+  border: 1px solid;
   margin-top: 50px;
   margin-bottom: 100px;
   border-radius: 20px;
   text-align: center;
   position: relative;
 `;
-
 const ModalBlock = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ;
   opacity: 0.5;
   position: absolute;
-  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
+  display: ${({ modalState }) => (modalState ? "block" : "none")};
   top: 0;
   left: 0;
 `;
-
 const ProductContainer = styled.div``;
-
-
-
 const UserForm = styled.form`
   display: flex;
   flex-direction: column;
 `;
-
 const UserFormContainer = styled.div`
   display: flex;
 `;
@@ -152,41 +138,30 @@ const UserAddressAndPayment = styled.div`
   width: 60%;
   input {
     padding: 7px 12px;
-    border: 1px solid ;
-  }
-  input::placeholder {
-    color: ;
+    border: 1px solid;
   }
 `;
-
-
 
 const ZipCodeWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 12px;
 `;
-
 const ZipCodeInput = styled.input`
   width: 30%;
   margin-right: 10px;
 `;
-
 const ZipCodeFindButton = styled.div`
   cursor: pointer;
-  background-color: ;
-  color: ;
   padding: 6px 21px;
 `;
 
 const AddressInput = styled.input`
   margin-bottom: 12px;
 `;
-
 const DetailAddressInput = styled.input`
   margin-bottom: 12px;
 `;
-
 
 const PostCodeWrapper = styled.div`
   position: absolute;
@@ -195,18 +170,13 @@ const PostCodeWrapper = styled.div`
   width: 400px;
   height: 450px;
   z-index: 100;
-  background-color: ;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
+  display: ${({ modalState }) => (modalState ? "block" : "none")};
 `;
-
 const PostCodeHeader = styled.div`
   position: relative;
   height: 50px;
-  border-bottom: 1px solid ;
+  border-bottom: 1px solid;
 `;
-
-
-// 주소 검색 API 현재 value값을 못넘기고 있어서 일단은 기존에 데이터가 넘어가던 것을 그대로 적용시켜뒀음

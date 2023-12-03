@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
 import { useState } from "react";
+import MyAccountBook from "./account-book/my-account-book";
 import RegisteredProducts from "./register-product/my-products";
 import EditAccountInfo from "./edit-account";
-import ChangePassword from "./password-change";
 import PurchasedProducts from "./purchased-product";
 import InterestedProducts from "./interested-product";
-import MyAccountBook from "./account-book/my-account-book";
+import ChangePassword from "./password-change";
+import styled from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
 
 const TabList = ({ user }) => {
   // product filter tabs
@@ -82,7 +82,7 @@ const Tabs = styled.ul`
     background-color: navy;
     color: white;
   }
-  // mediaQuery
+
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     font-size: 10px;
     font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};

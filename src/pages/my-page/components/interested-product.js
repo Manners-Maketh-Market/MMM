@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import { useQuery } from "react-query";
-import AuthApi from "apis/auth";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Container, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { PRODUCT_QUERY_KEY } from "consts";
+import AuthApi from "apis/auth";
+import styled from "styled-components";
+import { Container, Grid } from "@mui/material";
 
 const InterestedProducts = ({ user }) => {
   const { data: getInterestedProductList } = useQuery(

@@ -81,9 +81,10 @@ const patchMyPost = async (patchedData) => {
 };
 
 // post sale-complete
-const postSaleComplete = async (idx) => {
+const postSaleComplete = async (prod_idx, socket) => {
   const res = await axiosInstance.post(`/api/product/sale-complete`, {
-    prod_idx: idx,
+    prod_idx,
+    socket,
   });
   return res.data;
 };
