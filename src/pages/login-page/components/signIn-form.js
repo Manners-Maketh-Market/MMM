@@ -120,8 +120,8 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    left: 0%;
-    margin-left: 40px;
+    left: 50%;
+    transform: translateX(-50%);
 
     & > div {
       & > input {

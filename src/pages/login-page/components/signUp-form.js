@@ -13,6 +13,7 @@ import Phone from "./phone";
 import Location from "./location";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import ProductOrder from "./location2";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -20,9 +21,8 @@ const SignUpForm = () => {
   const { SignUp } = useAuth();
 
   // duplicate check
-  const [isEmailCheckPassState, setIsEmailCheckPassState] =
-    useRecoilState(isEmailCheckPass);
-  const [isNickNameCheckPassState, setIsNickNameCheckPassState] =
+  const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
+  const [isCheckedNickName, setIsCheckedNickName] =
     useRecoilState(isNickNameCheckPass);
 
   const onClickSignIn = () => {
@@ -41,7 +41,7 @@ const SignUpForm = () => {
     });
 
   // validation check
-  const { disabled, errors, access } = FormValidate({
+  const { errors, access } = FormValidate({
     email,
     pw,
     pwConfirm,
@@ -60,10 +60,10 @@ const SignUpForm = () => {
     e.preventDefault();
     try {
       const res = await AuthApi.getCheckEmail(email);
-      setIsEmailCheckPassState(true);
+      setIsCheckedEmail(true);
       alert(res.data.message);
     } catch {
-      setIsEmailCheckPassState(false);
+      setIsCheckedEmail(false);
       alert("중복된 이메일입니다.");
     }
   };
@@ -73,10 +73,10 @@ const SignUpForm = () => {
     e.preventDefault();
     try {
       const res = await AuthApi.getCheckNickName(nickName);
-      setIsNickNameCheckPassState(true);
+      setIsCheckedNickName(true);
       alert(res.data.message);
     } catch {
-      setIsNickNameCheckPassState(false);
+      setIsCheckedNickName(false);
       alert("중복된 닉네임입니다.");
     }
   };
@@ -93,14 +93,14 @@ const SignUpForm = () => {
       region: e.target.location.value,
     };
 
-    try {
+    if (isCheckedEmail === false || isCheckedNickName === false) {
+      alert("이메일과 닉네임의 중복 여부를 확인해주세요.");
+    } else if (pw !== pwConfirm) {
+      alert("입력하신 비밀번호와 비밀번호 확인 내용이 일치하지 않습니다.");
+    } else {
       await SignUp(signupUserData);
-      navigate("/sign-in");
+      navigate("/");
       alert("환영합니다! 회원 가입이 완료되었습니다!");
-    } catch (error) {
-      // 이메일 중복
-      // 닉네임 중복
-      error && alert("양식을 확인 후 다시 시도해주세요");
     }
   };
 
@@ -117,7 +117,7 @@ const SignUpForm = () => {
             onChange={onChangeInputs}
             error={errors.email}
             access={access.email}
-            isAvailableEmail={isEmailCheckPassState}
+            isAvailableEmail={isCheckedEmail}
             size={"large"}
             required
           />
@@ -157,7 +157,7 @@ const SignUpForm = () => {
             onChange={onChangeInputs}
             error={errors.nickName}
             access={access.nickName}
-            isAvailableNickName={isNickNameCheckPassState}
+            isAvailableNickName={isCheckedNickName}
             size={"large"}
             maxLength={12}
             required
@@ -167,7 +167,8 @@ const SignUpForm = () => {
           </MMMButton>
         </OneRow>
         <Phone name="phone" />
-        <Location name="region" />
+        {/* <Location name="region" /> */}
+        <ProductOrder name="region" />
         <MMMButton size={"full"} type="submit">
           회원가입
         </MMMButton>
@@ -179,22 +180,18 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 const Wrapper = styled.div`
+  width: 90%;
+  height: 100vh;
   position: relative;
-  top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  height: calc(100vh - 80px);
   ${flexCenter}
   flex-direction: column;
   overflow-x: hidden;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 const Logo = styled.div`
   position: absolute;
-  top: 0;
+  top: 60px;
   width: 230px;
   height: 90px;
   background-size: contain;
@@ -213,14 +210,14 @@ const Logo = styled.div`
 
 const Form = styled.form`
   position: absolute;
-  top: 180px;
+  top: 200px;
   ${flexCenter}
   flex-direction: column;
 
   & > button {
     min-width: 918px;
     min-height: 46px;
-    margin: 100px 0;
+    margin-top: 60px;
   }
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
