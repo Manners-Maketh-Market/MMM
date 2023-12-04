@@ -90,7 +90,7 @@ const SignUpForm = () => {
       pw: e.target.pw.value,
       nickName: e.target.nickName.value,
       phone: e.target.phone.value,
-      region: e.target.location.value,
+      region: e.target.region.value,
     };
 
     if (isCheckedEmail === false || isCheckedNickName === false) {

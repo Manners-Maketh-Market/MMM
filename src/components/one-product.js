@@ -10,7 +10,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const onClickToDetailPage = (id) => {
-    navigate(`/products/detail/${id}`);
+    navigate(`/MMM/products/detail/${id}`);
     window.scrollTo({ top: 0 });
   };
 

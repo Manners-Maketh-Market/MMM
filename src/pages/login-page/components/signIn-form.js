@@ -28,7 +28,7 @@ const SignInForm = () => {
     try {
       await SignIn(loginUserData);
       alert("반갑습니다^^");
-      window.location.replace("/MMM");
+      window.location.replace("/MMM/home");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
     }

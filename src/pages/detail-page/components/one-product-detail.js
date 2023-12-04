@@ -1,7 +1,16 @@
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
+import AuthApi from "apis/auth";
+import { useState } from "react";
+import { UsePriceComma } from "hooks/use-price-comma";
 import MMMButton from "components/button";
 import ImgSlider from "components/img-slider";
+import MannerTemperature from "components/manner-temperature";
 import styled, { css } from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
+import unProfile from "./../../../images/icon/unprofile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComments,
@@ -9,16 +18,6 @@ import {
   faTrashCan,
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { UsePriceComma } from "hooks/use-price-comma";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
-import AuthApi from "apis/auth";
-import MannerTemperature from "components/manner-temperature";
-import { useState } from "react";
-import unProfile from "./../../../images/icon/unprofile.png";
 
 const OneProductDetail = () => {
   const navigate = useNavigate();
@@ -43,8 +42,8 @@ const OneProductDetail = () => {
     Api.postLikedProduct(id)
   );
 
-  const { mutateAsync: onSellMutation } = useMutation((prod_idx, socket) =>
-    Api.postSaleComplete(prod_idx, socket)
+  const { mutateAsync: onSellMutation, data: sellData } = useMutation(
+    (prod_idx, socket) => Api.postSaleComplete(prod_idx, socket)
   );
 
   const { mutateAsync: deleteMyPost } = useMutation((id) =>
@@ -61,19 +60,20 @@ const OneProductDetail = () => {
     }
     refetch();
   };
-
+  const [isClicked, setIsClicked] = useState(false);
   const onClickChangeProductStatus = async () => {
-    if (detailProduct.searchProduct.status === "판매중") {
-      await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
-      alert("해당 제품은 판매완료로 변경되었습니다.");
-    }
-    refetch();
+    await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
+    alert("해당 제품은 판매완료로 변경되었습니다.");
+    console.log("거래 상태", detailProduct.searchProduct.status); // 판매중
+    console.log("뮤테이션 리스폰 : ", sellData); // success: true
+    setIsClicked(true);
+    // refetch();
   };
 
   const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
 
-    navigate(`/pricecheckpage/${titleValue}`);
+    navigate(`/MMM/pricecheckpage/${titleValue}`);
   };
   const onMoreContentBtn = () => {
     setIsMoreContent((prev) => !prev);
@@ -83,11 +83,11 @@ const OneProductDetail = () => {
   const onDeletePost = async () => {
     await deleteMyPost(dataId);
     alert("게시글이 삭제되었습니다.");
-    navigate("/");
+    navigate("/MMM/home");
   };
 
   const onEditPost = () => {
-    navigate(`/edit-post/${dataId}`);
+    navigate(`/MMM/edit-post/${dataId}`);
   };
 
   return (
@@ -108,7 +108,6 @@ const OneProductDetail = () => {
                     이 상품 시세 조회하러 가기
                   </p>
                 </FlexBox>
-                {/* <hr /> */}
                 <UserProf>
                   <UserImgIdLoc>
                     <UserProfBox>
@@ -146,11 +145,10 @@ const OneProductDetail = () => {
                             : "detailG"
                         }
                         onClick={onClickChangeProductStatus}
+                        disabled={isClicked}
                       >
-                        {detailProduct.searchProduct.status === "판매중"
-                          ? "판매중"
-                          : detailProduct.searchProduct.status === "판매완료" &&
-                            "판매완료"}
+                        {/* {detailProduct.searchProduct.status === "판매중" ? "판매중" : detailProduct.searchProduct.status === "판매완료" && "판매완료"} */}
+                        {sellData ? "판매완료" : "판매중"}
                       </MMMButton>
                     ) : (
                       <span>{detailProduct.searchProduct.status}</span>

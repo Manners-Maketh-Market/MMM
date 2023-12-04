@@ -69,7 +69,11 @@ const ProductOrder = () => {
       </OneRow>
       {/* 도로명 주소 modal */}
       <Modal ref={modalRef} modalState={modalState}>
-        <DaumPostcode style={postCodeStyle} onComplete={onCompletePost} />
+        <DaumPostcode
+          style={postCodeStyle}
+          onComplete={onCompletePost}
+          name="region"
+        />
       </Modal>
     </RegionWrapper>
   );

@@ -10,7 +10,6 @@ import SearchPage from "pages/search-page";
 import ChattingPage from "pages/chatting-page";
 import { createBrowserRouter } from "react-router-dom";
 import SignUpForm from "pages/login-page/components/signUp-form";
-import ErrorPage from "pages/error-page";
 import EditMyPost from "pages/my-page/components/register-product/edit-post";
 
 const router = createBrowserRouter([
@@ -53,7 +52,7 @@ const router = createBrowserRouter([
         element: <SearchPage />,
       },
       {
-        path: "/MMM/MMM/chat",
+        path: "/MMM/chat",
         element: <ChattingPage />,
       },
       {

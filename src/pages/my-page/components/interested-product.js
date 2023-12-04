@@ -14,7 +14,7 @@ const InterestedProducts = ({ user }) => {
   const navigate = useNavigate();
 
   const onToDetailPage = (id) => {
-    navigate(`/products/detail/${id}`);
+    navigate(`/MMM/products/detail/${id}`);
     window.scrollTo({ top: 0 });
   };
 

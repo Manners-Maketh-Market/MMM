@@ -171,6 +171,8 @@ const Contents = styled.form`
     margin-left: 0px;
 
     & > div {
+      margin: 15px 0;
+
       & > input {
         min-width: 560px;
       }

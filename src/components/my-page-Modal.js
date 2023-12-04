@@ -27,7 +27,7 @@ const MyPageModal = ({ setIsMyPageModal }) => {
   };
 
   const onClickMyPageBtn = () => {
-    navigate(`/my-page`);
+    navigate(`/MMM/my-page`);
     setIsMyPageModal(false);
   };
 

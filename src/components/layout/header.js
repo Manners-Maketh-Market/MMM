@@ -20,13 +20,13 @@ const Header = () => {
   const [isMyPageModal, setIsMyPageModal] = useState(false);
 
   const onGoProductsListPage = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
+    navigate(`/MMM/products/${saleStatus}`);
   };
   const onGoMainPage = () => {
-    navigate(`/MMM`);
+    navigate(`/MMM/home`);
   };
   const onGoPriceCheckPage = () => {
-    navigate("/pricecheckpage");
+    navigate("/MMM/pricecheckpage");
   };
   const onGoMyPage = () => {
     setIsMyPageModal((prev) => !prev);
@@ -34,7 +34,7 @@ const Header = () => {
   };
 
   const onGoRegisterProductPage = () => {
-    navigate("/my-page/registerProductForm");
+    navigate("/MMM/my-page/registerProductForm");
   };
 
   const onOpenAndCloseMenuBar = () => {
