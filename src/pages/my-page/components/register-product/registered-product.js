@@ -43,7 +43,7 @@ const RegisterPage = () => {
     try {
       await mutateAsync(formData);
       alert("물품 등록이 완료되었습니다.");
-      navigate("/my-page");
+      navigate("/MMM/my-page");
     } catch (error) {
       error && alert("물품이 등록되지 않았습니다.");
     }

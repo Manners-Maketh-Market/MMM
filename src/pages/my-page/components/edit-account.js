@@ -14,7 +14,7 @@ import defaultProfile from "../../../images/defaultProfile.jpg";
 
 const EditAccountInfo = () => {
   // change profile image
-  const [uploadedImage, setUploadedImage] = useState();
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   const onChangeImage = (e) => {
     const file = e.target.files[0];
@@ -88,12 +88,10 @@ const EditAccountInfo = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    if (uploadedImage === defaultProfile) {
-      formData.append("image", defaultProfile);
-    } else if (e.target.image.files.length > 0) {
-      formData.append("image", e.target.image.files[0]);
-    }
-    // 변경할 정보
+    const defaultData = new FormData();
+
+    formData.append("image", e.target.image.files[0]);
+    defaultData.append("image", defaultData);
     const editedInfo = {
       email: e.target.email.value,
       nickName: e.target.nickName.value,
@@ -101,9 +99,14 @@ const EditAccountInfo = () => {
       region: e.target.region.value,
     };
 
+    for (let key of formData.keys()) {
+      console.log(key, ":", formData.get(key));
+    }
     try {
       await mutateChangeMyInfo(editedInfo);
-      await mutateChangeProfile(formData);
+      if (e.target.image.files.length > 0) {
+        await mutateChangeProfile(formData);
+      }
       alert("변경사항이 적용되었습니다!");
       window.location.replace("/MMM/my-page");
       window.scrollTo(0, 0);

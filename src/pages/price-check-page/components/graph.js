@@ -22,8 +22,7 @@ const PriceGraph = () => {
     [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
     () =>
       Api.getProductPrice(
-        "채팅방",
-        "",
+        datatitle ? datatitle : "",
         aWeekAgo.toJSON().substr(0, 10),
         today.toJSON().substr(0, 10)
       )

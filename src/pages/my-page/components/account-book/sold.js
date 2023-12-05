@@ -1,15 +1,20 @@
+import OneProduct from "components/one-product";
 import styled from "styled-components";
+import { flexCenter } from "styles/common.style";
 
 const Sold = ({ user, thisMonth, soldData }) => {
   const thisMonthSoldAmount =
     soldData && soldData.data.amount.thisMonthSaleAmount;
+
+  const soldProductInfo = soldData.data.payList;
+  console.log("soldProductInfo", soldProductInfo);
 
   return (
     soldData && (
       <Container>
         <TextBox>
           <h2>판매 건수</h2>
-          <h2>{soldData.data.payList.length}건</h2>
+          <h2>{soldProductInfo.length}건</h2>
         </TextBox>
         <TextBox>
           <h2>이번달 판매금액</h2>
@@ -19,20 +24,28 @@ const Sold = ({ user, thisMonth, soldData }) => {
             <h2> 0 원</h2>
           )}
         </TextBox>
-        <Comments>
-          <p>
-            {thisMonth}월에는 판매를 한 적이 없으시네요. <br />
-            {user.nickName} 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
-          </p>
-          <p>
-            다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를 시작해
-            보세요. 시작이 반이랍니다~
-          </p>
-          <p>
-            {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
-            있어요
-          </p>
-        </Comments>
+        {thisMonthSoldAmount ? (
+          <ProductList>
+            {soldProductInfo.map((info, index) => (
+              <OneProduct key={index} info={soldProductInfo} />
+            ))}
+          </ProductList>
+        ) : (
+          <Comments>
+            <p>
+              {thisMonth}월에는 판매를 한 적이 없으시네요. <br />
+              {user.nickName} 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
+            </p>
+            <p>
+              다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를
+              시작해 보세요. 시작이 반이랍니다~
+            </p>
+            <p>
+              {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
+              있어요
+            </p>
+          </Comments>
+        )}
       </Container>
     )
   );
@@ -108,3 +121,4 @@ const Comments = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
   }
 `;
+const ProductList = styled.div``;
