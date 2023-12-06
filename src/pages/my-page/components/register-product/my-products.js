@@ -20,6 +20,7 @@ const RegisteredProducts = () => {
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
     () => AuthApi.getMyProductList(1, 0)
   );
+  console.log("getMyProductList", getMyProductList);
 
   const onToDetailPage = (id) => {
     navigate(`/MMM/products/detail/${id}`);
@@ -108,7 +109,6 @@ const Wrapper = styled.div`
     top: 60%;
     left: 58%;
     transform: translateX(-50%);
-
     & > p {
       text-align: center;
       margin-bottom: 8px;
@@ -137,7 +137,6 @@ const Wrapper = styled.div`
     & > div {
       top: 45%;
       left: 56%;
-
       & > p {
         font-size: 12px;
       }
@@ -151,7 +150,6 @@ const Wrapper = styled.div`
   @media ${({ theme }) => theme.DEVICE.laptop} {
     & > div {
       left: 51%;
-
       & > p {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
       }
