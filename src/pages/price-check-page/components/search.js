@@ -12,6 +12,10 @@ import { useNavigate, useParams } from "react-router-dom";
 const PriceSearch = () => {
   const param = useParams();
   const datatitle = param.title;
+  const today = new Date();
+  const aWeekAgo = new Date(today);
+  aWeekAgo.setDate(today.getDate() - 4);
+  // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
@@ -26,6 +30,18 @@ const PriceSearch = () => {
     [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
     () => Api.getSearchProduct(0, titles, 1)
   );
+
+  // const { data: searchPriceCheckList } = useQuery(
+  //   [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA, "searchPriceCheck"],
+  //   () =>
+  //     Api.getProductPrice(
+  //       "에",
+  //       aWeekAgo.toJSON().substr(0, 10),
+  //       today.toJSON().substr(0, 10)
+  //     )
+  // );
+
+  // console.log(searchPriceCheckList);
 
   // 판매완료된 상품 리스트
   const SearchSellProductList =
@@ -62,9 +78,13 @@ const PriceSearch = () => {
       setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
-      navigate(`/MMM/pricecheckpage/${e.target.value}`);
-      setSearchModal(false);
-      e.target.blur();
+      if (SearchSellProductList.length < 1) {
+        alert("시세를 알 수 없는 상품입니다!");
+      } else {
+        navigate(`/MMM/pricecheckpage/${e.target.value}`);
+        setSearchModal(false);
+        e.target.blur();
+      }
     }
   };
 

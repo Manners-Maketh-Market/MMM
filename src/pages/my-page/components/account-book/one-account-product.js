@@ -20,7 +20,7 @@ const OneProduct = styled.div`
   padding: 0 40px 20px;
   border-bottom: 1px solid #e5e5e5;
 `;
-const Thumbnail = styled.div`
+const Thumbnail = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 4px;

@@ -1,36 +1,30 @@
 import styled from "styled-components";
 
-const Purchased = ({ purchasedData, thisMonth }) => {
-  const thisMonthPurchaseAmount =
-    purchasedData.data.amount.thisMonthPurchaseAmount;
+const Purchased = ({ user, purchasedData, thisMonth }) => {
+  const thisMonthPurchasedAmount =
+    purchasedData && purchasedData.data.amount.thisMonthPurchaseAmount;
+
+  const purchasedProductsInfo = purchasedData.data;
 
   return (
     <Container>
       <TextBox>
         <h2>구매 건수</h2>
-        <h2> {purchasedData.data.payList.length}건</h2>
+        <h2> 0 건</h2>
       </TextBox>
       <TextBox>
         <h2>이번 달 구매 금액</h2>
-        {thisMonthPurchaseAmount ? (
-          <h2> {thisMonthPurchaseAmount}원</h2>
-        ) : (
-          <h2> 0 원</h2>
-        )}
+        <h2> 0 원</h2>
       </TextBox>
-      {thisMonthPurchaseAmount ? (
-        <ProductList>구매한 물품 목록 보여주기</ProductList>
-      ) : (
-        <Comments>
-          <p>
-            {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
-          </p>
-          <p>
-            {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
-            있어요
-          </p>
-        </Comments>
-      )}
+      <Comments>
+        <p>
+          {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
+        </p>
+        <p>
+          {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
+          있어요
+        </p>
+      </Comments>
     </Container>
   );
 };

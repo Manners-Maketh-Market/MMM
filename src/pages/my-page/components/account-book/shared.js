@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { flexCenter } from "styles/common.style";
 
-const Shared = () => {
+const Shared = ({ user }) => {
   return (
     <Container>
       <TextBox>
         <h2>우리 동네 횟수</h2>
-        <h2>1,234 건</h2>
+        <h2>1,004 건</h2>
       </TextBox>
       <TextBox>
         <h2>나눔 횟수</h2>
@@ -14,12 +13,12 @@ const Shared = () => {
       </TextBox>
       <Comments>
         <p>
-          user_id_012 님, 집에 잠들어 있는 물건이 있다면 다음 달에는 따뜻한
+          {user.nickName} 님, 집에 잠들어 있는 물건이 있다면 다음 달에는 따뜻한
           나눔으로 새 주인을 찾아주는 건 어떠세요? <br />
           쓰임을 찾은 물건도 더 행복할 거에요!
         </p>
         <p>
-          우리 동네 이웃들이 총 1,234번의 따뜻함을 선물했어요. 역삼동 근처
+          우리 동네 이웃들이 총 1,004번의 따뜻함을 선물했어요. 역삼동 근처
           이웃이 나눔한 물건들은 새로운 추억을 쌓아가고 있어요. <br />
           더는 사용하지 않는 물건에게 새 주인을 찾아주고, 나눔으로 따뜻한 마음도
           함께 선물해주세요.
