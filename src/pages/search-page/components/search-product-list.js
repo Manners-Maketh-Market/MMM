@@ -24,7 +24,6 @@ const SearchProductList = () => {
       },
     }
   );
-  searchUsedProducts && console.log(searchUsedProducts);
 
   return (
     searchUsedProducts && (
@@ -67,11 +66,10 @@ const SearchProductList = () => {
                       title={product.title}
                       img={product.img_url}
                       price={product.price}
-                      isLiked={product.isLiked}
+                      liked={product.liked}
                       status={product.status}
-                      id={product.id}
+                      id={product.idx}
                       createdAt={product.createdAt}
-                      /* likeCount={product.likeCount} */
                     />
                   </Grid>
                 ))}

@@ -20,7 +20,6 @@ const RegisteredProducts = () => {
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
     () => AuthApi.getMyProductList(1, 0)
   );
-  console.log("getMyProductList", getMyProductList);
 
   const onToDetailPage = (id) => {
     navigate(`/MMM/products/detail/${id}`);
