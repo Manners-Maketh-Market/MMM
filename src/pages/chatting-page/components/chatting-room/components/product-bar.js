@@ -1,26 +1,18 @@
 import styled from "styled-components";
-import { PRODUCT_QUERY_KEY } from "consts";
 import { useRecoilValue } from "recoil";
-import { buyerChatDataIndex } from "store";
-import { useQueryClient } from "react-query";
+import { targetChatRoom } from "store";
 
 const ProductBar = () => {
-  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
-  const queryClient = useQueryClient();
-  const buyerData = queryClient.getQueryData(PRODUCT_QUERY_KEY.BUYER_CHAT_DATA);
+  const targetChatRoomData = useRecoilValue(targetChatRoom);
 
   return (
-    buyerData && (
-      <S.Wrapper>
-        <S.ProductImg src={buyerData[0][readBuyerChatListIndex]?.Product_img} />
-        <S.PriceAndTitle>
-          <S.Price>{buyerData[0][readBuyerChatListIndex]?.price}원</S.Price>
-          <S.ProductTitle>
-            {buyerData[0][readBuyerChatListIndex]?.title}
-          </S.ProductTitle>
-        </S.PriceAndTitle>
-      </S.Wrapper>
-    )
+    <S.Wrapper>
+      <S.ProductImg src={targetChatRoomData.productImg} />
+      <S.PriceAndTitle>
+        <S.Price>{targetChatRoomData.price}원</S.Price>
+        <S.ProductTitle>{targetChatRoomData.productTitle}</S.ProductTitle>
+      </S.PriceAndTitle>
+    </S.Wrapper>
   );
 };
 

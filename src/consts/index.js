@@ -3,8 +3,6 @@ export const PRODUCT_QUERY_KEY = {
   DETAIL_PRODUCT_DATA: "detailProductData",
   USED_PRODUCT_LIST: "usedProductList",
   FREE_PRODUCT_LIST: "freeProductList",
-  BUYER_CHAT_DATA: "buyerChatData",
-  MY_CHAT_DATA: "myChatData",
   PRODUCT_PRICE_DATA: "productPriceData",
   SEARCH_PRODUCT_LIST: "searchProductList",
   USER_DATA: "userData",
@@ -15,4 +13,7 @@ export const PRODUCT_QUERY_KEY = {
   GET_USER_LOGOUT_DATA: "getUserLogoutData",
   PATCH_USER_DATA: "patchUserData",
   PATCH_USER_PROFILE: "patchUserProfile",
+};
+export const CHAT_QUERY_KEY = {
+  GET_CHAT_LOG: "getChatLog",
 };

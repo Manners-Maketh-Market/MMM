@@ -1,34 +1,34 @@
 import styled from "styled-components";
 import OneChat from "./one-buyer-chat";
 import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
+import { chatApi } from "apis";
 import { useRecoilValue } from "recoil";
 import { isMobileChattingRoom } from "store";
 
 const BuyerChattingList = () => {
   const isMobileChattingRoomState = useRecoilValue(isMobileChattingRoom);
 
-  const { data: buyerData } = useQuery(
-    [PRODUCT_QUERY_KEY.BUYER_CHAT_DATA],
-    () => Api.getBuyerChatData()
+  const { data: chatProductList } = useQuery(["qqqqqqq"], () =>
+    chatApi.getChatRoomList()
   );
 
   return (
-    buyerData && (
-      <S.Wrapper isMobileChattingRoomState={isMobileChattingRoomState}>
-        {buyerData[0].map((el, index) => (
-          <OneChat
-            key={el.id}
-            index={index}
-            profileImg={el.User.profileImg}
-            nickName={el.User.nickName}
-            buyerChat={el.User.chatData.buyer.at(-1)}
-            productImg={el.Product_img}
-          />
-        ))}
-      </S.Wrapper>
-    )
+    <S.Wrapper isMobileChattingRoomState={isMobileChattingRoomState}>
+      {chatProductList?.chats?.map((el, index) => (
+        <OneChat
+          key={el.idx}
+          productId={el.product.idx}
+          roomId={el.idx}
+          productTitle={el.product.title}
+          price={el.product.price}
+          profileImg={el.product.img_url}
+          nickName={el.lastMessageUser.nick_name}
+          productImg={el.product.img_url}
+          lastMessage={el.lastMessage}
+          index={index}
+        />
+      ))}
+    </S.Wrapper>
   );
 };
 
