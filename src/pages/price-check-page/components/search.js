@@ -12,6 +12,10 @@ import { useNavigate, useParams } from "react-router-dom";
 const PriceSearch = () => {
   const param = useParams();
   const datatitle = param.title;
+  const today = new Date();
+  const aWeekAgo = new Date(today);
+  aWeekAgo.setDate(today.getDate() - 4);
+  // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
   const [titles, setTitles] = useState("");
   const [searchModal, setSearchModal] = useState(false);
@@ -27,7 +31,22 @@ const PriceSearch = () => {
     () => Api.getSearchProduct(0, titles, 1)
   );
 
-  // console.log(SearchProductList);
+  // const { data: searchPriceCheckList } = useQuery(
+  //   [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA, "searchPriceCheck"],
+  //   () =>
+  //     Api.getProductPrice(
+  //       "에",
+  //       aWeekAgo.toJSON().substr(0, 10),
+  //       today.toJSON().substr(0, 10)
+  //     )
+  // );
+
+  // console.log(searchPriceCheckList);
+
+  // 판매완료된 상품 리스트
+  const SearchSellProductList =
+    SearchProductList &&
+    SearchProductList.product.filter((list) => list.status === "판매완료");
 
   // 키워드는 title(제목) description(내용)안에 키워드랑 같은 문자가 들어가있으면 데이터를 가져옴 / 비어놨을 때 전부가져옴
   // 1페이지 데이터 20개 묶음으로 구분, 2 20~ 39
@@ -46,22 +65,26 @@ const PriceSearch = () => {
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
       setSelectedIndex((prevIndex) =>
-        prevIndex > -1 ? prevIndex - 1 : SearchProductList.product.length - 1
+        prevIndex > -1 ? prevIndex - 1 : SearchSellProductList.length - 1
       );
     } else if (e.key === "ArrowDown") {
       setSelectedIndex((prevIndex) =>
-        prevIndex < SearchProductList.product.length - 1 ? prevIndex + 1 : -1
+        prevIndex < SearchSellProductList.length - 1 ? prevIndex + 1 : -1
       );
     } else if (e.key === "Enter" && selectedIndex > -1) {
       navigate(
-        `/pricecheckpage/${SearchProductList.product[selectedIndex].title}`
+        `/MMM/pricecheckpage/${SearchSellProductList[selectedIndex].title}`
       );
       setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
-      navigate(`/pricecheckpage/${e.target.value}`);
-      setSearchModal(false);
-      e.target.blur();
+      if (SearchSellProductList.length < 1) {
+        alert("시세를 알 수 없는 상품입니다!");
+      } else {
+        navigate(`/MMM/pricecheckpage/${e.target.value}`);
+        setSearchModal(false);
+        e.target.blur();
+      }
     }
   };
 
@@ -82,7 +105,7 @@ const PriceSearch = () => {
 
   // 연관검색어 클릭시 해당 상품 시세페이지로 이동
   const onRelatedSearchWord = (title) => {
-    navigate(`/pricecheckpage/${title}`);
+    navigate(`/MMM/pricecheckpage/${title}`);
     window.scrollTo({ top: 0 });
     setSearchModal(false);
   };
@@ -130,7 +153,7 @@ const PriceSearch = () => {
         <SearchList>
           {SearchProductList.product.length >= 1 ? (
             <div>
-              {SearchProductList.product.slice(0, 10).map((list, index) => (
+              {SearchSellProductList.slice(0, 10).map((list, index) => (
                 <ListWrap
                   style={{
                     backgroundColor: selectedIndex === index && "aliceblue",

@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -18,16 +18,19 @@ const PriceGraph = () => {
   const param = useParams();
   const datatitle = param.title;
 
-  const { data: ProductPriceList } = useQuery(
+  const { data: ProductPriceList, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
     () =>
       Api.getProductPrice(
-        "채팅방",
-        "",
+        datatitle ? datatitle : "",
         aWeekAgo.toJSON().substr(0, 10),
         today.toJSON().substr(0, 10)
       )
   );
+
+  useEffect(() => {
+    refetch();
+  }, [datatitle]); // 파람의 값(검색어)이 바뀌면 리랜더링
 
   // 월일만 출력하기 위해서 자름
   const sliceAvgPrice =

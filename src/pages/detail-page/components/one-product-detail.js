@@ -43,7 +43,7 @@ const OneProductDetail = () => {
   );
 
   const { mutateAsync: onSellMutation, data: sellData } = useMutation(
-    (prod_idx, socket) => Api.postSaleComplete(prod_idx, socket)
+    (requestData) => Api.postSaleComplete(requestData)
   );
 
   const { mutateAsync: deleteMyPost } = useMutation((id) =>
@@ -61,8 +61,12 @@ const OneProductDetail = () => {
     refetch();
   };
   const [isClicked, setIsClicked] = useState(false);
+
   const onClickChangeProductStatus = async () => {
-    await onSellMutation(dataId, "d57225ad2-221e-bc38-5ed926f2ffd2");
+    await onSellMutation({
+      prod_idx: dataId,
+      socket: "f934a0af-58ba-433a-9362-57f9ed0a5569",
+    });
     alert("해당 제품은 판매완료로 변경되었습니다.");
     console.log("거래 상태", detailProduct.searchProduct.status); // 판매중
     console.log("뮤테이션 리스폰 : ", sellData); // success: true
@@ -147,8 +151,9 @@ const OneProductDetail = () => {
                         onClick={onClickChangeProductStatus}
                         disabled={isClicked}
                       >
-                        {/* {detailProduct.searchProduct.status === "판매중" ? "판매중" : detailProduct.searchProduct.status === "판매완료" && "판매완료"} */}
-                        {sellData ? "판매완료" : "판매중"}
+                        {detailProduct.searchProduct.status === "판매중"
+                          ? "판매중"
+                          : "판매완료"}
                       </MMMButton>
                     ) : (
                       <span>{detailProduct.searchProduct.status}</span>
@@ -171,27 +176,30 @@ const OneProductDetail = () => {
                     <span>{detailProduct.searchProduct.region}</span>
                   </List>
                 </ul>
-                <ButtonBox>
-                  <MMMButton
-                    variant={
-                      detailProduct.searchProduct.liked === 1
-                        ? "detailY"
-                        : "detailG"
-                    }
-                    size={"medium"}
-                    onClick={onClickLikedBtn}
-                  >
-                    <span>
-                      <FontAwesomeIcon icon={faHeart} />
-                    </span>
-                    {detailProduct.searchProduct.liked === 1
-                      ? "찜 했어요!"
-                      : "찜 하기"}
-                  </MMMButton>
-                  <MMMButton variant={"detailB"} size={"medium"}>
-                    <FontAwesomeIcon icon={faComments} /> 채팅하기
-                  </MMMButton>
-                </ButtonBox>
+                {detailProduct.searchProduct.User.nick_name !==
+                  userInfoData.nick_name && (
+                  <ButtonBox>
+                    <MMMButton
+                      variant={
+                        detailProduct.searchProduct.liked === 1
+                          ? "detailY"
+                          : "detailG"
+                      }
+                      size={"medium"}
+                      onClick={onClickLikedBtn}
+                    >
+                      <span>
+                        <FontAwesomeIcon icon={faHeart} />
+                      </span>
+                      {detailProduct.searchProduct.liked === 1
+                        ? "찜 했어요!"
+                        : "찜 하기"}
+                    </MMMButton>
+                    <MMMButton variant={"detailB"} size={"medium"}>
+                      <FontAwesomeIcon icon={faComments} /> 채팅하기
+                    </MMMButton>
+                  </ButtonBox>
+                )}
               </Inform>
             </ImgAndInform>
             <Content isMore={isMoreContent}>

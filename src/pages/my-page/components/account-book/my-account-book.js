@@ -9,6 +9,7 @@ import Shared from "./shared";
 import styled from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
 
+
 const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
@@ -53,12 +54,12 @@ const MyAccountBook = () => {
   // tabs-contents
   const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
-    { name: "나눔목록", content: <Shared /> },
+    { name: "나눔목록", content: <Shared user={myPageData.User} /> },
     {
       name: "구매목록",
       content: (
         <Purchased
-          thisMonth={thisMonth}
+          user={myPageData.User}
           purchasedData={getMyHousekeepingBook}
         />
       ),

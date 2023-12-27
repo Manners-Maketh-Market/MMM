@@ -1,38 +1,60 @@
 import styled from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
+import Product from "./one-account-product";
 
 const Sold = ({ user, thisMonth, soldData }) => {
   const thisMonthSoldAmount =
     soldData && soldData.data.amount.thisMonthSaleAmount;
 
+  const totalSoldAmount = soldData && soldData.data.amount.totalPurchaseAmount;
+
+  const soldProductInfo = soldData.data.payList;
+  console.log("soldProductInfo", soldProductInfo);
+
   return (
     soldData && (
       <Container>
         <TextBox>
-          <h2>판매 건수</h2>
-          <h2>{soldData.data.payList.length}건</h2>
+          <h2>이번 달 판매 건수</h2>
+          <h2>{soldProductInfo.length}건</h2>
         </TextBox>
         <TextBox>
-          <h2>이번달 판매금액</h2>
-          {thisMonthSoldAmount ? (
-            <h2> {thisMonthSoldAmount}원</h2>
-          ) : (
-            <h2> 0 원</h2>
-          )}
+          <h2>누적 판매 금액</h2>
+          {totalSoldAmount ? <h2> {totalSoldAmount}원</h2> : <h2> 0 원</h2>}
         </TextBox>
-        <Comments>
-          <p>
-            {thisMonth}월에는 판매를 한 적이 없으시네요. <br />
-            {user.nickName} 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
-          </p>
-          <p>
-            다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를 시작해
-            보세요. 시작이 반이랍니다~
-          </p>
-          <p>
-            {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
-            있어요
-          </p>
-        </Comments>
+        {thisMonthSoldAmount ? (
+          <>
+            <ProductList>
+              {soldProductInfo.map((info, index) => (
+                <Product
+                  key={index}
+                  title={info.Product.title}
+                  img={info.Product.img_url}
+                  price={info.Product.price}
+                />
+              ))}
+            </ProductList>
+            <TextBox>
+              <h2>이번 달 판매 금액</h2>
+              <h2>{thisMonthSoldAmount}원</h2>
+            </TextBox>
+          </>
+        ) : (
+          <Comments>
+            <p>
+              {thisMonth}월에는 판매를 한 적이 없으시네요. <br />
+              {user.nickName} 님, 지금 집에서 잠자고 있는 물건을 찾아보세요!
+            </p>
+            <p>
+              다음 달에는 다른 이용자 분들과의 중고 거래로 미니멀 라이프를
+              시작해 보세요. 시작이 반이랍니다~
+            </p>
+            <p>
+              {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
+              있어요
+            </p>
+          </Comments>
+        )}
       </Container>
     )
   );
@@ -43,12 +65,15 @@ const Container = styled.div``;
 const TextBox = styled.div`
   width: 1000px;
   height: 85px;
-  display: flex;
-  align-items: center;
+  ${flexAlignCenter}
   justify-content: space-between;
   flex-direction: row;
   border-bottom: 1px solid #d1d1dd;
   padding: 0 40px;
+
+  &:last-of-type {
+    margin-bottom: 100px;
+  }
 
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
@@ -107,4 +132,9 @@ const Comments = styled.div`
     height: 200px;
     font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
   }
+`;
+const ProductList = styled.div`
+  ${flexCenter}
+  flex-direction: column;
+  margin: 80px 0;
 `;
