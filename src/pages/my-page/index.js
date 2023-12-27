@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   overflow-x: hidden;
+  overscroll-behavior: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {

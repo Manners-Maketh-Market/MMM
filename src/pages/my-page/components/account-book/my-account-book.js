@@ -1,19 +1,17 @@
-import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
-import Sold from "./sold";
-import Shared from "./shared";
-import Purchased from "./purchased";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
-import useInputs from "hooks/use-inputs";
-import { useMutation } from "react-query";
-import { useState } from "react";
 import AuthApi from "apis/auth";
+import { useState } from "react";
+import useInputs from "hooks/use-inputs";
+import Purchased from "./purchased";
+import Sold from "./sold";
+import Shared from "./shared";
+import styled from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
 
 const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
-    // 날짜추가
   });
 
   // data
@@ -52,7 +50,7 @@ const MyAccountBook = () => {
     new Date(today.getFullYear(), today.getMonth() + 1, 0)
   );
 
-  // tabs - contents
+  // tabs-contents
   const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
     { name: "나눔목록", content: <Shared /> },

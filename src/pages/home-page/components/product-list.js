@@ -19,7 +19,7 @@ const ProductList = () => {
   const FreeProductList = productList && productList.freeProduct;
 
   const onClickMoreBtn = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
+    navigate(`/MMM/products/${saleStatus}`);
   };
 
   return (

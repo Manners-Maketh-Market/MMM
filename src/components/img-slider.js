@@ -22,7 +22,6 @@ const ImgSlider = ({ product, related }) => {
   const navigate = useNavigate();
 
   const ImageArr = [image0, image1, image3, image5, image6, image7];
-  // Banner Img를 담아 배열로 만듦.
 
   const SliderSettings = {
     dots: true,

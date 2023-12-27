@@ -1,14 +1,13 @@
-import MMMButton from "components/button";
-import MMMInput from "components/input";
-import useInputs from "hooks/use-inputs";
-import { styled } from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
-import Maps from "./maps";
-import { Api } from "apis";
 import { useMutation } from "react-query";
-import { myProductList } from "store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Api } from "apis";
+import MMMInput from "components/input";
+import useInputs from "hooks/use-inputs";
+import MMMButton from "components/button";
+import Maps from "./maps";
+import { styled } from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
 
 const RegisterPage = () => {
   // hook function: use-input

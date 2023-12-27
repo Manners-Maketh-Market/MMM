@@ -1,8 +1,8 @@
+import { useState } from "react";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
+import { Map } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { flexCenter } from "styles/common.style";
 
 const Location = () => {

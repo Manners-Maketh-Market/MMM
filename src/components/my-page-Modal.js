@@ -1,46 +1,33 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useMutation, useQuery } from "react-query";
-import { Api } from "apis";
+import { useQuery } from "react-query";
+import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "provider/auth-provider";
 
-const MyPageModal = ({ user, setIsMyPageModal }) => {
+const MyPageModal = ({ setIsMyPageModal }) => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { SignOut } = useAuth();
 
-  const openModalHandler = () => {
-    {
-      isModalOpen === true ? setIsModalOpen(false) : setIsModalOpen(true);
-    }
-  };
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
-    () => Api.getMyPageData()
+    () => AuthApi.getMyPageData()
   );
-  console.log("myPageData:", myPageData);
-  const { data: userLogoutData } = useQuery(
-    [PRODUCT_QUERY_KEY.GET_USER_LOGOUT_DATA],
-    () => Api.getUserLogout()
-  );
-
-  const mutation = useMutation(() => Api.getUserLogout());
 
   const onClickLogout = async () => {
     try {
-      const logoutUser = mutation.mutateAsync();
+      await SignOut();
       alert("로그아웃이 정상적으로 이뤄졌습니다.");
-      navigate("/sign-in");
-      console.log("logout success:", logoutUser);
+      window.location.replace("/");
     } catch (error) {
-      console.log("logout error:", error);
+      error && alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
   const onClickMyPageBtn = () => {
-    navigate(`/my-page`);
+    navigate(`/MMM/my-page`);
     setIsMyPageModal(false);
   };
 
