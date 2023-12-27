@@ -1,3 +1,4 @@
+import MMMAlert from "components/mmm-alert";
 import styled from "styled-components";
 
 const Purchased = ({ user, purchasedData, thisMonth }) => {

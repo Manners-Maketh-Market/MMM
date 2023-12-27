@@ -10,11 +10,11 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import Phone from "./phone";
-import Location from "./location";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import ProductOrder from "./location2";
-
+import { useState } from "react";
+import MMMAlert from "components/mmm-alert";
 
 const SignUpForm = () => {
   // onClick LogoImage, goBack to LoginPage
@@ -25,6 +25,9 @@ const SignUpForm = () => {
   const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
   const [isCheckedNickName, setIsCheckedNickName] =
     useRecoilState(isNickNameCheckPass);
+
+  const [open, setOpen] = useState(false);
+  const [isCategory, setIsCategory] = useState(false);
 
   const onClickSignIn = () => {
     navigate("/");
@@ -59,26 +62,28 @@ const SignUpForm = () => {
   // check email duplicate
   const onCheckEmail = async (e) => {
     e.preventDefault();
+    setIsCategory(true);
     try {
       const res = await AuthApi.getCheckEmail(email);
       setIsCheckedEmail(true);
-      alert(res.data.message);
+      setOpen(true);
     } catch {
       setIsCheckedEmail(false);
-      alert("중복된 이메일입니다.");
+      setOpen(true);
     }
   };
 
   // check nickName duplicate
   const onCheckNickName = async (e) => {
     e.preventDefault();
+    setIsCategory(false);
     try {
       const res = await AuthApi.getCheckNickName(nickName);
       setIsCheckedNickName(true);
-      alert(res.data.message);
+      setOpen(true);
     } catch {
       setIsCheckedNickName(false);
-      alert("중복된 닉네임입니다.");
+      setOpen(true);
     }
   };
 
@@ -95,13 +100,10 @@ const SignUpForm = () => {
     };
 
     if (isCheckedEmail === false || isCheckedNickName === false) {
-      alert("이메일과 닉네임의 중복 여부를 확인해주세요.");
     } else if (pw !== pwConfirm) {
-      alert("입력하신 비밀번호와 비밀번호 확인 내용이 일치하지 않습니다.");
     } else {
       await SignUp(signupUserData);
       navigate("/");
-      alert("환영합니다! 회원 가입이 완료되었습니다!");
     }
   };
 
@@ -168,12 +170,54 @@ const SignUpForm = () => {
           </MMMButton>
         </OneRow>
         <Phone name="phone" />
-        {/* <Location name="region" /> */}
         <ProductOrder name="region" />
         <MMMButton size={"full"} type="submit">
           회원가입
         </MMMButton>
       </Form>
+      <AlertPosition open={open}>
+        <MMMAlert
+          size={"md"}
+          color={
+            isCategory && isCheckedEmail
+              ? "success"
+              : isCategory && !isCheckedEmail
+              ? "warning"
+              : !isCategory && isCheckedNickName
+              ? "success"
+              : !isCategory && !isCheckedNickName && "warning"
+          }
+          severity={
+            isCategory && isCheckedEmail
+              ? "success"
+              : isCategory && !isCheckedEmail
+              ? "warning"
+              : !isCategory && isCheckedNickName
+              ? "success"
+              : !isCategory && !isCheckedNickName && "warning"
+          }
+          MessageTitle={
+            isCategory && isCheckedEmail
+              ? "Confirm"
+              : isCategory && !isCheckedEmail
+              ? "Duplicate"
+              : !isCategory && isCheckedNickName
+              ? "Confirm"
+              : !isCategory && !isCheckedNickName && "Duplicate"
+          }
+          AlertMessage={
+            isCategory && isCheckedEmail
+              ? "사용가능한 이메일입니다."
+              : isCategory && !isCheckedEmail
+              ? "이미 사용 중인 이메일입니다."
+              : !isCategory && isCheckedNickName
+              ? "사용가능한 닉네임 입니다"
+              : !isCategory && !isCheckedNickName && "중복된 닉네임 입니다."
+          }
+          open={open}
+          setOpen={setOpen}
+        />
+      </AlertPosition>
     </Wrapper>
   );
 };
@@ -370,4 +414,13 @@ const OneRow = styled.div`
       font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
   }
+`;
+
+const AlertPosition = styled.div`
+  width: 100%;
+  height: 100px;
+  ${flexCenter}
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 8%;
 `;
