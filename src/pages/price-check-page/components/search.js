@@ -162,9 +162,15 @@ const PriceSearch = () => {
           )}
         </SearchList>
       )}
-      <TitleInform>
-        <span>"{datatitle}"</span> 의 시세정보입니다.
-      </TitleInform>
+      {datatitle ? (
+        <TitleInform>
+          <span>"{datatitle}"</span> 의 시세정보입니다.
+        </TitleInform>
+      ) : (
+        <MinHeight>
+          <span>시세를 알아보고 싶은 물품을 입력해주세요.</span>
+        </MinHeight>
+      )}
     </Wrapper>
   );
 };
@@ -234,8 +240,6 @@ const SearchList = styled.div`
     padding-top: 15px;
     padding-bottom: 30px;
     box-shadow: 1px 5px 5px 0px rgba(0, 0, 0, 0.6);
-
-    //
     line-height: 40px;
   }
 `;
@@ -283,3 +287,8 @@ const TitleInform = styled.div`
   }
 `;
 //
+
+const MinHeight = styled.div`
+  min-height: 500px;
+  ${flexCenter}
+`;

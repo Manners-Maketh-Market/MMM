@@ -59,14 +59,14 @@ const AuthApi = {
   // duplicate check(email)
   async getCheckEmail(email) {
     const res = await axiosInstance().get(`${PATH}/check/email?email=${email}`);
-    return res;
+    return res.data;
   },
   // duplicate check(nickName)
   async getCheckNickName(nickName) {
     const res = await axiosInstance().get(
       `${PATH}/check/nickname?nickname=${nickName}`
     );
-    return res;
+    return res.data;
   },
   // refresh token
   /* 

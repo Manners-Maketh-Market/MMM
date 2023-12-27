@@ -1,19 +1,21 @@
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { Api } from 'apis';
-import AuthApi from 'apis/auth';
-import { useAuth } from 'provider/auth-provider';
-import { isEmailCheckPass, isNickNameCheckPass } from 'store';
-import { FormValidate } from 'utils/validate-helper';
-import MMMButton from 'components/button';
-import MMMInput from 'components/input';
-import useInputs from 'hooks/use-inputs';
-import Phone from './phone';
-import Location from './location';
-import styled from 'styled-components';
-import { flexCenter } from 'styles/common.style';
-import ProductOrder from './location2';
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { Api } from "apis";
+import AuthApi from "apis/auth";
+import { useAuth } from "provider/auth-provider";
+import { isEmailCheckPass, isNickNameCheckPass } from "store";
+import { FormValidate } from "utils/validate-helper";
+import MMMButton from "components/button";
+import MMMInput from "components/input";
+import useInputs from "hooks/use-inputs";
+import Phone from "./phone";
+import styled from "styled-components";
+import { flexCenter } from "styles/common.style";
+import ProductOrder from "./location2";
+import { useState } from "react";
+import MMMAlert from "components/mmm-alert";
+
 
 const SignUpForm = () => {
     // onClick LogoImage, goBack to LoginPage
@@ -24,9 +26,13 @@ const SignUpForm = () => {
     const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
     const [isCheckedNickName, setIsCheckedNickName] = useRecoilState(isNickNameCheckPass);
 
-    const onClickSignIn = () => {
-        navigate('/');
-    };
+  const [open, setOpen] = useState(false);
+  const [isCategory, setIsCategory] = useState(false);
+
+  const onClickSignIn = () => {
+    navigate("/");
+  };
+
 
     // input - hook func.
     const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] = useInputs({
@@ -51,31 +57,33 @@ const SignUpForm = () => {
     // 회원 가입 요청 post
     const mutation = useMutation((signupUserData) => Api.postSignUpData(signupUserData));
 
-    // check email duplicate
-    const onCheckEmail = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await AuthApi.getCheckEmail(email);
-            setIsCheckedEmail(true);
-            alert(res.data.message);
-        } catch {
-            setIsCheckedEmail(false);
-            alert('중복된 이메일입니다.');
-        }
-    };
+  // check email duplicate
+  const onCheckEmail = async (e) => {
+    e.preventDefault();
+    setIsCategory(true);
+    try {
+      const res = await AuthApi.getCheckEmail(email);
+      setIsCheckedEmail(true);
+      setOpen(true);
+    } catch {
+      setIsCheckedEmail(false);
+      setOpen(true);
+    }
+  };
 
-    // check nickName duplicate
-    const onCheckNickName = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await AuthApi.getCheckNickName(nickName);
-            setIsCheckedNickName(true);
-            alert(res.data.message);
-        } catch {
-            setIsCheckedNickName(false);
-            alert('중복된 닉네임입니다.');
-        }
-    };
+  // check nickName duplicate
+  const onCheckNickName = async (e) => {
+    e.preventDefault();
+    setIsCategory(false);
+    try {
+      const res = await AuthApi.getCheckNickName(nickName);
+      setIsCheckedNickName(true);
+      setOpen(true);
+    } catch {
+      setIsCheckedNickName(false);
+      setOpen(true);
+    }
+  };
 
     // sign-up
     const onSubmitSignUp = async (e) => {
@@ -89,88 +97,128 @@ const SignUpForm = () => {
             region: e.target.region.value,
         };
 
-        if (isCheckedEmail === false || isCheckedNickName === false) {
-            alert('이메일과 닉네임의 중복 여부를 확인해주세요.');
-        } else if (pw !== pwConfirm) {
-            alert('입력하신 비밀번호와 비밀번호 확인 내용이 일치하지 않습니다.');
-        } else {
-            await SignUp(signupUserData);
-            navigate('/');
-            alert('환영합니다! 회원 가입이 완료되었습니다!');
-        }
-    };
+    if (isCheckedEmail === false || isCheckedNickName === false) {
+    } else if (pw !== pwConfirm) {
+    } else {
+      await SignUp(signupUserData);
+      navigate("/");
+    }
+  };
 
-    return (
-        <Wrapper>
-            <Logo onClick={onClickSignIn} />
-            <Form onSubmit={onSubmitSignUp}>
-                <OneRow>
-                    <MMMInput
-                        label="이메일"
-                        name="email"
-                        type="text"
-                        placeholder="이메일을 입력해주세요"
-                        onChange={onChangeInputs}
-                        error={errors.email}
-                        access={access.email}
-                        isAvailableEmail={isCheckedEmail}
-                        size={'large'}
-                        required
-                    />
-                    <MMMButton size={'confirm'} type="button" onClick={onCheckEmail}>
-                        중복확인
-                    </MMMButton>
-                </OneRow>
-                <MMMInput
-                    label="비밀번호"
-                    name="pw"
-                    type="password"
-                    placeholder="비밀번호를 입력해주세요"
-                    onChange={onChangeInputs}
-                    error={errors.pw}
-                    access={access.pw}
-                    size={'full'}
-                    maxLength={12}
-                    required
-                />
-                <MMMInput
-                    label="비밀번호 확인"
-                    name="pwConfirm"
-                    type="password"
-                    placeholder="비밀번호 확인"
-                    error={errors.pwConfirm}
-                    access={access.pwConfirm}
-                    onChange={onChangeInputs}
-                    size={'full'}
-                    required
-                />
-                <OneRow>
-                    <MMMInput
-                        label="닉네임"
-                        name="nickName"
-                        type="text"
-                        placeholder="닉네임을 입력해주세요."
-                        onChange={onChangeInputs}
-                        error={errors.nickName}
-                        access={access.nickName}
-                        isAvailableNickName={isCheckedNickName}
-                        size={'large'}
-                        maxLength={12}
-                        required
-                    />
-                    <MMMButton size={'confirm'} type="button" onClick={onCheckNickName}>
-                        중복확인
-                    </MMMButton>
-                </OneRow>
-                <Phone name="phone" />
-                {/* <Location name="region" /> */}
-                <ProductOrder name="region" />
-                <MMMButton size={'full'} type="submit">
-                    회원가입
-                </MMMButton>
-            </Form>
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      <Logo onClick={onClickSignIn} />
+      <Form onSubmit={onSubmitSignUp}>
+        <OneRow>
+          <MMMInput
+            label="이메일"
+            name="email"
+            type="text"
+            placeholder="이메일을 입력해주세요"
+            onChange={onChangeInputs}
+            error={errors.email}
+            access={access.email}
+            isAvailableEmail={isCheckedEmail}
+            size={"large"}
+            required
+          />
+          <MMMButton size={"confirm"} type="button" onClick={onCheckEmail}>
+            중복확인
+          </MMMButton>
+        </OneRow>
+        <MMMInput
+          label="비밀번호"
+          name="pw"
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          onChange={onChangeInputs}
+          error={errors.pw}
+          access={access.pw}
+          size={"full"}
+          maxLength={12}
+          required
+        />
+        <MMMInput
+          label="비밀번호 확인"
+          name="pwConfirm"
+          type="password"
+          placeholder="비밀번호 확인"
+          error={errors.pwConfirm}
+          access={access.pwConfirm}
+          onChange={onChangeInputs}
+          size={"full"}
+          required
+        />
+        <OneRow>
+          <MMMInput
+            label="닉네임"
+            name="nickName"
+            type="text"
+            placeholder="닉네임을 입력해주세요."
+            onChange={onChangeInputs}
+            error={errors.nickName}
+            access={access.nickName}
+            isAvailableNickName={isCheckedNickName}
+            size={"large"}
+            maxLength={12}
+            required
+          />
+          <MMMButton size={"confirm"} type="button" onClick={onCheckNickName}>
+            중복확인
+          </MMMButton>
+        </OneRow>
+        <Phone name="phone" />
+        <ProductOrder name="region" />
+        <MMMButton size={"full"} type="submit">
+          회원가입
+        </MMMButton>
+      </Form>
+      <AlertPosition open={open}>
+        <MMMAlert
+          size={"md"}
+          color={
+            isCategory && isCheckedEmail
+              ? "success"
+              : isCategory && !isCheckedEmail
+              ? "warning"
+              : !isCategory && isCheckedNickName
+              ? "success"
+              : !isCategory && !isCheckedNickName && "warning"
+          }
+          severity={
+            isCategory && isCheckedEmail
+              ? "success"
+              : isCategory && !isCheckedEmail
+              ? "warning"
+              : !isCategory && isCheckedNickName
+              ? "success"
+              : !isCategory && !isCheckedNickName && "warning"
+          }
+          MessageTitle={
+            isCategory && isCheckedEmail
+              ? "Confirm"
+              : isCategory && !isCheckedEmail
+              ? "Duplicate"
+              : !isCategory && isCheckedNickName
+              ? "Confirm"
+              : !isCategory && !isCheckedNickName && "Duplicate"
+          }
+          AlertMessage={
+            isCategory && isCheckedEmail
+              ? "사용가능한 이메일입니다."
+              : isCategory && !isCheckedEmail
+              ? "이미 사용 중인 이메일입니다."
+              : !isCategory && isCheckedNickName
+              ? "사용가능한 닉네임 입니다"
+              : !isCategory && !isCheckedNickName && "중복된 닉네임 입니다."
+          }
+          open={open}
+          setOpen={setOpen}
+        />
+      </AlertPosition>
+    </Wrapper>
+  );
+
 };
 
 export default SignUpForm;
@@ -366,4 +414,13 @@ const OneRow = styled.div`
             font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
         }
     }
+`;
+
+const AlertPosition = styled.div`
+  width: 100%;
+  height: 100px;
+  ${flexCenter}
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 8%;
 `;

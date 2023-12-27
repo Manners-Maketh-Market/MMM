@@ -44,8 +44,8 @@ const Text = styled.div`
   margin-left: 24px;
 `;
 const NickName = styled.h1`
-  font-size: ${({ theme }) => theme.FONT_SIZE["larger"]};
-  color: ${({ theme }) => theme.COLORS["black"]};
+  font-size: 22px;
+  color: ${({ theme }) => theme.COLORS.primary["navy"]};
   margin-bottom: 4px;
 `;
 const Location = styled.h3`

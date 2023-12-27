@@ -180,14 +180,18 @@ const Tabs = styled.ul`
 
   & > li {
     ${flexCenter}
-    width: 90px;
-    height: 28px;
+    width: 96px;
+    height: 30px;
     border-radius: 50px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
-    font-size: 12px;
+    font-size: 16px;
 
     &:nth-of-type(2) {
       margin: 0 10px;
+    }
+
+    &:hover {
+      cursor: pointer;
     }
 
     &.focused {
@@ -209,9 +213,9 @@ const Tabs = styled.ul`
     top: 36%;
     height: 24px;
     & > li {
-      width: 70px;
-      height: 24px;
-      font-size: 10px;
+      width: 74px;
+      height: 26px;
+      font-size: 14px;
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
