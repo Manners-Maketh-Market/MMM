@@ -24,7 +24,6 @@ const ProductList = () => {
       },
     }
   );
-  productList && console.log(productList.pages);
 
   return (
     productList && (
@@ -61,6 +60,7 @@ const ProductList = () => {
                       likeCount={product.likeCount}
                       status={product.status}
                       createdAt={product.createdAt}
+                      liked={product.liked}
                     />
                   </Grid>
                 ))}

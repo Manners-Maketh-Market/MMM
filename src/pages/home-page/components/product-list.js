@@ -46,7 +46,7 @@ const ProductList = () => {
                   title={item.title}
                   img={item.img_url}
                   price={item.price}
-                  isLiked={item.isLiked}
+                  liked={item.liked}
                   id={item.idx}
                   status={item.status}
                   createdAt={item.createdAt}
@@ -83,7 +83,7 @@ const ProductList = () => {
                   title={item.title}
                   img={item.img_url}
                   price={item.price}
-                  isLiked={item.isLiked}
+                  liked={item.liked}
                   id={item.idx}
                   createdAt={item.createdAt}
                   status={item.status}

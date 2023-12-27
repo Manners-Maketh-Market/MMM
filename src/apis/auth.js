@@ -25,8 +25,6 @@ const AuthApi = {
   // sign-in
   async postLoginUserData(loginUserData) {
     const res = await axiosInstance.post("/api/user/login", loginUserData);
-    //console.log("postLoginUserData >> ", res.data); // user.token
-    // setCookie("myToken", user.token);
     return res.data;
   },
   // get user info.

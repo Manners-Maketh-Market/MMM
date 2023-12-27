@@ -9,7 +9,6 @@ const Sold = ({ user, thisMonth, soldData }) => {
   const totalSoldAmount = soldData && soldData.data.amount.totalPurchaseAmount;
 
   const soldProductInfo = soldData.data.payList;
-  console.log("soldProductInfo", soldProductInfo);
 
   return (
     soldData && (

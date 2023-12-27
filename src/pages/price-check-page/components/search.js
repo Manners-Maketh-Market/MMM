@@ -31,18 +31,6 @@ const PriceSearch = () => {
     () => Api.getSearchProduct(0, titles, 1)
   );
 
-  // const { data: searchPriceCheckList } = useQuery(
-  //   [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA, "searchPriceCheck"],
-  //   () =>
-  //     Api.getProductPrice(
-  //       "에",
-  //       aWeekAgo.toJSON().substr(0, 10),
-  //       today.toJSON().substr(0, 10)
-  //     )
-  // );
-
-  // console.log(searchPriceCheckList);
-
   // 판매완료된 상품 리스트
   const SearchSellProductList =
     SearchProductList &&

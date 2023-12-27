@@ -30,7 +30,6 @@ const Header = () => {
   };
   const onGoMyPage = () => {
     setIsMyPageModal((prev) => !prev);
-    console.log(isMyPageModal);
   };
 
   const onGoRegisterProductPage = () => {

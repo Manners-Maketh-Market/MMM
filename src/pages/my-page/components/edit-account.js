@@ -12,7 +12,6 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
 
-
 const EditAccountInfo = () => {
   // change profile image
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -101,7 +100,6 @@ const EditAccountInfo = () => {
     };
 
     for (let key of formData.keys()) {
-      console.log(key, ":", formData.get(key));
     }
     try {
       await mutateChangeMyInfo(editedInfo);

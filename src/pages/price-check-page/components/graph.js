@@ -63,7 +63,6 @@ const PriceGraph = () => {
   const AVGARR =
     result && Math.floor(result / ProductPriceList.products.product.length);
 
-  //console.log(sliceAvgPrice, MAXARR, MINARR, AVGARR);
   //문제 배열안에서 가장 큰 값을 찾는 수식을 짜라 price가 가장 높은 애를 찾아라
 
   return (

@@ -68,10 +68,7 @@ const OneProductDetail = () => {
       socket: "f934a0af-58ba-433a-9362-57f9ed0a5569",
     });
     alert("해당 제품은 판매완료로 변경되었습니다.");
-    console.log("거래 상태", detailProduct.searchProduct.status); // 판매중
-    console.log("뮤테이션 리스폰 : ", sellData); // success: true
     setIsClicked(true);
-    // refetch();
   };
 
   const onMarketPricePage = () => {
