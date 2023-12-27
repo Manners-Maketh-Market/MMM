@@ -11,12 +11,10 @@ const Search = () => {
     const onSearchSubmit = (e) => {
         e.preventDefault();
         const inputValue = e.target.product.value;
-
         if (e.target.product.value === '') {
-            const errorValue = 194191464161616511;
-            return navigate(`products/search/${errorValue}`);
+            alert('검색어를 입력하세요.');
+            return navigate('/MMM/home');
         }
-
         navigate(`products/search/${inputValue}`);
     };
 
