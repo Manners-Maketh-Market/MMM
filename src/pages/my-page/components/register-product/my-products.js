@@ -34,15 +34,18 @@ const RegisteredProducts = () => {
   };
 
   const OnSaleProducts =
-    getMyProductList &&
-    getMyProductList.products.filter(
-      (products) => products.status === "판매중"
-    );
+    getMyProductList && getMyProductList.products
+      ? getMyProductList.products.filter(
+          (product) => product.status === "판매중"
+        )
+      : [];
+
   const SoldProducts =
-    getMyProductList &&
-    getMyProductList.products.filter(
-      (products) => products.status === "판매완료"
-    );
+    getMyProductList && getMyProductList.products
+      ? getMyProductList.products.filter(
+          (product) => product.status === "판매완료"
+        )
+      : [];
 
   return (
     <Wrapper>
