@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
+import { Api } from "apis";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import HeartIcon from "../images/icon/fullheart.png";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
+import HeartIcon from "../images/icon/fullheart.png";
 
-const OneProduct = ({ title, status, img, price, id, createdAt }) => {
+const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
 
   const onClickToDetailPage = (id) => {
-    navigate(`/products/detail/${id}`);
+    navigate(`/MMM/products/detail/${id}`);
     window.scrollTo({ top: 0 });
   };
 
-  const onToggleIsLiked = () => {
-    setIsLiked((prev) => !prev);
+  const { mutateAsync: onLikeMutation } = useMutation((id) =>
+    Api.postLikedProduct(id)
+  );
+
+  const onClickLikedBtn = async () => {
+    if (liked === 1) {
+      await onLikeMutation(id);
+      alert("찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ");
+    } else if (liked === 0) {
+      await onLikeMutation(id);
+      alert("찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ");
+    }
   };
 
   const ProductRegistrationTime = (productRegistrationCreatedAt) => {
@@ -62,14 +72,13 @@ const OneProduct = ({ title, status, img, price, id, createdAt }) => {
       )}
       <S.TitleAndLikeBox>
         <S.Title className="Title">{title}</S.Title>
-
-        {isLiked ? (
-          <S.HeartImg src={HeartIcon} alt="heart" onClick={onToggleIsLiked} />
+        {liked === 1 ? (
+          <S.HeartImg src={HeartIcon} alt="heart" onClick={onClickLikedBtn} />
         ) : (
           <S.HeartImg
             src={emptyHeartIcon}
             alt="emptyHeart"
-            onClick={onToggleIsLiked}
+            onClick={onClickLikedBtn}
           />
         )}
       </S.TitleAndLikeBox>

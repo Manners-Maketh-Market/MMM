@@ -13,9 +13,6 @@ export const PRODUCT_QUERY_KEY = {
   GET_USER_LOGOUT_DATA: "getUserLogoutData",
   PATCH_USER_DATA: "patchUserData",
   PATCH_USER_PROFILE: "patchUserProfile",
-  GET_MY_PRODUCT_LIST: "getMyProductList",
-  GET_INTERESTED_PRODUCT_LIST: "getInterestedProductList",
-  GET_MY_HOUSEKEEPING_BOOK: "getMyHousekeepingBook",
 };
 export const CHAT_QUERY_KEY = {
   GET_CHAT_LOG: "getChatLog",

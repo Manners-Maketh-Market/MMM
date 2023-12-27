@@ -50,6 +50,12 @@ const sizeCSS = {
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
   `,
+    largest: css`
+    width: 954px;
+    min-height: 48px;
+    border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+  `,
   searchPrice: css`
     width: 450px;
     height: 45px;
@@ -77,13 +83,11 @@ const sizeCSS = {
     @media ${({ theme }) => theme.DEVICE.mobile} {
       width: 300px;
       height: 40px;
-      /* padding-bottom: 30px; */
     }
 
     @media ${({ theme }) => theme.DEVICE.tablet} {
       width: 400px;
       height: 56px;
-      /* padding-bottom: 30px; */
     }
   `,
   smallEditInfo: css`

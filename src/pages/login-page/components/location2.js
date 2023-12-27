@@ -1,212 +1,179 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import DaumPostcode from 'react-daum-postcode';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
+import { useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import DaumPostcode from "react-daum-postcode";
+import styled from "styled-components";
+import MMMInput from "components/input";
+import MMMButton from "components/button";
 
 const ProductOrder = () => {
   const { state } = useLocation();
   const [modalState, setModalState] = useState(false);
   const [inputAddressValue, setInputAddressValue] = useState();
-  const [inputZipCodeValue, setInputZipCodeValue] = useState();
 
-
-
-  const navigate = useNavigate();
-
-  const modalRef = useRef(); //화면 외부 클릭하면 창이 닫히게
   useEffect(() => {
-    document.addEventListener('mousedown', clickModalOutside);
-
+    document.addEventListener("mousedown", clickModalOutside);
     return () => {
-      document.removeEventListener('mousedown', clickModalOutside);
+      document.removeEventListener("mousedown", clickModalOutside);
     };
   });
 
-  const clickModalOutside = event => {
+  // 모달 밖 클릭 시 창 닫힘
+  const modalRef = useRef();
+  const clickModalOutside = (event) => {
     if (modalState && !modalRef.current.contains(event.target)) {
       setModalState(false);
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   };
-
-  const onCompletePost = data => {
+  const onCompletePost = (data) => {
     setModalState(false);
     setInputAddressValue(data.address);
-    setInputZipCodeValue(data.zonecode);
   };
 
   const postCodeStyle = {
-    width: '400px',
-    height: '400px',
-    display: modalState ? 'block' : 'none',
+    width: "400px",
+    height: "400px",
+    display: modalState ? "block" : "none",
   };
 
   const handleModal = () => {
     setModalState(true);
   };
-
-  const handleXbutton = () => {
+  const onCloseModal = () => {
     setModalState(false);
   };
 
-  const handleZipCode = e => {
-    setModalState(false);
-    // set;
-  };
-
-  const handleAddress = e => {
+  const handleAddressValue = (e) => {
     setInputAddressValue(e.target.value);
   };
+
   return (
-    <Container>
-      <ModalBlock modalState={modalState}></ModalBlock>
-      <ProductContainer>
-        <UserForm onSubmit={handleSubmit}>
-          <UserFormContainer>
-            <UserAddressAndPayment>             
-              <ZipCodeWrapper>
-                <ZipCodeInput
-                  onChange={handleZipCode}
-                  value={inputZipCodeValue}
-                  placeholder="우편번호"
-                  type={'text'}
-                ></ZipCodeInput>
-                <ZipCodeFindButton onClick={handleModal}>
-                  주소찾기
-                </ZipCodeFindButton>
-              </ZipCodeWrapper>
-              <AddressInput
-                onChange={handleAddress}
-                value={inputAddressValue}
-                placeholder="주소"
-                type={'text'}
-              ></AddressInput>
-              <DetailAddressInput
-                placeholder="상세주소"
-                type={'text'}
-              ></DetailAddressInput>
-       
-              <PostCodeWrapper ref={modalRef} modalState={modalState}>
-                <PostCodeHeader>
-                  <div onClick={handleXbutton}></div>
-                </PostCodeHeader>
-                <DaumPostcode
-                  style={postCodeStyle}
-                  onComplete={onCompletePost}
-                ></DaumPostcode>
-              </PostCodeWrapper>
-            </UserAddressAndPayment>
-          </UserFormContainer>
-        </UserForm>
-      </ProductContainer>
-    </Container>
+    <RegionWrapper>
+      <OneRow>
+        <MMMInput
+          label="지역선택"
+          name="region"
+          type={"text"}
+          onChange={handleAddressValue}
+          value={inputAddressValue}
+          placeholder="주소를 입력해주세요"
+          size={"large"}
+          required
+        />
+        <MMMButton onClick={handleModal} type="button" size={"confirm"}>
+          주소찾기
+        </MMMButton>
+      </OneRow>
+      {/* 도로명 주소 modal */}
+      <Modal ref={modalRef} modalState={modalState}>
+        <DaumPostcode
+          style={postCodeStyle}
+          onComplete={onCompletePost}
+          name="region"
+        />
+      </Modal>
+    </RegionWrapper>
   );
 };
 
 export default ProductOrder;
 
-const Container = styled.div`
-  
-  margin: auto;
-  padding: 50px 75px;
-  border: 1px solid ;
-  margin-top: 50px;
-  margin-bottom: 100px;
-  border-radius: 20px;
-  text-align: center;
-  position: relative;
-`;
-
-const ModalBlock = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: ;
-  opacity: 0.5;
-  position: absolute;
-  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
-  top: 0;
-  left: 0;
-`;
-
-const ProductContainer = styled.div``;
-
-
-
-const UserForm = styled.form`
+const RegionWrapper = styled.div``;
+const OneRow = styled.div`
   display: flex;
-  flex-direction: column;
-`;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
 
-const UserFormContainer = styled.div`
-  display: flex;
-`;
-
-const UserAddressAndPayment = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  width: 60%;
-  input {
-    padding: 7px 12px;
-    border: 1px solid ;
+  & > button {
+    border: 1px solid #282190;
+    background-color: #fff;
+    color: #282190;
+    font-weight: 600;
+    margin-top: 20px;
   }
-  input::placeholder {
-    color: ;
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 150px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
+    & > button {
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
+
+    & > div {
+      & > input {
+        min-width: 240px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
+    }
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
+
+    & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+    }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+    }
   }
 `;
 
-
-
-const ZipCodeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-`;
-
-const ZipCodeInput = styled.input`
-  width: 30%;
-  margin-right: 10px;
-`;
-
-const ZipCodeFindButton = styled.div`
-  cursor: pointer;
-  background-color: ;
-  color: ;
-  padding: 6px 21px;
-`;
-
-const AddressInput = styled.input`
-  margin-bottom: 12px;
-`;
-
-const DetailAddressInput = styled.input`
-  margin-bottom: 12px;
-`;
-
-
-const PostCodeWrapper = styled.div`
+const Modal = styled.div`
+  z-index: 10;
   position: absolute;
-  top: 20%;
-  left: 30%;
-  width: 400px;
-  height: 450px;
-  z-index: 100;
-  background-color: ;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  display: ${({ modalState }) => (modalState ? 'block' : 'none')};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: ${({ modalState }) => (modalState ? "block" : "none")};
+  box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.3);
+
+  & > div {
+    border-radius: 20px;
+  }
 `;
-
-const PostCodeHeader = styled.div`
-  position: relative;
-  height: 50px;
-  border-bottom: 1px solid ;
-`;
-
-
-// 주소 검색 API 현재 value값을 못넘기고 있어서 일단은 기존에 데이터가 넘어가던 것을 그대로 적용시켜뒀음

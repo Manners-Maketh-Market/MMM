@@ -1,9 +1,10 @@
+import { useState } from "react";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
+import { Map } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { flexCenter } from "styles/common.style";
+import { flexAlignCenter, flexCenter } from 'styles/common.style';
+
 
 const Maps = ({ region }) => {
   const { kakao } = window;
@@ -79,7 +80,6 @@ const OneRow = styled.div`
     margin-top: 20px;
   }
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     max-width: 240px;
 
@@ -126,7 +126,8 @@ const OneRow = styled.div`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    max-width: 700px;
+    max-width: 954px;
+    ${flexCenter}
 
     & > div {
       & > input {

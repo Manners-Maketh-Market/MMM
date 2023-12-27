@@ -1,22 +1,20 @@
 import styled from "styled-components";
 
-const Purchased = ({ purchasedData, thisMonth }) => {
-  const thisMonthPurchaseAmount =
-    purchasedData.data.amount.thisMonthPurchaseAmount;
+const Purchased = ({ user, purchasedData, thisMonth }) => {
+  const thisMonthPurchasedAmount =
+    purchasedData && purchasedData.data.amount.thisMonthPurchaseAmount;
+
+  const purchasedProductsInfo = purchasedData.data;
 
   return (
     <Container>
       <TextBox>
         <h2>구매 건수</h2>
-        <h2> {purchasedData.data.payList.length}건</h2>
+        <h2> 0 건</h2>
       </TextBox>
       <TextBox>
         <h2>이번 달 구매 금액</h2>
-        {thisMonthPurchaseAmount ? (
-          <h2> {thisMonthPurchaseAmount}원</h2>
-        ) : (
-          <h2> 0 원</h2>
-        )}
+        <h2> 0 원</h2>
       </TextBox>
       <Comments>
         <p>
@@ -100,3 +98,4 @@ const Comments = styled.div`
     font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
   }
 `;
+const ProductList = styled.div``;

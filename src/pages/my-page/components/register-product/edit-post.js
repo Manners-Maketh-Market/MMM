@@ -1,14 +1,14 @@
-import MMMButton from "components/button";
-import MMMInput from "components/input";
-import useInputs from "hooks/use-inputs";
-import { styled } from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
-import Maps from "./maps";
-import { Api } from "apis";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { Api } from "apis";
 import { PRODUCT_QUERY_KEY } from "consts";
+import MMMInput from "components/input";
+import useInputs from "hooks/use-inputs";
+import MMMButton from "components/button";
+import Maps from "./maps";
+import { styled } from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
 
 const EditMyPost = () => {
   // hook function: use-input
@@ -58,7 +58,7 @@ const EditMyPost = () => {
     try {
       await patchMyPost(formData);
       alert("게시글 내용이 수정되었습니다.");
-      navigate("/my-page");
+      navigate("/MMM/my-page");
     } catch (error) {
       error && alert("앗! 수정 사항을 저장하지 못했습니다.");
     }
@@ -158,6 +158,14 @@ const EditMyPost = () => {
             <option value="전자기기">전자기기</option>
             <option value="의류">의류</option>
             <option value="식품">식품</option>
+            <option value="주류">주류</option>
+            <option value="남성용품">남성용품</option>
+            <option value="여성용품">여성용품</option>
+            <option value="생활용품">생활용품</option>
+            <option value="애완용품">애완용품</option>
+            <option value="집">집</option>
+            <option value="연예인">연예인</option>
+            <option value="기타">기타</option>
           </select>
         </Box>
         <Box>

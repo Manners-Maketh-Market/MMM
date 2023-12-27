@@ -1,21 +1,20 @@
+import { useMutation, useQuery } from "react-query";
+import { useRecoilState } from "recoil";
+import AuthApi from "apis/auth";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { isEmailCheckPass } from "store";
+import { isNickNameCheckPass } from "store";
+import { useState } from "react";
+import useInputs from "hooks/use-inputs";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
-import { useState } from "react";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
-import useInputs from "hooks/use-inputs";
-import { FormValidate } from "utils/validate-helper";
-import { useMutation, useQuery } from "react-query";
-import { Api } from "apis";
-import { useRecoilState } from "recoil";
-import { isEmailCheckPass } from "store";
-import { isNickNameCheckPass } from "store";
-import { PRODUCT_QUERY_KEY } from "consts";
 
 const EditAccountInfo = () => {
   // change profile image
-  const [uploadedImage, setUploadedImage] = useState("");
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   const onChangeImage = (e) => {
     const file = e.target.files[0];
@@ -28,7 +27,7 @@ const EditAccountInfo = () => {
 
   // changeProfileUrl.
   const { mutateAsync: mutateChangeProfile } = useMutation((uploadedImage) =>
-    Api.patchUserProfile(uploadedImage)
+    AuthApi.patchUserProfile(uploadedImage)
   );
 
   // duplicate check
@@ -41,7 +40,7 @@ const EditAccountInfo = () => {
   const onCheckEmail = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckEmail(email);
+      const res = await AuthApi.getCheckEmail(email);
       setIsEmailCheckPassState(true);
       alert(res.data.message);
     } catch {
@@ -54,7 +53,7 @@ const EditAccountInfo = () => {
   const onCheckNickName = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.getCheckNickName(nickName);
+      const res = await AuthApi.getCheckNickName(nickName);
       setIsNickNameCheckPassState(true);
       alert(res.data.message);
     } catch {
@@ -73,20 +72,15 @@ const EditAccountInfo = () => {
       image: "",
     }
   );
-  const { disabled, errors, access } = FormValidate({
-    email,
-    nickName,
-    image,
-  });
 
   // getMyInfo.
   const { data: getMyInfo } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
-    Api.getUserData()
+    AuthApi.getUserData()
   );
 
   // changeInfo.
   const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>
-    Api.patchUserData(editedInfo)
+    AuthApi.patchUserData(editedInfo)
   );
 
   // change profile && info.
@@ -94,8 +88,10 @@ const EditAccountInfo = () => {
     e.preventDefault();
 
     const formData = new FormData();
+    const defaultData = new FormData();
+
     formData.append("image", e.target.image.files[0]);
-    // 변경할 정보
+    defaultData.append("image", defaultData);
     const editedInfo = {
       email: e.target.email.value,
       nickName: e.target.nickName.value,
@@ -103,12 +99,16 @@ const EditAccountInfo = () => {
       region: e.target.region.value,
     };
 
+    for (let key of formData.keys()) {
+    }
     try {
       await mutateChangeMyInfo(editedInfo);
       if (e.target.image.files.length > 0) {
         await mutateChangeProfile(formData);
       }
       alert("변경사항이 적용되었습니다!");
+      window.location.replace("/MMM/my-page");
+      window.scrollTo(0, 0);
     } catch (error) {
       error && alert("변경사항을 저장하지 못했습니다.");
     }
@@ -146,8 +146,6 @@ const EditAccountInfo = () => {
               size={"smallEditInfo"}
               placeholder={getMyInfo.nick_name}
               onChange={onChangeInputs}
-              error={errors.nickName}
-              access={access.nickName}
               isAvailableNickName={isNickNameCheckPassState}
               defaultValue={getMyInfo.nick_name}
             />
@@ -166,8 +164,6 @@ const EditAccountInfo = () => {
               size={"smallEditInfo"}
               placeholder={getMyInfo.email}
               onChange={onChangeInputs}
-              error={errors.email}
-              access={access.email}
               isAvailableEmail={isEmailCheckPassState}
               defaultValue={getMyInfo.email}
             />
@@ -236,9 +232,25 @@ const Title = styled.h1`
 `;
 
 const Contents = styled.form`
+  max-width: 1200px;
   ${flexCenter}
   flex-direction: column;
   overflow: hidden;
+
+  & > div:nth-of-type(4),
+  div:nth-of-type(5) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+
+    & > label {
+      position: absolute;
+      left: 0%;
+      top: -16%;
+    }
+  }
 
   & > button {
     margin: 60px 0 100px;
@@ -247,19 +259,36 @@ const Contents = styled.form`
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     & > div:nth-of-type(2),
-    div:nth-of-type(3),
-    div:nth-of-type(4),
+    div:nth-of-type(3) {
+      & > div {
+        & > input {
+          min-width: 120px;
+        }
+        & > label {
+          font-size: 10px;
+        }
+        & > p {
+          font-size: 8px;
+        }
+      }
+      & > button {
+        min-width: 40px;
+        font-size: 10px;
+      }
+    }
+    & > div:nth-of-type(4),
     div:nth-of-type(5) {
       & > input {
-        min-width: 240px;
+        min-width: 220px;
       }
       & > label {
-        font-size: 12px;
+        font-size: 10px;
       }
       & > p {
         font-size: 10px;
       }
     }
+
     & > button {
       width: 120px;
       margin: 30px 0 60px;
@@ -270,11 +299,24 @@ const Contents = styled.form`
     align-items: flex-start;
 
     & > div:nth-of-type(2),
-    div:nth-of-type(3),
-    div:nth-of-type(4),
+    div:nth-of-type(3) {
+      & > div {
+        & > input {
+          min-width: 320px;
+        }
+        & > label {
+          font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        }
+      }
+      & > button {
+        min-width: 60px;
+        font-size: 12px;
+      }
+    }
+    & > div:nth-of-type(4),
     div:nth-of-type(5) {
       & > input {
-        min-width: 400px;
+        width: 400px;
       }
       & > label {
         font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
@@ -289,26 +331,37 @@ const Contents = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    align-items: flex-start;
+    max-width: 800px;
 
     & > div:nth-of-type(2),
-    div:nth-of-type(3),
-    div:nth-of-type(4),
+    div:nth-of-type(3) {
+      & > div {
+        margin: 15px 0;
+
+        & > input {
+          min-width: 420px;
+        }
+      }
+    }
+    & > div:nth-of-type(4),
     div:nth-of-type(5) {
+      margin: 15px 0;
+
       & > input {
         min-width: 560px;
       }
-      & > button {
-        margin-left: 32%;
-      }
+    }
+    & > button {
+      width: 120px;
+      margin: 30px 0 60px;
+      font-size: 12px;
     }
   }
 `;
 const Profile = styled.div`
-  display: flex;
+  ${flexCenter}
   flex-direction: row;
-  align-items: center;
-  margin: 0 0 80px 20%;
+  margin-bottom: 80px;
 
   & > input {
     min-width: 540px;
@@ -325,6 +378,7 @@ const Profile = styled.div`
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
     flex-direction: column;
+    margin-left: -3%;
   }
 `;
 const Image = styled.img`

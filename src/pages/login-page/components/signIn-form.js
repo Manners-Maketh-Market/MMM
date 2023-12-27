@@ -34,10 +34,8 @@ const SignInForm = () => {
 
       LoginUserNickNameRepository.setUserNickName(res.user.nickName);
       SocketTokenRepository.setToken(res.user.token);
-      // setCurrentLoginUserNickName(res.user.nickName);
       alert("반갑습니다^^");
-      navigate("/");
-      // window.location.replace("/");
+      window.location.replace("/MMM/home");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
     }
@@ -91,7 +89,6 @@ const Form = styled.form`
   position: absolute;
   top: 40%;
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     top: 29%;
     left: 0%;
@@ -130,8 +127,8 @@ const Form = styled.form`
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    left: 0%;
-    margin-left: 40px;
+    left: 50%;
+    transform: translateX(-50%);
 
     & > div {
       & > input {
@@ -158,7 +155,6 @@ const ButtonBox = styled.div`
     margin: 5px 0;
   }
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     margin: 40px 0;
 

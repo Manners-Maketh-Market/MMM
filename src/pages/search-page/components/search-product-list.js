@@ -28,8 +28,7 @@ const SearchProductList = () => {
   return (
     searchUsedProducts && (
       <S.Wrapper>
-        {searchUsedProducts.pages[0].product.length === 0 ||
-        searchValue === 194191464161616511 ? (
+        {searchUsedProducts.pages[0].product.length === 0 ? (
           <NoResultPage />
         ) : (
           <>
@@ -66,11 +65,10 @@ const SearchProductList = () => {
                       title={product.title}
                       img={product.img_url}
                       price={product.price}
-                      isLiked={product.isLiked}
+                      liked={product.liked}
                       status={product.status}
-                      id={product.id}
+                      id={product.idx}
                       createdAt={product.createdAt}
-                      /* likeCount={product.likeCount} */
                     />
                   </Grid>
                 ))}

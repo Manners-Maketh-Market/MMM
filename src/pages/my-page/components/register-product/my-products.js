@@ -1,28 +1,28 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import MMMButton from "components/button";
 import { useQuery } from "react-query";
-import { Api } from "apis";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { Container, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AuthApi from "apis/auth";
+import { PRODUCT_QUERY_KEY } from "consts";
+import MMMButton from "components/button";
+import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
+import { Container, Grid } from "@mui/material";
 
 const RegisteredProducts = () => {
   const navigate = useNavigate();
 
   const registerForm = () => {
-    navigate("/my-page/registerProductForm");
+    navigate("/MMM/my-page/registerProductForm");
   };
 
   // getMyProductList
   const { data: getMyProductList } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
-    () => Api.getMyProductList(1, 0)
+    () => AuthApi.getMyProductList(1, 0)
   );
 
   const onToDetailPage = (id) => {
-    navigate(`/products/detail/${id}`);
+    navigate(`/MMM/products/detail/${id}`);
     window.scrollTo({ top: 0 });
   };
 
@@ -34,18 +34,18 @@ const RegisteredProducts = () => {
   };
 
   const OnSaleProducts =
-    getMyProductList &&
-    getMyProductList.products.filter(
-      (products) => products.status === "판매중"
-    );
-  const SoldProducts =
-    getMyProductList &&
-    getMyProductList.products.filter(
-      (products) => products.status === "판매완료"
-    );
+    getMyProductList && getMyProductList.products
+      ? getMyProductList.products.filter(
+          (product) => product.status === "판매중"
+        )
+      : [];
 
-  // hover effect
-  const [onShow, setOnShow] = useState(false);
+  const SoldProducts =
+    getMyProductList && getMyProductList.products
+      ? getMyProductList.products.filter(
+          (product) => product.status === "판매완료"
+        )
+      : [];
 
   return (
     <Wrapper>
@@ -60,8 +60,8 @@ const RegisteredProducts = () => {
           </li>
         ))}
       </Tabs>
-      {getMyProductList ? (
-        <Container style={{ marginTop: 100 }}>
+      {OnSaleProducts.length > 0 || SoldProducts.length > 0 ? (
+        <Container>
           <Grid
             container
             spacing={{ xs: 1, md: 2, lg: 3 }}
@@ -87,7 +87,7 @@ const RegisteredProducts = () => {
           </Grid>
         </Container>
       ) : (
-        <>
+        <div>
           <p>등록된 상품이 없습니다.</p>
           <MMMButton
             onClick={registerForm}
@@ -96,7 +96,7 @@ const RegisteredProducts = () => {
           >
             물품 등록하기
           </MMMButton>
-        </>
+        </div>
       )}
     </Wrapper>
   );
@@ -104,49 +104,69 @@ const RegisteredProducts = () => {
 export default RegisteredProducts;
 
 const Wrapper = styled.div`
-  & > p {
-    text-align: center;
-    margin-bottom: 8px;
-    color: ${({ theme }) => theme.COLORS.gray[400]};
-    font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+  & > div {
+    height: fit-content;
+    position: absolute;
+    overscroll-behavior-block: contain;
+    top: 60%;
+    left: 58%;
+    transform: translateX(-50%);
+    & > p {
+      text-align: center;
+      margin-bottom: 8px;
+      color: ${({ theme }) => theme.COLORS.gray[400]};
+      font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
+    }
   }
 
   // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     min-height: 400px;
-    & > p {
-      font-size: 10px;
-    }
-    & > button {
-      font-size: 10px;
-      width: 140px;
-      height: 40px;
+
+    & > div {
+      & > p {
+        font-size: 10px;
+      }
+      & > button {
+        font-size: 10px;
+        width: 140px;
+        height: 40px;
+      }
     }
   }
 
   @media ${({ theme }) => theme.DEVICE.tablet2} {
-    & > p {
-      font-size: 12px;
-    }
-    & > button {
-      font-size: 12px;
-      width: 180px;
-      height: 46px;
+    & > div {
+      top: 45%;
+      left: 56%;
+      & > p {
+        font-size: 12px;
+      }
+      & > button {
+        font-size: 12px;
+        width: 180px;
+        height: 46px;
+      }
     }
   }
   @media ${({ theme }) => theme.DEVICE.laptop} {
-    & > p {
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-    }
-    & > button {
-      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
-      width: 230px;
-      height: 50px;
+    & > div {
+      left: 51%;
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > button {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        width: 230px;
+        height: 50px;
+      }
     }
   }
 `;
 
 const Tabs = styled.ul`
+  width: 100%;
+  height: 30px;
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;
@@ -175,6 +195,28 @@ const Tabs = styled.ul`
       color: white;
     }
   }
+
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    top: 34%;
+    height: 20px;
+    & > li {
+      width: 50px;
+      height: 20px;
+      font-size: 8px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    top: 36%;
+    height: 24px;
+    & > li {
+      width: 70px;
+      height: 24px;
+      font-size: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    top: 40%;
+  }
 `;
 
 const OneImage = styled.img`
@@ -182,6 +224,7 @@ const OneImage = styled.img`
   height: 330px;
   position: relative;
   transition: all 0.5s;
+  border: 1px solid #000;
 
   &:hover {
     cursor: pointer;

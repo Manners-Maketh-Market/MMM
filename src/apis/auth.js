@@ -1,20 +1,19 @@
 import { axiosInstance } from "./core";
-import { Cookies } from "react-cookie";
+// import { Cookies } from "react-cookie";
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
-export const setCookie = (name, value, option) => {
-  return cookies.set(name, value, { option });
-};
-export const getCookie = (name) => {
-  return cookies.get(name);
-};
-export const removeCookie = (name) => {
-  return cookies.remove(name);
-};
+// export const setCookie = (name, value, option) => {
+//   return cookies.set(name, value, { option });
+// };
+// export const getCookie = (name) => {
+//   return cookies.get(name);
+// };
+// export const removeCookie = (name) => {
+//   return cookies.remove(name);
+// };
 
 const PATH = "/api/user";
-
 const AuthApi = {
   // User - account
 
@@ -26,7 +25,6 @@ const AuthApi = {
   // sign-in
   async postLoginUserData(loginUserData) {
     const res = await axiosInstance().post("/api/user/login", loginUserData);
-    // setCookie("myToken", user.token);
     return res.data;
   },
   // get user info.
@@ -102,7 +100,7 @@ const AuthApi = {
     );
     return res.data;
   },
-  // get my accountbook
+  // get my account book
   async getMyHousekeepingBook(pageParam, category, start, end) {
     const res = await axiosInstance().get(
       `${PATH}/my-page/account-book?page=${pageParam}&category=${category}&start=${start}&end=${end}`

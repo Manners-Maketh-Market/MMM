@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -18,16 +18,19 @@ const PriceGraph = () => {
   const param = useParams();
   const datatitle = param.title;
 
-  const { data: ProductPriceList } = useQuery(
+  const { data: ProductPriceList, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.PRODUCT_PRICE_DATA],
     () =>
       Api.getProductPrice(
-        "채팅방",
-        "",
+        datatitle ? datatitle : "",
         aWeekAgo.toJSON().substr(0, 10),
         today.toJSON().substr(0, 10)
       )
   );
+
+  useEffect(() => {
+    refetch();
+  }, [datatitle]); // 파람의 값(검색어)이 바뀌면 리랜더링
 
   // 월일만 출력하기 위해서 자름
   const sliceAvgPrice =
@@ -38,17 +41,19 @@ const PriceGraph = () => {
 
   // 최고 시세
   const MAXARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? prev : value;
-    });
+    ProductPriceList && ProductPriceList.products.product.length > 0
+      ? ProductPriceList.products.product.reduce((prev, value) => {
+          return (prev.price || 0) >= value.price ? prev : value;
+        })
+      : null;
 
   // 최저 시세
   const MINARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? value : prev;
-    });
+    ProductPriceList && ProductPriceList.products.product.length > 0
+      ? ProductPriceList.products.product.reduce((prev, value) => {
+          return (prev.price || Infinity) >= value.price ? value : prev;
+        })
+      : null;
 
   // 평균 시세
   const result =

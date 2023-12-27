@@ -1,12 +1,12 @@
-import { Api } from "apis";
-import MMMButton from "components/button";
+import { useMutation } from "react-query";
+import { useState } from "react";
+import AuthApi from "apis/auth";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { FormValidate } from "utils/validate-helper";
+import MMMButton from "components/button";
 import styled from "styled-components";
 import { flexAlignCenter } from "styles/common.style";
-import { FormValidate } from "utils/validate-helper";
 
 const ChangePassword = () => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -23,7 +23,7 @@ const ChangePassword = () => {
 
   // change password
   const { mutateAsync: mutateChangePassword, data: changePasswordData } =
-    useMutation((newPassword) => Api.patchUserPassword(newPassword));
+    useMutation((newPassword) => AuthApi.patchUserPassword(newPassword));
 
   // patch password
   const onEditPassword = async (e) => {
@@ -38,6 +38,7 @@ const ChangePassword = () => {
       try {
         await mutateChangePassword(patchPassword);
         alert("비밀번호 변경에 성공하셨습니다!");
+        window.scrollTo(0, 0);
       } catch (error) {
         error && alert("비밀번호 변경에 실패했습니다");
       }
@@ -52,7 +53,6 @@ const ChangePassword = () => {
     <Wrapper>
       <Title>비밀번호 변경</Title>
       <Contents onSubmit={onEditPassword}>
-        {/* <MMMInput label={"비밀번호"} type="password" name="pw" size={"editInfo"} placeholder="password" onChange={onChangeInputs}/> */}
         <MMMInput
           label={"새 비밀번호"}
           type="password"
@@ -91,7 +91,6 @@ const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     margin-left: 0px;
   }
@@ -106,7 +105,6 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.FONT_SIZE["small"]};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT["regular"]};
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     font-size: 12px;
     padding: 10px 0 50px 10px;
@@ -127,7 +125,6 @@ const Contents = styled.form`
     margin: 60px 0 100px;
   }
 
-  // mediaQuery
   @media ${({ theme }) => theme.DEVICE.smallMobile} {
     align-items: flex-start;
     margin-left: 0px;
@@ -174,6 +171,8 @@ const Contents = styled.form`
     margin-left: 0px;
 
     & > div {
+      margin: 15px 0;
+
       & > input {
         min-width: 560px;
       }

@@ -11,7 +11,7 @@ import MenuBar from "./components/menu-bar";
 import { useRecoilState } from "recoil";
 import { isMenuBarState } from "store";
 import { useState } from "react";
-import MyPageModal from "components/my-page-modal";
+import MyPageModal from "../my-page-modal";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -20,20 +20,20 @@ const Header = () => {
   const [isMyPageModal, setIsMyPageModal] = useState(false);
 
   const onGoProductsListPage = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
+    navigate(`/MMM/products/${saleStatus}`);
   };
   const onGoMainPage = () => {
-    navigate(`/`);
+    navigate(`/MMM/home`);
   };
   const onGoPriceCheckPage = () => {
-    navigate("/pricecheckpage");
+    navigate("/MMM/pricecheckpage");
   };
   const onGoMyPage = () => {
     setIsMyPageModal((prev) => !prev);
   };
 
   const onGoRegisterProductPage = () => {
-    navigate("/my-page/registerProductForm");
+    navigate("/MMM/my-page/registerProductForm");
   };
 
   const onOpenAndCloseMenuBar = () => {

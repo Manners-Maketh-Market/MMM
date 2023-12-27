@@ -60,6 +60,7 @@ const ProductList = () => {
                       likeCount={product.likeCount}
                       status={product.status}
                       createdAt={product.createdAt}
+                      liked={product.liked}
                     />
                   </Grid>
                 ))}

@@ -11,9 +11,9 @@ import AuthProvider from "provider/auth-provider";
 import SocketProvider from "socket/socket";
 
 const queryClient = new QueryClient();
-// if (process.env.NODE_ENV === "development") {
-//   worker.start();
-// }
+if (process.env.NODE_ENV === "development") {
+  worker.start();
+}
 
 function App() {
   return (

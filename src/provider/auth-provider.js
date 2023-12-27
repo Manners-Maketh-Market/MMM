@@ -1,7 +1,7 @@
 import AuthApi from "apis/auth";
 import { createContext, useContext, useEffect } from "react";
-import { useState } from "react";
 import TokenRepository from "repository/token-repository";
+import { useState } from "react";
 
 const AuthContext = createContext();
 

@@ -1,33 +1,28 @@
-import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
-import Sold from "./sold";
-import Shared from "./shared";
-import Purchased from "./purchased";
 import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
-import { Api } from "apis";
-import useInputs from "hooks/use-inputs";
-import { useMutation } from "react-query";
+import AuthApi from "apis/auth";
 import { useState } from "react";
+import useInputs from "hooks/use-inputs";
+import Purchased from "./purchased";
+import Sold from "./sold";
+import Shared from "./shared";
+import styled from "styled-components";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
+
 
 const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
-    // 날짜추가
   });
 
   // data
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
-    () => Api.getMyPageData()
+    () => AuthApi.getMyPageData()
   );
-  const { mutateAsync } = useMutation((Data) =>
-    Api.getMyHousekeepingBook(Data)
-  );
-
   const { data: getMyHousekeepingBook } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_HOUSEKEEPING_BOOK],
-    () => Api.getMyHousekeepingBook(1, UserType, firstDay, lastDay)
+    () => AuthApi.getMyHousekeepingBook(1, UserType, firstDay, lastDay)
   );
 
   // category type
@@ -56,9 +51,19 @@ const MyAccountBook = () => {
     new Date(today.getFullYear(), today.getMonth() + 1, 0)
   );
 
-  // tabs - contents
+  // tabs-contents
   const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
+    { name: "나눔목록", content: <Shared user={myPageData.User} /> },
+    {
+      name: "구매목록",
+      content: (
+        <Purchased
+          user={myPageData.User}
+          purchasedData={getMyHousekeepingBook}
+        />
+      ),
+    },
     {
       name: "판매목록",
       content: (
@@ -69,16 +74,6 @@ const MyAccountBook = () => {
         />
       ),
     },
-    {
-      name: "구매목록",
-      content: (
-        <Purchased
-          thisMonth={thisMonth}
-          purchasedData={getMyHousekeepingBook}
-        />
-      ),
-    },
-    { name: "나눔목록", content: <Shared /> },
   ];
 
   const selectedTab = (index) => {
