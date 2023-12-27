@@ -54,7 +54,6 @@ const EditMyPost = () => {
     }
 
     for (let key of formData.keys()) {
-      console.log(key, ":", formData.get(key));
     }
     try {
       await patchMyPost(formData);

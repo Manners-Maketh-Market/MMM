@@ -24,7 +24,6 @@ const SearchProductList = () => {
       },
     }
   );
-  searchUsedProducts && console.log(searchUsedProducts);
 
   return (
     searchUsedProducts && (

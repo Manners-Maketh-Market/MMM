@@ -34,6 +34,7 @@ export const useAuth = () => {
     const res = await AuthApi.postLoginUserData(loginUserData);
     setAccessToken(res.tokenForHeader);
     TokenRepository.setToken(res.tokenForHeader);
+    return res;
   };
 
   const SignOut = async () => {

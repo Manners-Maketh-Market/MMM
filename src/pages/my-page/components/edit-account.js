@@ -84,8 +84,6 @@ const EditAccountInfo = () => {
     Api.getUserData()
   );
 
-  console.log("getMyInfo", getMyInfo);
-
   // changeInfo.
   const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>
     Api.patchUserData(editedInfo)

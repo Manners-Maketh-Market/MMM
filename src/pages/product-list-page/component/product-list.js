@@ -24,7 +24,6 @@ const ProductList = () => {
       },
     }
   );
-  productList && console.log(productList.pages);
 
   return (
     productList && (

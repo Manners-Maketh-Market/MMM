@@ -1,35 +1,86 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isMobileChattingRoom } from "store";
-import { buyerChatDataIndex } from "store";
+import { chatApi } from "apis";
+import { CHAT_QUERY_KEY } from "consts";
+import { useQuery, useQueryClient } from "react-query";
+import { useSearchParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
+import { useSocket } from "socket/socket";
+import { currentChatUser } from "store";
+import { targetChatRoom } from "store";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
-const OneChat = ({ profileImg, nickName, buyerChat, productImg, index }) => {
-  const setBuyerChatDataIndex = useSetRecoilState(buyerChatDataIndex);
-  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
-  const setIsMobileChattingRoom = useSetRecoilState(isMobileChattingRoom);
+const OneChat = ({
+  profileImg,
+  nickName,
+  productImg,
+  roomId,
+  index,
+  productId,
+  productTitle,
+  price,
+  lastMessage,
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const targetChatIdx = searchParams.get("targetChatProductIdx") || 0;
+  const client = useQueryClient();
 
-  const onBuyerBarChange = (index) => {
-    setBuyerChatDataIndex(index);
-  };
+  const setTargetChatRoom = useSetRecoilState(targetChatRoom);
+  const setCurrentChatUser = useSetRecoilState(currentChatUser);
 
-  const onOpenMobileChattingRoom = () => {
-    setIsMobileChattingRoom((prev) => !prev);
+  const { joinChatRoom, setChatLog } = useSocket();
+
+  const myNickName = LoginUserNickNameRepository.getUserNickName();
+
+  const onClickJoinChatRoom = async () => {
+    try {
+      // 채팅방 입장
+      joinChatRoom(roomId);
+      // 로컬스토리지에 저장 되어있는 product배열에 현재 클릭한 product index를 url에 저장
+      searchParams.set("targetChatProductIdx", index);
+      setSearchParams(searchParams);
+      setTargetChatRoom({
+        nickName,
+        roomId,
+        productImg,
+        profileImg,
+        productId,
+        productTitle,
+        price,
+      });
+      const data = await client.fetchQuery({
+        queryFn: () => chatApi.getChatLog(roomId),
+        queryKey: CHAT_QUERY_KEY.GET_CHAT_LOG,
+      });
+
+      const chatLogs = data.map((chat) => ({
+        nick_name: chat.User.nick_name,
+        message: chat.message,
+      }));
+
+      setChatLog(chatLogs);
+
+      const buyerNickName = chatLogs.find((el) => {
+        return el.nick_name !== myNickName;
+      });
+
+      setCurrentChatUser(buyerNickName.nick_name);
+    } catch {
+      alert("채팅방 생성 실패");
+    }
   };
 
   return (
     <S.Wrapper
-      onClick={() => {
-        onBuyerBarChange(index);
-        onOpenMobileChattingRoom();
-      }}
-      className={index === readBuyerChatListIndex ? "FocusWrapper" : ""}
+      onClick={onClickJoinChatRoom}
+      // useSearchParams.get으로 받아온 값은 string으로 읽히기 때문에 Number사용
+      className={index === Number(targetChatIdx) ? "FocusWrapper" : ""}
     >
       <S.BuyerInfo>
         <S.BuyerProfileImg src={profileImg} />
         <S.IdAndChat>
-          <S.BuyerId>{nickName}</S.BuyerId>
-          <S.ChatContent>{buyerChat}</S.ChatContent>
+          {/* <S.BuyerId>{nickName}</S.BuyerId> */}
+          <S.ChatContent>{lastMessage}</S.ChatContent>
         </S.IdAndChat>
       </S.BuyerInfo>
       <S.ProductImg src={productImg} />

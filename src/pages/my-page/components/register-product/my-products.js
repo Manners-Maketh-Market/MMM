@@ -44,8 +44,6 @@ const RegisteredProducts = () => {
       (products) => products.status === "판매완료"
     );
 
-  console.log("onSale :", OnSaleProducts, "onSold :", SoldProducts);
-
   // hover effect
   const [onShow, setOnShow] = useState(false);
 

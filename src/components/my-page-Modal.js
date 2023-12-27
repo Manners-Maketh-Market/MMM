@@ -20,7 +20,6 @@ const MyPageModal = ({ user, setIsMyPageModal }) => {
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
     () => Api.getMyPageData()
   );
-  console.log("myPageData:", myPageData);
   const { data: userLogoutData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_USER_LOGOUT_DATA],
     () => Api.getUserLogout()
@@ -33,7 +32,6 @@ const MyPageModal = ({ user, setIsMyPageModal }) => {
       const logoutUser = mutation.mutateAsync();
       alert("로그아웃이 정상적으로 이뤄졌습니다.");
       navigate("/sign-in");
-      console.log("logout success:", logoutUser);
     } catch (error) {
       console.log("logout error:", error);
     }

@@ -6,6 +6,10 @@ import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useAuth } from "provider/auth-provider";
+import { useSocket } from "socket/socket";
+import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
+import TokenRepository from "repository/token-repository";
+import { SocketTokenRepository } from "repository/socket-token-repository";
 
 const SignInForm = () => {
   const [{ email, pw }, onChangeInputs] = useInputs({
@@ -15,7 +19,6 @@ const SignInForm = () => {
   const { disabled, errors } = FormValidate({ email, pw });
 
   const navigate = useNavigate();
-
   const { SignIn } = useAuth();
 
   const onSubmitSignIn = async (e) => {
@@ -27,8 +30,13 @@ const SignInForm = () => {
     };
 
     try {
-      await SignIn(loginUserData);
+      const res = await SignIn(loginUserData);
+
+      LoginUserNickNameRepository.setUserNickName(res.user.nickName);
+      SocketTokenRepository.setToken(res.user.token);
+      // setCurrentLoginUserNickName(res.user.nickName);
       alert("반갑습니다^^");
+      navigate("/");
       // window.location.replace("/");
     } catch (error) {
       error && alert("이메일과 비밀번호를 확인해주세요");
