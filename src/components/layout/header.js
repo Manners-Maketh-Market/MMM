@@ -11,7 +11,8 @@ import MenuBar from "./components/menu-bar";
 import { useRecoilState } from "recoil";
 import { isMenuBarState } from "store";
 import { useState } from "react";
-import MyPageModal from "../my-page-modal";
+import MyPageModal from "components/my-page-Modal";
+
 
 const Header = () => {
   const navigate = useNavigate();

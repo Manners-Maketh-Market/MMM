@@ -58,7 +58,7 @@ const EditMyPost = () => {
     try {
       await patchMyPost(formData);
       alert("게시글 내용이 수정되었습니다.");
-      navigate("/my-page");
+      navigate("/MMM/my-page");
     } catch (error) {
       error && alert("앗! 수정 사항을 저장하지 못했습니다.");
     }
