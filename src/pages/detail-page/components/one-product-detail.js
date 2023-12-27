@@ -74,7 +74,11 @@ const OneProductDetail = () => {
   const onMarketPricePage = () => {
     const titleValue = detailProduct.searchProduct.title;
 
-    navigate(`/MMM/pricecheckpage/${titleValue}`);
+    if (!titleValue) {
+      alert("시세를 알 수 없는 상품입니다!");
+    } else {
+      navigate(`/MMM/pricecheckpage/${titleValue}`);
+    }
   };
   const onMoreContentBtn = () => {
     setIsMoreContent((prev) => !prev);

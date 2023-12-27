@@ -41,17 +41,19 @@ const PriceGraph = () => {
 
   // 최고 시세
   const MAXARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? prev : value;
-    });
+    ProductPriceList && ProductPriceList.products.product.length > 0
+      ? ProductPriceList.products.product.reduce((prev, value) => {
+          return (prev.price || 0) >= value.price ? prev : value;
+        })
+      : null;
 
   // 최저 시세
   const MINARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? value : prev;
-    });
+    ProductPriceList && ProductPriceList.products.product.length > 0
+      ? ProductPriceList.products.product.reduce((prev, value) => {
+          return (prev.price || Infinity) >= value.price ? value : prev;
+        })
+      : null;
 
   // 평균 시세
   const result =
