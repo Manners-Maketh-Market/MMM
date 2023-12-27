@@ -146,14 +146,30 @@ const Wrapper = styled.div`
 `;
 
 const Tabs = styled.ul`
-    width: 100%;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  position: absolute;
+  left: 5%;
+  top: 45%;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & > li {
+    ${flexCenter}
+    width: 96px;
     height: 30px;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 30px;
-    position: absolute;
-    left: 5%;
-    top: 45%;
+    border-radius: 50px;
+    border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
+    font-size: 16px;
+
+    &:nth-of-type(2) {
+      margin: 0 10px;
+    }
 
     &:hover {
         cursor: pointer;
@@ -177,6 +193,7 @@ const Tabs = styled.ul`
         }
     }
 
+
     @media ${({ theme }) => theme.DEVICE.smallMobile} {
         top: 34%;
         height: 20px;
@@ -187,12 +204,12 @@ const Tabs = styled.ul`
         }
     }
     @media ${({ theme }) => theme.DEVICE.tablet2} {
-        top: 36%;
-        height: 24px;
-        & > li {
-            width: 70px;
-            height: 24px;
-            font-size: 10px;
+    top: 36%;
+    height: 24px;
+    & > li {
+      width: 74px;
+      height: 26px;
+      font-size: 14px;
         }
     }
     @media ${({ theme }) => theme.DEVICE.laptop} {

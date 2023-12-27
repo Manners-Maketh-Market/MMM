@@ -49,8 +49,8 @@ const MyPageModal = ({ setIsMyPageModal }) => {
 export default MyPageModal;
 
 const Wrapper = styled.div`
-  width: 240px;
-  height: 100px;
+  width: 260px;
+  height: 130px;
   z-index: 100;
   background: white;
   box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.4);
@@ -60,25 +60,28 @@ const Wrapper = styled.div`
   right: 2%;
   ${flexCenter}
   flex-direction: column;
+  padding: 10px 0;
 `;
 
 const ButtonGroup = styled.div`
   ${flexCenter}
   flex-direction: row;
   width: 80%;
-  margin-top: 10px;
+  margin-top: 14px;
   justify-content: space-evenly;
 `;
 
 const EventButton = styled.button`
-  width: 70px;
-  height: 24px;
+  width: 90px;
+  height: 28px;
   background-color: white;
   border: 1px solid navy;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 13px;
+  color: ${({ theme }) => theme.COLORS.primary["navy"]};
   text-align: center;
   cursor: pointer;
+  transition: all 0.6s;
 
   &:hover {
     background-color: navy;

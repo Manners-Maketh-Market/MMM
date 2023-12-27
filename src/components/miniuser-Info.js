@@ -30,19 +30,19 @@ const User = styled.div`
   flex-direction: row;
 `;
 const Profile = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background-color: navy; // temporary color
   background-position: center;
 `;
 const Text = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 24px;
+  margin-left: 20px;
 `;
 const NickName = styled.h1`
   font-size: ${({ theme }) => theme.FONT_SIZE["larger"]};
-  color: ${({ theme }) => theme.COLORS["black"]};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT["bold"]};
+  color: ${({ theme }) => theme.COLORS.primary["navy"]};
   margin-bottom: 4px;
 `;
