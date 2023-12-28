@@ -315,3 +315,4 @@ const AlertPosition = styled.div`
   position: absolute;
   top: 8%;
 `;
+

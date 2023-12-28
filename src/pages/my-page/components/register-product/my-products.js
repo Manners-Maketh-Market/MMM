@@ -177,6 +177,7 @@ const Tabs = styled.ul`
   &:hover {
     cursor: pointer;
   }
+
   & > li {
     ${flexCenter}
     width: 96px;
@@ -189,9 +190,14 @@ const Tabs = styled.ul`
       margin: 0 10px;
     }
 
+
     &.focused {
       background-color: navy;
       color: white;
+
+    &:hover {
+      cursor: pointer;
+
     }
   }
 

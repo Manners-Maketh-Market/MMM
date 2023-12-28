@@ -19,12 +19,23 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import MMMAlert from "components/mmm-alert";
+import { UsePriceComma } from "hooks/use-price-comma";
+import { Api, chatApi } from "apis";
+import AuthApi from "apis/auth";
+import MMMButton from "components/button";
+import ImgSlider from "components/img-slider";
+import MannerTemperature from "components/manner-temperature";
+import { flexCenter, flexAlignCenter } from "styles/common.style";
+import { PRODUCT_QUERY_KEY } from "consts";
+import unProfile from "./../../../images/icon/unprofile.png";
 
 const OneProductDetail = () => {
-  const navigate = useNavigate();
-  const [isMoreContent, setIsMoreContent] = useState(true);
+    // alert
   const [open, setOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
+  
+  const navigate = useNavigate();
+  const [isMoreContent, setIsMoreContent] = useState(true);
 
   // id 값과 같은 데이터를 recoil에 저장한 use데이터목록에서 가져오기
   const param = useParams();
@@ -35,6 +46,30 @@ const OneProductDetail = () => {
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
+
+  // 채팅방 생성
+  const { mutateAsync: createChatRoom } = useMutation((id) =>
+    chatApi.postCreateChatRoom(id)
+  );
+
+  // 채팅방 저장
+  const { mutateAsync: saveChatRoom } = useMutation((data) => {
+    chatApi.postSaveChatRoom(data);
+  });
+
+  const onClickCreateChatRoom = async () => {
+    try {
+      // 채팅방 생성
+      const resRoomIdx = await createChatRoom(detailProduct?.searchProduct.idx);
+      await saveChatRoom({
+        room_idx: resRoomIdx?.idx,
+        message: "",
+      });
+      navigate("/MMM/chat");
+    } catch {
+      alert("이미 존재하는 채팅방입니다");
+    }
+  };
 
   // 유저 정보
   const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
@@ -201,7 +236,11 @@ const OneProductDetail = () => {
                         ? "찜 했어요!"
                         : "찜 하기"}
                     </MMMButton>
-                    <MMMButton variant={"detailB"} size={"medium"}>
+                    <MMMButton
+                      variant={"detailB"}
+                      size={"medium"}
+                      onClick={onClickCreateChatRoom}
+                    >
                       <FontAwesomeIcon icon={faComments} /> 채팅하기
                     </MMMButton>
                   </ButtonBox>
@@ -494,4 +533,5 @@ const AlertPosition = styled.div`
   z-index: ${({ open }) => (open ? 100 : -100)};
   position: absolute;
   top: 8%;
+
 `;

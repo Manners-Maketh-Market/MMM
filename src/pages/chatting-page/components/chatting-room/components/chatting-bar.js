@@ -1,37 +1,37 @@
 import styled from "styled-components";
 import { useQuery } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
-import { useRecoilValue } from "recoil";
+import { CHAT_QUERY_KEY, PRODUCT_QUERY_KEY } from "consts";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { buyerChatDataIndex } from "store";
-import { Api } from "apis";
+import { Api, chatApi } from "apis";
 import { isCreateChat } from "store";
+import { useState } from "react";
+import { useSocket } from "socket/socket";
+import { useSearchParams } from "react-router-dom";
+import ChatProductIdxRepository from "repository/chatting-idx-repository";
+import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
+import { test } from "store";
+import { useEffect } from "react";
+import { targetChatRoom } from "store";
 
-const ChattingBar = ({ newData }) => {
-  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
-  const isCreateChatState = useRecoilValue(isCreateChat);
-
-  const { data: buyerData } = useQuery(
-    [PRODUCT_QUERY_KEY.BUYER_CHAT_DATA, isCreateChatState],
-    () => Api.getBuyerChatData()
-  );
+const ChattingBar = () => {
+  const myNickName = LoginUserNickNameRepository.getUserNickName();
+  const { chatLog } = useSocket();
 
   return (
-    buyerData && (
-      <S.Wrapper>
-        {buyerData[0][readBuyerChatListIndex]?.User.chatData.buyer.map(
-          (chat) => (
-            <S.BuyerBar>{chat}</S.BuyerBar>
-          )
-        )}
-        {buyerData[0][readBuyerChatListIndex]?.User.chatData.marketer.map(
-          (chat) => (
+    <S.Wrapper>
+      {chatLog?.map((chat) => {
+        if (chat.nick_name === myNickName) {
+          return (
             <S.MarketerFlex>
-              <S.MarketerBar>{chat}</S.MarketerBar>
+              <S.MarketerBar>{chat.message}</S.MarketerBar>
             </S.MarketerFlex>
-          )
-        )}
-      </S.Wrapper>
-    )
+          );
+        }
+
+        return <S.BuyerBar>{chat.message}</S.BuyerBar>;
+      })}
+    </S.Wrapper>
   );
 };
 
@@ -41,6 +41,7 @@ const Wrapper = styled.div`
   height: 380px;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-bottom: 50px;
 `;
 
 const BuyerBar = styled.p`

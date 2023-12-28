@@ -8,12 +8,17 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useAuth } from "provider/auth-provider";
 import { useState } from "react";
+import { useSocket } from "socket/socket";
+import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
+import TokenRepository from "repository/token-repository";
+import { SocketTokenRepository } from "repository/socket-token-repository";
+
 
 const SignInForm = () => {
   // alert
   const [open, setOpen] = useState(false);
   const [loginFail, setLoginFail] = useState(true);
-
+  
   const [{ email, pw }, onChangeInputs] = useInputs({
     email: "",
     pw: "",
@@ -32,6 +37,13 @@ const SignInForm = () => {
     };
 
     try {
+
+      const res = await SignIn(loginUserData);
+
+      LoginUserNickNameRepository.setUserNickName(res.user.nickName);
+      SocketTokenRepository.setToken(res.user.token);
+      
+      window.location.replace("/MMM/home");
       await SignIn(loginUserData);
       setLoginFail(false);
       setOpen(true);

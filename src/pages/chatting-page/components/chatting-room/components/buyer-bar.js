@@ -1,28 +1,18 @@
 import styled from "styled-components";
-import { useQueryClient } from "react-query";
-import { PRODUCT_QUERY_KEY } from "consts";
 import { useRecoilValue } from "recoil";
-import { buyerChatDataIndex } from "store";
+import { targetChatRoom } from "store";
+import { currentChatUser } from "store";
 
 const BuyerBar = () => {
-  const readBuyerChatListIndex = useRecoilValue(buyerChatDataIndex);
-  const queryClient = useQueryClient();
-  const buyerData = queryClient.getQueryData(PRODUCT_QUERY_KEY.BUYER_CHAT_DATA);
+  const targetChatRoomData = useRecoilValue(targetChatRoom);
+
+  const buyerNickName = useRecoilValue(currentChatUser);
 
   return (
-    buyerData && (
-      <S.Wrapper>
-        <S.BuyerImg
-          src={buyerData[0][readBuyerChatListIndex]?.User.profileImg}
-        />
-        <S.BuyerId>
-          {buyerData[0][readBuyerChatListIndex]?.User.nickName}
-        </S.BuyerId>
-        <S.Celsius>
-          {buyerData[0][readBuyerChatListIndex]?.User.manner}
-        </S.Celsius>
-      </S.Wrapper>
-    )
+    <S.Wrapper>
+      <S.BuyerImg src={targetChatRoomData.profileImg} />
+      <S.BuyerId>{buyerNickName}</S.BuyerId>
+    </S.Wrapper>
   );
 };
 
@@ -65,6 +55,7 @@ const Celsius = styled.div`
   color: ${({ theme }) => theme.COLORS.primary.blue};
   margin-left: 10px;
   border-radius: 10px;
+  text-align: center;
 `;
 
 const S = {
