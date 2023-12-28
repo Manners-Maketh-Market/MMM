@@ -6,8 +6,13 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "provider/auth-provider";
+import MMMAlert from "./mmm-alert";
+import { useState } from "react";
 
 const MyPageModal = ({ setIsMyPageModal }) => {
+  // alert
+  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
   const { SignOut } = useAuth();
 
@@ -19,8 +24,10 @@ const MyPageModal = ({ setIsMyPageModal }) => {
   const onClickLogout = async () => {
     try {
       await SignOut();
-      alert("로그아웃이 정상적으로 이뤄졌습니다.");
-      window.location.replace("/");
+      setOpen(true);
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1000);
     } catch (error) {
       error && alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
@@ -40,6 +47,17 @@ const MyPageModal = ({ setIsMyPageModal }) => {
             <EventButton onClick={onClickMyPageBtn}>마이페이지</EventButton>
             <EventButton onClick={onClickLogout}>로그아웃</EventButton>
           </ButtonGroup>
+          <AlertPosition>
+            <MMMAlert
+              size={"md"}
+              color={"success"}
+              severity={"success"}
+              MessageTitle={"Log-Out"}
+              AlertMessage={"로그아웃이 정상적으로 이뤄졌습니다."}
+              open={open}
+              setOpen={setOpen}
+            />
+          </AlertPosition>
         </Wrapper>
       </>
     )
@@ -87,4 +105,12 @@ const EventButton = styled.button`
     background-color: navy;
     color: white;
   }
+`;
+
+const AlertPosition = styled.div`
+  width: 2000px;
+  height: 1000px;
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 8%;
 `;
