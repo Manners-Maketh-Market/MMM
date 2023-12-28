@@ -11,8 +11,13 @@ import MMMInput from "components/input";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
+import MMMAlert from "components/mmm-alert";
 
 const EditAccountInfo = () => {
+  // alert
+  const [open, setOpen] = useState(false);
+  const [cases, setCases] = useState(0);
+
   // change profile image
   const [uploadedImage, setUploadedImage] = useState(null);
 
@@ -42,10 +47,12 @@ const EditAccountInfo = () => {
     try {
       const res = await AuthApi.getCheckEmail(email);
       setIsEmailCheckPassState(true);
-      alert(res.data.message);
+      setCases(3);
+      setOpen(true);
     } catch {
       setIsEmailCheckPassState(false);
-      alert("중복된 이메일입니다.");
+      setCases(4);
+      setOpen(true);
     }
   };
 
@@ -55,10 +62,12 @@ const EditAccountInfo = () => {
     try {
       const res = await AuthApi.getCheckNickName(nickName);
       setIsNickNameCheckPassState(true);
-      alert(res.data.message);
+      setCases(3);
+      setOpen(true);
     } catch {
       setIsNickNameCheckPassState(false);
-      alert("중복된 닉네임입니다.");
+      setCases(4);
+      setOpen(true);
     }
   };
 
@@ -106,11 +115,12 @@ const EditAccountInfo = () => {
       if (e.target.image.files.length > 0) {
         await mutateChangeProfile(formData);
       }
-      alert("변경사항이 적용되었습니다!");
-      window.location.replace("/MMM/my-page");
-      window.scrollTo(0, 0);
+      setCases(1);
+      setOpen(true);
+      setTimeout(() => window.location.replace("/MMM/my-page"), 1000);
     } catch (error) {
-      error && alert("변경사항을 저장하지 못했습니다.");
+      setCases(2);
+      setOpen(true);
     }
   };
 
@@ -175,7 +185,6 @@ const EditAccountInfo = () => {
               중복확인
             </MMMButton>
           </OneRow>
-
           <MMMInput
             name="phone"
             label={"핸드폰 번호"}
@@ -195,6 +204,49 @@ const EditAccountInfo = () => {
           <MMMButton size={"small"} type="submit">
             변경사항 저장
           </MMMButton>
+          <AlertPosition open={open}>
+            <MMMAlert
+              size={"md"}
+              color={
+                cases === 1
+                  ? "success"
+                  : cases === 2
+                  ? "error"
+                  : cases === 3
+                  ? "success"
+                  : "warning"
+              }
+              severity={
+                cases === 1
+                  ? "success"
+                  : cases === 2
+                  ? "error"
+                  : cases === 3
+                  ? "success"
+                  : "warning"
+              }
+              MessageTitle={
+                cases === 1
+                  ? "Storage Success"
+                  : cases === 2
+                  ? "Storage Fail"
+                  : cases === 3
+                  ? "Duplicate Check"
+                  : "Duplicated"
+              }
+              AlertMessage={
+                cases === 1
+                  ? "변경사항이 저장되었습니다!"
+                  : cases === 2
+                  ? "변경사항이 저장되지 못했습니다!"
+                  : cases === 3
+                  ? "사용 가능합니다."
+                  : "중복되었습니다."
+              }
+              open={open}
+              setOpen={setOpen}
+            />
+          </AlertPosition>
         </Contents>
       </Wrapper>
     )
@@ -209,6 +261,7 @@ const Wrapper = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -361,7 +414,7 @@ const Contents = styled.form`
 const Profile = styled.div`
   ${flexCenter}
   flex-direction: row;
-  margin-bottom: 80px;
+  margin-bottom: 120px;
 
   & > input {
     min-width: 540px;
@@ -464,4 +517,13 @@ const OneRow = styled.div`
     font-weight: 600;
     margin-top: 20px;
   }
+`;
+
+const AlertPosition = styled.div`
+  width: 100%;
+  height: 100px;
+  ${flexCenter}
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 32%;
 `;

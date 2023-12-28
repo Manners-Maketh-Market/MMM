@@ -6,10 +6,13 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "provider/auth-provider";
+import MMMAlert from "./mmm-alert";
+import { useState } from "react";
 
 const MyPageModal = ({ setIsMyPageModal }) => {
   const navigate = useNavigate();
   const { SignOut } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
@@ -19,8 +22,10 @@ const MyPageModal = ({ setIsMyPageModal }) => {
   const onClickLogout = async () => {
     try {
       await SignOut();
-      alert("로그아웃이 정상적으로 이뤄졌습니다.");
-      window.location.replace("/");
+      setOpen(true);
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 1000);
     } catch (error) {
       error && alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
@@ -40,6 +45,17 @@ const MyPageModal = ({ setIsMyPageModal }) => {
             <EventButton onClick={onClickMyPageBtn}>마이페이지</EventButton>
             <EventButton onClick={onClickLogout}>로그아웃</EventButton>
           </ButtonGroup>
+          <AlertPosition>
+            <MMMAlert
+              size={"md"}
+              color={"success"}
+              severity={"success"}
+              MessageTitle={"Log-Out"}
+              AlertMessage={"로그아웃이 정상적으로 이뤄졌습니다."}
+              open={open}
+              setOpen={setOpen}
+            />
+          </AlertPosition>
         </Wrapper>
       </>
     )
@@ -49,8 +65,8 @@ const MyPageModal = ({ setIsMyPageModal }) => {
 export default MyPageModal;
 
 const Wrapper = styled.div`
-  width: 240px;
-  height: 100px;
+  width: 260px;
+  height: 130px;
   z-index: 100;
   background: white;
   box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.4);
@@ -60,28 +76,39 @@ const Wrapper = styled.div`
   right: 2%;
   ${flexCenter}
   flex-direction: column;
+  padding: 10px 0;
 `;
 
 const ButtonGroup = styled.div`
   ${flexCenter}
   flex-direction: row;
   width: 80%;
-  margin-top: 10px;
+  margin-top: 14px;
   justify-content: space-evenly;
 `;
 
 const EventButton = styled.button`
-  width: 70px;
-  height: 24px;
+  width: 90px;
+  height: 28px;
   background-color: white;
   border: 1px solid navy;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 13px;
+  color: ${({ theme }) => theme.COLORS.primary["navy"]};
   text-align: center;
   cursor: pointer;
+  transition: all 0.6s;
 
   &:hover {
     background-color: navy;
     color: white;
   }
+`;
+
+const AlertPosition = styled.div`
+  width: 2000px;
+  height: 1000px;
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 8%;
 `;

@@ -20,7 +20,7 @@ const AuthApi = {
   // sign-up
   async postSignUpData(signupData) {
     const res = await axiosInstance.post(PATH, signupData);
-    return res;
+    return res.data;
   },
   // sign-in
   async postLoginUserData(loginUserData) {
@@ -59,14 +59,14 @@ const AuthApi = {
   // duplicate check(email)
   async getCheckEmail(email) {
     const res = await axiosInstance.get(`${PATH}/check/email?email=${email}`);
-    return res;
+    return res.data;
   },
   // duplicate check(nickName)
   async getCheckNickName(nickName) {
     const res = await axiosInstance.get(
       `${PATH}/check/nickname?nickname=${nickName}`
     );
-    return res;
+    return res.data;
   },
   // refresh token
   /* 
@@ -75,7 +75,7 @@ const AuthApi = {
   */
   async getRefreshToken() {
     const res = await axiosInstance.get(`${PATH}/refreshToken`);
-    return res;
+    return res.data;
   },
 
   // User - Product

@@ -9,7 +9,6 @@ import Shared from "./shared";
 import styled from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
 
-
 const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
     category: "",
@@ -162,11 +161,11 @@ const Tabs = styled.ul`
 
   & > li {
     ${flexCenter}
-    width: 90px;
-    height: 28px;
+    width: 96px;
+    height: 30px;
     border-radius: 50px;
     border: 1px solid ${({ theme }) => theme.COLORS.gray[400]};
-    font-size: 12px;
+    font-size: 14px;
 
     &:nth-of-type(2) {
       margin: 0 10px;

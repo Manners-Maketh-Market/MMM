@@ -6,16 +6,22 @@ const Sold = ({ user, thisMonth, soldData }) => {
   const thisMonthSoldAmount =
     soldData && soldData.data.amount.thisMonthSaleAmount;
 
-  const totalSoldAmount = soldData && soldData.data.amount.totalPurchaseAmount;
+  const totalSoldAmount = soldData && soldData.data.amount.totalSaleAmount;
 
   const soldProductInfo = soldData.data.payList;
+
+  soldData && console.log(soldData);
 
   return (
     soldData && (
       <Container>
         <TextBox>
           <h2>이번 달 판매 건수</h2>
-          <h2>{soldProductInfo.length}건</h2>
+          {soldProductInfo ? (
+            <h2>{soldProductInfo.length} 건</h2>
+          ) : (
+            <h2> 0 건</h2>
+          )}
         </TextBox>
         <TextBox>
           <h2>누적 판매 금액</h2>

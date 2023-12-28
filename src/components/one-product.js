@@ -5,9 +5,14 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import emptyHeartIcon from "../images/icon/emptyHeart.png";
 import HeartIcon from "../images/icon/fullheart.png";
+import MMMAlert from "components/mmm-alert";
+import { useState } from "react";
 
 const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [isLike, setIsLike] = useState(false);
 
   const onClickToDetailPage = (id) => {
     navigate(`/MMM/products/detail/${id}`);
@@ -21,10 +26,12 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
   const onClickLikedBtn = async () => {
     if (liked === 1) {
       await onLikeMutation(id);
-      alert("찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ");
+      setIsLike(false);
+      setOpen(true);
     } else if (liked === 0) {
       await onLikeMutation(id);
-      alert("찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ");
+      setIsLike(true);
+      setOpen(true);
     }
   };
 
@@ -86,6 +93,21 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
         {ProductRegistrationTime(createdAt)}
       </S.Content>
       <S.Price className="Price">{price}원</S.Price>
+      <AlertPosition open={open}>
+        <MMMAlert
+          size={"md"}
+          color={isLike ? "success" : "warning"}
+          severity={isLike ? "success" : "warning"}
+          MessageTitle={isLike ? "Liked" : "unLiked"}
+          AlertMessage={
+            isLike
+              ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ"
+              : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."
+          }
+          open={open}
+          setOpen={setOpen}
+        />
+      </AlertPosition>
     </S.Wrapper>
   );
 };
@@ -240,3 +262,12 @@ const S = {
   SoldOutProductImg,
   SoldOutMessage,
 };
+
+const AlertPosition = styled.div`
+  ${flexCenter}
+  width: 1000px;
+  height: 100px;
+  z-index: ${({ open }) => (open ? 100 : -100)};
+  position: absolute;
+  top: 8%;
+`;

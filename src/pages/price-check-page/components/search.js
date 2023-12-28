@@ -8,6 +8,7 @@ import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
 import { useNavigate, useParams } from "react-router-dom";
+import MMMAlert from "components/mmm-alert";
 
 const PriceSearch = () => {
   const param = useParams();
@@ -21,6 +22,8 @@ const PriceSearch = () => {
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const [open, setOpen] = useState(false);
 
   const { skipTitleView } = useMaxLength();
 
@@ -67,7 +70,7 @@ const PriceSearch = () => {
       e.target.blur();
     } else if (e.key === "Enter") {
       if (SearchSellProductList.length < 1) {
-        alert("시세를 알 수 없는 상품입니다!");
+        setOpen(true);
       } else {
         navigate(`/MMM/pricecheckpage/${e.target.value}`);
         setSearchModal(false);
@@ -162,9 +165,26 @@ const PriceSearch = () => {
           )}
         </SearchList>
       )}
-      <TitleInform>
-        <span>"{datatitle}"</span> 의 시세정보입니다.
-      </TitleInform>
+      {datatitle ? (
+        <TitleInform>
+          <span>"{datatitle}"</span> 의 시세정보입니다.
+        </TitleInform>
+      ) : (
+        <MinHeight>
+          <span>시세를 알아보고 싶은 물품을 입력해주세요.</span>
+        </MinHeight>
+      )}
+      <AlertPosition open={open}>
+        <MMMAlert
+          size={"md"}
+          color={"warning"}
+          severity={"warning"}
+          MessageTitle={"No Product"}
+          AlertMessage={"시세를 알 수 없는 상품입니다!"}
+          open={open}
+          setOpen={setOpen}
+        />
+      </AlertPosition>
     </Wrapper>
   );
 };
@@ -234,8 +254,6 @@ const SearchList = styled.div`
     padding-top: 15px;
     padding-bottom: 30px;
     box-shadow: 1px 5px 5px 0px rgba(0, 0, 0, 0.6);
-
-    //
     line-height: 40px;
   }
 `;
@@ -283,3 +301,17 @@ const TitleInform = styled.div`
   }
 `;
 //
+
+const MinHeight = styled.div`
+  min-height: 500px;
+  ${flexCenter}
+`;
+
+const AlertPosition = styled.div`
+  ${flexCenter}
+  width: 100%;
+  height: 100px;
+  z-index: ${({ open }) => (open ? 100 : -100)};
+  position: absolute;
+  top: 8%;
+`;
