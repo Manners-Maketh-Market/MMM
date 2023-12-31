@@ -1,7 +1,16 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
+import { PRODUCT_QUERY_KEY } from "consts";
+import { Api } from "apis";
+import AuthApi from "apis/auth";
+import { useState } from "react";
+import { UsePriceComma } from "hooks/use-price-comma";
+import MMMButton from "components/button";
+import ImgSlider from "components/img-slider";
+import MannerTemperature from "components/manner-temperature";
 import styled, { css } from "styled-components";
+import { flexCenter, flexAlignCenter } from "styles/common.style";
+import unProfile from "./../../../images/icon/unprofile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComments,
@@ -9,17 +18,13 @@ import {
   faTrashCan,
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
-import { UsePriceComma } from "hooks/use-price-comma";
-import { Api, chatApi } from "apis";
-import AuthApi from "apis/auth";
-import MMMButton from "components/button";
-import ImgSlider from "components/img-slider";
-import MannerTemperature from "components/manner-temperature";
-import { flexCenter, flexAlignCenter } from "styles/common.style";
-import { PRODUCT_QUERY_KEY } from "consts";
-import unProfile from "./../../../images/icon/unprofile.png";
+import MMMAlert from "components/mmm-alert";
 
 const OneProductDetail = () => {
+  // alert
+  const [open, setOpen] = useState(false);
+  const [isLike, setIsLike] = useState(false);
+
   const navigate = useNavigate();
   const [isMoreContent, setIsMoreContent] = useState(true);
 
@@ -32,30 +37,6 @@ const OneProductDetail = () => {
     [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
     () => Api.getDetailProduct(dataId)
   );
-
-  // 채팅방 생성
-  const { mutateAsync: createChatRoom } = useMutation((id) =>
-    chatApi.postCreateChatRoom(id)
-  );
-
-  // 채팅방 저장
-  const { mutateAsync: saveChatRoom } = useMutation((data) => {
-    chatApi.postSaveChatRoom(data);
-  });
-
-  const onClickCreateChatRoom = async () => {
-    try {
-      // 채팅방 생성
-      const resRoomIdx = await createChatRoom(detailProduct?.searchProduct.idx);
-      await saveChatRoom({
-        room_idx: resRoomIdx?.idx,
-        message: "",
-      });
-      navigate("/MMM/chat");
-    } catch {
-      alert("이미 존재하는 채팅방입니다");
-    }
-  };
 
   // 유저 정보
   const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
@@ -77,10 +58,12 @@ const OneProductDetail = () => {
   const onClickLikedBtn = async () => {
     if (detailProduct.searchProduct.liked === 1) {
       await onLikeMutation(dataId);
-      alert("찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ");
+      setIsLike(false);
+      setOpen(true);
     } else if (detailProduct.searchProduct.liked === 0) {
       await onLikeMutation(dataId);
-      alert("찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ");
+      setIsLike(true);
+      setOpen(true);
     }
     refetch();
   };
@@ -220,11 +203,7 @@ const OneProductDetail = () => {
                         ? "찜 했어요!"
                         : "찜 하기"}
                     </MMMButton>
-                    <MMMButton
-                      variant={"detailB"}
-                      size={"medium"}
-                      onClick={onClickCreateChatRoom}
-                    >
+                    <MMMButton variant={"detailB"} size={"medium"}>
                       <FontAwesomeIcon icon={faComments} /> 채팅하기
                     </MMMButton>
                   </ButtonBox>
@@ -253,6 +232,21 @@ const OneProductDetail = () => {
               <ImgSlider related={detailProduct.relatedProduct.product} />
             </RelatedProduct>
           </ProductDetail>
+          <AlertPosition open={open}>
+            <MMMAlert
+              size={"md"}
+              color={isLike ? "success" : "warning"}
+              severity={isLike ? "success" : "warning"}
+              MessageTitle={isLike ? "Liked" : "unLiked"}
+              AlertMessage={
+                isLike
+                  ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ"
+                  : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."
+              }
+              open={open}
+              setOpen={setOpen}
+            />
+          </AlertPosition>
         </Wrapper>
       )}
     </>
@@ -493,4 +487,13 @@ const RelatedProduct = styled.div`
       font-weight: 700;
     }
   }
+`;
+
+const AlertPosition = styled.div`
+  ${flexCenter}
+  width: 100%;
+  height: 100px;
+  z-index: ${({ open }) => (open ? 100 : -100)};
+  position: absolute;
+  top: 8%;
 `;

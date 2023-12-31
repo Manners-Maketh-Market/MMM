@@ -14,6 +14,7 @@ import { SocketTokenRepository } from "repository/socket-token-repository";
 import { useState } from "react";
 
 const SignInForm = () => {
+  // alert
   const [open, setOpen] = useState(false);
   const [loginFail, setLoginFail] = useState(true);
 
@@ -39,7 +40,7 @@ const SignInForm = () => {
 
       LoginUserNickNameRepository.setUserNickName(res.user.nickName);
       SocketTokenRepository.setToken(res.user.token);
-      alert("반갑습니다^^");
+
       window.location.replace("/MMM/home");
       await SignIn(loginUserData);
       setLoginFail(false);
@@ -94,7 +95,7 @@ const SignInForm = () => {
       <AlertPosition open={open}>
         <MMMAlert
           size={"md"}
-          color={loginFail ? "error" : "success"} //성공색
+          color={loginFail ? "error" : "success"}
           severity={loginFail ? "error" : "success"}
           MessageTitle={loginFail ? "Login Fail" : "Login Success"}
           AlertMessage={

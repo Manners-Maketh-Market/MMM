@@ -16,51 +16,55 @@ import ProductOrder from "./location2";
 import { useState } from "react";
 import MMMAlert from "components/mmm-alert";
 
-
 const SignUpForm = () => {
-    // onClick LogoImage, goBack to LoginPage
-    const navigate = useNavigate();
-    const { SignUp } = useAuth();
-
-    // duplicate check
-    const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
-    const [isCheckedNickName, setIsCheckedNickName] = useRecoilState(isNickNameCheckPass);
-
+  // alert
   const [open, setOpen] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
+
+  // onClick LogoImage, goBack to LoginPage
+  const navigate = useNavigate();
+  const { SignUp } = useAuth();
+
+  // duplicate check
+  const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
+  const [isCheckedNickName, setIsCheckedNickName] =
+    useRecoilState(isNickNameCheckPass);
 
   const onClickSignIn = () => {
     navigate("/");
   };
 
-
-    // input - hook func.
-    const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] = useInputs({
-        email: '',
-        pw: '',
-        pwConfirm: '',
-        nickName: '',
-        phone: '',
-        region: '',
+  // input - hook func.
+  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] =
+    useInputs({
+      email: "",
+      pw: "",
+      pwConfirm: "",
+      nickName: "",
+      phone: "",
+      region: "",
     });
 
-    // validation check
-    const { errors, access } = FormValidate({
-        email,
-        pw,
-        pwConfirm,
-        nickName,
-        phone,
-        region,
-    });
+  // validation check
+  const { errors, access } = FormValidate({
+    email,
+    pw,
+    pwConfirm,
+    nickName,
+    phone,
+    region,
+  });
 
-    // 회원 가입 요청 post
-    const mutation = useMutation((signupUserData) => Api.postSignUpData(signupUserData));
+  // 회원 가입 요청 post
+  const mutation = useMutation((signupUserData) =>
+    Api.postSignUpData(signupUserData)
+  );
 
   // check email duplicate
   const onCheckEmail = async (e) => {
     e.preventDefault();
     setIsCategory(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     try {
       const res = await AuthApi.getCheckEmail(email);
       setIsCheckedEmail(true);
@@ -85,23 +89,24 @@ const SignUpForm = () => {
     }
   };
 
-    // sign-up
-    const onSubmitSignUp = async (e) => {
-        e.preventDefault();
+  // sign-up
+  const onSubmitSignUp = async (e) => {
+    e.preventDefault();
 
-        const signupUserData = {
-            email: e.target.email.value,
-            pw: e.target.pw.value,
-            nickName: e.target.nickName.value,
-            phone: e.target.phone.value,
-            region: e.target.region.value,
-        };
+    const signupUserData = {
+      email: e.target.email.value,
+      pw: e.target.pw.value,
+      nickName: e.target.nickName.value,
+      phone: e.target.phone.value,
+      region: e.target.region.value,
+    };
 
-    if (isCheckedEmail === false || isCheckedNickName === false) {
-    } else if (pw !== pwConfirm) {
-    } else {
+    try {
       await SignUp(signupUserData);
+      alert("환영합니다! 회원가입이 완료되었습니다!");
       navigate("/");
+    } catch (error) {
+      alert("회원가입이 정상적으로 이뤄지지 못했습니다!");
     }
   };
 
@@ -180,28 +185,34 @@ const SignUpForm = () => {
             isCategory && isCheckedEmail
               ? "success"
               : isCategory && !isCheckedEmail
-              ? "warning"
+              ? "error"
               : !isCategory && isCheckedNickName
               ? "success"
-              : !isCategory && !isCheckedNickName && "warning"
+              : !isCategory && !isCheckedNickName
+              ? "error"
+              : (!isCheckedEmail || !isCheckedNickName) && "warning"
           }
           severity={
             isCategory && isCheckedEmail
               ? "success"
               : isCategory && !isCheckedEmail
-              ? "warning"
+              ? "error"
               : !isCategory && isCheckedNickName
               ? "success"
-              : !isCategory && !isCheckedNickName && "warning"
+              : !isCategory && !isCheckedNickName
+              ? "error"
+              : (!isCheckedEmail || !isCheckedNickName) && "warning"
           }
           MessageTitle={
             isCategory && isCheckedEmail
               ? "Confirm"
               : isCategory && !isCheckedEmail
-              ? "Duplicate"
+              ? "Duplicated"
               : !isCategory && isCheckedNickName
               ? "Confirm"
-              : !isCategory && !isCheckedNickName && "Duplicate"
+              : !isCategory && !isCheckedNickName
+              ? "Duplicated"
+              : (!isCheckedEmail || !isCheckedNickName) && "Check Duplicate"
           }
           AlertMessage={
             isCategory && isCheckedEmail
@@ -210,7 +221,10 @@ const SignUpForm = () => {
               ? "이미 사용 중인 이메일입니다."
               : !isCategory && isCheckedNickName
               ? "사용가능한 닉네임 입니다"
-              : !isCategory && !isCheckedNickName && "중복된 닉네임 입니다."
+              : !isCategory && !isCheckedNickName
+              ? "중복된 닉네임 입니다."
+              : (!isCheckedEmail || !isCheckedNickName) &&
+                "이메일과 닉네임의 중복 여부를 확인해주세요."
           }
           open={open}
           setOpen={setOpen}
@@ -218,202 +232,200 @@ const SignUpForm = () => {
       </AlertPosition>
     </Wrapper>
   );
-
 };
 
 export default SignUpForm;
 
 const Wrapper = styled.div`
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    ${flexCenter}
-    flex-direction: column;
-    overflow-x: hidden;
+  width: 90%;
+  height: 100vh;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  ${flexCenter}
+  flex-direction: column;
+  overflow-x: hidden;
 `;
 const Logo = styled.div`
-    position: absolute;
-    top: 60px;
-    width: 230px;
-    height: 90px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('../../MMMlogo.png');
+  position: absolute;
+  top: 60px;
+  width: 230px;
+  height: 90px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("../../MMMlogo.png");
 
-    @media ${({ theme }) => theme.DEVICE.smallMobile} {
-        width: 150px;
-        height: 60px;
-    }
-    @media ${({ theme }) => theme.DEVICE.tablet2} {
-        width: 180px;
-        height: 90px;
-    }
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    width: 150px;
+    height: 60px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    width: 180px;
+    height: 90px;
+  }
 `;
 
 const Form = styled.form`
-    position: absolute;
-    top: 200px;
-    ${flexCenter}
-    flex-direction: column;
+  position: absolute;
+  top: 200px;
+  ${flexCenter}
+  flex-direction: column;
 
+  & > button {
+    min-width: 918px;
+    min-height: 46px;
+    margin-top: 60px;
+  }
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 200px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
     & > button {
-        min-width: 918px;
-        min-height: 46px;
-        margin-top: 20px;
-        margin-bottom: 80px;
+      min-width: 200px;
+      min-height: 38px;
+      border-radius: 4px;
+      font-size: 10px;
     }
-    @media ${({ theme }) => theme.DEVICE.smallMobile} {
-        max-width: 240px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    ${flexCenter}
+    max-width: 400px;
 
-        & > div {
-            & > input {
-                min-width: 200px;
-                min-height: 38px;
-                border-radius: 4px;
-                font-size: 10px;
-            }
-            & > label,
-            & > p {
-                font-size: 10px;
-            }
-        }
-        & > button {
-            min-width: 200px;
-            min-height: 38px;
-            border-radius: 4px;
-            font-size: 10px;
-        }
+    & > div {
+      & > input {
+        min-width: 320px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-right: -10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
     }
-    @media ${({ theme }) => theme.DEVICE.tablet2} {
-        ${flexCenter}
-        max-width: 400px;
+    & > button {
+      min-width: 320px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    ${flexCenter}
+    max-width: 700px;
 
-        & > div {
-            & > input {
-                min-width: 320px;
-                min-height: 42px;
-                border-radius: 6px;
-                font-size: 12px;
-                margin-right: -10px;
-            }
-            & > label,
-            & > p {
-                font-size: 12px;
-            }
-        }
-        & > button {
-            min-width: 320px;
-            min-height: 42px;
-            border-radius: 6px;
-            font-size: 12px;
-        }
+    & > div {
+      & > input {
+        min-width: 620px;
+        min-height: 48px;
+        margin-right: -10px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
     }
-    @media ${({ theme }) => theme.DEVICE.laptop} {
-        ${flexCenter}
-        max-width: 700px;
-
-        & > div {
-            & > input {
-                min-width: 620px;
-                min-height: 48px;
-                margin-right: -10px;
-                font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-            }
-            & > label,
-            & > p {
-                font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-            }
-        }
-        & > button {
-            min-width: 620px;
-            min-height: 46px;
-            font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-        }
+    & > button {
+      min-width: 620px;
+      min-height: 46px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
+  }
 `;
 
 const OneRow = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
 
+  & > button {
+    border: 1px solid #282190;
+    background-color: #fff;
+    color: #282190;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  @media ${({ theme }) => theme.DEVICE.smallMobile} {
+    max-width: 240px;
+
+    & > div {
+      & > input {
+        min-width: 150px;
+        min-height: 38px;
+        border-radius: 4px;
+        font-size: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 10px;
+      }
+    }
     & > button {
-        border: 1px solid #282190;
-        background-color: #fff;
-        color: #282190;
-        font-weight: 600;
-        margin-top: 20px;
+      min-width: 38px;
+      min-height: 38px;
+      font-size: 10px;
+      margin-left: 6px;
     }
-    @media ${({ theme }) => theme.DEVICE.smallMobile} {
-        max-width: 240px;
+  }
+  @media ${({ theme }) => theme.DEVICE.tablet2} {
+    max-width: 400px;
 
-        & > div {
-            & > input {
-                min-width: 150px;
-                min-height: 38px;
-                border-radius: 4px;
-                font-size: 10px;
-            }
-            & > label,
-            & > p {
-                font-size: 10px;
-            }
-        }
-        & > button {
-            min-width: 38px;
-            min-height: 38px;
-            font-size: 10px;
-            margin-left: 6px;
-        }
+    & > div {
+      & > input {
+        min-width: 240px;
+        min-height: 42px;
+        border-radius: 6px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: 12px;
+      }
     }
-    @media ${({ theme }) => theme.DEVICE.tablet2} {
-        max-width: 400px;
+    & > button {
+      min-width: 70px;
+      min-height: 42px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+  @media ${({ theme }) => theme.DEVICE.laptop} {
+    max-width: 700px;
 
-        & > div {
-            & > input {
-                min-width: 240px;
-                min-height: 42px;
-                border-radius: 6px;
-                font-size: 12px;
-                margin-left: 10px;
-            }
-            & > label,
-            & > p {
-                font-size: 12px;
-            }
-        }
-        & > button {
-            min-width: 70px;
-            min-height: 42px;
-            border-radius: 6px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
+    & > div {
+      & > input {
+        min-width: 466px;
+        min-height: 48px;
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+        margin-left: 10px;
+      }
+      & > label,
+      & > p {
+        font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
+      }
     }
-    @media ${({ theme }) => theme.DEVICE.laptop} {
-        max-width: 700px;
-
-        & > div {
-            & > input {
-                min-width: 466px;
-                min-height: 48px;
-                font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-                margin-left: 10px;
-            }
-            & > label,
-            & > p {
-                font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-            }
-        }
-        & > button {
-            min-width: 140px;
-            margin-left: 10px;
-            font-size: ${({ theme }) => theme.FONT_SIZE['extraSmall']};
-        }
+    & > button {
+      min-width: 140px;
+      margin-left: 10px;
+      font-size: ${({ theme }) => theme.FONT_SIZE["extraSmall"]};
     }
+  }
 `;
 
 const AlertPosition = styled.div`
@@ -421,6 +433,6 @@ const AlertPosition = styled.div`
   height: 100px;
   ${flexCenter}
   z-index: ${({ open }) => (open ? 100 : -10)};
-  position: absolute;
-  top: 8%;
+  position: sticky;
+  margin-top: -40%;
 `;

@@ -6,9 +6,14 @@ import useInputs from "hooks/use-inputs";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import styled from "styled-components";
-import { flexAlignCenter } from "styles/common.style";
+import { flexAlignCenter, flexCenter } from "styles/common.style";
+import MMMAlert from "components/mmm-alert";
 
 const ChangePassword = () => {
+  // alert
+  const [open, setOpen] = useState(false);
+  const [cases, setCases] = useState(0);
+
   const [isDisabled, setIsDisabled] = useState(false);
 
   // validate check
@@ -33,19 +38,24 @@ const ChangePassword = () => {
     const patchPassword = {
       pw: newPassword,
     };
+    window.scrollTo(0, 0);
 
     if (newPassword === newPasswordConfirm && newPassword.length >= 4) {
       try {
         await mutateChangePassword(patchPassword);
-        alert("비밀번호 변경에 성공하셨습니다!");
-        window.scrollTo(0, 0);
+        setCases(1);
+        setOpen(true);
+        setTimeout(() => window.location.replace("/MMM/my-page"), 1000);
       } catch (error) {
-        error && alert("비밀번호 변경에 실패했습니다");
+        setCases(2);
+        setOpen(true);
       }
     } else if (newPassword !== newPasswordConfirm) {
-      alert("비밀번호가 일치하는지 확인해주세요!");
+      setCases(3);
+      setOpen(true);
     } else if (newPassword.length < 4) {
-      alert("비밀번호를 네자리 이상 입력해주세요!");
+      setCases(4);
+      setOpen(true);
     }
   };
 
@@ -77,6 +87,31 @@ const ChangePassword = () => {
           변경사항 저장
         </MMMButton>
       </Contents>
+      <AlertPosition open={open}>
+        <MMMAlert
+          size={"md"}
+          color={cases === 1 ? "success" : cases === 2 ? "error" : "warning"}
+          severity={cases === 1 ? "success" : cases === 2 ? "error" : "warning"}
+          MessageTitle={
+            cases === 1
+              ? "Storage Success"
+              : cases === 2
+              ? "Storage Fail"
+              : "Warning"
+          }
+          AlertMessage={
+            cases === 1
+              ? "변경사항이 저장되었습니다!"
+              : cases === 2
+              ? "변경사항이 저장되지 못했습니다!"
+              : cases === 3
+              ? "비밀번호가 일치하지 않습니다."
+              : cases === 4 && "비밀번호를 4자리 이상 입력해주세요."
+          }
+          open={open}
+          setOpen={setOpen}
+        />
+      </AlertPosition>
     </Wrapper>
   );
 };
@@ -181,4 +216,12 @@ const Contents = styled.form`
       margin-left: 30%;
     }
   }
+`;
+const AlertPosition = styled.div`
+  width: 100%;
+  height: 100px;
+  ${flexCenter}
+  z-index: ${({ open }) => (open ? 100 : -10)};
+  position: absolute;
+  top: 8%;
 `;
