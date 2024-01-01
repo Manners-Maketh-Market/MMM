@@ -47,7 +47,7 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
     </td>
      <td>
       <a href="https://github.com/kiminn">
-        <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134191817/1e7b0a99-e05a-4223-8b78-7754f4fc2e4a" width="120px" height="120px"/>
+        <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134191815/90e1745b-51eb-4e31-8946-93970bcb7af1" width="120px" height="120px"/>
       </a>  
     </td>
      <td>
@@ -85,7 +85,7 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
   <tr>
     <td>
       <a href="https://github.com/Ahnjuhyeon">
-        <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134191817/95a10685-5582-4ed4-a785-2da127836f21" width="120px" height="120px"/>
+        <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134191815/4a4ed8b7-443e-45b2-8d5a-1b2a6f81899e" width="120px" height="120px"/>
       </a>  
     </td>
   <td>
