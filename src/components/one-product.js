@@ -107,6 +107,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
           }
           open={open}
           setOpen={setOpen}
+          type={"oneProduct"}
         />
       </AlertPosition>
     </S.Wrapper>
@@ -266,9 +267,10 @@ const S = {
 
 const AlertPosition = styled.div`
   ${flexCenter}
-  width: 1000px;
+  width: 100%;
   height: 100px;
   z-index: ${({ open }) => (open ? 100 : -100)};
   position: absolute;
   top: 8%;
+  overflow: hidden;
 `;
