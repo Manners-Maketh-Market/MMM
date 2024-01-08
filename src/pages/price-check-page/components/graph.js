@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -14,7 +14,6 @@ const PriceGraph = () => {
   aWeekAgo.setDate(today.getDate() - 4);
   // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
 
-  const [graphKeyWord, setGraphKeyWord] = useState("");
   const param = useParams();
   const datatitle = param.title;
 
