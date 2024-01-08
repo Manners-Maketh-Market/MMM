@@ -87,9 +87,6 @@ const OneProductDetail = () => {
       navigate(`/MMM/pricecheckpage/${titleValue}`);
     }
   };
-  const onMoreContentBtn = () => {
-    setIsMoreContent((prev) => !prev);
-  };
 
   // delete & edit post
   const onDeletePost = async () => {

@@ -6,7 +6,6 @@ import MMMInput from "components/input";
 import MMMButton from "components/button";
 
 const ProductOrder = () => {
-  const { state } = useLocation();
   const [modalState, setModalState] = useState(false);
   const [inputAddressValue, setInputAddressValue] = useState();
 
@@ -25,9 +24,6 @@ const ProductOrder = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const onCompletePost = (data) => {
     setModalState(false);
     setInputAddressValue(data.address);
@@ -37,13 +33,6 @@ const ProductOrder = () => {
     width: "400px",
     height: "400px",
     display: modalState ? "block" : "none",
-  };
-
-  const handleModal = () => {
-    setModalState(true);
-  };
-  const onCloseModal = () => {
-    setModalState(false);
   };
 
   const handleAddressValue = (e) => {
@@ -63,7 +52,11 @@ const ProductOrder = () => {
           size={"large"}
           required
         />
-        <MMMButton onClick={handleModal} type="button" size={"confirm"}>
+        <MMMButton
+          onClick={() => setModalState(true)}
+          type="button"
+          size={"confirm"}
+        >
           주소찾기
         </MMMButton>
       </OneRow>
