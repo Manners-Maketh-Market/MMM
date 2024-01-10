@@ -1,36 +1,48 @@
 import styled from "styled-components";
-import { useQuery } from "react-query";
-import { CHAT_QUERY_KEY, PRODUCT_QUERY_KEY } from "consts";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { buyerChatDataIndex } from "store";
-import { Api, chatApi } from "apis";
-import { isCreateChat } from "store";
-import { useState } from "react";
 import { useSocket } from "socket/socket";
-import { useSearchParams } from "react-router-dom";
-import ChatProductIdxRepository from "repository/chatting-idx-repository";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
-import { test } from "store";
-import { useEffect } from "react";
-import { targetChatRoom } from "store";
+import { useEffect, useRef } from "react";
 
 const ChattingBar = () => {
+  const wrapperRef = useRef(null);
+
   const myNickName = LoginUserNickNameRepository.getUserNickName();
+
   const { chatLog } = useSocket();
 
+  const chatTimeRender = (chatCreatedTime) => {
+    const chatTime = new Date(chatCreatedTime);
+    const chatTimeHours = chatTime.getHours();
+    const chatTimeMinutes = chatTime.getMinutes();
+    const amOrPm = chatTimeHours >= 12 ? "오후" : "오전";
+    const formattedHours = chatTimeHours % 12 || 12;
+    return `${amOrPm} ${formattedHours}시 ${chatTimeMinutes}분`;
+  };
+
+  // 채팅 창 스크롤을 항상 최하단에 위치 시키는 로직
+  useEffect(() => {
+    if (wrapperRef.current) {
+      wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight;
+    }
+  }, [chatLog]);
+
   return (
-    <S.Wrapper>
-      {chatLog?.map((chat) => {
-        if (chat.nick_name === myNickName) {
-          return (
+    <S.Wrapper ref={wrapperRef}>
+      {chatLog?.map((chat) => (
+        <>
+          {chat.nick_name === myNickName ? (
             <S.MarketerFlex>
+              <S.TimeBar>{chatTimeRender(chat.createdAt)}</S.TimeBar>
               <S.MarketerBar>{chat.message}</S.MarketerBar>
             </S.MarketerFlex>
-          );
-        }
-
-        return <S.BuyerBar>{chat.message}</S.BuyerBar>;
-      })}
+          ) : (
+            <S.BuyerFlex>
+              <S.BuyerBar>{chat.message}</S.BuyerBar>
+              <S.TimeBar>{chatTimeRender(chat.createdAt)}</S.TimeBar>
+            </S.BuyerFlex>
+          )}
+        </>
+      ))}
     </S.Wrapper>
   );
 };
@@ -60,6 +72,14 @@ const MarketerFlex = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+`;
+
+const BuyerFlex = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const MarketerBar = styled.p`
@@ -75,9 +95,16 @@ const MarketerBar = styled.p`
   white-space: -moz-pre-wrap;
 `;
 
+const TimeBar = styled.div`
+  font-size: ${({ theme }) => theme.FONT_SIZE.small};
+  color: ${({ theme }) => theme.COLORS.gray[300]};
+`;
+
 const S = {
   Wrapper,
   BuyerBar,
   MarketerFlex,
   MarketerBar,
+  BuyerFlex,
+  TimeBar,
 };

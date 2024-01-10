@@ -1,6 +1,6 @@
 import { chatApi } from "apis";
 import { CHAT_QUERY_KEY } from "consts";
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useSearchParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
@@ -22,7 +22,7 @@ const OneChat = ({
   lastMessage,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const targetChatIdx = searchParams.get("targetChatProductIdx") || 0;
+  const targetChatIdx = searchParams.get("targetChatProductIdx") || undefined;
   const client = useQueryClient();
 
   const setTargetChatRoom = useSetRecoilState(targetChatRoom);
@@ -56,6 +56,7 @@ const OneChat = ({
       const chatLogs = data.map((chat) => ({
         nick_name: chat.User.nick_name,
         message: chat.message,
+        createdAt: chat.createdAt,
       }));
 
       setChatLog(chatLogs);

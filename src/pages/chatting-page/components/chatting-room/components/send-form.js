@@ -1,6 +1,6 @@
 import { chatApi } from "apis";
 import { useMutation, useQueryClient } from "react-query";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isCreateChat } from "store";
 import styled from "styled-components";
 import { useState } from "react";
