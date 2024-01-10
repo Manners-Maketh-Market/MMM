@@ -10,9 +10,8 @@ import image7 from './../images/image7.png';
 import leftArrow from './../images/left-arrow.png';
 import DownArrow from './../images/down-arrow.png';
 import whiteArrow from './../images/white-arrow2.png';
-
 import { styled } from 'styled-components';
-import useMaxLength from 'hooks/use-max-length-overflow';
+import useMaxLength from 'utils/use-max-length-overflow';
 import { useNavigate } from 'react-router-dom';
 
 const ImgSlider = ({ product, related }) => {

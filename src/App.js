@@ -7,8 +7,9 @@ import theme from "styles/theme.style";
 import GlobalStyles from "styles/global.style";
 import { worker } from "__mock__/browser";
 import React from "react";
-import AuthProvider from "provider/auth-provider";
-import SocketProvider from "socket/socket";
+
+import AuthProvider from "context/auth.ctx";
+import SocketProvider from "context/socket.ctx";
 
 const queryClient = new QueryClient();
 if (process.env.NODE_ENV === "development") {

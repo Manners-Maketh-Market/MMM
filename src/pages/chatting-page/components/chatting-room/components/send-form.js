@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isCreateChat } from "store";
 import styled from "styled-components";
 import { useState } from "react";
-import { useSocket } from "socket/socket";
+import { useSocket } from "context/socket.ctx";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
 import { CHAT_QUERY_KEY } from "consts";
 import { targetChatRoom } from "store";
