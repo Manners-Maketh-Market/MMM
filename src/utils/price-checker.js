@@ -1,4 +1,4 @@
-const usePrice = (price) => {
+const PriceChecker = (price) => {
   // 최고 시세
   const maxARR =
     price &&
@@ -23,4 +23,4 @@ const usePrice = (price) => {
   return { maxARR, minARR, result };
 };
 
-export default usePrice;
+export default PriceChecker;

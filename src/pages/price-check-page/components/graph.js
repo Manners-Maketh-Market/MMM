@@ -7,7 +7,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import usePrice from "hooks/use-price";
+import PriceChecker from "utils/price-checker";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -27,7 +27,7 @@ const PriceGraph = () => {
       )
   );
 
-  const { maxARR, minARR, result } = usePrice(ProductPriceList);
+  const { maxARR, minARR, result } = PriceChecker(ProductPriceList);
 
   useEffect(() => {
     refetch();
