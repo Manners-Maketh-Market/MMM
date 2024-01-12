@@ -90,10 +90,11 @@ const OneProductDetail = () => {
   };
 
   const onMarketPricePage = () => {
+    const titleValue = detailProduct.searchProduct.title;
     if (SearchSellProductList.length < 1) {
       setPriceOpen(true);
     } else {
-      navigate(`/MMM/pricecheckpage/${detailProduct.searchProduct.title}`);
+      navigate(`/MMM/pricecheckpage/${titleValue}`);
     }
   };
 
