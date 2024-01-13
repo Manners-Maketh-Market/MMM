@@ -9,9 +9,9 @@ import menubar from "../../images/icon/menubar.png";
 import close from "../../images/icon/close.png";
 import MenuBar from "./components/menu-bar";
 import { useRecoilState } from "recoil";
-import { isMenuBarState } from "store";
 import { useState } from "react";
 import MyPageModal from "../my-page-modal";
+import { isMenuBarState } from "store/menubar-state";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -54,25 +54,9 @@ const Header = () => {
         <Search />
         <S.HeaderIcon src={user} alt="User" onClick={onGoMyPage} />
         {isMyPageModal && <MyPageModal setIsMyPageModal={setIsMyPageModal} />}
-        <S.HeaderIcon
-          src={my_store}
-          alt="myStore"
-          onClick={onGoRegisterProductPage}
-        />
+        <S.HeaderIcon src={my_store} alt="myStore" onClick={onGoRegisterProductPage} />
       </S.RightIconContainer>
-      {isShowMenuBar ? (
-        <S.MobileMenuBar
-          src={close}
-          alt="close"
-          onClick={onOpenAndCloseMenuBar}
-        />
-      ) : (
-        <S.MobileMenuBar
-          src={menubar}
-          alt="menubar"
-          onClick={onOpenAndCloseMenuBar}
-        />
-      )}
+      {isShowMenuBar ? <S.MobileMenuBar src={close} alt="close" onClick={onOpenAndCloseMenuBar} /> : <S.MobileMenuBar src={menubar} alt="menubar" onClick={onOpenAndCloseMenuBar} />}
       {isShowMenuBar && <MenuBar />}
     </S.Wrapper>
   );
