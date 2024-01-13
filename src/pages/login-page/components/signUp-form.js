@@ -4,7 +4,6 @@ import { useRecoilState } from "recoil";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
 import { useAuth } from "provider/auth-provider";
-import { isEmailCheckPass, isNickNameCheckPass } from "store";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
@@ -15,6 +14,7 @@ import { flexCenter } from "styles/common.style";
 import ProductOrder from "./location2";
 import { useState } from "react";
 import MMMAlert from "components/mmm-alert";
+import { isEmailCheckPass, isNickNameCheckPass } from "store/registration-state";
 
 const SignUpForm = () => {
   // alert
@@ -27,23 +27,21 @@ const SignUpForm = () => {
 
   // duplicate check
   const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
-  const [isCheckedNickName, setIsCheckedNickName] =
-    useRecoilState(isNickNameCheckPass);
+  const [isCheckedNickName, setIsCheckedNickName] = useRecoilState(isNickNameCheckPass);
 
   const onClickSignIn = () => {
     navigate("/");
   };
 
   // input - hook func.
-  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] =
-    useInputs({
-      email: "",
-      pw: "",
-      pwConfirm: "",
-      nickName: "",
-      phone: "",
-      region: "",
-    });
+  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] = useInputs({
+    email: "",
+    pw: "",
+    pwConfirm: "",
+    nickName: "",
+    phone: "",
+    region: "",
+  });
 
   // validation check
   const { errors, access } = FormValidate({
@@ -56,9 +54,7 @@ const SignUpForm = () => {
   });
 
   // 회원 가입 요청 post
-  const mutation = useMutation((signupUserData) =>
-    Api.postSignUpData(signupUserData)
-  );
+  const mutation = useMutation((signupUserData) => Api.postSignUpData(signupUserData));
 
   // check email duplicate
   const onCheckEmail = async (e) => {
@@ -223,8 +219,7 @@ const SignUpForm = () => {
               ? "사용가능한 닉네임 입니다"
               : !isCategory && !isCheckedNickName
               ? "중복된 닉네임 입니다."
-              : (!isCheckedEmail || !isCheckedNickName) &&
-                "이메일과 닉네임의 중복 여부를 확인해주세요."
+              : (!isCheckedEmail || !isCheckedNickName) && "이메일과 닉네임의 중복 여부를 확인해주세요."
           }
           open={open}
           setOpen={setOpen}

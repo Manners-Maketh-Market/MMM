@@ -5,22 +5,11 @@ import { useSearchParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
 import { useSocket } from "socket/socket";
-import { currentChatUser } from "store";
-import { targetChatRoom } from "store";
+import { currentChatUser, targetChatRoom } from "store/chat-state";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
-const OneChat = ({
-  profileImg,
-  nickName,
-  productImg,
-  roomId,
-  index,
-  productId,
-  productTitle,
-  price,
-  lastMessage,
-}) => {
+const OneChat = ({ profileImg, nickName, productImg, roomId, index, productId, productTitle, price, lastMessage }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const targetChatIdx = searchParams.get("targetChatProductIdx") || undefined;
   const client = useQueryClient();

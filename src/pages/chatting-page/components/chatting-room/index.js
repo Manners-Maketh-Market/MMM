@@ -3,8 +3,8 @@ import ProductBar from "./components/product-bar";
 import BuyerBar from "./components/buyer-bar";
 import ChattingBar from "./components/chatting-bar";
 import { useRecoilValue } from "recoil";
-import { isMobileChattingRoom } from "store";
 import SendForm from "./components/send-form";
+import { isMobileChattingRoom } from "store/chat-state";
 
 const ChattingRoom = () => {
   const isMobileChattingRoomState = useRecoilValue(isMobileChattingRoom);

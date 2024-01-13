@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { isMenuBarState } from "store";
+import { isMenuBarState } from "store/menubar-state";
 
 const MenuBar = () => {
   const navigate = useNavigate();
