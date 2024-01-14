@@ -1,4 +1,4 @@
-import { UsePriceComma } from "hooks/use-price-comma";
+import { UsePriceComma } from "utils/use-price-comma";
 import { styled } from "styled-components";
 
 const PriceBox = ({ title, price, ...rest }) => {

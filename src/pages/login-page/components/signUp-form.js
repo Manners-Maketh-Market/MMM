@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
-import { useAuth } from "provider/auth-provider";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
 import MMMInput from "components/input";
@@ -14,6 +13,7 @@ import { flexCenter } from "styles/common.style";
 import ProductOrder from "./location2";
 import { useState } from "react";
 import MMMAlert from "components/mmm-alert";
+import { useAuth } from "context/auth.ctx";
 import { isEmailCheckPass, isNickNameCheckPass } from "store/registration-state";
 
 const SignUpForm = () => {
