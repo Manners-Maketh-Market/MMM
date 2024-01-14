@@ -1,5 +1,4 @@
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router";
 import { Api } from "apis";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
@@ -7,22 +6,20 @@ import emptyHeartIcon from "../images/icon/emptyHeart.png";
 import HeartIcon from "../images/icon/fullheart.png";
 import MMMAlert from "components/mmm-alert";
 import { useState } from "react";
+import UseNavigation from "hooks/use-navigation";
 
 const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
   // alert
   const [open, setOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
-
-  const navigate = useNavigate();
+  const { goToDetailPage } = UseNavigation();
 
   const onClickToDetailPage = (id) => {
-    navigate(`/MMM/products/detail/${id}`);
+    goToDetailPage(id);
     window.scrollTo({ top: 0 });
   };
 
-  const { mutateAsync: onLikeMutation } = useMutation((id) =>
-    Api.postLikedProduct(id)
-  );
+  const { mutateAsync: onLikeMutation } = useMutation((id) => Api.postLikedProduct(id));
 
   const onClickLikedBtn = async () => {
     if (liked === 1) {
@@ -63,36 +60,18 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
   return (
     <S.Wrapper>
       {status === "판매중" ? (
-        <S.ProductImg
-          src={img}
-          alt="product img"
-          onClick={() => onClickToDetailPage(id)}
-        />
+        <S.ProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
       ) : (
         <>
-          <S.SoldOutProductImg
-            src={img}
-            alt="product img"
-            onClick={() => onClickToDetailPage(id)}
-          />
+          <S.SoldOutProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
           <S.SoldOutMessage>Sold Out</S.SoldOutMessage>
         </>
       )}
       <S.TitleAndLikeBox>
         <S.Title className="Title">{title}</S.Title>
-        {liked === 1 ? (
-          <S.HeartImg src={HeartIcon} alt="heart" onClick={onClickLikedBtn} />
-        ) : (
-          <S.HeartImg
-            src={emptyHeartIcon}
-            alt="emptyHeart"
-            onClick={onClickLikedBtn}
-          />
-        )}
+        {liked === 1 ? <S.HeartImg src={HeartIcon} alt="heart" onClick={onClickLikedBtn} /> : <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onClickLikedBtn} />}
       </S.TitleAndLikeBox>
-      <S.Content className="Content">
-        {ProductRegistrationTime(createdAt)}
-      </S.Content>
+      <S.Content className="Content">{ProductRegistrationTime(createdAt)}</S.Content>
       <S.Price className="Price">{price}원</S.Price>
       <AlertPosition open={open}>
         <MMMAlert
@@ -100,11 +79,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
           color={isLike ? "success" : "warning"}
           severity={isLike ? "success" : "warning"}
           MessageTitle={isLike ? "Liked" : "unLiked"}
-          AlertMessage={
-            isLike
-              ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ"
-              : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."
-          }
+          AlertMessage={isLike ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ" : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."}
           open={open}
           setOpen={setOpen}
         />

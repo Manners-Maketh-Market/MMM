@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
@@ -7,22 +6,20 @@ import MMMButton from "components/button";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { Container, Grid } from "@mui/material";
+import UseNavigation from "hooks/use-navigation";
 
 const RegisteredProducts = () => {
-  const navigate = useNavigate();
+  const { goToRegisterProductPage, goToDetailPage } = UseNavigation();
 
   const registerForm = () => {
-    navigate("/MMM/my-page/registerProductForm");
+    goToRegisterProductPage();
   };
 
   // getMyProductList
-  const { data: getMyProductList } = useQuery(
-    [PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST],
-    () => AuthApi.getMyProductList(1, 0)
-  );
+  const { data: getMyProductList } = useQuery([PRODUCT_QUERY_KEY.GET_MY_PRODUCT_LIST], () => AuthApi.getMyProductList(1, 0));
 
   const onToDetailPage = (id) => {
-    navigate(`/MMM/products/detail/${id}`);
+    goToDetailPage(id);
     window.scrollTo({ top: 0 });
   };
 
@@ -33,55 +30,31 @@ const RegisteredProducts = () => {
     setCurrentTab(index);
   };
 
-  const OnSaleProducts =
-    getMyProductList && getMyProductList.products
-      ? getMyProductList.products.filter(
-          (product) => product.status === "판매중"
-        )
-      : [];
+  const OnSaleProducts = getMyProductList && getMyProductList.products ? getMyProductList.products.filter((product) => product.status === "판매중") : [];
 
-  const SoldProducts =
-    getMyProductList && getMyProductList.products
-      ? getMyProductList.products.filter(
-          (product) => product.status === "판매완료"
-        )
-      : [];
+  const SoldProducts = getMyProductList && getMyProductList.products ? getMyProductList.products.filter((product) => product.status === "판매완료") : [];
 
   return (
     <Wrapper>
       <Tabs>
         {tabs.map((tab, index) => (
-          <li
-            className={index === currentTab ? "tab focused" : "tab"}
-            onClick={() => selectedTab(index)}
-            key={index}
-          >
+          <li className={index === currentTab ? "tab focused" : "tab"} onClick={() => selectedTab(index)} key={index}>
             {tab.name}
           </li>
         ))}
       </Tabs>
       {OnSaleProducts.length > 0 || SoldProducts.length > 0 ? (
         <Container>
-          <Grid
-            container
-            spacing={{ xs: 1, md: 2, lg: 3 }}
-            style={{ paddingBottom: 20 }}
-          >
+          <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} style={{ paddingBottom: 20 }}>
             {currentTab === 0
               ? OnSaleProducts.map((list, index) => (
                   <Grid style={{ margin: 2 }}>
-                    <OneImage
-                      src={list.img_url}
-                      onClick={() => onToDetailPage(list.idx)}
-                    />
+                    <OneImage src={list.img_url} onClick={() => onToDetailPage(list.idx)} />
                   </Grid>
                 ))
               : SoldProducts.map((list, index) => (
                   <Grid style={{ margin: 2 }}>
-                    <OneImage
-                      src={list.img_url}
-                      onClick={() => onToDetailPage(list.idx)}
-                    />
+                    <OneImage src={list.img_url} onClick={() => onToDetailPage(list.idx)} />
                   </Grid>
                 ))}
           </Grid>
@@ -89,11 +62,7 @@ const RegisteredProducts = () => {
       ) : (
         <div>
           <p>등록된 상품이 없습니다.</p>
-          <MMMButton
-            onClick={registerForm}
-            variant={"secondary"}
-            size={"medium"}
-          >
+          <MMMButton onClick={registerForm} variant={"secondary"} size={"medium"}>
             물품 등록하기
           </MMMButton>
         </div>

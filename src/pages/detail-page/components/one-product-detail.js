@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
@@ -12,20 +12,15 @@ import styled, { css } from "styled-components";
 import { flexCenter, flexAlignCenter } from "styles/common.style";
 import unProfile from "./../../../images/icon/unprofile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faComments,
-  faHeart,
-  faTrashCan,
-  faPen,
-} from "@fortawesome/free-solid-svg-icons";
+import { faComments, faHeart, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import MMMAlert from "components/mmm-alert";
+import UseNavigation from "hooks/use-navigation";
 
 const OneProductDetail = () => {
   // alert
   const [open, setOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
-
-  const navigate = useNavigate();
+  const { goToMarketPricePage, goToMainPage, goToEditPost } = UseNavigation();
   const [isMoreContent, setIsMoreContent] = useState(true);
 
   // id 값과 같은 데이터를 recoil에 저장한 use데이터목록에서 가져오기
@@ -33,27 +28,16 @@ const OneProductDetail = () => {
   const dataId = param.id;
 
   // 물품 상세 정보
-  const { data: detailProduct, refetch } = useQuery(
-    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
-    () => Api.getDetailProduct(dataId)
-  );
+  const { data: detailProduct, refetch } = useQuery([PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA], () => Api.getDetailProduct(dataId));
 
   // 유저 정보
-  const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
-    AuthApi.getUserData()
-  );
+  const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () => AuthApi.getUserData());
 
-  const { mutateAsync: onLikeMutation } = useMutation((id) =>
-    Api.postLikedProduct(id)
-  );
+  const { mutateAsync: onLikeMutation } = useMutation((id) => Api.postLikedProduct(id));
 
-  const { mutateAsync: onSellMutation, data: sellData } = useMutation(
-    (requestData) => Api.postSaleComplete(requestData)
-  );
+  const { mutateAsync: onSellMutation, data: sellData } = useMutation((requestData) => Api.postSaleComplete(requestData));
 
-  const { mutateAsync: deleteMyPost } = useMutation((id) =>
-    Api.deleteMyPost(id)
-  );
+  const { mutateAsync: deleteMyPost } = useMutation((id) => Api.deleteMyPost(id));
 
   const onClickLikedBtn = async () => {
     if (detailProduct.searchProduct.liked === 1) {
@@ -84,7 +68,7 @@ const OneProductDetail = () => {
     if (!titleValue) {
       alert("시세를 알 수 없는 상품입니다!");
     } else {
-      navigate(`/MMM/pricecheckpage/${titleValue}`);
+      goToMarketPricePage(titleValue);
     }
   };
 
@@ -92,11 +76,11 @@ const OneProductDetail = () => {
   const onDeletePost = async () => {
     await deleteMyPost(dataId);
     alert("게시글이 삭제되었습니다.");
-    navigate("/MMM/home");
+    goToMainPage();
   };
 
   const onEditPost = () => {
-    navigate(`/MMM/edit-post/${dataId}`);
+    goToEditPost(dataId);
   };
 
   return (
@@ -110,55 +94,29 @@ const OneProductDetail = () => {
               <Inform>
                 <Title>상품제목 | {detailProduct.searchProduct.title}</Title>
                 <FlexBox>
-                  <Price>
-                    {UsePriceComma(detailProduct.searchProduct.price)}원
-                  </Price>
-                  <p onClick={() => onMarketPricePage()}>
-                    이 상품 시세 조회하러 가기
-                  </p>
+                  <Price>{UsePriceComma(detailProduct.searchProduct.price)}원</Price>
+                  <p onClick={() => onMarketPricePage()}>이 상품 시세 조회하러 가기</p>
                 </FlexBox>
                 <UserProf>
                   <UserImgIdLoc>
                     <UserProfBox>
                       <ProfileImg>
-                        <img
-                          src={
-                            detailProduct.searchProduct.User.profile_url
-                              ? detailProduct.searchProduct.User.profile_url
-                              : unProfile
-                          }
-                          width={"100%"}
-                          height={"100%"}
-                          alt="ProfileImg"
-                        />
+                        <img src={detailProduct.searchProduct.User.profile_url ? detailProduct.searchProduct.User.profile_url : unProfile} width={"100%"} height={"100%"} alt="ProfileImg" />
                       </ProfileImg>
                       <UserIdLoc>
                         <p>{detailProduct.searchProduct.User.nick_name}</p>
                         <p>{detailProduct.searchProduct.region}</p>
                       </UserIdLoc>
                     </UserProfBox>
-                    <MannerTemperature
-                      temp={detailProduct.searchProduct.User.Ondo}
-                    ></MannerTemperature>
+                    <MannerTemperature temp={detailProduct.searchProduct.User.Ondo}></MannerTemperature>
                   </UserImgIdLoc>
                 </UserProf>
                 <ul>
                   <List>
                     <Category>거래상태</Category>
-                    {detailProduct.searchProduct.User.nick_name ===
-                    userInfoData.nick_name ? (
-                      <MMMButton
-                        variant={
-                          detailProduct.searchProduct.status === "판매중"
-                            ? "detailY"
-                            : "detailG"
-                        }
-                        onClick={onClickChangeProductStatus}
-                        disabled={isClicked}
-                      >
-                        {detailProduct.searchProduct.status === "판매중"
-                          ? "판매중"
-                          : "판매완료"}
+                    {detailProduct.searchProduct.User.nick_name === userInfoData.nick_name ? (
+                      <MMMButton variant={detailProduct.searchProduct.status === "판매중" ? "detailY" : "detailG"} onClick={onClickChangeProductStatus} disabled={isClicked}>
+                        {detailProduct.searchProduct.status === "판매중" ? "판매중" : "판매완료"}
                       </MMMButton>
                     ) : (
                       <span>{detailProduct.searchProduct.status}</span>
@@ -172,33 +130,20 @@ const OneProductDetail = () => {
                   </List>
                   <List>
                     <Category>등록일</Category>
-                    <span>
-                      {detailProduct.searchProduct.createdAt.split("T", 1)}
-                    </span>
+                    <span>{detailProduct.searchProduct.createdAt.split("T", 1)}</span>
                   </List>
                   <List>
                     <Category>거래지역</Category>
                     <span>{detailProduct.searchProduct.region}</span>
                   </List>
                 </ul>
-                {detailProduct.searchProduct.User.nick_name !==
-                  userInfoData.nick_name && (
+                {detailProduct.searchProduct.User.nick_name !== userInfoData.nick_name && (
                   <ButtonBox>
-                    <MMMButton
-                      variant={
-                        detailProduct.searchProduct.liked === 1
-                          ? "detailY"
-                          : "detailG"
-                      }
-                      size={"medium"}
-                      onClick={onClickLikedBtn}
-                    >
+                    <MMMButton variant={detailProduct.searchProduct.liked === 1 ? "detailY" : "detailG"} size={"medium"} onClick={onClickLikedBtn}>
                       <span>
                         <FontAwesomeIcon icon={faHeart} />
                       </span>
-                      {detailProduct.searchProduct.liked === 1
-                        ? "찜 했어요!"
-                        : "찜 하기"}
+                      {detailProduct.searchProduct.liked === 1 ? "찜 했어요!" : "찜 하기"}
                     </MMMButton>
                     <MMMButton variant={"detailB"} size={"medium"}>
                       <FontAwesomeIcon icon={faComments} /> 채팅하기
@@ -208,8 +153,7 @@ const OneProductDetail = () => {
               </Inform>
             </ImgAndInform>
             <Content isMore={isMoreContent}>
-              {detailProduct.searchProduct.User.nick_name ===
-                userInfoData.nick_name && (
+              {detailProduct.searchProduct.User.nick_name === userInfoData.nick_name && (
                 <ButtonWrapper>
                   <button onClick={onEditPost}>
                     <FontAwesomeIcon icon={faPen} />
@@ -235,11 +179,7 @@ const OneProductDetail = () => {
               color={isLike ? "success" : "warning"}
               severity={isLike ? "success" : "warning"}
               MessageTitle={isLike ? "Liked" : "unLiked"}
-              AlertMessage={
-                isLike
-                  ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ"
-                  : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."
-              }
+              AlertMessage={isLike ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ" : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."}
               open={open}
               setOpen={setOpen}
             />

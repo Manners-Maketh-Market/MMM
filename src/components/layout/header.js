@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import Search from "./components/search";
-import { useNavigate } from "react-router-dom";
 import BlackLogo from "../../images/logo/BlackLogo.png";
 import my_store from "../../images/icon/my_store.png";
 import user from "../../images/icon/user.png";
@@ -12,28 +11,29 @@ import { useRecoilState } from "recoil";
 import { useState } from "react";
 import MyPageModal from "../my-page-modal";
 import { isMenuBarState } from "store/menubar-state";
+import UseNavigation from "hooks/use-navigation";
 
 const Header = () => {
-  const navigate = useNavigate();
+  const { goToProductsListPage, goToMainPage, goToPriceCheckPage, goToRegisterProductPage } = UseNavigation();
 
   const [isShowMenuBar, setIsShowMenuBar] = useRecoilState(isMenuBarState);
   const [isMyPageModal, setIsMyPageModal] = useState(false);
 
   const onGoProductsListPage = (saleStatus) => {
-    navigate(`/MMM/products/${saleStatus}`);
+    goToProductsListPage(saleStatus);
   };
   const onGoMainPage = () => {
-    navigate(`/MMM/home`);
+    goToMainPage();
   };
   const onGoPriceCheckPage = () => {
-    navigate("/MMM/pricecheckpage");
+    goToPriceCheckPage();
   };
   const onGoMyPage = () => {
     setIsMyPageModal((prev) => !prev);
   };
 
   const onGoRegisterProductPage = () => {
-    navigate("/MMM/my-page/registerProductForm");
+    goToRegisterProductPage();
   };
 
   const onOpenAndCloseMenuBar = () => {

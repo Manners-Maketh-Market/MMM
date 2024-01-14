@@ -1,22 +1,19 @@
 import MMMButton from "components/button";
-import { useNavigate } from "react-router-dom";
+import UseNavigation from "hooks/use-navigation";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
 const Error403 = () => {
-  const navigate = useNavigate();
+  const { goToSignIn } = UseNavigation();
 
   const onGoLoginPage = () => {
-    navigate("/sign-in");
+    goToSignIn();
   };
   return (
     <Wrapper>
       <ErrorStatus>403</ErrorStatus>
       <Head>해당 페이지에 대한 권한이 없습니다.</Head>
-      <Content>
-        웹사이트에서 이 웹 페이지 표시를 거부했습니다. 이 웹 페이지를 보려면
-        로그인해야 합니다.
-      </Content>
+      <Content>웹사이트에서 이 웹 페이지 표시를 거부했습니다. 이 웹 페이지를 보려면 로그인해야 합니다.</Content>
       <Content>아래 버튼을 클릭한 후 로그인 해주세요.</Content>
       <br />
       <MMMButton variant="secondary" size="more" onClick={onGoLoginPage}>

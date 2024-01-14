@@ -4,22 +4,19 @@ import { useQuery } from "react-query";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "provider/auth-provider";
 import MMMAlert from "./mmm-alert";
 import { useState } from "react";
+import UseNavigation from "hooks/use-navigation";
 
 const MyPageModal = ({ setIsMyPageModal }) => {
   // alert
   const [open, setOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const { goToMyPage } = UseNavigation();
   const { SignOut } = useAuth();
 
-  const { data: myPageData } = useQuery(
-    [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
-    () => AuthApi.getMyPageData()
-  );
+  const { data: myPageData } = useQuery([PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA], () => AuthApi.getMyPageData());
 
   const onClickLogout = async () => {
     try {
@@ -34,7 +31,7 @@ const MyPageModal = ({ setIsMyPageModal }) => {
   };
 
   const onClickMyPageBtn = () => {
-    navigate(`/MMM/my-page`);
+    goToMyPage();
     setIsMyPageModal(false);
   };
 
@@ -48,15 +45,7 @@ const MyPageModal = ({ setIsMyPageModal }) => {
             <EventButton onClick={onClickLogout}>로그아웃</EventButton>
           </ButtonGroup>
           <AlertPosition>
-            <MMMAlert
-              size={"md"}
-              color={"success"}
-              severity={"success"}
-              MessageTitle={"Log-Out"}
-              AlertMessage={"로그아웃이 정상적으로 이뤄졌습니다."}
-              open={open}
-              setOpen={setOpen}
-            />
+            <MMMAlert size={"md"} color={"success"} severity={"success"} MessageTitle={"Log-Out"} AlertMessage={"로그아웃이 정상적으로 이뤄졌습니다."} open={open} setOpen={setOpen} />
           </AlertPosition>
         </Wrapper>
       </>

@@ -7,8 +7,9 @@ import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SearchIconImage from "../../../images/icon/search.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MMMAlert from "components/mmm-alert";
+import UseNavigation from "hooks/use-navigation";
 
 const PriceSearch = () => {
   const param = useParams();
@@ -26,17 +27,12 @@ const PriceSearch = () => {
 
   const { skipTitleView } = useMaxLength();
 
-  const navigate = useNavigate();
+  const { goToMarketPricePage } = UseNavigation();
 
-  const { data: SearchProductList, refetch } = useQuery(
-    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
-    () => Api.getSearchProduct(0, titles, 1)
-  );
+  const { data: SearchProductList, refetch } = useQuery([PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST], () => Api.getSearchProduct(0, titles, 1));
 
   // 판매완료된 상품 리스트
-  const SearchSellProductList =
-    SearchProductList &&
-    SearchProductList.product.filter((list) => list.status === "판매완료");
+  const SearchSellProductList = SearchProductList && SearchProductList.product.filter((list) => list.status === "판매완료");
 
   // 키워드는 title(제목) description(내용)안에 키워드랑 같은 문자가 들어가있으면 데이터를 가져옴 / 비어놨을 때 전부가져옴
   // 1페이지 데이터 20개 묶음으로 구분, 2 20~ 39
@@ -54,24 +50,18 @@ const PriceSearch = () => {
 
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
-      setSelectedIndex((prevIndex) =>
-        prevIndex > -1 ? prevIndex - 1 : SearchSellProductList.length - 1
-      );
+      setSelectedIndex((prevIndex) => (prevIndex > -1 ? prevIndex - 1 : SearchSellProductList.length - 1));
     } else if (e.key === "ArrowDown") {
-      setSelectedIndex((prevIndex) =>
-        prevIndex < SearchSellProductList.length - 1 ? prevIndex + 1 : -1
-      );
+      setSelectedIndex((prevIndex) => (prevIndex < SearchSellProductList.length - 1 ? prevIndex + 1 : -1));
     } else if (e.key === "Enter" && selectedIndex > -1) {
-      navigate(
-        `/MMM/pricecheckpage/${SearchSellProductList[selectedIndex].title}`
-      );
+      goToMarketPricePage(SearchSellProductList[selectedIndex].title);
       setSearchModal(false);
       e.target.blur();
     } else if (e.key === "Enter") {
       if (SearchSellProductList.length < 1) {
         setOpen(true);
       } else {
-        navigate(`/MMM/pricecheckpage/${e.target.value}`);
+        goToMarketPricePage(e.target.value);
         setSearchModal(false);
         e.target.blur();
       }
@@ -90,7 +80,7 @@ const PriceSearch = () => {
 
   // 연관검색어 클릭시 해당 상품 시세페이지로 이동
   const onRelatedSearchWord = (title) => {
-    navigate(`/MMM/pricecheckpage/${title}`);
+    goToMarketPricePage(title);
     window.scrollTo({ top: 0 });
     setSearchModal(false);
   };
@@ -165,15 +155,7 @@ const PriceSearch = () => {
         </MinHeight>
       )}
       <AlertPosition open={open}>
-        <MMMAlert
-          size={"md"}
-          color={"warning"}
-          severity={"warning"}
-          MessageTitle={"No Product"}
-          AlertMessage={"시세를 알 수 없는 상품입니다!"}
-          open={open}
-          setOpen={setOpen}
-        />
+        <MMMAlert size={"md"} color={"warning"} severity={"warning"} MessageTitle={"No Product"} AlertMessage={"시세를 알 수 없는 상품입니다!"} open={open} setOpen={setOpen} />
       </AlertPosition>
     </Wrapper>
   );

@@ -1,22 +1,19 @@
 import MMMButton from "components/button";
-import { useNavigate } from "react-router-dom";
+import UseNavigation from "hooks/use-navigation";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 
 const Error500 = () => {
-  const navigate = useNavigate();
+  const { goToLoginPage } = UseNavigation();
 
   const onGoMainPage = () => {
-    navigate("/");
+    goToLoginPage();
   };
   return (
     <Wrapper>
       <ErrorStatus>500</ErrorStatus>
       <Head>웹사이트에서 해당 페이지를 표시할 수 없습니다.</Head>
-      <Content>
-        만약 문제가 지속된다면, 해당 문제를 발생시킨 문제와 에러 메세지를 언급해
-        고객센터로 신고해주세요.
-      </Content>
+      <Content>만약 문제가 지속된다면, 해당 문제를 발생시킨 문제와 에러 메세지를 언급해 고객센터로 신고해주세요.</Content>
       <Content>불편을 드려 정말 죄송합니다.</Content>
       <br />
       <MMMButton variant="secondary" size="more" onClick={onGoMainPage}>
