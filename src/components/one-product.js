@@ -9,7 +9,7 @@ import MMMAlert from 'components/mmm-alert';
 import { useState } from 'react';
 import { UsePriceComma } from 'utils/use-price-comma';
 
-const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
+const OneProduct = ({ title, status, img, price, id, createdAt, liked, refetch }) => {
     // alert
     const [open, setOpen] = useState(false);
     const [isLike, setIsLike] = useState(false);
@@ -33,6 +33,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
             setIsLike(true);
             setOpen(true);
         }
+        refetch();
     };
 
     const ProductRegistrationTime = (productRegistrationCreatedAt) => {
