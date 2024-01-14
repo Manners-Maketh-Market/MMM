@@ -3,8 +3,8 @@ import Footer from "./footer";
 import Header from "./header";
 import ScrollIcon from "components/scroll-icon";
 import { useRecoilValue } from "recoil";
-import { isMenuBarState } from "store";
 import MobileLayout from "./components/mobile-layout";
+import { isMenuBarState } from "store/menubar-state";
 
 const Layout = () => {
   const isShowMenuBar = useRecoilValue(isMenuBarState);
