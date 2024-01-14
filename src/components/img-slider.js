@@ -11,13 +11,13 @@ import leftArrow from './../images/left-arrow.png';
 import DownArrow from './../images/down-arrow.png';
 import whiteArrow from './../images/white-arrow2.png';
 import { styled } from 'styled-components';
-import useMaxLength from 'utils/use-max-length-overflow';
+import MaxLength from 'utils/max-length-overflow';
 import { useNavigate } from 'react-router-dom';
 
 const ImgSlider = ({ product, related }) => {
     // product : detailPage에서 사용할 상품의 data
     // Related : detailPage에서 사용할 관련상품의 data(Array)
-    const { skipTitleView } = useMaxLength();
+    const { skipTitleView } = MaxLength();
     const navigate = useNavigate();
 
     const ImageArr = [image0, image1, image3, image5, image6, image7];

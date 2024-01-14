@@ -7,7 +7,7 @@ import emptyHeartIcon from '../images/icon/emptyHeart.png';
 import HeartIcon from '../images/icon/fullheart.png';
 import MMMAlert from 'components/mmm-alert';
 import { useState } from 'react';
-import { UsePriceComma } from 'utils/use-price-comma';
+import { PriceComma } from 'utils/price-comma';
 
 const OneProduct = ({ title, status, img, price, id, createdAt, liked, refetch }) => {
     // alert
@@ -79,7 +79,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked, refetch }
                 )}
             </S.TitleAndLikeBox>
             <S.Content className="Content">{ProductRegistrationTime(createdAt)}</S.Content>
-            <S.Price className="Price">{UsePriceComma(price)}원</S.Price>
+            <S.Price className="Price">{PriceComma(price)}원</S.Price>
             <AlertPosition open={open}>
                 <MMMAlert
                     size={'md'}
