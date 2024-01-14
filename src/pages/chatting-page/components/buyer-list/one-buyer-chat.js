@@ -6,8 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import LoginUserNickNameRepository from 'repository/login-user-nickName-repository';
 import { useSocket } from 'context/socket.ctx';
-import { currentChatUser } from 'store';
-import { targetChatRoom } from 'store';
+import { currentChatUser } from 'store/chat-state';
+import { targetChatRoom } from 'store/chat-state';
 import styled from 'styled-components';
 import { flexCenter } from 'styles/common.style';
 
