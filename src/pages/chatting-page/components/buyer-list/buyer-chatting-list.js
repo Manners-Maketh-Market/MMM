@@ -3,14 +3,13 @@ import OneChat from "./one-buyer-chat";
 import { useQuery } from "react-query";
 import { chatApi } from "apis";
 import { useRecoilValue } from "recoil";
-import { isMobileChattingRoom } from "store";
+import { CHAT_QUERY_KEY } from "consts";
+import { isMobileChattingRoom } from "store/chat-state";
 
 const BuyerChattingList = () => {
   const isMobileChattingRoomState = useRecoilValue(isMobileChattingRoom);
 
-  const { data: chatProductList } = useQuery(["qqqqqqq"], () =>
-    chatApi.getChatRoomList()
-  );
+  const { data: chatProductList } = useQuery([CHAT_QUERY_KEY.GET_CHAT_LISt], () => chatApi.getChatRoomList());
 
   return (
     <S.Wrapper isMobileChattingRoomState={isMobileChattingRoomState}>

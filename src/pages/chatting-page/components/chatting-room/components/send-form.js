@@ -1,13 +1,12 @@
 import { chatApi } from "apis";
 import { useMutation, useQueryClient } from "react-query";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { isCreateChat } from "store";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { useState } from "react";
-import { useSocket } from "socket/socket";
+import { useSocket } from "context/socket.ctx";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
 import { CHAT_QUERY_KEY } from "consts";
-import { targetChatRoom } from "store";
+import { isCreateChat, targetChatRoom } from "store/chat-state";
 
 const SendForm = () => {
   const { sendMessage } = useSocket();
@@ -56,17 +55,8 @@ const SendForm = () => {
   return (
     <>
       <S.SendFormBox onSubmit={onSendMessage}>
-        <S.SendMessage
-          placeholder="메세지를 입력하세요."
-          name="chatMessage"
-          onChange={(e) => setTextValue(e.target.value)}
-          value={textValue}
-        ></S.SendMessage>
-        {textValue === "" ? (
-          <S.SendBtn disabled="disabled">전송</S.SendBtn>
-        ) : (
-          <S.SendBtn>전송</S.SendBtn>
-        )}
+        <S.SendMessage placeholder="메세지를 입력하세요." name="chatMessage" onChange={(e) => setTextValue(e.target.value)} value={textValue}></S.SendMessage>
+        {textValue === "" ? <S.SendBtn disabled="disabled">전송</S.SendBtn> : <S.SendBtn>전송</S.SendBtn>}
       </S.SendFormBox>
     </>
   );

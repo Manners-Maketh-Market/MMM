@@ -1,7 +1,7 @@
 import { Api } from "apis";
 import MMMInput from "components/input";
 import { PRODUCT_QUERY_KEY } from "consts";
-import useMaxLength from "hooks/use-max-length-overflow";
+import useMaxLength from "utils/use-max-length-overflow";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
@@ -22,7 +22,6 @@ const PriceSearch = () => {
   const [searchModal, setSearchModal] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-
   const [open, setOpen] = useState(false);
 
   const { skipTitleView } = useMaxLength();
@@ -84,11 +83,6 @@ const PriceSearch = () => {
     setSelectedIndex(-1);
   };
 
-  // 포커스시 검색목록 띄우는 모달
-  const onSearchListModal = () => {
-    setSearchModal(true);
-  };
-
   // 포커스아웃시 검색목록 사라지게 하는 모달
   const onNoneSearchListModal = () => {
     if (!isMouseHover) setSearchModal(false);
@@ -107,17 +101,13 @@ const PriceSearch = () => {
     setSelectedIndex(index);
   };
 
-  const onMouseLeaveEvent = () => {
-    setIsMouseHover(false);
-  };
-
   return (
     <Wrapper>
       <Title>시세조회</Title>
       <Text>원하시는 상품이 얼마에 거래되고 있는지 확인해보세요</Text>
       {searchModal ? (
         <MMMInput
-          onFocus={onSearchListModal}
+          onFocus={() => setSearchModal(true)}
           onBlur={onNoneSearchListModal}
           onChange={onTitleChange}
           onKeyDown={onArrowKeyPress}
@@ -131,7 +121,7 @@ const PriceSearch = () => {
         />
       ) : (
         <MMMInput
-          onFocus={onSearchListModal}
+          onFocus={() => setSearchModal(true)}
           onBlur={onNoneSearchListModal}
           onChange={onTitleChange}
           size={"searchPrice"}
@@ -151,7 +141,7 @@ const PriceSearch = () => {
                   }}
                   onClick={() => onRelatedSearchWord(list.title)}
                   onMouseEnter={() => onMouseHoverEvent(index)}
-                  onMouseLeave={() => onMouseLeaveEvent()}
+                  onMouseLeave={() => setIsMouseHover(false)}
                 >
                   <SearchIconWrap>
                     <SearchIcon src={SearchIconImage} />

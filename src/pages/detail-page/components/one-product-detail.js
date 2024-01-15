@@ -4,7 +4,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
 import { useState } from "react";
-import { UsePriceComma } from "hooks/use-price-comma";
+import { UsePriceComma } from "utils/use-price-comma";
 import MMMButton from "components/button";
 import ImgSlider from "components/img-slider";
 import MannerTemperature from "components/manner-temperature";
