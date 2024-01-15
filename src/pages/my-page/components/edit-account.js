@@ -2,8 +2,6 @@ import { useMutation, useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
-import { isEmailCheckPass } from "store";
-import { isNickNameCheckPass } from "store";
 import { useState } from "react";
 import useInputs from "hooks/use-inputs";
 import MMMButton from "components/button";
@@ -12,6 +10,7 @@ import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import defaultProfile from "../../../images/defaultProfile.jpg";
 import MMMAlert from "components/mmm-alert";
+import { isEmailCheckPass, isNickNameCheckPass } from "store/registration-state";
 
 const EditAccountInfo = () => {
   // alert
@@ -31,15 +30,11 @@ const EditAccountInfo = () => {
   };
 
   // changeProfileUrl.
-  const { mutateAsync: mutateChangeProfile } = useMutation((uploadedImage) =>
-    AuthApi.patchUserProfile(uploadedImage)
-  );
+  const { mutateAsync: mutateChangeProfile } = useMutation((uploadedImage) => AuthApi.patchUserProfile(uploadedImage));
 
   // duplicate check
-  const [isEmailCheckPassState, setIsEmailCheckPassState] =
-    useRecoilState(isEmailCheckPass);
-  const [isNickNameCheckPassState, setIsNickNameCheckPassState] =
-    useRecoilState(isNickNameCheckPass);
+  const [isEmailCheckPassState, setIsEmailCheckPassState] = useRecoilState(isEmailCheckPass);
+  const [isNickNameCheckPassState, setIsNickNameCheckPassState] = useRecoilState(isNickNameCheckPass);
 
   // check email duplicate
   const onCheckEmail = async (e) => {
@@ -72,25 +67,19 @@ const EditAccountInfo = () => {
   };
 
   // validate check
-  const [{ email, nickName, phone, region, image }, onChangeInputs] = useInputs(
-    {
-      email: "",
-      nickName: "",
-      phone: "",
-      region: "",
-      image: "",
-    }
-  );
+  const [{ email, nickName, phone, region, image }, onChangeInputs] = useInputs({
+    email: "",
+    nickName: "",
+    phone: "",
+    region: "",
+    image: "",
+  });
 
   // getMyInfo.
-  const { data: getMyInfo } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
-    AuthApi.getUserData()
-  );
+  const { data: getMyInfo } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () => AuthApi.getUserData());
 
   // changeInfo.
-  const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) =>
-    AuthApi.patchUserData(editedInfo)
-  );
+  const { mutateAsync: mutateChangeMyInfo } = useMutation((editedInfo) => AuthApi.patchUserData(editedInfo));
 
   // change profile && info.
   const onChangeMyInfo = async (e) => {
@@ -130,20 +119,10 @@ const EditAccountInfo = () => {
         <Title>개인정보 수정</Title>
         <Contents onSubmit={onChangeMyInfo}>
           <Profile>
-            {uploadedImage ? (
-              <Image src={uploadedImage} />
-            ) : (
-              <Image src={getMyInfo.profile_url} />
-            )}
+            {uploadedImage ? <Image src={uploadedImage} /> : <Image src={getMyInfo.profile_url} />}
             <ButtonWrap>
               <label htmlFor="imgUpload">변경하기</label>
-              <EditImage
-                id="imgUpload"
-                type="file"
-                name="image"
-                onChange={onChangeImage}
-                accept="image/*"
-              />
+              <EditImage id="imgUpload" type="file" name="image" onChange={onChangeImage} accept="image/*" />
               <DeleteButton onClick={onDeleteImage} type="button">
                 삭제하기
               </DeleteButton>
@@ -159,11 +138,7 @@ const EditAccountInfo = () => {
               isAvailableNickName={isNickNameCheckPassState}
               defaultValue={getMyInfo.nick_name}
             />
-            <MMMButton
-              size={"smallConfirm"}
-              type="button"
-              onClick={onCheckNickName}
-            >
+            <MMMButton size={"smallConfirm"} type="button" onClick={onCheckNickName}>
               중복확인
             </MMMButton>
           </OneRow>
@@ -177,72 +152,22 @@ const EditAccountInfo = () => {
               isAvailableEmail={isEmailCheckPassState}
               defaultValue={getMyInfo.email}
             />
-            <MMMButton
-              size={"smallConfirm"}
-              type="button"
-              onClick={onCheckEmail}
-            >
+            <MMMButton size={"smallConfirm"} type="button" onClick={onCheckEmail}>
               중복확인
             </MMMButton>
           </OneRow>
-          <MMMInput
-            name="phone"
-            label={"핸드폰 번호"}
-            size={"editInfo"}
-            placeholder={getMyInfo.phone}
-            onChange={onChangeInputs}
-            defaultValue={getMyInfo.phone}
-          />
-          <MMMInput
-            name="region"
-            label={"우리 동네"}
-            size={"editInfo"}
-            placeholder={getMyInfo.region}
-            onChange={onChangeInputs}
-            defaultValue={getMyInfo.region}
-          />
+          <MMMInput name="phone" label={"핸드폰 번호"} size={"editInfo"} placeholder={getMyInfo.phone} onChange={onChangeInputs} defaultValue={getMyInfo.phone} />
+          <MMMInput name="region" label={"우리 동네"} size={"editInfo"} placeholder={getMyInfo.region} onChange={onChangeInputs} defaultValue={getMyInfo.region} />
           <MMMButton size={"small"} type="submit">
             변경사항 저장
           </MMMButton>
           <AlertPosition open={open}>
             <MMMAlert
               size={"md"}
-              color={
-                cases === 1
-                  ? "success"
-                  : cases === 2
-                  ? "error"
-                  : cases === 3
-                  ? "success"
-                  : "warning"
-              }
-              severity={
-                cases === 1
-                  ? "success"
-                  : cases === 2
-                  ? "error"
-                  : cases === 3
-                  ? "success"
-                  : "warning"
-              }
-              MessageTitle={
-                cases === 1
-                  ? "Storage Success"
-                  : cases === 2
-                  ? "Storage Fail"
-                  : cases === 3
-                  ? "Duplicate Check"
-                  : "Duplicated"
-              }
-              AlertMessage={
-                cases === 1
-                  ? "변경사항이 저장되었습니다!"
-                  : cases === 2
-                  ? "변경사항이 저장되지 못했습니다!"
-                  : cases === 3
-                  ? "사용 가능합니다."
-                  : "중복되었습니다."
-              }
+              color={cases === 1 ? "success" : cases === 2 ? "error" : cases === 3 ? "success" : "warning"}
+              severity={cases === 1 ? "success" : cases === 2 ? "error" : cases === 3 ? "success" : "warning"}
+              MessageTitle={cases === 1 ? "Storage Success" : cases === 2 ? "Storage Fail" : cases === 3 ? "Duplicate Check" : "Duplicated"}
+              AlertMessage={cases === 1 ? "변경사항이 저장되었습니다!" : cases === 2 ? "변경사항이 저장되지 못했습니다!" : cases === 3 ? "사용 가능합니다." : "중복되었습니다."}
               open={open}
               setOpen={setOpen}
             />

@@ -3,8 +3,7 @@ import MMMButton from "components/button";
 import MMMInput from "components/input";
 import { Map } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from 'styles/common.style';
-
+import { flexCenter } from "styles/common.style";
 
 const Maps = ({ region }) => {
   const { kakao } = window;

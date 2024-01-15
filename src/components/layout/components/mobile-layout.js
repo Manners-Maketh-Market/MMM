@@ -2,9 +2,9 @@ import { Outlet } from "react-router-dom";
 import ScrollIcon from "components/scroll-icon";
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isMenuBarState } from "store";
 import Header from "../header";
 import Footer from "../footer";
+import { isMenuBarState } from "store/menubar-state";
 
 const MobileLayout = () => {
   const isShowMenuBar = useRecoilValue(isMenuBarState);

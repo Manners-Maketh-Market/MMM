@@ -16,4 +16,5 @@ export const PRODUCT_QUERY_KEY = {
 };
 export const CHAT_QUERY_KEY = {
   GET_CHAT_LOG: "getChatLog",
+  GET_CHAT_LISt: "getChatList",
 };

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import { targetChatRoom } from "store";
-import { currentChatUser } from "store";
+import { currentChatUser, targetChatRoom } from "store/chat-state";
 
 const BuyerBar = () => {
   const targetChatRoomData = useRecoilValue(targetChatRoom);

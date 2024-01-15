@@ -14,6 +14,7 @@ const PriceGraph = () => {
   const aWeekAgo = new Date(today);
   aWeekAgo.setDate(today.getDate() - 4);
   // 5일간의 시세를 구하기 위한 오늘 날짜와 4일전 날짜
+
   const param = useParams();
   const datatitle = param.title;
 

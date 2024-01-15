@@ -23,6 +23,7 @@ const SocketProvider = ({ children }) => {
         {
           nick_name: data.nick_name,
           message: data.message,
+          createdAt: data.createdAt,
         },
       ]);
     });
@@ -40,6 +41,7 @@ const SocketProvider = ({ children }) => {
       {
         nick_name: messageData.nick_name,
         message: messageData.message,
+        createdAt: messageData.createdAt,
       },
     ]);
     socket.emit("sendMessage", messageData);
@@ -49,7 +51,6 @@ const SocketProvider = ({ children }) => {
     socket,
     joinChatRoom,
     sendMessage,
-    // receiveMessage,
     chatLog,
     setChatLog,
   };

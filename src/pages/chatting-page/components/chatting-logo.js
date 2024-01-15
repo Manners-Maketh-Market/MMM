@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import exit from "../../../images/icon/exit.png";
 import { useRecoilState } from "recoil";
-import { isMobileChattingRoom } from "store";
+import { isMobileChattingRoom } from "store/chat-state";
 
 const ChattingLogo = () => {
-  const [isMobileChattingRoomState, setIsMobileChattingRoomState] =
-    useRecoilState(isMobileChattingRoom);
+  const [isMobileChattingRoomState, setIsMobileChattingRoomState] = useRecoilState(isMobileChattingRoom);
 
   const onCloseChattingRoom = () => {
     setIsMobileChattingRoomState((prev) => !prev);
@@ -13,9 +12,7 @@ const ChattingLogo = () => {
 
   return (
     <S.LogoWrapper>
-      {isMobileChattingRoomState && (
-        <S.ExitIcon src={exit} alt="exit" onClick={onCloseChattingRoom} />
-      )}
+      {isMobileChattingRoomState && <S.ExitIcon src={exit} alt="exit" onClick={onCloseChattingRoom} />}
       <S.Logo>MMM</S.Logo>
       <S.LogoText>manners makes market</S.LogoText>
     </S.LogoWrapper>
