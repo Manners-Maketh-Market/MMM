@@ -13,12 +13,17 @@ const MMMAlert = ({
   AlertMessage,
   open,
   setOpen,
+  type,
 }) => {
   return (
     <Stack
-      sx={{
-        width: "30%",
-      }}
+      sx={
+        type === "oneProduct"
+          ? {
+              width: "100%",
+            }
+          : { width: "30%" }
+      }
       spacing={2}
     >
       <Collapse in={open}>

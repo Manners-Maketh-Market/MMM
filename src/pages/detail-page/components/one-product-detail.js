@@ -23,6 +23,7 @@ import MMMAlert from "components/mmm-alert";
 const OneProductDetail = () => {
   // alert
   const [open, setOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
 
   const navigate = useNavigate();
@@ -55,6 +56,16 @@ const OneProductDetail = () => {
     Api.deleteMyPost(id)
   );
 
+  const { data: SearchProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
+    () => Api.getSearchProduct(0, detailProduct.searchProduct.title, 1)
+  );
+
+  // 판매완료된 상품 리스트
+  const SearchSellProductList =
+    SearchProductList &&
+    SearchProductList.product.filter((list) => list.status === "판매완료");
+
   const onClickLikedBtn = async () => {
     if (detailProduct.searchProduct.liked === 1) {
       await onLikeMutation(dataId);
@@ -79,12 +90,10 @@ const OneProductDetail = () => {
   };
 
   const onMarketPricePage = () => {
-    const titleValue = detailProduct.searchProduct.title;
-
-    if (!titleValue) {
-      alert("시세를 알 수 없는 상품입니다!");
+    if (SearchSellProductList.length < 1) {
+      setPriceOpen(true);
     } else {
-      navigate(`/MMM/pricecheckpage/${titleValue}`);
+      navigate(`/MMM/pricecheckpage/${detailProduct.searchProduct.title}`);
     }
   };
 
@@ -242,6 +251,19 @@ const OneProductDetail = () => {
               }
               open={open}
               setOpen={setOpen}
+            />
+          </AlertPosition>
+          <AlertPosition open={priceOpen}>
+            <MMMAlert
+              size={"md"}
+              color={"warning"}
+              severity={"warning"}
+              MessageTitle={"귀한 상품"}
+              AlertMessage={
+                "해당 상품은 거래내역이 존재하지 않아 시세조회가 불가능합니다."
+              }
+              open={priceOpen}
+              setOpen={setPriceOpen}
             />
           </AlertPosition>
         </Wrapper>
