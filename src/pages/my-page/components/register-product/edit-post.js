@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Api } from "apis";
-import { PRODUCT_QUERY_KEY } from "consts";
+import { PRODUCT_QUERY_KEY, SELECT_OPTIONS } from "consts";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import MMMButton from "components/button";
@@ -154,18 +154,9 @@ const EditMyPost = () => {
             name="tag"
             defaultValue={editThisPost.searchProduct.ProductsTags[0].Tag.tag}
           >
-            <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-            <option value="전자기기">전자기기</option>
-            <option value="의류">의류</option>
-            <option value="식품">식품</option>
-            <option value="주류">주류</option>
-            <option value="남성용품">남성용품</option>
-            <option value="여성용품">여성용품</option>
-            <option value="생활용품">생활용품</option>
-            <option value="애완용품">애완용품</option>
-            <option value="집">집</option>
-            <option value="연예인">연예인</option>
-            <option value="기타">기타</option>
+            {SELECT_OPTIONS.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
           </select>
         </Box>
         <Box>
