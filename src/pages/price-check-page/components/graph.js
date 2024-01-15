@@ -7,6 +7,7 @@ import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import PriceChecker from "utils/price-checker";
 
 const PriceGraph = () => {
   const today = new Date();
@@ -27,6 +28,8 @@ const PriceGraph = () => {
       )
   );
 
+  const { maxARR, minARR, result } = PriceChecker(ProductPriceList);
+
   useEffect(() => {
     refetch();
   }, [datatitle]); // 파람의 값(검색어)이 바뀌면 리랜더링
@@ -38,42 +41,21 @@ const PriceGraph = () => {
       return { date: list.date.substring(5), avgPrice: list.avgPrice };
     });
 
-  // 최고 시세
-  const MAXARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? prev : value;
-    });
-
-  // 최저 시세
-  const MINARR =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev.price >= value.price ? value : prev;
-    });
-
-  // 평균 시세
-  const result =
-    ProductPriceList &&
-    ProductPriceList.products.product.reduce((prev, value) => {
-      return prev + value.price;
-    }, 0);
-
   const AVGARR =
     result && Math.floor(result / ProductPriceList.products.product.length);
 
   //문제 배열안에서 가장 큰 값을 찾는 수식을 짜라 price가 가장 높은 애를 찾아라
 
   return (
-    MINARR &&
-    MAXARR &&
+    minARR &&
+    maxARR &&
     AVGARR &&
     datatitle && (
       <Wrapper>
         <PriceBoxWrapper>
           <PriceBox
             title={"최고"}
-            price={MAXARR.price}
+            price={maxARR.price}
             style={{ color: "#DF0000" }}
           />
           <PriceBox
@@ -83,7 +65,7 @@ const PriceGraph = () => {
           />
           <PriceBox
             title={"최저"}
-            price={MINARR.price}
+            price={minARR.price}
             style={{ border: "none", color: "#062BED" }}
           />
         </PriceBoxWrapper>

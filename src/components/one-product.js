@@ -59,7 +59,6 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
         }
     };
 
-
   return (
     <S.Wrapper>
       {status === "판매중" ? (
@@ -112,7 +111,6 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
       </AlertPosition>
     </S.Wrapper>
   );
-
 };
 
 export default OneProduct;
