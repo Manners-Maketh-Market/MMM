@@ -1,5 +1,4 @@
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
@@ -14,34 +13,39 @@ import ProductOrder from "./location2";
 import { useState } from "react";
 import MMMAlert from "components/mmm-alert";
 import { useAuth } from "context/auth.ctx";
-import { isEmailCheckPass, isNickNameCheckPass } from "store/registration-state";
+import {
+  isEmailCheckPass,
+  isNickNameCheckPass,
+} from "store/registration-state";
+import UseNavigation from "hooks/use-navigation";
 
 const SignUpForm = () => {
   // alert
   const [open, setOpen] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
 
-  // onClick LogoImage, goBack to LoginPage
-  const navigate = useNavigate();
+  const { goToLoginPage } = UseNavigation();
   const { SignUp } = useAuth();
 
   // duplicate check
   const [isCheckedEmail, setIsCheckedEmail] = useRecoilState(isEmailCheckPass);
-  const [isCheckedNickName, setIsCheckedNickName] = useRecoilState(isNickNameCheckPass);
+  const [isCheckedNickName, setIsCheckedNickName] =
+    useRecoilState(isNickNameCheckPass);
 
   const onClickSignIn = () => {
-    navigate("/");
+    goToLoginPage();
   };
 
   // input - hook func.
-  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] = useInputs({
-    email: "",
-    pw: "",
-    pwConfirm: "",
-    nickName: "",
-    phone: "",
-    region: "",
-  });
+  const [{ email, pw, pwConfirm, nickName, phone, region }, onChangeInputs] =
+    useInputs({
+      email: "",
+      pw: "",
+      pwConfirm: "",
+      nickName: "",
+      phone: "",
+      region: "",
+    });
 
   // validation check
   const { errors, access } = FormValidate({
@@ -54,7 +58,9 @@ const SignUpForm = () => {
   });
 
   // 회원 가입 요청 post
-  const mutation = useMutation((signupUserData) => Api.postSignUpData(signupUserData));
+  const mutation = useMutation((signupUserData) =>
+    Api.postSignUpData(signupUserData)
+  );
 
   // check email duplicate
   const onCheckEmail = async (e) => {
@@ -100,7 +106,7 @@ const SignUpForm = () => {
     try {
       await SignUp(signupUserData);
       alert("환영합니다! 회원가입이 완료되었습니다!");
-      navigate("/");
+      goToLoginPage();
     } catch (error) {
       alert("회원가입이 정상적으로 이뤄지지 못했습니다!");
     }
@@ -219,7 +225,8 @@ const SignUpForm = () => {
               ? "사용가능한 닉네임 입니다"
               : !isCategory && !isCheckedNickName
               ? "중복된 닉네임 입니다."
-              : (!isCheckedEmail || !isCheckedNickName) && "이메일과 닉네임의 중복 여부를 확인해주세요."
+              : (!isCheckedEmail || !isCheckedNickName) &&
+                "이메일과 닉네임의 중복 여부를 확인해주세요."
           }
           open={open}
           setOpen={setOpen}

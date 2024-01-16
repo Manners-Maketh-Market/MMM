@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
@@ -7,12 +6,13 @@ import MMMButton from "components/button";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { Container, Grid } from "@mui/material";
+import UseNavigation from "hooks/use-navigation";
 
 const RegisteredProducts = () => {
-  const navigate = useNavigate();
+  const { goToRegisterProductPage, goToDetailPage } = UseNavigation();
 
   const registerForm = () => {
-    navigate("/MMM/my-page/registerProductForm");
+    goToRegisterProductPage();
   };
 
   // getMyProductList
@@ -22,7 +22,7 @@ const RegisteredProducts = () => {
   );
 
   const onToDetailPage = (id) => {
-    navigate(`/MMM/products/detail/${id}`);
+    goToDetailPage(id);
     window.scrollTo({ top: 0 });
   };
 

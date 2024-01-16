@@ -1,5 +1,4 @@
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Api } from "apis";
 import MMMInput from "components/input";
@@ -8,6 +7,7 @@ import MMMButton from "components/button";
 import Maps from "./maps";
 import { styled } from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
+import UseNavigation from "hooks/use-navigation";
 import { SELECT_OPTIONS } from "consts";
 
 const RegisterPage = () => {
@@ -24,7 +24,7 @@ const RegisterPage = () => {
     tag: "",
     images: "",
   });
-  const navigate = useNavigate();
+  const { goToMyPage } = UseNavigation();
   const { mutateAsync } = useMutation((Data) => Api.postMyProduct(Data));
 
   const onSubmitRegister = async (e) => {
@@ -44,7 +44,7 @@ const RegisterPage = () => {
     try {
       await mutateAsync(formData);
       alert("물품 등록이 완료되었습니다.");
-      navigate("/MMM/my-page");
+      goToMyPage();
     } catch (error) {
       error && alert("물품이 등록되지 않았습니다.");
     }
@@ -133,17 +133,6 @@ const RegisterPage = () => {
       <Box>
         <label>태그</label>
         <select name="tag">
-          {/* <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-                    <option value="전자기기">전자기기</option>
-                    <option value="의류">의류</option>
-                    <option value="식품">식품</option>
-                    <option value="남성용품">남성용품</option>
-                    <option value="여성용품">여성용품</option>
-                    <option value="생활용품">생활용품</option>
-                    <option value="애완용품">애완용품</option>
-                    <option value="집">집</option>
-                    <option value="연예인">연예인</option>
-                    <option value="기타">기타</option> */}
           {SELECT_OPTIONS.map((option) => (
             <option value={option}>{option}</option>
           ))}
@@ -153,9 +142,7 @@ const RegisterPage = () => {
         <label>내용</label>
         <textarea placeholder="상품 설명을 입력해주세요" name="description" />
       </Box>
-
       <Maps />
-
       <MMMButton
         shape={"shape"}
         size={"full"}

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import SignInForm from "./components/signIn-form";
-import { useNavigate } from "react-router-dom";
+import UseNavigation from "hooks/use-navigation";
 
 export const LoginPage = () => {
   // onClick Logo -> back to Home
-  const navigate = useNavigate();
+  const { goToLoginPage } = UseNavigation();
 
   const OnBackToMain = () => {
-    navigate("/");
+    goToLoginPage();
   };
 
   return (

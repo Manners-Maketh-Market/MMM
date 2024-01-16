@@ -1,31 +1,31 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isMenuBarState } from "store/menubar-state";
+import UseNavigation from "hooks/use-navigation";
 
 const MenuBar = () => {
-  const navigate = useNavigate();
+  const { goToProductsListPage, goToPriceCheckPage, goToMyPage, goToRegisterProductPage } = UseNavigation();
 
   const setIsShowMenuBar = useSetRecoilState(isMenuBarState);
 
   const onGoProductsListPage = (saleStatus) => {
-    navigate(`/products/${saleStatus}`);
+    goToProductsListPage(saleStatus);
     setIsShowMenuBar((prev) => !prev);
   };
 
   const onGoPriceCheckPage = () => {
-    navigate("/pricecheckpage");
+    goToPriceCheckPage();
     setIsShowMenuBar((prev) => !prev);
   };
 
   const onGoMyPage = () => {
-    navigate("/my-page");
+    goToMyPage();
     setIsShowMenuBar((prev) => !prev);
   };
 
   const onGoRegisterProductPage = () => {
-    navigate("/my-page/registerProductForm");
+    goToRegisterProductPage();
     setIsShowMenuBar((prev) => !prev);
   };
 

@@ -4,17 +4,16 @@ import { useQuery } from "react-query";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
-import { useNavigate } from "react-router-dom";
-
 import MMMAlert from "./mmm-alert";
 import { useState } from "react";
+import UseNavigation from "hooks/use-navigation";
 import { useAuth } from "context/auth.ctx";
 
 const MyPageModal = ({ setIsMyPageModal }) => {
   // alert
   const [open, setOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const { goToMyPage } = UseNavigation();
   const { SignOut } = useAuth();
 
   const { data: myPageData } = useQuery(
@@ -35,7 +34,7 @@ const MyPageModal = ({ setIsMyPageModal }) => {
   };
 
   const onClickMyPageBtn = () => {
-    navigate(`/MMM/my-page`);
+    goToMyPage();
     setIsMyPageModal(false);
   };
 

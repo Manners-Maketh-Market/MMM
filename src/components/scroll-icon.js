@@ -1,18 +1,17 @@
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ChatIcon from "../images/icon/chaticon.png";
 import ScrollTopIcon from "../images/icon/scrolltop.png";
+import UseNavigation from "hooks/use-navigation";
 
 const ScrollIcon = () => {
   // iconSet가 일정길이 내렸을 때 나올지,,, 아니면 그냥 존재할지 투표
   const [isShowButton, setIsShowButton] = useState(false);
-
-  const navigate = useNavigate();
+  const { goToChatPage } = UseNavigation();
 
   const onGoChattingPage = () => {
-    navigate("/MMM/chat");
+    goToChatPage();
     window.scroll({
       top: 0,
     });

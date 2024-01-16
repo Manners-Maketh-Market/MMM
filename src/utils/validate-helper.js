@@ -11,7 +11,7 @@ export const FormValidate = ({
   title,
 }) => {
   // sign-in
-  let disabled = !REGEXP.email.test(email) || !REGEXP.password.test(pw);
+  let disabled = !REGEXP.email.test(email) || !REGEXP.pw.test(pw);
   if (pwConfirm) {
     // sign-up
     disabled =
@@ -23,8 +23,8 @@ export const FormValidate = ({
 
   let errors = {
     email: !REGEXP.email.test(email) && ERROR.email,
-    pw: !REGEXP.password.test(pw) && ERROR.password,
-    pwConfirm: pw !== pwConfirm && ERROR.passwordConfirm,
+    pw: !REGEXP.pw.test(pw) && ERROR.pw,
+    pwConfirm: pw !== pwConfirm && ERROR.pwConfirm,
     nickName: !REGEXP.nickName.test(nickName) && ERROR.nickName,
     phone: !REGEXP.phone.test(phone) && ERROR.phone,
     region: !REGEXP.region.test(region) && ERROR.region,
@@ -33,8 +33,8 @@ export const FormValidate = ({
 
   let access = {
     email: REGEXP.email.test(email) && ACCESS.email,
-    pw: REGEXP.password.test(pw) && ACCESS.password,
-    pwConfirm: pw === pwConfirm && ACCESS.passwordConfirm,
+    pw: REGEXP.pw.test(pw) && ACCESS.pw,
+    pwConfirm: pw === pwConfirm && ACCESS.pwConfirm,
     nickName: REGEXP.nickName.test(nickName) && ACCESS.nickName,
     phone: REGEXP.phone.test(phone) && ACCESS.phone,
     region: REGEXP.region.test(region) && ACCESS.region,

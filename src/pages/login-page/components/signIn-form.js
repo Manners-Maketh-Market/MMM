@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import useInputs from "hooks/use-inputs";
 import { FormValidate } from "utils/validate-helper";
 import MMMButton from "components/button";
@@ -9,6 +8,7 @@ import { flexCenter } from "styles/common.style";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
 import { SocketTokenRepository } from "repository/socket-token-repository";
 import { useState } from "react";
+import UseNavigation from "hooks/use-navigation";
 import { useAuth } from "context/auth.ctx";
 
 const SignInForm = () => {
@@ -22,7 +22,7 @@ const SignInForm = () => {
   });
   const { disabled, errors } = FormValidate({ email, pw });
 
-  const navigate = useNavigate();
+  const { goToSignUp } = UseNavigation();
   const { SignIn } = useAuth();
 
   const onSubmitSignIn = async (e) => {
@@ -50,7 +50,7 @@ const SignInForm = () => {
   };
 
   const onClickSignUp = () => {
-    navigate("/sign-up");
+    goToSignUp();
   };
 
   return (

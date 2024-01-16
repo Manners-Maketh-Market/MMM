@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Api } from "apis";
 import { PRODUCT_QUERY_KEY, SELECT_OPTIONS } from "consts";
@@ -9,6 +9,7 @@ import MMMButton from "components/button";
 import Maps from "./maps";
 import { styled } from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
+import UseNavigation from "hooks/use-navigation";
 
 const EditMyPost = () => {
   // hook function: use-input
@@ -24,7 +25,7 @@ const EditMyPost = () => {
     tag: "",
     images: "",
   });
-  const navigate = useNavigate();
+  const { goToMyPage } = UseNavigation();
   const param = useParams();
   const editPostId = param.editPostId;
 
@@ -58,7 +59,7 @@ const EditMyPost = () => {
     try {
       await patchMyPost(formData);
       alert("게시글 내용이 수정되었습니다.");
-      navigate("/MMM/my-page");
+      goToMyPage();
     } catch (error) {
       error && alert("앗! 수정 사항을 저장하지 못했습니다.");
     }

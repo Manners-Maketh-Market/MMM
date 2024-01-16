@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import { Api } from "apis";
 import styled from "styled-components";
 import MMMButton from "components/button";
+import UseNavigation from "hooks/use-navigation";
 
 const ButtonBox = ({
   product,
@@ -13,6 +14,8 @@ const ButtonBox = ({
   refetch,
   userInfoData,
 }) => {
+  const { goToChatPage } = UseNavigation();
+
   const { mutateAsync: onLikeMutation } = useMutation((id) =>
     Api.postLikedProduct(id)
   );
@@ -30,6 +33,13 @@ const ButtonBox = ({
     refetch();
   };
 
+  const onGoChattingPage = () => {
+    goToChatPage();
+    window.scroll({
+      top: 0,
+    });
+  };
+
   return (
     product.User.nick_name !== userInfoData.nick_name && (
       <Container>
@@ -43,7 +53,11 @@ const ButtonBox = ({
           </span>
           {product.liked === 1 ? "찜 했어요!" : "찜 하기"}
         </MMMButton>
-        <MMMButton variant={"detailB"} size={"medium"}>
+        <MMMButton
+          variant={"detailB"}
+          size={"medium"}
+          onClick={onGoChattingPage}
+        >
           <FontAwesomeIcon icon={faComments} /> 채팅하기
         </MMMButton>
       </Container>
