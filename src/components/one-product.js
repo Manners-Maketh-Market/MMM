@@ -251,10 +251,12 @@ const S = {
 };
 
 const AlertPosition = styled.div`
-    ${flexCenter}
-    width: 1000px;
-    height: 100px;
-    z-index: ${({ open }) => (open ? 100 : -100)};
-    position: absolute;
-    top: 8%;
+  ${flexCenter}
+  width: 100%;
+  height: 100px;
+  z-index: ${({ open }) => (open ? 100 : -100)};
+  position: absolute;
+  top: 8%;
+  overflow: hidden;
+
 `;
