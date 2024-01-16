@@ -5,13 +5,14 @@ import { PriceComma } from "utils/price-comma";
 
 const ProductBar = () => {
   const targetChatRoomData = useRecoilValue(targetChatRoom);
-  console.log(`target`, typeof targetChatRoomData.price);
 
   return (
     <S.Wrapper>
       <S.ProductImg src={targetChatRoomData.productImg} />
       <S.PriceAndTitle>
-        <S.Price>{PriceComma(targetChatRoomData.price)}원</S.Price>
+        <S.Price>
+          {targetChatRoomData.price && PriceComma(targetChatRoomData.price)}원
+        </S.Price>
         <S.ProductTitle>{targetChatRoomData.productTitle}</S.ProductTitle>
       </S.PriceAndTitle>
     </S.Wrapper>

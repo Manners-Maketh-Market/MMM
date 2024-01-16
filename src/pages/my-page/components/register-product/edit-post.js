@@ -14,11 +14,11 @@ import UseNavigation from "hooks/use-navigation";
 const EditMyPost = () => {
   // hook function: use-input
   const [
-    { title, price, description, category, region, tag, images },
+    { title, productPrice, description, category, region, tag, images },
     onChangeInputs,
   ] = useInputs({
     title: "",
-    price: "",
+    productPrice: "",
     description: "",
     category: "",
     region: "",
@@ -44,9 +44,14 @@ const EditMyPost = () => {
     const formData = new FormData();
     formData.append("idx", editThisPost.searchProduct.idx);
     formData.append("title", e.target.title.value);
-    formData.append("price", e.target.price.value);
+    if (e.target.category.value === "0") {
+      formData.append("price", e.target.productPrice.value);
+    } else {
+      formData.append("price", 0);
+    }
     formData.append("description", e.target.description.value);
     formData.append("category", e.target.category.value);
+
     formData.append("region", e.target.region.value);
     formData.append("tag", e.target.tag.value);
     formData.append("img_url", []);
@@ -54,8 +59,6 @@ const EditMyPost = () => {
       formData.append("images", e.target.image.files[i]);
     }
 
-    for (let key of formData.keys()) {
-    }
     try {
       await patchMyPost(formData);
       alert("게시글 내용이 수정되었습니다.");
@@ -130,9 +133,8 @@ const EditMyPost = () => {
         />
         <MMMInput
           label="가격"
-          name="price"
+          name="productPrice"
           type="number"
-          onChange={onChangeInputs}
           size={"registerProduct"}
           defaultValue={editThisPost.searchProduct.price}
         />
