@@ -34,7 +34,6 @@ const RightInfoContainer = ({
     SearchProductList &&
     SearchProductList.product.filter((list) => list.status === "판매완료");
 
-  console.log(SearchSellProductList);
   const onMarketPricePage = () => {
     const titleValue = product.title;
 

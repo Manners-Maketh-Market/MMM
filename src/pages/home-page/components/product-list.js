@@ -89,6 +89,7 @@ const ProductList = () => {
                   createdAt={item.createdAt}
                   status={item.status}
                   likeCount={item.likeCount}
+                  refetch={refetch}
                 />
               </Grid>
             ))}
