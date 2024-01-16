@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { useSocket } from "socket/socket";
+
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
 import { useEffect, useRef } from "react";
+import { useSocket } from "context/socket.ctx";
 
 const ChattingBar = () => {
   const wrapperRef = useRef(null);

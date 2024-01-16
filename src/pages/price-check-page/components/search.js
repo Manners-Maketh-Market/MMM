@@ -1,7 +1,7 @@
 import { Api } from "apis";
 import MMMInput from "components/input";
 import { PRODUCT_QUERY_KEY } from "consts";
-import useMaxLength from "hooks/use-max-length-overflow";
+import useMaxLength from "utils/use-max-length-overflow";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled, { css } from "styled-components";

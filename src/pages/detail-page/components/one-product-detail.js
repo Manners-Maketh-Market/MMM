@@ -3,6 +3,9 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
+import { useState } from "react";
+import { UsePriceComma } from "utils/use-price-comma";
+import MMMButton from "components/button";
 import ImgSlider from "components/img-slider";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
@@ -13,6 +16,7 @@ import ProductAlert from "./product-alert";
 
 const OneProductDetail = () => {
   const [open, setOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
   const [isLike, setIsLike] = useState(false);
 
   // id 값과 같은 데이터를 recoil에 저장한 use데이터목록에서 가져오기
@@ -29,6 +33,71 @@ const OneProductDetail = () => {
   const { data: userInfoData } = useQuery([PRODUCT_QUERY_KEY.USER_DATA], () =>
     AuthApi.getUserData()
   );
+
+  const { mutateAsync: onLikeMutation } = useMutation((id) =>
+    Api.postLikedProduct(id)
+  );
+
+  const { mutateAsync: onSellMutation, data: sellData } = useMutation(
+    (requestData) => Api.postSaleComplete(requestData)
+  );
+
+  const { mutateAsync: deleteMyPost } = useMutation((id) =>
+    Api.deleteMyPost(id)
+  );
+
+  const { data: SearchProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
+    () => Api.getSearchProduct(0, detailProduct.searchProduct.title, 1)
+  );
+
+  // 판매완료된 상품 리스트
+  const SearchSellProductList =
+    SearchProductList &&
+    SearchProductList.product.filter((list) => list.status === "판매완료");
+
+  const onClickLikedBtn = async () => {
+    if (detailProduct.searchProduct.liked === 1) {
+      await onLikeMutation(dataId);
+      setIsLike(false);
+      setOpen(true);
+    } else if (detailProduct.searchProduct.liked === 0) {
+      await onLikeMutation(dataId);
+      setIsLike(true);
+      setOpen(true);
+    }
+    refetch();
+  };
+  const [isClicked, setIsClicked] = useState(false);
+
+  const onClickChangeProductStatus = async () => {
+    await onSellMutation({
+      prod_idx: dataId,
+      socket: "f934a0af-58ba-433a-9362-57f9ed0a5569",
+    });
+    alert("해당 제품은 판매완료로 변경되었습니다.");
+    setIsClicked(true);
+  };
+
+  const onMarketPricePage = () => {
+    const titleValue = detailProduct.searchProduct.title;
+    if (SearchSellProductList.length < 1) {
+      setPriceOpen(true);
+    } else {
+      navigate(`/MMM/pricecheckpage/${titleValue}`);
+    }
+  };
+
+  // delete & edit post
+  const onDeletePost = async () => {
+    await deleteMyPost(dataId);
+    alert("게시글이 삭제되었습니다.");
+    navigate("/MMM/home");
+  };
+
+  const onEditPost = () => {
+    navigate(`/MMM/edit-post/${dataId}`);
+  };
 
   return (
     <>

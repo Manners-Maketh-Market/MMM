@@ -2,13 +2,20 @@ import styled from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
 import Product from "./one-account-product";
 
-const Sold = ({ user, thisMonth, soldData }) => {
-  const thisMonthSoldAmount =
-    soldData && soldData.data.amount.thisMonthSaleAmount;
+const Sold = ({
+  user,
+  thisMonth,
+  soldData,
+  thisMonthSoldAmount,
+  totalSoldAmount,
+  soldProductInfo,
+}) => {
+  // const thisMonthSoldAmount =
+  //   soldData && soldData.data.amount.thisMonthSaleAmount;
 
-  const totalSoldAmount = soldData && soldData.data.amount.totalSaleAmount;
+  // const totalSoldAmount = soldData && soldData.data.amount.totalSaleAmount;
 
-  const soldProductInfo = soldData.data.payList;
+  // const soldProductInfo = soldData.data.payList;
 
   soldData && console.log(soldData);
 

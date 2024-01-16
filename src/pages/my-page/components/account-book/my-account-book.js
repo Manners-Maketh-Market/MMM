@@ -8,6 +8,7 @@ import Sold from "./sold";
 import Shared from "./shared";
 import styled from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
+import Product from "./one-account-product";
 
 const MyAccountBook = () => {
   const [{ category }, onChangeInputs] = useInputs({
@@ -50,6 +51,16 @@ const MyAccountBook = () => {
     new Date(today.getFullYear(), today.getMonth() + 1, 0)
   );
 
+  const thisMonthSoldAmount =
+    getMyHousekeepingBook?.data?.amount?.thisMonthSaleAmount ?? 0;
+  const totalSoldAmount =
+    getMyHousekeepingBook?.data?.amount?.totalSaleAmount ?? 0;
+  const soldProductInfo = getMyHousekeepingBook?.data?.payList ?? [];
+
+  const thisMonthPurchasedAmount =
+    getMyHousekeepingBook?.data?.amount?.thisMonthPurchaseAmount ?? 0;
+  const purchasedProductsInfo = getMyHousekeepingBook?.data?.payList ?? [];
+
   // tabs-contents
   const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
@@ -59,7 +70,10 @@ const MyAccountBook = () => {
       content: (
         <Purchased
           user={myPageData.User}
+          thisMonth={thisMonth}
           purchasedData={getMyHousekeepingBook}
+          thisMonthPurchasedAmount={thisMonthPurchasedAmount}
+          purchasedProductsInfo={purchasedProductsInfo}
         />
       ),
     },
@@ -70,6 +84,9 @@ const MyAccountBook = () => {
           user={myPageData.User}
           thisMonth={thisMonth}
           soldData={getMyHousekeepingBook}
+          thisMonthSoldAmount={thisMonthSoldAmount}
+          totalSoldAmount={totalSoldAmount}
+          soldProductInfo={soldProductInfo}
         />
       ),
     },
