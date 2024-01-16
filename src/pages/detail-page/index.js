@@ -1,10 +1,6 @@
 import OneProductDetail from "./components/one-product-detail";
 
 const DetailPage = () => {
-  return (
-    <>
-      <OneProductDetail />
-    </>
-  );
+  return <OneProductDetail />;
 };
 export default DetailPage;
