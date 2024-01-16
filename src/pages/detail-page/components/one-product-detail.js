@@ -3,12 +3,12 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import { Api } from "apis";
 import AuthApi from "apis/auth";
+import { useState } from "react";
 import ImgSlider from "components/img-slider";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
 import RightInfoContainer from "./info-container";
 import Description from "./product-description";
-import { useState } from "react";
 import ProductAlert from "./product-alert";
 
 const OneProductDetail = () => {

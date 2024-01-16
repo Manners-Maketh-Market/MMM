@@ -1,4 +1,3 @@
-import { UsePriceComma } from "hooks/use-price-comma";
 import MannerTemperature from "components/manner-temperature";
 import unProfile from "./../../../images/icon/unprofile.png";
 import { flexAlignCenter } from "styles/common.style";
@@ -7,6 +6,7 @@ import { flexCenter } from "styles/common.style";
 import { useNavigate } from "react-router-dom";
 import ButtonBox from "./buttons";
 import ProductStatusContainer from "./product-status";
+import { PriceComma } from "utils/price-comma";
 
 const RightInfoContainer = ({
   product,
@@ -32,7 +32,7 @@ const RightInfoContainer = ({
     <TextBox>
       <Title>상품제목 | {product.title}</Title>
       <FlexBox>
-        <Price>{UsePriceComma(product.price)}원</Price>
+        <Price>{PriceComma(product.price)}원</Price>
         <p onClick={() => onMarketPricePage()}>이 상품 시세 조회하러 가기</p>
       </FlexBox>
       <UserProf>

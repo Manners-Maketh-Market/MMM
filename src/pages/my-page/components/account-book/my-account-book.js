@@ -30,6 +30,16 @@ const MyAccountBook = () => {
   };
   Object.freeze(UserType);
 
+  const thisMonthSoldAmount =
+    getMyHousekeepingBook?.data?.amount?.thisMonthSaleAmount ?? 0;
+  const totalSoldAmount =
+    getMyHousekeepingBook?.data?.amount?.totalSaleAmount ?? 0;
+  const soldProductInfo = getMyHousekeepingBook?.data?.payList ?? [];
+
+  const thisMonthPurchasedAmount =
+    getMyHousekeepingBook?.data?.amount?.thisMonthPurchaseAmount ?? 0;
+  const purchasedProductsInfo = getMyHousekeepingBook?.data?.payList ?? [];
+
   // tabs-contents
   const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
@@ -39,7 +49,10 @@ const MyAccountBook = () => {
       content: (
         <Purchased
           user={myPageData.User}
+          thisMonth={thisMonth}
           purchasedData={getMyHousekeepingBook}
+          thisMonthPurchasedAmount={thisMonthPurchasedAmount}
+          purchasedProductsInfo={purchasedProductsInfo}
         />
       ),
     },
@@ -50,6 +63,9 @@ const MyAccountBook = () => {
           user={myPageData.User}
           thisMonth={thisMonth}
           soldData={getMyHousekeepingBook}
+          thisMonthSoldAmount={thisMonthSoldAmount}
+          totalSoldAmount={totalSoldAmount}
+          soldProductInfo={soldProductInfo}
         />
       ),
     },

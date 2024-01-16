@@ -33,19 +33,20 @@ const RegisteredProducts = () => {
     setCurrentTab(index);
   };
 
-  const OnSaleProducts =
-    getMyProductList && getMyProductList.products
-      ? getMyProductList.products.filter(
-          (product) => product.status === "판매중"
-        )
+  const filterProductsByStatus = (products, status) => {
+    return products
+      ? products.filter((product) => product.status === status)
       : [];
+  };
 
-  const SoldProducts =
-    getMyProductList && getMyProductList.products
-      ? getMyProductList.products.filter(
-          (product) => product.status === "판매완료"
-        )
-      : [];
+  const OnSaleProducts = filterProductsByStatus(
+    getMyProductList && getMyProductList.products,
+    "판매중"
+  );
+  const SoldProducts = filterProductsByStatus(
+    getMyProductList && getMyProductList.products,
+    "판매완료"
+  );
 
   return (
     <Wrapper>

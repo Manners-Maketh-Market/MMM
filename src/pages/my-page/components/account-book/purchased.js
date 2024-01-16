@@ -1,34 +1,49 @@
-import MMMAlert from "components/mmm-alert";
 import styled from "styled-components";
+import Product from "./one-account-product";
 
-const Purchased = ({ user, purchasedData, thisMonth }) => {
-  const thisMonthPurchasedAmount =
-    purchasedData && purchasedData.data.amount.thisMonthPurchaseAmount;
-
-  const purchasedProductsInfo = purchasedData.data;
-
+const Purchased = ({
+  user,
+  purchasedData,
+  thisMonth,
+  thisMonthPurchasedAmount,
+  purchasedProductsInfo,
+}) => {
   return (
     <Container>
       <TextBox>
-        <h2>구매 건수</h2>
-        <h2> 0 건</h2>
+        <h2>이번 달 구매 건수</h2>
+        <h2>{purchasedProductsInfo.length} 건</h2>
       </TextBox>
       <TextBox>
         <h2>이번 달 구매 금액</h2>
-        <h2> 0 원</h2>
+        <h2>{thisMonthPurchasedAmount}원</h2>
       </TextBox>
-      <Comments>
-        <p>
-          {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
-        </p>
-        <p>
-          {thisMonth}월 1일부터 마지막 날까지 판매된 상품에 한 해 계산하고
-          있어요
-        </p>
-      </Comments>
+      {purchasedProductsInfo.length > 0 ? (
+        <ProductList>
+          {purchasedProductsInfo.map((info, index) => (
+            <Product
+              key={index}
+              title={info.Product.title}
+              img={info.Product.img_url}
+              price={info.Product.price}
+            />
+          ))}
+        </ProductList>
+      ) : (
+        <Comments>
+          <p>
+            {thisMonth}월에는 구매를 한 적이 없으시네요. <br />
+          </p>
+          <p>
+            {thisMonth}월 1일부터 마지막 날까지 구매된 상품에 한 해 계산하고
+            있어요.
+          </p>
+        </Comments>
+      )}
     </Container>
   );
 };
+
 export default Purchased;
 
 const Container = styled.div``;
