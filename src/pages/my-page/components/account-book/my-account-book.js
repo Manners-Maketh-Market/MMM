@@ -2,19 +2,14 @@ import { useQuery } from "react-query";
 import { PRODUCT_QUERY_KEY } from "consts";
 import AuthApi from "apis/auth";
 import { useState } from "react";
-import useInputs from "hooks/use-inputs";
 import Purchased from "./purchased";
 import Sold from "./sold";
 import Shared from "./shared";
 import styled from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
-import Product from "./one-account-product";
+import { DateHelper } from "utils/date-helper";
 
 const MyAccountBook = () => {
-  const [{ category }, onChangeInputs] = useInputs({
-    category: "",
-  });
-
   // data
   const { data: myPageData } = useQuery(
     [PRODUCT_QUERY_KEY.GET_MY_PAGE_DATA],
@@ -25,31 +20,15 @@ const MyAccountBook = () => {
     () => AuthApi.getMyHousekeepingBook(1, UserType, firstDay, lastDay)
   );
 
+  // date date
+  const { thisMonth, firstDay, lastDay } = DateHelper;
+
   // category type
   const UserType = {
     SELLER: "seller",
     BUYER: "buyer",
   };
   Object.freeze(UserType);
-
-  // 매개변수를 전달을 위한 날짜 범위 나타내기
-  const today = new Date();
-  const thisMonth = today.getMonth() + 1;
-
-  function formattedDate(today, dash = "-") {
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-
-    return [year, month, date].join(dash);
-  }
-
-  const firstDay = formattedDate(
-    new Date(today.getFullYear(), today.getMonth(), 1)
-  );
-  const lastDay = formattedDate(
-    new Date(today.getFullYear(), today.getMonth() + 1, 0)
-  );
 
   const thisMonthSoldAmount =
     getMyHousekeepingBook?.data?.amount?.thisMonthSaleAmount ?? 0;
@@ -175,6 +154,7 @@ const Tabs = styled.ul`
   display: flex;
   flex-direction: row;
   margin-bottom: 50px;
+  cursor: pointer;
 
   & > li {
     ${flexCenter}
