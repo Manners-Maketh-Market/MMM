@@ -12,6 +12,7 @@ import MMMButton from "components/button";
 const SearchProductList = () => {
   const { searchValue } = useParams();
 
+
   const {
     data: searchUsedProducts,
     fetchNextPage,
