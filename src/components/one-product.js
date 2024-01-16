@@ -118,6 +118,7 @@ const OneProduct = ({
           }
           open={open}
           setOpen={setOpen}
+          type={"oneProduct"}
         />
       </AlertPosition>
     </S.Wrapper>
