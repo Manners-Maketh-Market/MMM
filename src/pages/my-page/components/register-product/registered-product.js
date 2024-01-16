@@ -8,6 +8,7 @@ import Maps from "./maps";
 import { styled } from "styled-components";
 import { flexAlignCenter, flexCenter } from "styles/common.style";
 import UseNavigation from "hooks/use-navigation";
+import { SELECT_OPTIONS } from "consts";
 
 const RegisterPage = () => {
   // hook function: use-input

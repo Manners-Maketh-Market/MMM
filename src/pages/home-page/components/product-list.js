@@ -10,7 +10,7 @@ import UseNavigation from "hooks/use-navigation";
 const ProductList = () => {
   const { goToProductsListPage } = UseNavigation();
 
-  const { data: productList } = useQuery(
+  const { data: productList, refetch } = useQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST],
     () => Api.getMainProductList()
   );
@@ -50,6 +50,7 @@ const ProductList = () => {
                   id={item.idx}
                   status={item.status}
                   createdAt={item.createdAt}
+                  refetch={refetch}
                 />
               </Grid>
             ))}

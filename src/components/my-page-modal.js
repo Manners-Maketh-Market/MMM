@@ -4,10 +4,10 @@ import { useQuery } from "react-query";
 import AuthApi from "apis/auth";
 import { PRODUCT_QUERY_KEY } from "consts";
 import MiniUserInfo from "./miniuser-Info";
-import { useAuth } from "provider/auth-provider";
 import MMMAlert from "./mmm-alert";
 import { useState } from "react";
 import UseNavigation from "hooks/use-navigation";
+import { useAuth } from "context/auth.ctx";
 
 const MyPageModal = ({ setIsMyPageModal }) => {
   // alert

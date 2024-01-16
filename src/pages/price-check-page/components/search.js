@@ -53,6 +53,12 @@ const PriceSearch = () => {
     }
   }, [datatitle]);
 
+  // 마우스가 검색어 위에 올라가있으면 검색창이 닫히지 않게
+  const onMouseHoverEvent = (index) => {
+    setIsMouseHover(true);
+    setSelectedIndex(index);
+  };
+
   const onArrowKeyPress = (e) => {
     if (e.key === "ArrowUp") {
       setSelectedIndex((prevIndex) =>
@@ -75,10 +81,20 @@ const PriceSearch = () => {
       }
     }
 
-    // 마우스가 검색어 위에 올라가있으면 검색창이 닫히지 않게
-    const onMouseHoverEvent = (index) => {
-      setIsMouseHover(true);
-      setSelectedIndex(index);
+    const onTitleChange = (e) => {
+      setTitles(e.target.value);
+      setSelectedIndex(-1);
+    };
+
+    const onRelatedSearchWord = (title) => {
+      goToMarketPricePage(title);
+      window.scrollTo({ top: 0 });
+      setSearchModal(false);
+    };
+
+    // 포커스아웃시 검색목록 사라지게 하는 모달
+    const onNoneSearchListModal = () => {
+      if (!isMouseHover) setSearchModal(false);
     };
 
     return (

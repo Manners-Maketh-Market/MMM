@@ -10,15 +10,14 @@ import image7 from "./../images/image7.png";
 import leftArrow from "./../images/left-arrow.png";
 import DownArrow from "./../images/down-arrow.png";
 import whiteArrow from "./../images/white-arrow2.png";
-
 import { styled } from "styled-components";
-import useMaxLength from "hooks/use-max-length-overflow";
 import UseNavigation from "hooks/use-navigation";
+import MaxLength from "utils/max-length-overflow";
 
 const ImgSlider = ({ product, related }) => {
   // product : detailPage에서 사용할 상품의 data
   // Related : detailPage에서 사용할 관련상품의 data(Array)
-  const { skipTitleView } = useMaxLength();
+  const { skipTitleView } = MaxLength();
   const { goToDetailPage } = UseNavigation();
 
   const ImageArr = [image0, image1, image3, image5, image6, image7];
