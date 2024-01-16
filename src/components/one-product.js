@@ -7,9 +7,9 @@ import emptyHeartIcon from '../images/icon/emptyHeart.png';
 import HeartIcon from '../images/icon/fullheart.png';
 import MMMAlert from 'components/mmm-alert';
 import { useState } from 'react';
-import { UsePriceComma } from 'utils/use-price-comma';
+import { PriceComma } from 'utils/price-comma';
 
-const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
+const OneProduct = ({ title, status, img, price, id, createdAt, liked, refetch }) => {
     // alert
     const [open, setOpen] = useState(false);
     const [isLike, setIsLike] = useState(false);
@@ -33,6 +33,7 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
             setIsLike(true);
             setOpen(true);
         }
+        refetch();
     };
 
     const ProductRegistrationTime = (productRegistrationCreatedAt) => {
@@ -59,58 +60,43 @@ const OneProduct = ({ title, status, img, price, id, createdAt, liked }) => {
         }
     };
 
-  return (
-    <S.Wrapper>
-      {status === "판매중" ? (
-        <S.ProductImg
-          src={img}
-          alt="product img"
-          onClick={() => onClickToDetailPage(id)}
-        />
-      ) : (
-        <>
-          <S.SoldOutProductImg
-            src={img}
-            alt="product img"
-            onClick={() => onClickToDetailPage(id)}
-          />
-          <S.SoldOutMessage>Sold Out</S.SoldOutMessage>
-        </>
-      )}
-      <S.TitleAndLikeBox>
-        <S.Title className="Title">{title}</S.Title>
-        {liked === 1 ? (
-          <S.HeartImg src={HeartIcon} alt="heart" onClick={onClickLikedBtn} />
-        ) : (
-          <S.HeartImg
-            src={emptyHeartIcon}
-            alt="emptyHeart"
-            onClick={onClickLikedBtn}
-          />
-        )}
-      </S.TitleAndLikeBox>
-      <S.Content className="Content">
-        {ProductRegistrationTime(createdAt)}
-      </S.Content>
-      <S.Price className="Price">{price}원</S.Price>
-      <AlertPosition open={open}>
-        <MMMAlert
-          size={"md"}
-          color={isLike ? "success" : "warning"}
-          severity={isLike ? "success" : "warning"}
-          MessageTitle={isLike ? "Liked" : "unLiked"}
-          AlertMessage={
-            isLike
-              ? "찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ"
-              : "찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ."
-          }
-          open={open}
-          setOpen={setOpen}
-          type={"oneProduct"}
-        />
-      </AlertPosition>
-    </S.Wrapper>
-  );
+    return (
+        <S.Wrapper>
+            {status === '판매중' ? (
+                <S.ProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
+            ) : (
+                <>
+                    <S.SoldOutProductImg src={img} alt="product img" onClick={() => onClickToDetailPage(id)} />
+                    <S.SoldOutMessage>Sold Out</S.SoldOutMessage>
+                </>
+            )}
+            <S.TitleAndLikeBox>
+                <S.Title className="Title">{title}</S.Title>
+                {liked === 1 ? (
+                    <S.HeartImg src={HeartIcon} alt="heart" onClick={onClickLikedBtn} />
+                ) : (
+                    <S.HeartImg src={emptyHeartIcon} alt="emptyHeart" onClick={onClickLikedBtn} />
+                )}
+            </S.TitleAndLikeBox>
+            <S.Content className="Content">{ProductRegistrationTime(createdAt)}</S.Content>
+            <S.Price className="Price">{PriceComma(price)}원</S.Price>
+            <AlertPosition open={open}>
+                <MMMAlert
+                    size={'md'}
+                    color={isLike ? 'success' : 'warning'}
+                    severity={isLike ? 'success' : 'warning'}
+                    MessageTitle={isLike ? 'Liked' : 'unLiked'}
+                    AlertMessage={
+                        isLike
+                            ? '찜을 하였습니다! 즐거운 쇼핑되세요! ㅇvㅇ'
+                            : '찜을 취소하였습니다! 다른 상품은 어떠신가요! ㅇ3ㅇ.'
+                    }
+                    open={open}
+                    setOpen={setOpen}
+                />
+            </AlertPosition>
+        </S.Wrapper>
+    );
 };
 
 export default OneProduct;
