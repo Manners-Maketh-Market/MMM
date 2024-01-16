@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { flexAlignCenter } from "styles/common.style";
+import { PriceComma } from "utils/price-comma";
 
 const Product = ({ title, price, img }) => {
   return (
     <OneProduct>
       <Thumbnail src={img} />
       <Title>{title}</Title>
-      <Price>{price}원</Price>
+      <Price>{PriceComma(price)}원</Price>
     </OneProduct>
   );
 };

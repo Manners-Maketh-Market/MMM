@@ -13,11 +13,11 @@ import { SELECT_OPTIONS } from "consts";
 const RegisterPage = () => {
   // hook function: use-input
   const [
-    { title, price, description, category, region, tag, images },
+    { title, productPrice, description, category, region, tag, images },
     onChangeInputs,
   ] = useInputs({
     title: "",
-    price: "",
+    productPrice: "",
     description: "",
     category: "",
     region: "",
@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
     const formData = new FormData();
     formData.append("title", e.target.title.value);
-    formData.append("price", e.target.price.value);
+    formData.append("price", e.target.productPrice.value);
     formData.append("description", e.target.description.value);
     formData.append("category", e.target.category.value);
     formData.append("region", e.target.region.value);
@@ -51,6 +51,7 @@ const RegisterPage = () => {
   };
 
   // preview uploaded images
+  const [hasImage, setHasImage] = useState(false);
   const [showImages, setShowImages] = useState([]);
 
   const onUploadImage = (e) => {
@@ -66,12 +67,26 @@ const RegisterPage = () => {
       imageUrlLists = imageUrlLists.slice(0, 5);
       alert("한 번에 이미지를 5개 이상 추가하실 수 없습니다.");
     }
+    setHasImage(true);
     setShowImages(imageUrlLists);
   };
+
   const onDeleteImage = (index) => {
     let deleteList = [...showImages];
     deleteList.splice(index, 1);
+    setHasImage(false);
     setShowImages(deleteList);
+  };
+  const [price, setPrice] = useState("");
+  const [transactionType, setTransactionType] =
+    useState("거래방식을 선택해주세요");
+
+  const handlePriceChange = (event) => {
+    const newPrice = event.target.value;
+    setPrice(newPrice);
+
+    // Automatically select "중고 판매" if price is greater than 0
+    setTransactionType(parseFloat(newPrice) > 0 ? "0" : "1");
   };
 
   return (
@@ -94,16 +109,18 @@ const RegisterPage = () => {
             <p>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</p>
           </TextBox>
         </div>
-        <PreviewImages>
-          {showImages.map((image, index) => (
-            <>
-              <img key={index} src={image} />
-              <button type="button" onClick={() => onDeleteImage(index)}>
-                x
-              </button>
-            </>
-          ))}
-        </PreviewImages>
+        {hasImage && (
+          <PreviewImages>
+            {showImages.map((image, index) => (
+              <>
+                <img key={index} src={image} />
+                <button type="button" onClick={() => onDeleteImage(index)}>
+                  x
+                </button>
+              </>
+            ))}
+          </PreviewImages>
+        )}
       </ImageBox>
       <MMMInput
         label="제목"
@@ -114,15 +131,16 @@ const RegisterPage = () => {
       />
       <MMMInput
         label="가격"
-        name="price"
+        name="productPrice"
         type="number"
-        onChange={onChangeInputs}
-        placeholder="0원"
+        value={price}
+        onChange={handlePriceChange}
+        placeholder="가격을 입력하면 판매하실 수 있어요"
         size={"registerProduct"}
       />
       <Box>
         <label>거래 방식</label>
-        <select name="category">
+        <select name="category" value={transactionType}>
           <option value="거래방식을 선택해주세요">
             거래 방식을 선택해주세요
           </option>

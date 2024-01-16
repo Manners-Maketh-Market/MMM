@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 import ButtonBox from "./buttons";
 import ProductStatusContainer from "./product-status";
 import { PriceComma } from "utils/price-comma";
+import { useQuery } from "react-query";
+import { Api } from "apis";
+import { PRODUCT_QUERY_KEY } from "consts/index";
+import { useState } from "react";
+import MMMAlert from "components/mmm-alert";
 
 const RightInfoContainer = ({
   product,
@@ -17,57 +22,88 @@ const RightInfoContainer = ({
   userInfoData,
 }) => {
   const navigate = useNavigate();
+  const [priceOpen, setPriceOpen] = useState(false);
 
+  const { data: SearchProductList } = useQuery(
+    [PRODUCT_QUERY_KEY.SEARCH_PRODUCT_LIST],
+    () => Api.getSearchProduct(0, product.title, 1)
+  );
+
+  // 판매완료된 상품 리스트
+  const SearchSellProductList =
+    SearchProductList &&
+    SearchProductList.product.filter((list) => list.status === "판매완료");
+
+  console.log(SearchSellProductList);
   const onMarketPricePage = () => {
     const titleValue = product.title;
 
-    if (!titleValue) {
-      alert("시세를 알 수 없는 상품입니다!");
+    if (SearchSellProductList.length < 1) {
+      setPriceOpen(true);
     } else {
       navigate(`/MMM/pricecheckpage/${titleValue}`);
     }
   };
 
   return (
-    <TextBox>
-      <Title>상품제목 | {product.title}</Title>
-      <FlexBox>
-        <Price>{PriceComma(product.price)}원</Price>
-        <p onClick={() => onMarketPricePage()}>이 상품 시세 조회하러 가기</p>
-      </FlexBox>
-      <UserProf>
-        <UserImgIdLoc>
-          <UserProfBox>
-            <ProfileImg>
-              <img
-                src={
-                  product.User.profile_url
-                    ? product.User.profile_url
-                    : unProfile
-                }
-                width={"100%"}
-                height={"100%"}
-                alt="ProfileImg"
-              />
-            </ProfileImg>
-            <UserIdLoc>
-              <p>{product.User.nick_name}</p>
-              <p>{product.region}</p>
-            </UserIdLoc>
-          </UserProfBox>
-          <MannerTemperature temp={product.User.Ondo} />
-        </UserImgIdLoc>
-      </UserProf>
-      <ProductStatusContainer product={product} userInfoData={userInfoData} />
-      <ButtonBox
-        product={product}
-        dataId={dataId}
-        setIsLike={setIsLike}
-        setOpen={setOpen}
-        refetch={refetch}
-        userInfoData={userInfoData}
-      />
-    </TextBox>
+    <>
+      <TextBox>
+        <Title>상품제목 | {product.title}</Title>
+        <FlexBox>
+          <Price>{PriceComma(product.price)}원</Price>
+          {SearchSellProductList && (
+            <p onClick={() => onMarketPricePage()}>
+              이 상품 시세 조회하러 가기
+            </p>
+          )}
+        </FlexBox>
+        <UserProf>
+          <UserImgIdLoc>
+            <UserProfBox>
+              <ProfileImg>
+                <img
+                  src={
+                    product.User.profile_url
+                      ? product.User.profile_url
+                      : unProfile
+                  }
+                  width={"100%"}
+                  height={"100%"}
+                  alt="ProfileImg"
+                />
+              </ProfileImg>
+              <UserIdLoc>
+                <p>{product.User.nick_name}</p>
+                <p>{product.region}</p>
+              </UserIdLoc>
+            </UserProfBox>
+            <MannerTemperature temp={product.User.Ondo} />
+          </UserImgIdLoc>
+        </UserProf>
+        <ProductStatusContainer product={product} userInfoData={userInfoData} />
+        <ButtonBox
+          product={product}
+          dataId={dataId}
+          setIsLike={setIsLike}
+          setOpen={setOpen}
+          refetch={refetch}
+          userInfoData={userInfoData}
+        />
+      </TextBox>
+      <AlertPosition open={priceOpen}>
+        <MMMAlert
+          size={"md"}
+          color={"warning"}
+          severity={"warning"}
+          MessageTitle={"귀한 상품"}
+          AlertMessage={
+            "해당 상품은 거래내역이 존재하지 않아 시세조회가 불가능합니다."
+          }
+          open={priceOpen}
+          setOpen={setPriceOpen}
+        />
+      </AlertPosition>
+    </>
   );
 };
 
@@ -156,4 +192,13 @@ const UserIdLoc = styled.div`
   & > :nth-child(2) {
     color: #757575;
   }
+`;
+
+const AlertPosition = styled.div`
+  ${flexCenter}
+  width: 100%;
+  height: 100px;
+  z-index: ${({ open }) => (open ? 100 : -100)};
+  position: absolute;
+  top: 8%;
 `;
