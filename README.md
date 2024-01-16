@@ -220,7 +220,14 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 
 <br />
 <h1>🗂️ Folder Structure</h1>
+<div>
+  <after>before refactor(left) & after refactor(right)</p>
+</div>
+<p>
 <img width="30%" src="https://github.com/Manners-Maketh-Market/MMM/assets/134191817/9a9846eb-0624-464a-9482-fdd942025cb3" />
+<img width="30%" src="https://github.com/Manners-Maketh-Market/MMM/assets/134191817/02bcfe03-cb0f-448a-be18-930d8a15284f" />
+
+</p>
 
 <br />
 <h1>🛠️ 주요 기능 구현 내용</h1>
@@ -243,24 +250,24 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 <br />
 <h1>📽️ 시연 영상</h1>
 
-로그인/회원가입/로그아웃
+로그인
 
 <p>
-    <img src="" />
+  <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134574485/8b7f145b-9bc2-4624-bafb-044b1333ec34" />
 </p>
+
+회원가입
+
 <p>
-    <img src="" />
-</p>
-<p>
-    <img src="" />
+  <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134574485/e8eb84a6-c202-47c0-bf3b-39653d805826" />
 </p>
 
 <br />
 
-실시간 채팅과 알림
+실시간 채팅
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/134574485/4efba4a8-9b5d-4029-b57c-e267008242b2" />
 </p>
 
 <br />
@@ -276,7 +283,7 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 무한스크롤
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/110034416/40c2de70-123e-4273-a51d-321b22e78fd1" />
 </p>
 
 <br />
@@ -284,7 +291,10 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 물품 등록 및 수정
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/110034416/52a0a2b0-7dd9-4a9a-816a-59349b0e538a" />
+</p>
+<p>
+  <img src="https://github.com/Manners-Maketh-Market/MMM/assets/110034416/d903129d-48f4-450b-ad87-5e4043f10e1a">  
 </p>
 
 <br />
@@ -303,7 +313,7 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 마이페이지
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/95909862/d07c1ba0-f092-4f5d-b3f1-f554d84cbf99" />
 </p>
 
 <br />
@@ -311,7 +321,7 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 개인정보 수정
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/95909862/10d872e6-3f81-4678-8e8d-e6f16db680c1" />
 </p>
 
 <br />
@@ -319,16 +329,19 @@ Korea IT 학원 수강 후 수강생 7명이 모여 진행한 중고마켓 사�
 구매 및 판매 목록 확인
 
 <p>
-    <img src="" />
+    <img src="https://github.com/Manners-Maketh-Market/MMM/assets/95909862/dca49056-4482-4e97-8a26-a060bede1afa" />
 </p>
 
 가계부 확인
 
-## <br />
+<p>
+  <img src="https://github.com/Manners-Maketh-Market/MMM/assets/95909862/656565ba-9b5b-4a39-9797-4b3a823e1b77">
+</p>
+
+---
 
 <br />
-<h1>📌 전체 회고</h1>
+
+### 📌 전체 회고
 
 " 좀 더 에자일(Agile)하게 협업하자! "
-
-</div>
