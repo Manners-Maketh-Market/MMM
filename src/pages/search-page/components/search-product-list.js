@@ -12,7 +12,7 @@ import MMMButton from "components/button";
 const SearchProductList = () => {
   const { searchValue } = useParams();
 
-  const { data: searchUsedProducts, fetchNextPage } = useInfiniteQuery(
+  const { data: searchUsedProducts, fetchNextPage, refetch } = useInfiniteQuery(
     [PRODUCT_QUERY_KEY.MORE_PRODUCT_LIST, searchValue],
     ({ pageParam = 1 }) => Api.getSearchProduct(0, searchValue, pageParam),
     {
@@ -69,6 +69,7 @@ const SearchProductList = () => {
                       status={product.status}
                       id={product.idx}
                       createdAt={product.createdAt}
+                      refetch={refetch}
                     />
                   </Grid>
                 ))}
