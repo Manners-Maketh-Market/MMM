@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Api } from "apis";
-import { PRODUCT_QUERY_KEY } from "consts";
+import { PRODUCT_QUERY_KEY, SELECT_OPTIONS } from "consts";
 import MMMInput from "components/input";
 import useInputs from "hooks/use-inputs";
 import MMMButton from "components/button";
@@ -13,7 +13,10 @@ import UseNavigation from "hooks/use-navigation";
 
 const EditMyPost = () => {
   // hook function: use-input
-  const [{ title, price, description, category, region, tag, images }, onChangeInputs] = useInputs({
+  const [
+    { title, price, description, category, region, tag, images },
+    onChangeInputs,
+  ] = useInputs({
     title: "",
     price: "",
     description: "",
@@ -26,10 +29,15 @@ const EditMyPost = () => {
   const param = useParams();
   const editPostId = param.editPostId;
 
-  const { data: editThisPost } = useQuery([PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA], () => Api.getDetailProduct(editPostId));
+  const { data: editThisPost } = useQuery(
+    [PRODUCT_QUERY_KEY.DETAIL_PRODUCT_DATA],
+    () => Api.getDetailProduct(editPostId)
+  );
 
   // patchMyPost
-  const { mutateAsync: patchMyPost } = useMutation((Data) => Api.patchMyPost(Data));
+  const { mutateAsync: patchMyPost } = useMutation((Data) =>
+    Api.patchMyPost(Data)
+  );
   const onSubmitRegister = async (e) => {
     e.preventDefault();
 
@@ -87,7 +95,16 @@ const EditMyPost = () => {
         <ImageBox>
           <label>물품 이미지</label>
           <div>
-            <AddImage label="물품 이미지" name="image" type="file" multiple accept="image/*" onChange={onUploadImage} placeholder="이미지를 선택해주세요." size={"search"} />
+            <AddImage
+              label="물품 이미지"
+              name="image"
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={onUploadImage}
+              placeholder="이미지를 선택해주세요."
+              size={"search"}
+            />
             <TextBox>
               <p>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</p>
               <p>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</p>
@@ -104,39 +121,59 @@ const EditMyPost = () => {
             ))}
           </PreviewImages>
         </ImageBox>
-        <MMMInput label="제목" name="title" onChange={onChangeInputs} size={"registerProduct"} defaultValue={editThisPost.searchProduct.title} />
-        <MMMInput label="가격" name="price" type="number" onChange={onChangeInputs} size={"registerProduct"} defaultValue={editThisPost.searchProduct.price} />
+        <MMMInput
+          label="제목"
+          name="title"
+          onChange={onChangeInputs}
+          size={"registerProduct"}
+          defaultValue={editThisPost.searchProduct.title}
+        />
+        <MMMInput
+          label="가격"
+          name="price"
+          type="number"
+          onChange={onChangeInputs}
+          size={"registerProduct"}
+          defaultValue={editThisPost.searchProduct.price}
+        />
         <Box>
           <label>거래 방식</label>
-          <select name="category" defaultValue={editThisPost.searchProduct.category ? 1 : 0}>
-            <option value="거래방식을 선택해주세요">거래 방식을 선택해주세요</option>
+          <select
+            name="category"
+            defaultValue={editThisPost.searchProduct.category ? 1 : 0}
+          >
+            <option value="거래방식을 선택해주세요">
+              거래 방식을 선택해주세요
+            </option>
             <option value={Number("0")}>중고 판매</option>
             <option value={Number("1")}>무료 나눔</option>
           </select>
         </Box>
         <Box>
           <label>태그</label>
-          <select name="tag" defaultValue={editThisPost.searchProduct.ProductsTags[0].Tag.tag}>
-            <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-            <option value="전자기기">전자기기</option>
-            <option value="의류">의류</option>
-            <option value="식품">식품</option>
-            <option value="주류">주류</option>
-            <option value="남성용품">남성용품</option>
-            <option value="여성용품">여성용품</option>
-            <option value="생활용품">생활용품</option>
-            <option value="애완용품">애완용품</option>
-            <option value="집">집</option>
-            <option value="연예인">연예인</option>
-            <option value="기타">기타</option>
+          <select
+            name="tag"
+            defaultValue={editThisPost.searchProduct.ProductsTags[0].Tag.tag}
+          >
+            {SELECT_OPTIONS.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
           </select>
         </Box>
         <Box>
           <label>내용</label>
-          <textarea name="description" defaultValue={editThisPost.searchProduct.description} />
+          <textarea
+            name="description"
+            defaultValue={editThisPost.searchProduct.description}
+          />
         </Box>
         <Maps region={editThisPost.searchProduct.region} />
-        <MMMButton shape={"shape"} size={"full"} variant={"secondary"} type="submit">
+        <MMMButton
+          shape={"shape"}
+          size={"full"}
+          variant={"secondary"}
+          type="submit"
+        >
           변경 사항 저장
         </MMMButton>
       </Form>

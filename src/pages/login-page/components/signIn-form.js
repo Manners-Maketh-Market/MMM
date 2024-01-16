@@ -5,13 +5,11 @@ import MMMInput from "components/input";
 import MMMAlert from "components/mmm-alert";
 import styled from "styled-components";
 import { flexCenter } from "styles/common.style";
-import { useAuth } from "provider/auth-provider";
-import { useSocket } from "socket/socket";
 import LoginUserNickNameRepository from "repository/login-user-nickName-repository";
-import TokenRepository from "repository/token-repository";
 import { SocketTokenRepository } from "repository/socket-token-repository";
 import { useState } from "react";
 import UseNavigation from "hooks/use-navigation";
+import { useAuth } from "context/auth.ctx";
 
 const SignInForm = () => {
   // alert
@@ -58,13 +56,36 @@ const SignInForm = () => {
   return (
     <>
       <Form onSubmit={onSubmitSignIn}>
-        <MMMInput label="이메일" type="text" name="email" onChange={onChangeInputs} placeholder="이메일을 입력해주세요" error={errors.email} size={"full"} required />
-        <MMMInput label="비밀번호" type="password" name="pw" onChange={onChangeInputs} placeholder="비밀번호를 입력해주세요" error={errors.pw} size={"full"} required />
+        <MMMInput
+          label="이메일"
+          type="text"
+          name="email"
+          onChange={onChangeInputs}
+          placeholder="이메일을 입력해주세요"
+          error={errors.email}
+          size={"full"}
+          required
+        />
+        <MMMInput
+          label="비밀번호"
+          type="password"
+          name="pw"
+          onChange={onChangeInputs}
+          placeholder="비밀번호를 입력해주세요"
+          error={errors.pw}
+          size={"full"}
+          required
+        />
         <ButtonBox>
           <MMMButton size={"full"} disabled={disabled} variant={"secondary"}>
             로그인
           </MMMButton>
-          <MMMButton size={"full"} variant={"secondary"} type="button" onClick={onClickSignUp}>
+          <MMMButton
+            size={"full"}
+            variant={"secondary"}
+            type="button"
+            onClick={onClickSignUp}
+          >
             회원가입
           </MMMButton>
         </ButtonBox>
@@ -75,7 +96,11 @@ const SignInForm = () => {
           color={loginFail ? "error" : "success"}
           severity={loginFail ? "error" : "success"}
           MessageTitle={loginFail ? "Login Fail" : "Login Success"}
-          AlertMessage={loginFail ? "아이디랑 비밀번호를 확인해주세요!" : "반갑습니다, MMM에서 즐거운 쇼핑되세요!"}
+          AlertMessage={
+            loginFail
+              ? "아이디랑 비밀번호를 확인해주세요!"
+              : "반갑습니다, MMM에서 즐거운 쇼핑되세요!"
+          }
           open={open}
           setOpen={setOpen}
         />

@@ -137,7 +137,10 @@ const ImgSlider = ({ product, related }) => {
           <StyledSlider {...RelatedProductSetting}>
             {related.map((item, idx) => (
               <RelatedOption key={idx}>
-                <RelatedProductImg src={item.img_url} onClick={() => onClickToDetailPage(item.idx)}></RelatedProductImg>
+                <RelatedProductImg
+                  src={item.img_url}
+                  onClick={() => onClickToDetailPage(item.idx)}
+                ></RelatedProductImg>
                 <p>{skipTitleView(item.title)}</p>
               </RelatedOption>
             ))}

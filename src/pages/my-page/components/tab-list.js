@@ -3,10 +3,11 @@ import MyAccountBook from "./account-book/my-account-book";
 import RegisteredProducts from "./register-product/my-products";
 import EditAccountInfo from "./edit-account";
 import PurchasedProducts from "./purchased-product";
+import ChattingPage from "pages/chatting-page";
 import InterestedProducts from "./interested-product";
 import ChangePassword from "./password-change";
 import styled from "styled-components";
-import { flexAlignCenter, flexCenter } from "styles/common.style";
+import { flexCenter } from "styles/common.style";
 
 const TabList = ({ user }) => {
   // product filter tabs
@@ -15,7 +16,7 @@ const TabList = ({ user }) => {
   const tabs = [
     { name: "개인정보 수정", content: <EditAccountInfo user={user} /> },
     { name: "비밀번호 변경", content: <ChangePassword user={user} /> },
-    { name: "채팅 목록", content: "채팅 목록 띄우기" },
+    { name: "채팅 목록", content: <ChattingPage /> },
     { name: "등록물품", content: <RegisteredProducts user={user} /> },
     { name: "구매물품", content: <PurchasedProducts user={user} /> },
     { name: "관심상품", content: <InterestedProducts user={user} /> },
@@ -168,5 +169,5 @@ const Tabs = styled.ul`
 const Contents = styled.div`
   width: 100%;
   min-height: 600px;
-  ${flexAlignCenter}
+  ${flexCenter}
 `;

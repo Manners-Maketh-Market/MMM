@@ -1,11 +1,11 @@
-import { UsePriceComma } from "hooks/use-price-comma";
 import { styled } from "styled-components";
+import { PriceComma } from "utils/price-comma";
 
 const PriceBox = ({ title, price, ...rest }) => {
   return (
     <Wrapper {...rest}>
       <span>{title}</span>
-      <p>{UsePriceComma(price)}</p>
+      <p>{PriceComma(price)}</p>
     </Wrapper>
   );
 };

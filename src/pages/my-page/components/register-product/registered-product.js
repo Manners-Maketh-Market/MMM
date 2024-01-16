@@ -11,7 +11,10 @@ import UseNavigation from "hooks/use-navigation";
 
 const RegisterPage = () => {
   // hook function: use-input
-  const [{ title, price, description, category, region, tag, images }, onChangeInputs] = useInputs({
+  const [
+    { title, price, description, category, region, tag, images },
+    onChangeInputs,
+  ] = useInputs({
     title: "",
     price: "",
     description: "",
@@ -75,7 +78,16 @@ const RegisterPage = () => {
       <ImageBox>
         <label>물품 이미지</label>
         <div>
-          <AddImage label="물품 이미지" name="image" type="file" multiple accept="image/*" onChange={onUploadImage} placeholder="이미지를 선택해주세요." size={"search"} />
+          <AddImage
+            label="물품 이미지"
+            name="image"
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={onUploadImage}
+            placeholder="이미지를 선택해주세요."
+            size={"search"}
+          />
           <TextBox>
             <p>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</p>
             <p>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</p>
@@ -92,12 +104,27 @@ const RegisterPage = () => {
           ))}
         </PreviewImages>
       </ImageBox>
-      <MMMInput label="제목" name="title" onChange={onChangeInputs} placeholder="제목을 입력해주세요" size={"registerProduct"} />
-      <MMMInput label="가격" name="price" type="number" onChange={onChangeInputs} placeholder="0원" size={"registerProduct"} />
+      <MMMInput
+        label="제목"
+        name="title"
+        onChange={onChangeInputs}
+        placeholder="제목을 입력해주세요"
+        size={"registerProduct"}
+      />
+      <MMMInput
+        label="가격"
+        name="price"
+        type="number"
+        onChange={onChangeInputs}
+        placeholder="0원"
+        size={"registerProduct"}
+      />
       <Box>
         <label>거래 방식</label>
         <select name="category">
-          <option value="거래방식을 선택해주세요">거래 방식을 선택해주세요</option>
+          <option value="거래방식을 선택해주세요">
+            거래 방식을 선택해주세요
+          </option>
           <option value={Number("0")}>중고 판매</option>
           <option value={Number("1")}>무료 나눔</option>
         </select>
@@ -105,28 +132,22 @@ const RegisterPage = () => {
       <Box>
         <label>태그</label>
         <select name="tag">
-          <option value="태그를 선택해주세요">태그를 선택해주세요</option>
-          <option value="전자기기">전자기기</option>
-          <option value="의류">의류</option>
-          <option value="식품">식품</option>
-          <option value="남성용품">남성용품</option>
-          <option value="여성용품">여성용품</option>
-          <option value="생활용품">생활용품</option>
-          <option value="애완용품">애완용품</option>
-          <option value="집">집</option>
-
-          <option value="연예인">연예인</option>
-          <option value="기타">기타</option>
+          {SELECT_OPTIONS.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
         </select>
       </Box>
       <Box>
         <label>내용</label>
         <textarea placeholder="상품 설명을 입력해주세요" name="description" />
       </Box>
-
       <Maps />
-
-      <MMMButton shape={"shape"} size={"full"} variant={"secondary"} type="submit">
+      <MMMButton
+        shape={"shape"}
+        size={"full"}
+        variant={"secondary"}
+        type="submit"
+      >
         물품 등록
       </MMMButton>
     </Form>
