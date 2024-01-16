@@ -18,3 +18,16 @@ export const CHAT_QUERY_KEY = {
   GET_CHAT_LOG: "getChatLog",
   GET_CHAT_LISt: "getChatList",
 };
+export const SELECT_OPTIONS = [
+  "태그를 선택해주세요",
+  "전자기기",
+  "의류",
+  "식품",
+  "남성용품",
+  "여성용품",
+  "생활용품",
+  "애완용품",
+  "집",
+  "연예인",
+  "기타",
+];
